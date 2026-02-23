@@ -1,0 +1,164 @@
+@font-face {
+  font-family: "Flexo";
+  src: local("Flexo"),
+    url("../../fonts/Flexo_Font/Flexo-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer components {
+  /* Typography styles */
+  .tittle-compani {
+    font-family: "  Flexo", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 48.06px;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+  /* para titulo deberia ser lo siguiente: */
+  .tittle-compani-2 {
+    font-family: "Flexo", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+  .tittle-compani-3 {
+    font-family: "Flexo", sans-serif;
+    font-weight: 550;
+    font-size: 48.06px;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+  .tittle-compani-4 {
+    font-family: "Flexo", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 48.06px;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+
+  .text-home-1 {
+    font-family: "Flexo", sans-serif;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+
+  .text-home-tittle {
+    font-family: "Flexo", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+  }
+
+  .text-home-tittle-span {
+    font-family: "Flexo", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+  }
+
+  /* new */
+  .login__virtual-keyboard {
+    background: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0px 0px 13px -2px #dcdcdc;
+    -moz-box-shadow: 0px 0px 13px -2px #dcdcdc;
+    box-shadow: 0px 0px 13px -2px #dcdcdc;
+  }
+  @media only screen and (max-width: 768px) {
+    .login__virtual-keyboard {
+      margin-bottom: 15px;
+    }
+  }
+  .login__keyboard-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .login__keyboard-row button {
+    background-color: #fff;
+    color: #707070;
+    border: none;
+    margin-bottom: 7px;
+    width: 9%;
+    font-size: 10px;
+    font-family: "Lato", sans-serif;
+    padding: 4px 0;
+    transition: all ease 0.5s;
+  }
+
+  .login__keyboard-row button p {
+    margin: 0;
+  }
+
+  .login__keyboard-row button:hover {
+    background-color: #707070;
+    color: #fff;
+  }
+
+  .typography-register-mobile-title {
+    font-family: Flexo;
+    font-weight: 700;
+    font-size: 22px;
+    text-align: center;
+    color: #32335c;
+  }
+
+  .typography-register-mobile-description {
+    font-family: Flexo;
+    font-weight: 400;
+    font-size: 16px;
+    color: #32335c;
+  }
+
+  .mdc-button__label {
+    font-family: Flexo;
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  .typography-register-mobile-link {
+    font-family: Flexo;
+    font-weight: 400;
+    font-size: 18px;
+    color: #34b1cf;
+  }
+
+  .typography-register-mobile-counter {
+    font-family: Flexo;
+    font-weight: 400;
+    font-size: 18px;
+    color: #32335c;
+  }
+
+  .typography-register-mobile-download-title {
+    font-family: Flexo;
+    font-weight: 600;
+    font-size: 20.66px;
+    color: #32335c;
+  }
+
+  .typography-register-mobile-download-description {
+    font-family: Flexo;
+    font-weight: 400;
+    font-size: 11px;
+    color: #32335c;
+  }
+}

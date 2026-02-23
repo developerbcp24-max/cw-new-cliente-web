@@ -1,0 +1,235 @@
+<div class="row historical__period-options">
+  <div class="col-md-12">
+    <div class="alert alert-attention">
+      <p>
+        <em class="fas fa-exclamation-circle"></em>&nbsp;&nbsp;<strong
+          >Extractos Bancarios: </strong
+        >Con esta opción, podrá visualizar todos sus movimientos bancarios.
+        <br />
+        <em class="fas fa-exclamation-circle"></em>&nbsp;&nbsp;<strong
+          >Identificacion de Abonos: </strong
+        >Con esta opción, podrá identificar los abonos en su cuenta de manera
+        más detallada.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="d-flex justify-content-start">
+      <button
+        class="transferencias__box-button transferencias__button-period flex-grow-1 me-2"
+        [disabled]="true"
+        [ngClass]="{ 'transferencias__button-period__selected': true }"
+      >
+        <strong>Extractos Bancarios</strong>
+      </button>
+      <button
+        class="transferencias__box-button transferencias__button-period flex-grow-1"
+        [disabled]="false"
+        (click)="identificationGo()"
+      >
+        <mat-icon (mouseover)="openDialog()" (mouseout)="closeDialog()"
+          ><em class="fas fa-info-circle"></em
+        ></mat-icon>
+        Identificacion Abonos
+      </button>
+    </div>
+  </div>
+</div>
+
+<div>
+  <app-source-accounts
+    [accountRequest]="sourceAccountRequest"
+    [disabled]="false"
+    (onChange)="handleSourceAccountChanged($event)"
+    [loadFirstAccount]="true"
+    #sourceAccount
+  >
+  </app-source-accounts>
+  <app-loader *ngIf="loading"></app-loader>
+  <div class="row historical__period-options">
+    <div class="col-md-12">
+      <app-bar-route [isLast]="true"></app-bar-route>
+      <h4 class="historical__h4">Filtro de busqueda</h4>
+      <div class="row historical__period-options">
+        <div class="col-md-8">
+          <app-button-group (onChange)="handleGroupChanged($event)">
+            <app-button-group-content
+              [contentTitle]="'Por Mes'"
+              class="col-md-8"
+            >
+              <app-select-month
+                (onChangeFilter)="handleMonthYear($event)"
+                [numberMonths]="24"
+              >
+              </app-select-month>
+            </app-button-group-content>
+          </app-button-group>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row historical__submit">
+    <div class="col-md-4">
+      <button
+        type="button"
+        class="historical__btn-submit button__principal"
+        (click)="showDetail()"
+      >
+        Actualizar reporte
+      </button>
+    </div>
+  </div>
+  <br />
+  <div *ngIf="isVisibleList">
+    <div class="row historical__options-table">
+      <div class="col-md-3 col-sm-12">
+        <p class="historical__p">Total: {{allResponseData.length}}</p>
+      </div>
+      <div class="offset-md-2 col-md-5 historical__button--align">
+        <p class="historical__p">Formato para exportar</p>
+        <select
+          name="TipoExportar"
+          class="input-simple historical__input-table"
+          [(ngModel)]="FormatSelected"
+        >
+          <option value="undefined" disabled>Seleccione formato</option>
+          <option value="xls">Excel</option>
+          <option value="pdf">PDF</option>
+          <!--option value="sap">SAP(General)</option-->
+          <option value="sap-D">SAP(Detalle)</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-sm-6 historical__button--align">
+        <button
+          class="button__secondary historical__button-secondary"
+          (click)="export()"
+        >
+          EXPORTAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isVisibleList" class="row">
+  <div class="col-md-12 col-sm-12">
+      <table class="cw-table table-striped"><caption></caption>
+          <thead>
+              <tr>
+                  <th scope="col" *ngIf="headers.Col01">Fecha</th>
+                  <th scope="col" *ngIf="headers.Col02">Hora</th>
+                  <th scope="col" *ngIf="headers.Col03">Glosa</th>
+                  <th scope="col" *ngIf="headers.Col04">Importe</th>
+                  <th scope="col" *ngIf="headers.Col05">Descripcion</th>
+                  <th scope="col" *ngIf="headers.Col06">Canal</th>
+                  <th scope="col" *ngIf="headers.Col07">Sucursal Agencia</th>
+                  <th scope="col" *ngIf="headers.Col08">N° Operaciones</th>
+                  <th scope="col" *ngIf="headers.Col09">Ver</th>
+                  <th scope="col" *ngIf="headers.Col10">Comprobante</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let list of responseData">
+                  <td *ngIf="headers.Col01">{{list.date}}</td>
+                  <td *ngIf="headers.Col02">{{list.hour}}</td>
+                  <td *ngIf="headers.Col05">{{list.gloss}}</td>
+                  <td *ngIf="headers.Col04">{{list.amount | number: '1.2-2'}}</td>
+                  <td *ngIf="headers.Col03">{{list.description}}</td>
+                  <td *ngIf="headers.Col05">{{list.channel}}</td>
+                  <td *ngIf="headers.Col05">{{list.location}}</td>
+                  <td *ngIf="headers.Col05">{{list.hostOperationNumber}}</td>
+                  <td *ngIf="headers.Col09" class="text-center">
+                    <a (click)="handleOpenModalAbono(list)"
+                      ><em class="fas fa-info-circle"></em
+                    ></a>
+                  </td>
+                  <td *ngIf="headers.Col10" class="text-center">
+                    <a  (click)="getReporteAbono(list)"
+                      ><em class="fas fa-download"></em
+                    ></a>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <app-pagination
+      [totalItems]="allResponseData.length"
+      [maxSize]="pageSize"
+      [isCenter]="true"
+      (onChange)="handlePageChanged($event)"
+      [rowsPerPage]="rowsPerPage"
+      (onChangeRowsPerPage)="handleViewRows($event)">
+    </app-pagination>
+  </div>
+</div>
+
+<app-modal [visible]="isVisible" (onClose)="isVisible = false" [size]="'md'">
+  <div class="app-modal-header">
+    <div class="form-group">
+      <img src="assets/img/cw/bcpcw1.jpg" alt="" width="480px" height="60px" />
+      <div class="col-md-12" style="align-items: right">
+        <h3 class="_color-text"><strong>Credinet Web</strong></h3>
+      </div>
+    </div>
+    <br /><br />
+    <div align="center">
+      <h3>
+        <strong><u>Detalle de Transacción</u></strong>
+      </h3>
+    </div>
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <form class="form-horizontal _margin">
+      <div class="form-group row" style="align-items: left">
+        <label class="col-md-4 control-label _color-text">Empresa :</label>
+        <div class="col-md-6">{{ user.company_name }}</div>
+      </div>
+      <div *ngIf="responseTransaction.emisor && responseTransaction.amount!  > 0" class="form-group row" style="align-items: left">
+        <label class="col-md-4 control-label _color-text"
+          >Titular Origen :</label
+        >
+        <div class="col-md-6">
+          {{ responseTransaction.emisor }}
+        </div>
+      </div>
+      <div *ngIf="responseTransaction.beneficiary && responseTransaction.amount!  < 0" class="form-group row" style="align-items: left">
+        <label class="col-md-4 control-label _color-text"
+          >Titular Destino :</label
+        >
+        <div class="col-md-6">
+          {{ responseTransaction.beneficiary }}
+        </div>
+      </div>
+      <div class="form-group row" style="align-items: left">
+        <label class="col-md-5 control-label _color-text">Fecha :</label>
+        <div class="col-md-4">
+          {{ parseDateString(responseTransaction.date!) | date : "dd/MM/yyyy" }}
+        </div>
+      </div>
+      <div class="form-group row" style="align-items: left">
+        <label *ngIf="responseTransaction.amount! > 0" class="col-md-5 control-label _color-text"
+          >Importe Abonado :</label
+        >
+        <label *ngIf="responseTransaction.amount! < 0" class="col-md-5 control-label _color-text"
+          >Importe Retiro :</label
+        >
+        <div class="col-md-4">
+          {{ responseTransaction.amount | number : "1.2-2" }}
+        </div>
+      </div>
+      <div class="form-group row" style="align-items: left">
+        <label class="col-md-5 control-label _color-text">Moneda :</label>
+        <div class="col-md-4">{{responseTransaction.destCurrency}}</div>
+      </div>
+      <div class="form-group row" style="align-items: left">
+        <label class="col-md-5 control-label _color-text">Canal :</label>
+        <div class="col-md-4">{{ responseTransaction.channel }}</div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+
+    <button type="button" class="btn btn-primary" (click)="handleCloseModalAbono()">
+      Cerrar
+    </button>
+  </div>
+</app-modal>

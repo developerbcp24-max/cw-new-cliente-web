@@ -1,0 +1,110 @@
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.text-header {
+  border-radius: 5px 5px 0 0;
+}
+
+.text-font-size {
+  padding-top: 3px;
+  font-size: 15px;
+  color: #153F7B;
+}
+
+.border-primary {
+  border: 1px solid #153F7B !important;
+}
+
+.text-font-detail {
+  font-size: 14px;
+  margin: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 15px;
+}
+
+.even-row {
+  background-color: #FFFFFF;
+}
+
+.odd-row {
+  background-color: #eceff1;
+}
+
+.btn-margin {
+  margin-top: 2px;
+  margin-left: 2px;
+}
+
+input::placeholder {
+  color: #c8c2c2;
+}
+
+
+.button__principal {
+  width: auto !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+}
+
+.card-back {
+  background: linear-gradient(45deg, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
+}
+
+#exampleModalLabelApp {
+  color: #FFFFFF;
+}
+
+.btn-close {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white"><path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1em;
+  width: 1em;
+  height: 1em;
+  border: none;
+  opacity: 1;
+}
+
+
+.typing-placeholder::placeholder {
+  animation: typing 4s steps(30, end) infinite, blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    content: "";
+  }
+  to {
+    content: "Agregar nueva venta en USD";
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
+}
+
+.text-condicones {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.danger-snackbar {
+  background-color: #ff4141;
+  color: white;
+}
+
+

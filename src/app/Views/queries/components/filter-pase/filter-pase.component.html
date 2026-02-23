@@ -1,0 +1,54 @@
+<app-loader *ngIf="loading"></app-loader>
+
+<div class="row">
+    <div class="col-md-12">
+        <app-bar-route></app-bar-route>
+        <h4 class="historical__h4">Seleccione cuenta</h4>
+
+        <div class="col-md-6 historical__box">
+            <div class="row">
+                <label class="transferencias__label">Titular de la cuenta</label>
+                <select name="Acount" class="historical__select-account input-simple"
+                    placeholder="Seleccione una cuenta." [(ngModel)]="AcountSelected" (change)="changeAccount()">
+                    <option *ngFor="let responseModelAccount of ResponseModelAccount" [ngValue]="responseModelAccount">
+                        {{responseModelAccount.name}}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row historical__period-options">
+    <div class="col-md-12">
+        <app-bar-route [isLast]="true"></app-bar-route>
+        <h4 class="historical__h4">Selecciona un período de consulta</h4>
+
+        <div class="row">
+            <div class="col-md-8">
+                <app-button-group (onChange)="handleGroupChanged($event)">
+                    <app-button-group-content [contentTitle]="'Por Fechas'">
+                        <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange" class="col-md-8">
+                        </app-date-range>
+                    </app-button-group-content>
+                    <app-button-group-content [contentTitle]="'Por Mes'" class="col-md-8">
+                        <app-select-month (onChangeFilter)="handleMonthYear($event)"></app-select-month>
+                    </app-button-group-content>
+                </app-button-group>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row historical__submit">
+    <div class="col-md-4">
+        <button type="button" class="historical__btn-submit button__principal" (click)="ShowDetail()">Actualizar
+            reporte</button>
+    </div>
+</div>
+<br />
+<app-information-panel [message]="'No se encontraron elementos.'" [type]="'attention'" [visible]="swElem">
+</app-information-panel>
+<app-information-panel [message]="stringMonth" [type]="'attention'" [visible]="swMonth"></app-information-panel>
+<app-information-panel [message]="'La empresa no tiene cuentas asociadas.'" [type]="'attention'" [visible]="swAccounts">
+</app-information-panel>
+<br />

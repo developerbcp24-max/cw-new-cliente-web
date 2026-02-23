@@ -1,0 +1,201 @@
+<div class="row">
+  <div class="col-md-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">B. Datos de la fianza</h4>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="historical__box">
+          <form name="amountForm" novalidate #amountForm="ngForm" autocomplete="off">
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <label class="historical__label">Monto (Numeral)</label>
+                <input type="text" class="input-simple" name="amounts" [(ngModel)]="ballot.amount"
+                  (ngModelChange)="handleAmountChanged(ballot.amount)" #amounts="ngModel" required mask-money
+                  appValidate="majorZero" maxlength="25">
+                <app-show-errors [control]="amounts" autocomplete="off"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2">
+                <div class="form-group">
+                  <label class="historical__label">Moneda</label>
+
+                  <div class="account-flag">
+                    <input type="text" class="input-simple" name="currency" [(ngModel)]="currencyDefault" disabled>
+                    <app-currency-flag [flag]="ballot.currency" [visible]="true"></app-currency-flag>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <label class="historical__label">Literal</label>
+            <textarea type="text" class="input-simple" rows="1" name="literalAmount" [(ngModel)]="ballot.literalAmount"
+              #literalAmount="ngModel" required readonly></textarea>
+            <app-show-errors [control]="literalAmount"></app-show-errors>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"><br>
+        <div class="historical__box">
+          <label class="historical__label">Plazo</label>
+          <div class="transferencias__flex">
+            <div class="transferencias__container-x2">
+              <div class="haberes__debit">
+                <label class="radio">
+                  <input type="radio" name="term1" [(ngModel)]="isTermInDays" [value]="true"
+                    (change)="handleTypeTerm()">
+                  <span class="check-radio"></span>
+                </label>
+                <p>Plazo Días</p>
+              </div>
+              <div class="haberes__debit">
+                <label class="radio">
+                  <input type="radio" name="term2" [(ngModel)]="isTermInDays" [value]="false"
+                    (change)="handleTypeTerm()">
+                  <span class="check-radio"></span>
+                </label>
+                <p>Plazo Fechas</p>
+              </div>
+            </div>
+            <div class="transferencias__container-x2">
+              <div *ngIf="isTermInDays">
+                <form name="termsForm" novalidate #termsForm="ngForm" autocomplete="off">
+                  <input type="text" class="input-simple" name="termInDays" [(ngModel)]="ballot.termInDays"
+                    #termInDays="ngModel" appOnlyType="integer" appValidate="integer" maxlength="5" required>
+                  <app-show-errors [control]="termInDays"></app-show-errors>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isTermInDays">
+            <app-date-range [(ngModel)]="dateRange" [isVisibleStartDate]="false"
+              [endDateName]="'A partir de la emisión'" [options]="optionsDateRange" [historical__box]="historicalBox"
+              (ngModelChange)="onDateInitChanged()"></app-date-range>
+          </div>
+          <div class="" *ngIf="!isTermInDays">
+            <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange" [historical__box]="historicalBox"
+              (ngModelChange)="handleChangePickerRange()"></app-date-range>
+          </div>
+          <p>La fecha de vencimiento de la garantía deberá ser un día hábil.</p>
+        </div>
+      </div>
+      <div class="col-md-6"><br>
+        <div class="historical__box">
+          <form name="beneficiaryForm" novalidate #beneficiaryForm="ngForm" autocomplete="off">
+            <label class="historical__label">Beneficiario</label>
+            <textarea class="input-simple" name="beneficiary" [(ngModel)]="ballot.beneficiary" #beneficiary="ngModel"
+              required [appMaxLength]="255" maxlength="255"></textarea>
+            <app-show-errors [control]="beneficiary"></app-show-errors>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6"><br>
+        <div class="historical__box">
+          <form name="objectForm" novalidate #objectForm="ngForm" autocomplete="off">
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <label class="historical__label">Objeto</label>
+                <select class="input-simple" name="object" [(ngModel)]="ballot.object"
+                  (ngModelChange)="handleChangeObject($event)" #object="ngModel" required>
+                  <option value='' disabled>Seleccione una opción</option>
+                  <option *ngFor="let item of objectResult.listWarrantyTypes" [ngValue]="item.code">
+                    {{item.description}}
+                  </option>
+                </select>
+                <app-show-errors [control]="object"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2">
+                <label class="historical__label">Descripción del Objeto</label>
+                <textarea class="input-simple" rows="1" name="objectDescription" [(ngModel)]="ballot.objectDescription"
+                  #objectDescription="ngModel" required [appMaxLength]="549" maxlength="549"></textarea>
+                <app-show-errors [control]="objectDescription"></app-show-errors>
+              </div>
+            </div>
+            <div *ngIf="ballot.object === 'OTR'">
+              <label class="historical__label">Título del Objeto</label>
+              <input type="text" class="input-simple" name="objectSpecification"
+                [(ngModel)]="ballot.objectSpecification" #objectSpecification="ngModel" [appMaxLength]="50"
+                maxlength="50" required>
+              <app-show-errors [control]="objectSpecification"></app-show-errors>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6"><br>
+        <div class="historical__box">
+          <form name="renovationForm" novalidate #renovationForm="ngForm" autocomplete="off">
+            <label class="historical__label">Renovación de Boleta de Garantía</label>
+            <div class="haberes__debit">
+              <div class="transferencias__flex">
+                <div class="transferencias__container-x3">
+                  <label class="radio">
+                    <input type="radio" name="statusRenovation1" [(ngModel)]="ballot.statusRenovation" [value]="true">
+                    <span class="check-radio"></span>
+                  </label>
+                  <p>NO</p>
+                </div>
+                <div class="transferencias__container-x3">
+                  <label class="radio">
+                    <input type="radio" name="statusRenovation2" [(ngModel)]="ballot.statusRenovation" [value]="false">
+                    <span class="check-radio"></span>
+                  </label>
+                  <p>SI (con número)</p>
+                </div>
+                <div class="transferencias__container-x3" *ngIf="!ballot.statusRenovation">
+                  <input type="text" class="input-simple" name="numberRenovation" [(ngModel)]="ballot.numberRenovation"
+                    #numberRenovation="ngModel" [appMaxLength]="50" required>
+                  <app-show-errors [control]="numberRenovation"></app-show-errors>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <app-bar-route [isLast]="true"></app-bar-route>
+    <h4 class="historical__h4" *ngIf="ballot.showRoe">C. Datos ROE</h4>
+    <div class="historical__box" *ngIf="ballot.showRoe">
+      <form name="roeForm" novalidate #roeForm="ngForm" autocomplete="off">
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">Seleccionar documento ROE</label>
+            <div>
+              <label for="file-upload" class="button__secondary custom-file-upload col-md-3"
+                *ngIf="ballot.uploadFile">Examinar</label>
+              <input id="file-upload" type="file" (change)="onFileChange($event)" *ngIf="ballot.uploadFile" required />
+              <span class="spantext">{{ballot.nameFile}}</span>
+            </div>
+            <div *ngIf="!messageError">
+              <app-information-panel [message]="'Debe proporcionar el documento ROE de tipo .pdf'" [type]="'attention'">
+              </app-information-panel>
+            </div>
+          </div>
+          <div class="col-md-3"><br><br>
+            <button class="historical__btn-submit button__principal" (click)="handleSubmitFile()"
+              *ngIf="isValid && ballot.uploadFile">Subir Archivo</button>
+            <button class="historical__btn-submit button__principal" *ngIf="!ballot.uploadFile"
+              (click)="handleRemoveFile()">Quitar Archivo</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row transferencia-ext__submit"><br>
+  <div class="col-md-2 col-sm-12">
+    <input type="button" class="button__principal button-next" (click)="validateForms()" value="SIGUIENTE">
+  </div>
+  <div class="col-md-2 col-sm-12">
+    <p class="historical__p--cancel"><a [routerLink]="['/operations/ballotOfWarranty']">CANCELAR</a></p>
+  </div>
+</div>

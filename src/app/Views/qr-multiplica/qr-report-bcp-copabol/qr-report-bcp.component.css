@@ -1,0 +1,17 @@
+.all-width {
+    width: 100% !important;
+  }
+  
+    .all-width textarea {
+      width: 100% !important;
+    }
+  /* new Qr*/
+  .select-account {
+    width: 85%;
+  }
+  
+  .account-flag {
+    display: block;
+    align-content: center;
+  }
+  

@@ -1,0 +1,205 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <h3 class="mb-4"><strong>Formulario de registro</strong></h3>
+      </div>
+      <div class="historical__box historical__account-box">
+        <form name="currencyForm" novalidate #currencyForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="false"><legend></legend><br>
+            <div class="form-group">
+              <h3>Usuarios</h3><br>
+              <div class="account-flag">
+                <h4>Favor de crear los usuarios para su sucursal. Considere que debe ser 1 Jefe de Agencia y 1 o varios cajeros por sucursal.</h4>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+        <div class="col-md-12">
+          <div class="row transferencia-ext__submit">
+            <br>
+            <div class="col-md-4"> <br>
+              <button class="button__principal historical__button-secondary btn-lg" (click)="handleAddRow()">
+                REGISTRAR USUARIO <em class="fas fa-plus-circle"></em>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="w-full">
+  <div class="w-full">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <app-list-users [userNewList]="userNewList" [visible]="visible"
+        [spreadsheetSize]="spreadsheetSize" [listUserQr]="listUserQr"></app-list-users>
+      <app-modal [visible]="showDetailForm" (onClose)="showDetailForm=false" [size]="'md'" [manualCloseModal]="true">
+        <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Editar usuario' : 'Creación de usuario'}}
+        </div>
+        <div class="app-modal-body col-md-12 col-sm-12">
+          <form name="roleForm" #roleForm="ngForm" novalidate autocomplete="off">
+            <div class="row haberes__modal__inputs">
+              <div class="col-md-12 inputs ">
+                <div class="input-numero">
+                  <select class="historical__select-account input-simple helpers__select-modal" name="roleUser"
+                    [(ngModel)]="detail.roleUser" #roleUser="ngModel" required>
+                    <option value="">Seleccione un Role</option>
+                    <option *ngFor="let listRole of listRole" [ngValue]="listRole.code">
+                      {{listRole.name}}</option>
+                  </select>
+                  <app-show-errors [control]="roleUser"></app-show-errors>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="app-modal-footer col-md-12 col-md-12">
+          <div class="row modal__container-button justify-content-center">
+            <div class="col-md-4 col-xs-12 text-center">
+              <button class="button__principal modal__button" (click)="handleValidate()"
+                #closeApp>{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+            </div>
+          </div>
+          <div class="row modal__cancelar justify-content-center">
+            <div class="col-md-12 col-xs-12 text-center">
+              <a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a>
+            </div>
+          </div>
+        </div>
+      </app-modal>
+
+      <app-modal [visible]="showDetailForm1" (onClose)="showDetailForm=false" [size]="'lg'" [manualCloseModal]="true">
+        <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Editar usuario' : 'Creación de usuario'}}
+        </div>
+        <div class="app-modal-body col-md-12 col-sm-12">
+          <form name="regUserForm" #regUserForm="ngForm" novalidate autocomplete="off">
+            <div class="row justify-content-center mb-3">
+              <div class="col-6">
+                <label for="nombre" class="form-label">Rol Usuario</label>
+                <select [disabled]="true" class="historical__select-account input-simple helpers__select-modal"
+                  name="roleUser" [(ngModel)]="detail.roleUser" #roleUser="ngModel" required>
+                  <option value="">Seleccione un Role</option>
+                  <option *ngFor="let listRole of listRole" [ngValue]="listRole.code">
+                    {{listRole.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <label for="input4" class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control w-100" name="name" [(ngModel)]="detail.name" #name="ngModel"
+                  required appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" [appMaxLength]="75"
+                  placeholder="Ej: Juan Perz">
+                <app-show-errors [control]="name"></app-show-errors>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <label for="select1" class="form-label">Tipo de documento</label>
+                <select class="historical__select-account input-simple helpers__select-modal" name="documentType"
+                  [(ngModel)]="detail.documentType" #documentType="ngModel" required (ngModelChange)="selectDocType()">
+                  <option *ngFor="let type of documentTypes" [ngValue]="type.description">{{type.description}}</option>
+                </select>
+                <app-show-errors [control]="documentType"></app-show-errors>
+              </div>
+              <div class="col">
+                <label for="documentNumber" class="form-label">Numero de documento</label>
+                <input class="historical__select-account form-control helpers__select-modal" type="text"
+                  name="documentNumber" [(ngModel)]="detail.documentNumber" #documentNumber="ngModel"
+                  appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" required
+                  [minlength]="4" [appMaxLength]="12">
+                <app-show-errors [control]="documentNumber"></app-show-errors>
+              </div>
+              <div class="col">
+                <label for="select3" class="form-label">Extencion</label>
+                <select *ngIf="detail.documentType === 'C.I.'"
+                  class="historical__select-account input-simple helpers__select-modal" name="documentExtension"
+                  [(ngModel)]="detail.documentExtension" #documentExtension="ngModel" required>
+                  <option *ngFor="let extension of documentExtensions" [ngValue]="extension.code">
+                    {{extension.description}}</option>
+                </select>
+                <div *ngIf="detail.documentType === 'PASAPORTE'">
+                  <input class="historical__select-account form-control helpers__select-modal" type="text"
+                    name="documentExtension" [(ngModel)]="detail.documentExtension"
+                    appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols"
+                    #documentExtension="ngModel" maxlength="3">
+                  <app-show-errors [control]="documentExtension"></app-show-errors>
+                </div>
+                <app-show-errors [control]="documentExtension"></app-show-errors>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control w-100" name="email" [(ngModel)]="detail.email" #email="ngModel"
+                  required appValidate="emailOptional" maxlength="100" placeholder="Ej: correo@com.bo">
+                <app-show-errors [control]="email"></app-show-errors>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <label for="cellphone" class="form-label">N° Celular</label>
+                <input type="text" class="form-control" name="cellphone" [(ngModel)]="detail.cellphone"
+                  #cellphone="ngModel" required appOnlyType="integer" appValidate="integer" minlength="8" maxlength="12"
+                  placeholder="Ej: 76512396">
+                <app-show-errors [control]="cellphone"></app-show-errors>
+              </div>
+              <div class="col">
+                <label for="userName" class="form-label">Usuario</label>
+                <input type="text" class="form-control" name="userName" [(ngModel)]="detail.userName"
+                  #userName="ngModel" required appOnlyType="alphanumericBasicSymbols"
+                  appValidate="alphanumericBasicSymbols" [minLength]="7" [appMaxLength]="12" placeholder="Ej: Juan-95">
+                <app-show-errors [control]="userName"></app-show-errors>
+              </div>
+              <div class="col">
+                 <label for="password" class="form-label">Contraseña</label>
+              <div class="input-group">
+                <input [type]="inputType" class="form-control" name="password" [(ngModel)]="detail.password"
+                  #password="ngModel" required appOnlyType="alphanumericBasicSymbolsLogin" appValidate="password" minlength="8" maxlength="12"
+                  placeholder="********" autocomplete="off">
+                  <div class="input-group-append">
+                    <span *ngIf="visiblePass" class="input-group-text"><a (click)="showPassword()" class="text-normal1"><em class="fa fa-eye"></em></a></span>
+                    <span *ngIf="!visiblePass" class="input-group-text"><a (click)="showPassword()" class="text-normal1"><em class="fa fa-eye-slash"></em></a></span>
+                  </div>
+                </div>
+                <app-show-errors [control]="password"></app-show-errors>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="app-modal-footer col-md-12 col-md-12">
+          <div class="row modal__container-button justify-content-center">
+            <div class="col-md-4 col-xs-12 text-center">
+              <button class="button__principal modal__button" (click)="handleValidateReg()"
+                #closeApp>{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+            </div>
+          </div>
+          <div class="row modal__cancelar justify-content-center">
+            <div class="col-md-12 col-xs-12 text-center">
+              <a (click)="handleCancelReg()" class="link-cancel-modal">SALIR</a>
+            </div>
+          </div>
+        </div>
+      </app-modal>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 offset-md-8">
+    <div class="row transferencia-ext__submit">
+      <div class="col-md-2 col-sm-12">
+        <input [disabled]="regSegQr" type="button" class="button__principal button-next" (click)="validateForms()"
+          value="SIGUIENTE">
+      </div>
+      <div class="col-md-2 col-sm-12">
+        <p class="historical__p--cancel"><a [routerLink]="['/qr-multiplica/qr-multiplica-bcp']">CANCELAR</a></p>
+      </div>
+    </div>
+  </div>
+</div>

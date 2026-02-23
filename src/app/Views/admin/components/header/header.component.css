@@ -1,0 +1,91 @@
+/* header.component.css */
+
+/* Estilos base para el título CredinetWeb */
+.credinet-title {
+  font-family: 'Flexo', sans-serif;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #32335C;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Estilo para "Credinet" - Medium Italic según Figma */
+.credinet-brand {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 550;
+  font-style: italic;
+}
+
+/* Estilo para "Web" - Light Italic según Figma */
+.credinet-web {
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Tu estilo original del menu-header si lo necesitas para otros elementos */
+.menu-header {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400; /* Cambiado a valor válido */
+  font-style: normal;
+  font-size: 19px;
+  line-height: 19px;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: #32335C;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.menu-header:hover,
+.menu-header.hover\:text-\[\#153f7b\] {
+  color: #153f7b;
+}
+
+/* Estado activo */
+.menu-header.text-\[\#153f7b\] {
+  color: #32335C;
+  position: relative;
+}
+
+/* Estado inactivo */
+.menu-header.text-gray-800 {
+  color: #32335C;
+}
+
+/* Estilos adicionales para el header si los necesitas */
+.header-container {
+  margin-left: 8px;
+  margin-right: 8px;
+  /* Responsive ajustes */
+  @media (max-width: 768px) {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  @media (max-width: 480px) {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+}
+
+
+
+/* Estado activo con el color de fondo de Figma */
+.menu-header.text-\[\#153f7b\] {
+  color: #32335C; /* Color del background de Figma */
+  position: relative;
+}
+
+/* Ajuste para el indicador de ruta activa */
+.menu-header.text-\[\#153f7b\]::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #7B4FFF 0%, #E14FFF 100%);
+  border-radius: 2px;
+}

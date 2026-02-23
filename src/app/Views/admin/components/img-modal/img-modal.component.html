@@ -1,0 +1,29 @@
+<div class="modal-container flex justify-center items-center" (click)="close()">
+
+  <!-- Botón de cerrar -->
+  <button class="close-button" (click)="close()" type="button">
+    ✕
+  </button>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading && !hasError" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Cargando imagen...</p>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="hasError" class="error-message">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+    </svg>
+    <p>Error al cargar la imagen</p>
+    <button class="error-button" (click)="close()">Cerrar</button>
+  </div>
+
+  <!-- Imagen principal -->
+  <img *ngIf="!hasError" [src]="data.imageUrl" alt="Imagen ampliada"
+    class="modal-image w-auto h-auto max-w-[90vw] max-h-[85vh] object-contain shadow-2xl rounded-lg"
+    (click)="stopPropagation($event)" (load)="onImageLoad()" (error)="onImageError()"
+    [style.display]="isLoading ? 'none' : 'block'">
+</div>

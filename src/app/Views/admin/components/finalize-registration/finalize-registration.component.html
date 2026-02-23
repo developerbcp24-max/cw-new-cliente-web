@@ -1,0 +1,182 @@
+<section class="font-sans">
+  <div *ngFor="let item of stepOptions" class="flex flex-col items-center">
+    <!-- 1st page -->
+     <!-- 1st page -->
+    <ng-container *ngIf="item.selected && item.value === 1">
+      <div class="bg-white rounded-2xl shadow-lg p-8 text-center w-full max-w-md mx-auto mb-16">
+        <!-- Ícono de check verde -->
+        <div class="flex justify-center mb-6">
+          <div class="w-16 h-16 bg-[#52C41A] rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Título -->
+        <h2 class="text-2xl font-bold text-[#32335C] mb-6 text-center">
+          Registro Completado
+        </h2>
+
+        <!-- Contenido -->
+        <div class="text-[#32335C] text-sm leading-relaxed space-y-4 mb-8 text-left">
+          <p class="font-medium">
+            Antes de finalizar, por favor tome en cuenta lo siguiente:
+          </p>
+
+          <p>
+            La afiliación de su empresa finalizará en el transcurso de 2 días hábiles.
+            Posteriormente, usted recibirá un correo con la confirmación y/o rechazo de
+            solicitud de anexo.
+          </p>
+
+          <p>
+            En el caso de que el anexo haya sido aprobado el correo acompañará un
+            documento en formato PDF y un link que le indicará como firmar el documento de
+            manera 100% electrónica.
+          </p>
+
+          <p>
+            Si desea obtener información sobre el estado de su anexo o el motivo de su
+            rechazo, favor comuníquese al <strong>800-10-2244</strong> y proporcione el NIT de su empresa.
+          </p>
+        </div>
+
+        <!-- Botón -->
+        <button
+          mat-flat-button
+          class="w-full bg-blue-700 hover:bg-blue-800 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+          routerLink="/">
+          Finalizar
+        </button>
+      </div>
+    </ng-container>
+
+
+    <!-- 2nd page -->
+    <ng-container *ngIf="item.selected && item.value === 2">
+      <div class="w-full max-w-[615px] mt-8 md:mt-11 mb-20 md:mb-96 max-h-[800px]:mb-16 px-4">
+        <h2 class="text-center text-primary-color text-title-size mb-3">
+          <strong>¡Tu firma es el último paso!</strong>
+        </h2>
+        <p class="text-primary-color text-description-size">
+          Te enviamos un código al correo registrado
+          {{ client.response.email | obfuscateEmail }}.
+        </p>
+        <p class="text-primary-color text-description-size">
+          Ingresa el código que recibiste en tu correo, con esto
+          <span class="text-secondary-color">
+            estarás firmando electrónicamente
+          </span>
+          el documento de afiliación a Credinet Web.
+        </p>
+        <form class="flex flex-col items-center" [formGroup]="formOtp">
+          <div class="flex justify-center gap-1 sm:gap-2">
+            <input #otp1 type="text" appOnlyInteger maxlength="1" formControlName="otp1"
+              class="form-control w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (keyup)="moveFocus($event, otp2)" />
+            <input #otp2 type="text" appOnlyInteger maxlength="1" formControlName="otp2"
+              class="form-control w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (keyup)="moveFocus($event, otp3, otp1)" />
+            <input #otp3 type="text" appOnlyInteger maxlength="1" formControlName="otp3"
+              class="form-control w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (keyup)="moveFocus($event, otp4, otp2)" />
+            <input #otp4 type="text" appOnlyInteger maxlength="1" formControlName="otp4"
+              class="form-control w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (keyup)="moveFocus($event, otp5, otp3)" />
+            <input #otp5 type="text" appOnlyInteger maxlength="1" formControlName="otp5"
+              class="form-control w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (keyup)="moveFocus($event, otp6, otp4)" />
+            <input #otp6 type="text" appOnlyInteger maxlength="1" formControlName="otp6"
+              class="form-control w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (keyup)="moveFocus($event, null!, otp5)" />
+          </div>
+
+          <p class="text-base mt-3 text-center text-darkblue-color">
+            00:{{ timeLeft | number : "2.0-0" }}
+          </p>
+          <a class="no-underline text-description-size cursor-pointer" [ngClass]="
+              canResend ? 'text-secondary-color' : 'text-disabled-color'
+            " (click)="resendOPT()">
+            Reenviar código
+          </a>
+        </form>
+      </div>
+
+      <div class="w-full flex justify-end px-4">
+        <app-register-buttons [nextDisabled]="!formOtp.valid" (onBackEvent)="changePage(1)"
+          (onNextEvent)="validateOtp()"></app-register-buttons>
+      </div>
+    </ng-container>
+
+    <!-- 3rd page -->
+    <ng-container *ngIf="item.selected && item.value === 3">
+      <div
+        class="flex justify-center w-full min-h-[calc(100vh-90px-62px-107px)] max-h-[800px]:min-h-full bg-[#f3f6fb] px-4">
+        <div
+          class="flex flex-col items-center w-full max-w-[712px] min-h-[510px] mx-4 md:mx-16 my-8 md:my-16 bg-white rounded-lg p-6">
+          <div class="w-20 h-20 -mt-10 mb-10">
+            <mat-icon svgIcon="check-green" [inline]="true"></mat-icon>
+          </div>
+          <h2 class="text-center text-primary-color text-title-size mb-3">
+            <strong>Registro Completado</strong>
+          </h2>
+          <p class="text-primary-color text-description-size mb-0 text-center">
+            Antes de finalizar, por favor tome en cuenta lo siguiente:
+          </p>
+
+          <div class="flex w-full max-w-[630px] my-5 px-4">
+            <div class="w-7 h-7 mr-4 flex-shrink-0">
+              <mat-icon svgIcon="download-2" [inline]="true"></mat-icon>
+            </div>
+            <p class="text-primary-color text-sm mb-0">
+              La afiliación de tu empresa finalizará en el transcurso del día.
+              Posteriormente, recibirás un correo con el formulario de
+              afiliación en formato PDF y los acccesos a la plataforma.
+              Adicionalmente, recibirás también las instrucciones para activar
+              el Token y comenzar a transaccionar.
+            </p>
+          </div>
+
+          <div
+            class="flex flex-col lg:flex-row items-center justify-center w-full max-w-[645px] min-h-[151px] rounded-xl bg-[#f3f6fb] p-4 lg:p-6">
+            <img src="../../../../../assets/new-face/images/register/credinet-web.png" alt="credinet-web"
+              class="w-[77px] h-[77px] rounded-2xl mb-4 lg:mb-0 lg:mr-3 flex-shrink-0" />
+            <div class="flex-1 text-center lg:text-left mb-4 lg:mb-0">
+              <h2 class="text-primary-color mb-2 text-lg font-semibold">
+                Descargue la aplicación Credinet Móvil
+              </h2>
+              <p class="text-primary-color mb-0 text-xs max-w-[328px] mx-auto lg:mx-0">
+                Active el token y comienze a transaccionar de la manera más
+                segura.
+              </p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <a class="flex justify-center items-center w-[150px] h-[30px] bg-[#1d49bb] rounded-2xl text-white no-underline hover:bg-blue-700 transition-colors"
+                href="https://apps.apple.com/bo/app/credinet-m%C3%B3vil/id6463306315?l=en-GB" target="_blank"
+                rel="noopener">
+                <div class="w-[15px] h-[15px] mr-1">
+                  <mat-icon svgIcon="apple" [inline]="true"></mat-icon>
+                </div>
+                <p class="mb-0 text-xs">App Store</p>
+              </a>
+              <a class="flex justify-center items-center w-[150px] h-[30px] bg-[#1d49bb] rounded-2xl text-white no-underline hover:bg-blue-700 transition-colors"
+                href="https://play.google.com/store/apps/details?id=bo.com.bcp.credinetweb" target="_blank"
+                rel="noopener">
+                <div class="w-[15px] h-[15px] mr-1">
+                  <mat-icon svgIcon="google-play" [inline]="true"></mat-icon>
+                </div>
+                <p class="mb-0 text-xs">Play Store</p>
+              </a>
+            </div>
+          </div>
+
+          <button mat-flat-button class="register-principal-button w-full max-w-[300px] h-10 mt-6 text-lg"
+            routerLink="/">
+            Finalizar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

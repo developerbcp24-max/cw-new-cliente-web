@@ -1,0 +1,63 @@
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+	cursor: pointer;
+	width:150px;
+	height:40px;
+	margin-left: 10px
+}
+.spantext {
+	padding: 6px 12px;
+	margin-left: 10px;
+	display: inline-block;
+}
+
+.size-input {
+    width: 2;
+}
+
+.account-flag {
+    display: block;
+    align-content: center;
+}
+
+.align-account {
+    display: inline-block
+}
+
+.warranty__label {
+    font-size: 13px;
+}
+
+/*tamaño de columna para amortizacion*/
+.amortization__card {
+    background-color: #f9f9f9;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 12px 14px;
+    min-height: 115px
+}
+
+.home__card__item_aut {
+    width: 20%
+}
+.home__card__item__small_aut-title {
+    color: #153F7B;
+    margin: 0;
+    font-weight: bold;
+    align-items: center;
+    font-size: 11px
+}
+
+.home__card__item__small_aut-value {
+    color: #000;
+    font-weight: bold;
+    align-items: center;
+    font-size: 11px
+}

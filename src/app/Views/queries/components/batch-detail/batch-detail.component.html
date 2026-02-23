@@ -1,0 +1,163 @@
+<div [ngSwitch]="true">
+  <app-transfer-abroad-batch-detail
+    *ngSwitchCase="[7].includes(operationTypeId)"
+    [batchId]="batchId"
+    [isAuthorize]="isAuthorize"
+  ></app-transfer-abroad-batch-detail>
+  <app-salaries-payments-detail
+    *ngSwitchCase="[8].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-salaries-payments-detail>
+  <app-service-payment-batch-detail
+    *ngSwitchCase="
+      [9, 10].includes(operationTypeId) && constants.afpService !== operation
+    "
+    [batchId]="batchId"
+    [service]="operation"
+  ></app-service-payment-batch-detail>
+  <app-payment-afp-detail
+    *ngSwitchCase="
+      [9].includes(operationTypeId) && constants.afpService === operation
+    "
+    [batchId]="batchId"
+  ></app-payment-afp-detail>
+  <app-transfer-batch-detail
+    *ngSwitchCase="
+      [13, 14, 15].includes(operationTypeId) ||
+      ([24].includes(operationTypeId) &&
+        operation == 'TRANSFERENCIA A OTRO BANCO')
+    "
+    [batchId]="batchId"
+  ></app-transfer-batch-detail>
+  <app-providers-payment-detail
+    *ngSwitchCase="[16].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-providers-payment-detail>
+  <app-configuration-favorite-payment-detail
+    *ngSwitchCase="
+      [17].includes(operationTypeId) &&
+      operation == 'CONFIGURACIÓN DE PAGOS FAVORITOS'
+    "
+    [batchId]="batchId"
+  ></app-configuration-favorite-payment-detail>
+  <app-multiple-payments-detail
+    *ngSwitchCase="[20].includes(operationTypeId)"
+    [batchId]="batchId"
+    [isShow]="isShow"
+    [isAuthorize]="isAuthorize"
+    (onChangeDetail)="handleChangeDetail()"
+  ></app-multiple-payments-detail>
+  <app-quota-payment-detail
+    *ngSwitchCase="[21].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-quota-payment-detail>
+  <app-favorite-payments-detail
+    *ngSwitchCase="[23].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-favorite-payments-detail>
+  <app-payment-bank-ach-detail
+    *ngSwitchCase="
+      [24].includes(operationTypeId) &&
+      operation != 'TRANSFERENCIA A OTRO BANCO'
+    "
+    [batchId]="batchId"
+  >
+  </app-payment-bank-ach-detail>
+  <app-cash-payment-detail
+    *ngSwitchCase="[25].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-cash-payment-detail>
+  <app-providers-check-management-detail
+    *ngSwitchCase="[26].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-providers-check-management-detail>
+  <app-providers-check-management-detail
+    *ngSwitchCase="[46].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-providers-check-management-detail>
+  <app-providers-deposit-other-bank-checks-detail
+    *ngSwitchCase="[27].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-providers-deposit-other-bank-checks-detail>
+  <app-payment-tax-check-detail
+    *ngSwitchCase="[28].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-payment-tax-check-detail>
+  <app-payment-ach-odd-detail
+    *ngSwitchCase="[29].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-payment-ach-odd-detail>
+  <app-historical-account-detail
+    *ngSwitchCase="
+      [17].includes(operationTypeId) && operation == 'SOLICITUD DE CERTIFICADO'
+    "
+    [batchId]="batchId"
+  >
+  </app-historical-account-detail>
+  <app-claim-request-detail
+    *ngSwitchCase="
+      [17].includes(operationTypeId) && operation == 'SOLICITUD DE RECLAMO'
+    "
+    [batchId]="batchId"
+  ></app-claim-request-detail>
+  <app-ballot-of-warranty-detail
+    *ngSwitchCase="[18].includes(operationTypeId) && !isDetailBG"
+    [batchId]="batchId"
+  >
+  </app-ballot-of-warranty-detail>
+  <app-new-ballot-of-warranty-detail
+    *ngSwitchCase="[18].includes(operationTypeId) && isDetailBG"
+    [batchId]="batchId"
+  ></app-new-ballot-of-warranty-detail>
+  <app-payment-elfec-detail
+    *ngSwitchCase="[32].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-payment-elfec-detail>
+  <app-service-pase-payment-detail
+    *ngSwitchCase="[33].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-service-pase-payment-detail>
+  <app-modification-request-detail
+    *ngSwitchCase="
+      [17].includes(operationTypeId) && operation == 'SOLICITUD DE MODIFICACIÓN'
+    "
+    [batchId]="batchId"
+  >
+  </app-modification-request-detail>
+  <app-telephony-payments-detail
+    *ngSwitchCase="[37, 38].includes(operationTypeId)"
+    [batchId]="batchId"
+    [operationTypeId]="operationTypeId"
+  ></app-telephony-payments-detail>
+  <app-new-pase-payment-detail
+    *ngSwitchCase="[40].includes(operationTypeId)"
+    [batchId]="batchId"
+    [operationTypeId]="operationTypeId"
+  ></app-new-pase-payment-detail>
+  <app-cash-payment-in-line-detail
+    *ngSwitchCase="[41].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-cash-payment-in-line-detail>
+  <app-soli-payment-detail
+    *ngSwitchCase="[45].includes(operationTypeId)"
+    [batchId]="batchId"
+  >
+  </app-soli-payment-detail>
+  <app-qr-payment-ach-batch-detail
+    *ngSwitchCase="[51].includes(operationTypeId)"
+    [batchId]="batchId"
+  ></app-qr-payment-ach-batch-detail>
+</div>

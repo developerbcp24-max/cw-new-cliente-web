@@ -1,0 +1,59 @@
+<form class="form-horizontal" name="currencyAndAmountForm" novalidate #currencyAndAmountForm="ngForm"
+    autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+        <div class="form-group row">
+            <label for="amount" class="col-sm-2 control-label">{{amountTag}}</label>
+            <div class="col-sm-3">
+                <input class="form-control" type="text" name="amount" [readonly]="isAmountDisabled"
+                    [(ngModel)]="data.amount" #amount="ngModel" (keyup)="handleAmountOrCurrencyChanged()" required
+                    mask-money [appMaxLength]=250 appValidate="majorZero">
+                <app-show-errors [control]="amount"></app-show-errors>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="currency" class="col-sm-2 control-label">{{currencyTag}}</label>
+            <div class="col-xs-10 col-sm-3">
+                <select *ngIf="!isCurrencyBlocked" class="form-control" [(ngModel)]="data.currency" name="currency"
+                    required #currency="ngModel" (change)="handleAmountOrCurrencyChanged()">
+                    <option value="" disabled>Seleccione una moneda</option>
+                    <option *ngFor="let item of currencies" value="{{item.value}}">{{item.name}}</option>
+                </select>
+                <app-show-errors [control]="currency"></app-show-errors>
+                <input *ngIf="isCurrencyBlocked" class="form-control" type="text" name="blockedCurrency"
+                    [(ngModel)]="data.currency" [disabled]="true">
+            </div>
+            <div class="col-xs-2">
+                <app-depecrated-currency-flag [flag]="data.currency" [visible]="isFlagVisible"></app-depecrated-currency-flag>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset [disabled]="disabledAfterSave"><legend></legend><br>
+        <div
+            *ngIf="verifyFundDeclarationAmount && (isShowOriginAndDestinationFundsForm || (alwaysShowFundDeclarationForm && data.amount))">
+            <div class="form-group row">
+                <label for="fundSource" class="col-sm-2 control-label">Orígen de los fondos:</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" type="text" [(ngModel)]="data.fundSource" name="fundSource" required
+                        appValidate="alphanumericBasicSymbols" #fundSource="ngModel"
+                        (keyup)="handleAmountOrCurrencyChanged()" minlength="20" maxlength="200"></textarea>
+                    <app-show-errors [control]="fundSource"></app-show-errors>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="fundDestination" class="col-sm-2 control-label">Destino de los fondos:</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" type="text" [(ngModel)]="data.fundDestination" name="fundDestination"
+                        required appValidate="alphanumericBasicSymbols" #fundDestination="ngModel"
+                        (keyup)="handleAmountOrCurrencyChanged()" minlength="20" maxlength="200"></textarea>
+                    <app-show-errors [control]="fundDestination"></app-show-errors>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-10 text-right">
+                    El llenado de los campos es obligatorio, para ver los ejemplos ingrese <a class="link"
+                        (click)="handleExampleExternalLink()">aquí</a>
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</form>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="33px" viewBox="0 0 34 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icono calendario Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="2.9109463" width="33.6554613" height="32" rx="3"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="productos-inicio-03" transform="translate(-154.000000, -127.000000)">
+            <g id="Icono-finanzas" transform="translate(154.000000, 125.000000)">
+                <g id="Rectangle">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <rect stroke="#153F7B" stroke-width="1" x="0.5" y="3.4109463" width="32.6554613" height="31" rx="3"></rect>
+                </g>
+                <rect id="Rectangle-5" stroke="#153F7B" stroke-width="1" x="6.5" y="27.4023438" width="4" height="7.09765625"></rect>
+                <rect id="Rectangle-5-Copy" stroke="#153F7B" stroke-width="1" x="12.5" y="17.5368408" width="4" height="16.9631592"></rect>
+                <rect id="Rectangle-5-Copy-2" stroke="#153F7B" stroke-width="1" x="18.5" y="22.5" width="4" height="12"></rect>
+                <rect id="Rectangle-5-Copy-3" stroke="#153F7B" stroke-width="1" x="24.5" y="10.5" width="4" height="24"></rect>
+                <path d="M0.5,8.5 L3.5,8.5" id="Line" stroke="#153F7B" stroke-width="1" stroke-linecap="round"></path>
+                <path d="M0.5,13.5 L3.5,13.5" id="Line-Copy" stroke="#153F7B" stroke-width="1" stroke-linecap="round"></path>
+                <path d="M0.5,18.5 L3.5,18.5" id="Line-Copy-3" stroke="#153F7B" stroke-width="1" stroke-linecap="round"></path>
+                <path d="M0.5,23.5 L3.5,23.5" id="Line-Copy-4" stroke="#153F7B" stroke-width="1" stroke-linecap="round"></path>
+                <path d="M0.5,29.5 L3.5,29.5" id="Line-Copy-5" stroke="#153F7B" stroke-width="1" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

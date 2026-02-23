@@ -1,0 +1,45 @@
+<div class="!flex !justify-center">
+  <!-- Botón de volver -->
+  <div *ngIf="offset>0" [ngClass]="{'md:w-1/12': offset==1, 'md:w-2/12': offset==2, 'md:w-3/12': offset==3, 'md:w-4/12': offset==4, 'md:w-5/12': offset==5, 'md:w-6/12': offset==6, 'sm:w-1/12': offset==1, 'sm:w-2/12': offset==2, 'sm:w-3/12': offset==3, 'sm:w-4/12': offset==4, 'sm:w-5/12': offset==5, 'sm:w-6/12': offset==6}">
+    <div *ngIf="showPreviousStep && currentStep>1">
+      <div class="hidden md:block">
+        <p class="historical__p--cancel">
+          <a (click)="handlePreviousStep()" class="cursor-pointer">
+            <i class="fa fa-chevron-circle-left text-[#153F7B]" aria-hidden="true"></i> Volver al paso anterior
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container principal del stepper -->
+  <div class="!flex !items-center !justify-center !max-w-4xl">
+    <div *ngFor="let step of steps; index as i"
+         class="!flex !items-center">
+
+      <!-- Step desktop -->
+      <div class="hidden md:!block !px-5 !py-3.5 !rounded-xl !text-sm !font-medium !whitespace-nowrap !mb-4"
+           [ngClass]="{
+         'bg-[#34B1CF] text-white': step.active,
+         'bg-[#FFFFFF] text-gray-700': !step.active
+           }">
+        <span class="!mr-2 !font-semibold">{{i+1}}.</span>{{step.title}}
+      </div>
+
+      <!-- Step mobile -->
+      <div class="block md:!hidden !px-5 !py-3.5 !rounded-xl !text-sm !font-medium !whitespace-nowrap !mb-4"
+           [ngClass]="{
+         'bg-[#34B1CF] text-white': step.active,
+         'bg-[#FFFFFF] text-gray-700': !step.active
+           }">
+        <span class="!mr-2 !font-semibold">{{i+1}}</span>
+      </div>
+
+      <!-- Espaciado entre pasos (excepto el último) -->
+      <div *ngIf="i < steps.length - 1" class="!mx-2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenido del paso actual -->
+<ng-content></ng-content>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>notificacion</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="productos-inicio-02" transform="translate(-999.000000, -128.000000)">
+            <g id="notificacion" transform="translate(1000.000000, 129.000000)">
+                <circle id="Oval-3" stroke="#153F7B" stroke-width="2" fill="#FFFFFF" cx="16" cy="16" r="16"></circle>
+                <text id="!" font-family="FlexoW01-Bold" font-size="22" font-weight="bold" fill="#153F7B">
+                    <tspan x="13" y="24">!</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

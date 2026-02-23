@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-md-12">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Nombres</th>
+            <th>Fecha de Proceso</th>
+            <th *ngIf="isRejected">Motivo de Rechazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of details">
+            <td>{{data.userDescription}}</td>
+            <td>{{data.userName}}</td>
+            <td>{{data.dateAction | date:'dd-MM-yyyy h:mm:ss a'}}</td>
+            <td *ngIf="isRejected">{{data.reasonRejection}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

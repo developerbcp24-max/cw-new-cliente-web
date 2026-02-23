@@ -1,0 +1,37 @@
+.title-container {
+  width: 100%;
+  font-size: 20px;
+  border-bottom: 1px solid #002b76;
+  height: 72px;
+}
+
+.title-text {
+  font-size: 20px;
+  margin-left: 24px;
+  color: #002b76;
+}
+
+.icon {
+  width: 20px;
+  margin-right: 24px;
+}
+
+.terms-conditions-container {
+  height: calc(80vh - 72px);
+  width: 700px;
+  overflow-y: auto;
+}
+
+.text-size {
+  font-size: 16px;
+}
+
+.button {
+  width: 200px;
+  height: 40px;
+  margin: 24px 0px 24px 0px;
+  border-radius: 7px;
+  font-size: 18px;
+  color: white;
+  background-color: #f26e29;
+}

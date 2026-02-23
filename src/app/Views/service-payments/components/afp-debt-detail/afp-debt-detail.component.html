@@ -1,0 +1,37 @@
+<div class="row historical__account">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-sm-6">
+                <app-bar-route></app-bar-route>
+                <h4 class="historical__h4">Datos de la Planilla</h4>
+                <div class="historical__box">
+                    <div class="form-group">
+                        <label class="transferencias__label"> Periodo: </label>
+                        <input class="input-simple" type="text" name="periodo" [(ngModel)]="periodo" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="transferencias__label"> Total FCI: </label>
+                        <input class="input-simple" type="text" name="TCI" [(ngModel)]="TCI" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="transferencias__label"> Total FVP: </label>
+                        <input class="input-simple" type="text" name="TVP" [(ngModel)]="TVP" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="transferencias__label" *ngIf="isvisible"> Total FVL: </label>
+                        <input class="input-simple" type="text" name="TVL" [(ngModel)]="TVL" *ngIf="isvisible" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="transferencias__label" *ngIf="!isvisible"> Total FSOL: </label>
+                        <input class="input-simple" type="text" name="TSOL" [(ngModel)]="TSOL" *ngIf="!isvisible"
+                            disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="transferencias__label"> Total a Pagar: </label>
+                        <input class="input-simple" type="text" name="Total" [(ngModel)]="Total" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="bcp-layout-container">
+  <!-- Headers -->
+  <app-header class="bcp-header-desktop"></app-header>
+  <app-header class="bcp-header-mobile"></app-header>
+  <!-- Contenedor principal con scroll -->
+  <div class="bcp-content-container">
+    <div class=" w-full">
+      <div class="grid grid-cols-1 gap-6 p-1">
+        <h1 class="breaking-title text-[#32335C]">
+          Noticias<span class="font-normal"> nuevas</span>
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div *ngFor="let img of noticias.slice(0,2)"
+            class="overflow-hidden rounded-lg shadow-md transition transform hover:scale-105 duration-300">
+            <img [src]="img" alt="New News Image"
+              class="block w-full h-auto object-contain md:object-cover max-h-[44vh]" (click)="openImageModal(img)">
+          </div>
+        </div>
+        <h1 class="breaking-texto-3">Marzo</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+          <div *ngFor="let img of noticias.slice(2)"
+            class="overflow-hidden rounded-lg shadow-md transition transform hover:scale-105 duration-300">
+            <img [src]="img" alt="New News Image" class="block w-full h-full object-cover max-h-[25vh]"
+              (click)="openImageModal(img)">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="flex-shrink-0 lg:flex-shrink-0 mt-auto lg:mt-1.5">
+    <app-footer></app-footer>
+  </div>
+</div>

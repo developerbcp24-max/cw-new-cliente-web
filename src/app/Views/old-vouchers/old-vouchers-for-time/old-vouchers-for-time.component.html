@@ -1,0 +1,16 @@
+<app-filter-old-vouchers [operations]="operations" (onChangeFilter)="handleVoucherChanged($event)"
+     [filterDto]="filterDto" [voucherCheckedList]="voucherCheckedList"></app-filter-old-vouchers>
+<div *ngIf="totalVouchers > 0">
+    <app-list-old-vouchers [listDetailVoucher]="listDetailVoucher" (listVoucherChecked)="handleListChecked($event)">
+    </app-list-old-vouchers>
+    <div class="col-sm-12">
+        <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="totalVouchers" [maxSize]="pageItems"
+            (onChange)="handleBatchesToControlPageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)">
+        </app-pagination>
+    </div>
+</div>
+<div class="row col-md-12"><br>
+    <ng-container class="row" *ngIf="isVisibleError && totalVouchers === 0">
+        <app-information-panel [message]="'No se encontro ningún registro.'" [type]="'attention'"></app-information-panel>
+    </ng-container>
+</div>

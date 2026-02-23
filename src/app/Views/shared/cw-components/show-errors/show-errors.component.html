@@ -1,0 +1,9 @@
+<!-- show-errors.component.html -->
+<div class="error-messages-container">
+  <ng-container *ngIf="shouldShowErrors()">
+    <div *ngFor="let error of listOfErrors()" class="error-message-item">
+      <mat-icon class="error-icon">error</mat-icon>
+      <span class="error-text text-red-600">{{ error }}</span>
+    </div>
+  </ng-container>
+</div>

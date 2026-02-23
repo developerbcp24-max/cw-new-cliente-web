@@ -1,0 +1,322 @@
+.legal-representatives-container {
+  width: 446px;
+  margin-top: 30px;
+  margin-bottom: 355px;
+}
+
+@media only screen and (max-height: 800px) {
+  .legal-representatives-container {
+    margin-bottom: 90px;
+  }
+}
+
+.legal-representatives-text-description {
+  margin: 24px 0px;
+}
+
+.legal-representatives-items-container {
+  margin-top: 21px;
+  height: 56px;
+  padding: 0px 24px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.legal-representatives-items {
+  font-size: 16px;
+  width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* .legal-representative-container {
+  border: solid #f26e29 1px;
+  border-radius: 7px;
+  width: 123px;
+  height: 25px;
+  font-size: 11px;
+} */
+
+
+
+.users-list-container {
+  width: 100%;
+  padding: 0px 86px;
+  margin-top: 50px;
+  margin-bottom: 420px;
+}
+
+@media only screen and (max-width: 1400px) {
+  .users-list-container {
+    padding: 0px 42px;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .users-list-container {
+    margin-bottom: 250px;
+  }
+}
+
+.users-list-title {
+  margin-bottom: 20px;
+}
+
+.users-list {
+  margin-top: 12px;
+}
+
+.user-list-item {
+  padding: 0px 12px;
+  height: 52px;
+  margin-bottom: 14px;
+  background-color: #f6f7f9;
+  border-bottom: 1px solid #002b76;
+  border-radius: 6px 6px 0px 0px;
+}
+
+.checkbox-icon {
+  width: 15px;
+}
+
+.user-text {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.info-icon {
+  width: 20px;
+}
+
+.scrollable-content {
+  width: 100%;
+  height: calc(100vh - 259px - 104px);
+  overflow-y: auto;
+}
+
+.text-account {
+  margin-top: 20px;
+}
+
+.custom-fill .mat-form-field-flex {
+  background-color: #21a9bb;
+}
+
+/* Estilos para Representantes Legales */
+
+/* Checkbox alignment */
+.mat-checkbox {
+  margin: 0 !important;
+}
+
+.mat-checkbox-layout {
+  white-space: normal !important;
+  margin-bottom: 0 !important;
+}
+
+.mat-checkbox-inner-container {
+  margin: 0 !important;
+}
+
+/* Text alignment */
+.leading-none {
+  line-height: 1 !important;
+}
+
+/* Badge styles para "Representante legal" */
+.bg-blue-100 {
+  background-color: #dbeafe;
+}
+
+.text-blue-700 {
+  color: #1d4ed8;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+/* Form field styling */
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+/* Button hover effects */
+button:hover {
+  opacity: 0.9;
+  transition: all 0.2s ease;
+}
+
+/* Card styling para representantes */
+.bg-gray-100 {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+.bg-gray-100:hover {
+  background-color: #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .max-w-md {
+    max-width: 100%;
+  }
+
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Ensure consistent spacing */
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+/* Icon styling */
+.mat-icon {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Form validation styling */
+.mat-form-field-invalid .mat-form-field-flex {
+  border: 1px solid #ef4444;
+}
+
+.mat-error {
+  color: #ef4444;
+  font-size: 0.75rem;
+}
+
+/* Button styling */
+.bg-blue-900 {
+  background-color: #1e3a8a;
+}
+
+.hover\:bg-blue-800:hover {
+  background-color: #1e40af;
+}
+
+/* Consistent width for representante items */
+.max-w-md {
+  max-width: 28rem;
+}
+
+/* Flexbox utilities */
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+/* Grid gap */
+.gap-4 {
+  gap: 1rem;
+}
+
+/* Additional spacing for form sections */
+.mt-8 {
+  margin-top: 2rem;
+}
+
+/* Badge consistent styling */
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* Account section styling */
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+/* Ensure proper centering */
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+
+
+/* En tu archivo CSS del componente */
+:host ::ng-deep .user-item {
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+:host ::ng-deep .user-name {
+  color: #1F2937;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+:host ::ng-deep .user-role {
+  background-color: #DBEAFE;
+  color: #1D4ED8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+:host ::ng-deep .info-button {
+  color: #2563EB;
+  cursor: pointer;
+}
+
+:host ::ng-deep .info-button:hover {
+  color: #1E40AF;
+}

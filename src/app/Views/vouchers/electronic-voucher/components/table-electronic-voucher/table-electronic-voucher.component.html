@@ -1,0 +1,27 @@
+<div class="table-responsive">
+    <table class="cw-table table-striped"><caption></caption>
+      <thead>
+          <tr>
+              <th>Código</th>
+              <th>Fecha</th>
+              <th>Tipo Comprobante</th>
+              <th>Moneda</th>
+              <th>Importe</th>
+              <th>Detalle</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let list of listElectronicVoucher">
+              <td>{{list.code}}</td>
+              <td>{{list.date | date:'dd-MM-yyyy h:mm:ss a'}}</td>
+              <td>{{list.typeVoucher}}</td>
+              <td>{{list.currency}}</td>
+              <td>{{list.amount | number: '1.2-2'}}</td>
+              <td>
+                  <a (click)="handleGetReport(list)"><em class="fa fa-arrow-circle-down button__size"></em></a>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  

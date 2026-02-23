@@ -1,0 +1,137 @@
+<form name="formBeneficiary" class="formBeneficiary" #formBeneficiary="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="historical__box  box-beneficiaries">
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Nombre o Razón Social</label>
+                <input type="text" name="businessName" [(ngModel)]="beneficiary.businessName" class="input-simple"
+                  required #businessName="ngModel" appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" [maxLength]="140">
+                <app-show-errors [control]="businessName"></app-show-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 box-input">
+                <label class="transferencias__label">Número de documento</label>
+                <input type="tel" name="numberDocument" [(ngModel)]="beneficiary.numberDocument" class="input-simple"
+                  required #ticketOtherCurrency="ngModel" [maxLength]="8" #numberDocument="ngModel" appOnlyType="alphanumericNotSymbols" appValidate="alphanumericNotSymbols">
+                <app-show-errors [control]="numberDocument"></app-show-errors>
+              </div>
+              <div class="col-md-6 box-input">
+                <label class="transferencias__label">Tipo</label>
+                <select class="input-simple" [(ngModel)]="beneficiary.documentType" name="documentType" required
+                  #documentType="ngModel">
+                  <option value=null disabled>Seleccione tipo de documento</option>
+                  <option *ngFor="let item of documentTypes" value="{{item.type}}">{{item.description}}</option>
+                </select>
+                <app-show-errors [control]="documentType"></app-show-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Número de cuenta/IBAN (Europa)</label>
+                <input type="text" name="numberAccount" [(ngModel)]="beneficiary.numberAccount" class="input-simple"
+                  required #numberAccount="ngModel" [maxLength]="35" appOnlyType="alphanumericNotSpace" appValidate="alphanumericNotSpace">
+                <app-show-errors [control]="numberAccount"></app-show-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Concepto de pago</label>
+                <input type="text" class="input-simple" name="paymentConcept" [(ngModel)]="beneficiary.paymentConcept"
+                  required #paymentConcept="ngModel" appOnlyType="otherAlphanumeric" appValidate="otherAlphanumeric" appValidate="otherAlphanumeric" [maxLength]="60">
+                <p class="jordania"><strong>Nota.-</strong> Si el Banco destinatario de la transferencia
+                  está en Jordania, por favor
+                  ingrese el código de concepto de pago detallado en el siguiente <a (click)="handleViewJordania()">archivo
+                    PDF</a></p>
+                    <app-show-errors [control]="paymentConcept"></app-show-errors>
+              </div>
+            </div>
+            <div class="box-beneficiaries--hidden helpers__show-small">
+              <div class="row">
+                <div class="col-md-12 box-input">
+                  <label class="transferencias__label">Dirección</label>
+                  <input type="text" name="addressSmall" [(ngModel)]="beneficiary.address" class="input-simple" required
+                    #addressSmall="ngModel" appOnlyType="otherAlphanumeric" appValidate="otherAlphanumeric" [maxLength]="50">
+                  <app-show-errors [control]="addressSmall"></app-show-errors>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 box-input">
+                  <label class="transferencias__label">Ciudad de residencia</label>
+                  <input type="text" name="cityResidenceSmall" [(ngModel)]="beneficiary.cityResidence" class="input-simple"
+                    required #cityResidenceSmall="ngModel" appOnlyType="otherAlphanumeric" [maxLength]="200">
+                  <app-show-errors [control]="cityResidenceSmall"></app-show-errors>
+                </div>
+                <div class="col-md-6 box-input">
+                  <label class="transferencias__label">País de residencia</label>
+                  <input type="text" name="countryResidenceSmall" [(ngModel)]="beneficiary.countryResidence" class="input-simple"
+                    required #countryResidenceSmall="ngModel" appOnlyType="otherAlphanumeric" [maxLength]="500">
+                  <app-show-errors [control]="countryResidenceSmall"></app-show-errors>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 box-input">
+                  <label class="transferencias__label">Teléfono</label>
+                  <input type="tel" name="phoneSmall" [(ngModel)]="beneficiary.phone" class="input-simple" required
+                    #phoneSmall="ngModel" appOnlyType="integer" appValidate="integer" [maxLength]="10">
+                  <app-show-errors [control]="phoneSmall"></app-show-errors>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 box-input">
+                  <label class="transferencias__label">Correo electrónico</label>
+                  <input type="email" name="emailSmall" [(ngModel)]="beneficiary.email" class="input-simple" required
+                    #emailSmall="ngModel" appValidate="email" [maxLength]="60">
+                  <app-show-errors [control]="emailSmall"></app-show-errors>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 helpers__hidden-small">
+          <div class="historical__box  box-beneficiaries">
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Dirección</label>
+                <input type="text" name="address" [(ngModel)]="beneficiary.address" class="input-simple" required
+                  #address="ngModel" appOnlyType="otherAlphanumeric" appValidate="otherAlphanumeric" [maxLength]="50">
+                <app-show-errors [control]="address"></app-show-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 box-input">
+                <label class="transferencias__label">Ciudad de residencia</label>
+                <input type="text" name="cityResidence" [(ngModel)]="beneficiary.cityResidence" class="input-simple"
+                  required #cityResidence="ngModel" appOnlyType="otherAlphanumeric" appValidate="otherAlphanumeric" [maxLength]="200">
+                <app-show-errors [control]="cityResidence"></app-show-errors>
+              </div>
+              <div class="col-md-6 box-input">
+                <label class="transferencias__label">País de residencia</label>
+                <input type="text" name="countryResidence" [(ngModel)]="beneficiary.countryResidence" class="input-simple"
+                  required #countryResidence="ngModel" appOnlyType="otherAlphanumeric" appValidate="otherAlphanumeric" [maxLength]="500">
+                <app-show-errors [control]="countryResidence"></app-show-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Teléfono</label>
+                <input type="tel" name="phone" [(ngModel)]="beneficiary.phone" class="input-simple" required #phone="ngModel"
+                  appOnlyType="integer" appValidate="integer" [maxLength]="10">
+                <app-show-errors [control]="phone"></app-show-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Correo electrónico</label>
+                <input type="email" name="email" [(ngModel)]="beneficiary.email" class="input-simple" required #email="ngModel"
+                  appValidate="email" [maxLength]="60">
+                <app-show-errors [control]="email"></app-show-errors>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>

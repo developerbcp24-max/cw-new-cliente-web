@@ -1,0 +1,95 @@
+<div class="row margin-botton">
+    <div class="col-md-6" [ngClass]="{'col-md-12':disabled, 'col-md-6':!disabled}">
+      <h4 class="historical__h4" *ngIf="!disabled">Revisa los Datos del Solicitante</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ordenante</p>
+            <p class="home__card__item__small-value">{{currentUser.company_name}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Cuenta Debito</p>
+            <p class="home__card__item__small-value">{{requester.numberAccount}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Importe Destino</p>
+            <p class="home__card__item__small-value">{{requester.destinationAmount}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Moneda destino</p>
+            <p class="home__card__item__small-value">{{requester.currency}}
+            </p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ticket Dólar</p>
+            <p class="home__card__item__small-value">{{requester.ticket}} TC={{requester.preferentialExchange}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ticket Comisión</p>
+            <p class="home__card__item__small-value">{{requester.ticketCommission}} = {{requester.commissionAmount}}
+              USD <em class="fas fa-question-circle home__card__icon--hover helpers__hidden-small"></em></p>
+            <div class=" home__card__info--hover helpers__hidden-small">
+              <div class="item-triangle"></div>
+              <p>Su transacción cuenta con un Ticket de comisión Preferencial,
+                se le cobrará la comisión indicada en el mismo.</p>
+            </div>
+          </div>
+          <div class="home__card__item" *ngIf="requester.ticketOtherCurrency">
+            <p class="home__card__item__small-title">Ticket Otra Moneda</p>
+            <p class="home__card__item__small-value">{{requester.ticketOtherCurrency}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <form name="formRequester" class="form-horizontal" #formRequester="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="historical__box  box-beneficiaries">
+            <div class="row">
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Dirección</label>
+                <input type="text" name="address" [(ngModel)]="requester.address" class="input-simple" required #address="ngModel"
+                appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" [maxLength]="50">
+                <app-show-errors [control]="address"></app-show-errors>
+              </div>
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Teléfono</label>
+                <input type="tel" name="phone" [(ngModel)]="requester.phone" class="input-simple" required #phone="ngModel"
+                  appOnlyType="integer" appValidate="integer" [maxLength]="25">
+                <app-show-errors [control]="phone"></app-show-errors>
+              </div>
+              <div class="col-md-12 box-input">
+                <label class="transferencias__label">Detalle de Cargos</label>
+                <select class="input-simple select-charge" [(ngModel)]="requester.charge" name="commissionCharge"
+                  [disabled]="requester.isTicketCommission" required #commissionCharge="ngModel">
+                  <option value='' disabled>Seleccione Cargo Comisión</option>
+                  <option *ngFor="let item of charges" value="{{item.code}}">{{item.description}}</option>
+                </select>
+                <label><span *ngIf="requester.charge==='OUR'">={{requester.commissionOur}}</span></label>
+                <app-show-errors [control]="commissionCharge"></app-show-errors>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="historical__box  box-beneficiaries">
+            <div class="row">
+              <label class="transferencias__label">Correo Electrónico</label>
+              <input type="email" name="email" [(ngModel)]="requester.email" class="input-simple" required #email="ngModel"
+                appValidate="email" [maxLength]="60">
+              <app-show-errors [control]="email"></app-show-errors>
+            </div>
+            <div class="row">
+              <label class="transferencias__label">Motivo Transferencia</label>
+              <textarea class="input-simple" rows="2" name="transferReason" [(ngModel)]="requester.transferReason" class="input-simple"
+                required #transferReason="ngModel" appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" [maxLength]="400"></textarea>
+              <app-show-errors [control]="transferReason"></app-show-errors>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>

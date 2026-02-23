@@ -1,0 +1,38 @@
+name: Build Angular
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Ambiente a compilar (dev, cert, prod)'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+          - dev
+          - cert
+          - prod
+
+jobs:
+  build_and_download:
+    runs-on:
+      group: runner_build_group1
+
+    steps:
+      - name: Validate Branch
+        uses: BCP-BOL-TI-WORKFLOWS/reusable-custom-action/.github/actions/validatebranch@main
+        with:
+          branch: ${{ github.ref_name }}
+          allowedBranch: ${{ inputs.environment == 'dev' && 'feature,develop' || 'main' }}
+
+      - name: Build and Download Angular
+        uses: BCP-BOL-TI-WORKFLOWS/reusable-custom-action/.github/actions/buildangular@main
+        with:
+          nombre-base: ${{ github.event.repository.name }}
+          artefactos-path: ${{ vars._V_PATH_ARTEFACTOS_RUNNER_BUILDS }}
+          node-version: '20'
+          environment: ${{ inputs.environment }}
+          build-configuration: 'production'
+          sonar_token: ${{ secrets._S_SONAR_TOKEN }}
+          sonar_url: ${{ vars._V_SONAR_URL }}
+          sonar_project_key: 'fljUDruFicharo83jewr'

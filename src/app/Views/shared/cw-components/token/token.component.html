@@ -1,0 +1,72 @@
+<form name="form" (ngSubmit)="f.valid && handleSubmit()" #f="ngForm" novalidate autocomplete="off">
+  <fieldset [disabled]="disabled">
+    <legend></legend><br>
+
+    <!-- Mensajes centrados -->
+    <div class="row">
+      <div class="col-12 text-center">
+        <p *ngIf="!isTokenVU">{{message}}</p>
+        <p *ngIf="isTokenVU" class="!text-center !text-[15px]">Ingrese el token generado por la app de Credinet Móvil</p>
+      </div>
+    </div>
+
+    <!-- Selector de token -->
+    <div *ngIf="!isTokenVU" class="form-group row justify-content-center">
+      <div class="col-md-8 col-xs-12">
+        <label class="transferencias__label">Número de token</label>
+        <select name="drpTokens" class="input-simple" [(ngModel)]="selectedToken"
+          (change)="handleTokenListChanged();changeEventLogToken(1)" required>
+          <option *ngFor="let token of tokens" [ngValue]="token">{{ token.number }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Clave dinámica -->
+    <div *ngIf="isTokenVU" class="form-group row justify-content-center">
+      <div class="col-md-6 col-xs-8">
+        <label class="transferencias__label text-center d-block mb-2">Clave dinámica</label>
+        <div class="input-group">
+          <input type="text" name="name" class="form-control text-center" [(ngModel)]="data.code"
+            appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" required #name="ngModel"
+            [readOnly]="true" [type]="visiblePass ? 'text' : 'password'" />
+          <span class="input-group-text" style="cursor:pointer;">
+            <a (click)="showHidePassword();">
+              <em class="fa" [ngClass]="visiblePass ? 'fa-eye' : 'fa-eye-slash'"></em>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Number Pad centrado -->
+    <div class="form-group row justify-content-center">
+      <div class="col-md-8 col-xs-12 d-flex justify-content-center">
+        <app-number-pad (onChangeText)="handleKeyPad($event)" #tokenPad [isTokenVU]="isTokenVU"
+          [maxLength]="maxLength"></app-number-pad>
+      </div>
+    </div>
+
+    <!-- Botón ACEPTAR -->
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-xs-12 text-center">
+        <button class="button__principal modal__button"
+          *ngIf="!isTokenVU"
+          [disabled]="!(tokens.length !== 0 && tokenPad.isValid())"
+          (click)="changeEventLogToken(2)">ACEPTAR</button>
+
+        <button class="button__principal modal__button"
+          *ngIf="isTokenVU"
+          [disabled]="!(tokenPad.isValid())"
+          (click)="changeEventLogToken(2)">ACEPTAR</button>
+      </div>
+    </div>
+
+    <!-- Link CANCELAR -->
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <a (click)="handleClosed();changeEventLogToken(3)" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+
+  </fieldset>
+</form>

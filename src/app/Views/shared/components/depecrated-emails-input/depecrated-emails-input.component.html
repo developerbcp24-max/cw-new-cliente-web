@@ -1,0 +1,17 @@
+<form class="form-horizontal" name="formEmail" #formEmail="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="checkbox">
+          <label class="col-sm-3 control-label">
+            <input type="checkbox" name="isSendVoucher" class="form-check-input" [(ngModel)]="emailInput.isEmailInputSelected" (ngModelChange)="handleChangeChecked($event)"> Enviar comprobante al procesarse la operación
+          </label>
+        </div>
+        <div *ngIf="emailInput.isEmailInputSelected" class="col-sm-9">
+          <textarea class="form-control" type="text" [(ngModel)]="email" name="emails" aria-describedby="sendVoucherHelpBlock" required appValidate="manyEmails" #emails="ngModel" (keyup)="handleEmailsChanged()"></textarea>
+          <app-show-errors [control]="emails"></app-show-errors>
+          <small id="sendVoucherHelpBlock" class="form-text text-muted">Ingrese varios correos separados por ';'. Ej.: correo1; correo2; correo3</small>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  

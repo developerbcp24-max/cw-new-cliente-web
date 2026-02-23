@@ -1,0 +1,7 @@
+<select name="drpAccounts" class="form-control" [(ngModel)]="accountSelected" (change)="handleAccountChanged()">
+    <option *ngIf="!loadFirstAccount" value="null" disabled>Seleccione el número cuenta</option>
+    <option *ngFor="let account of accounts" [ngValue]="account">
+      {{ account.formattedNumber }}
+    </option>
+  </select>
+  

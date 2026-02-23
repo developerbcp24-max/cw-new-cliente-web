@@ -1,0 +1,107 @@
+<div class="col-md-12">
+    <app-source-accounts [accountDropLabel]="'Cuenta de debito de la Comisión'" [accountRequest]="sourceAccountDto"
+      [disabled]="false" (onChange)="handleSourceAccountChanged($event)" [loadFirstAccount]="true" #sourceAccount>
+    </app-source-accounts>
+  </div>
+  <div class="col-md-6">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Enviar Certificado </h4>
+    <div class="historical__box">
+      <label class="transferencias__label"> Tipo de Certificado </label>
+      <select name="dpCertif" class="transferencia-ext__select input-simple" [(ngModel)]="CertificateSelect"
+        (ngModelChange)="handleChangeDdpCertif($event)">
+        <option *ngFor="let liscertif of ListParamGroup" [ngValue]="liscertif">
+          {{ liscertif.code }}
+        </option>
+      </select>
+      <div class="transferencias__container-title-detail">
+        <label class="transferencias__label"> Dirección de Entrega </label>
+        <p class="transferencias__p-text-alert">La dirección de entrega es requerido (*)</p>
+      </div>
+      <textarea class="form-control" type="text" name="direction" [(ngModel)]="directions" appOnlyType="alphanumeric"
+        appValidate="alphanumeric" #direction="ngModel" maxlength="99" required autocomplete="off"></textarea><br>
+      <app-show-errors [control]="direction"></app-show-errors>
+      <ng-container *ngIf="isVisibleMessage">
+        <app-information-panel [message]="message" [type]="'attention'"></app-information-panel>
+      </ng-container>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Registros Seleccionados </h4>
+    <div class="row">
+      <div class="col-md-12  col-sm-12">
+        <table class="cw-table table-striped"><caption></caption>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Glosa</th>
+              <th>Importe</th>
+              <th>Saldo Disponible</th>
+              <th>Tipo</th>
+              <th>Sucursal Agencia</th>
+              <th>Usuario</th>
+              <th> Nro. Operación </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of listVectorIn">
+              <td>{{list.onlyDate}}</td>
+              <td>{{list.hora}}</td>
+              <td>{{list.moveName}}</td>
+              <td>{{list.amount | number: '1.2-2'}}</td>
+              <td>{{list.balanceClosing | number: '1.2-2'}}</td>
+              <td>{{list.utc}}</td>
+              <td>{{list.agency}}</td>
+              <td>{{list.users}}</td>
+              <td>{{list.sequentialCode}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+    <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="vectorIn.length" [maxSize]="pageItems"
+              (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+  </div>
+  <div class="col-md-12">
+    <app-approvers-and-controllers [isVisible]="true" [approversRequest]="approversRequest"
+      (onChange)="handleApproversOrControllersChanged($event)" [isAdministrative]="true" #approversAndControllers>
+    </app-approvers-and-controllers>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3">
+      <button class="historical__btn-submit button__principal"
+        (click)="approversAndControllers.handleValidate() && sourceAccount.handleValidate() && handleTocken()"
+        [disabled]="swBtnAceptaVer">PREPARAR
+        TRANSACCIÓN</button>
+    </div>
+    <div class="col-md-2">
+      <button class="button__secondary historical__button-secondary button-program"
+        [routerLink]="['/queries/HistoricalAccounts']"> NUEVO
+      </button>
+    </div>
+    <div class="col-md-2">
+      <button class="button__secondary historical__button-secondary button-program"
+        [routerLink]="['/queries/HistoricalAccounts']"> CANCELAR
+      </button>
+    </div>
+  </div>
+  
+  <app-modal [visible]="isRemoveModalVisible" (onClose)="isRemoveModalVisible=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12"> Operación Realizada </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      Su operación ha sido enviada satisfactoriamente a “Solicitudes Pendientes de Confirmación” desde donde el o los
+      usuario(s) que cuenten con los permisos podrán confirmar el lote <strong> {{numProcesBatch}} </strong> más adelante.
+      Una vez aprobada su operación, será enviada a Back Office para su ejecución. Verificar en la pantalla hasta
+      comprobar que se procesó correctamente.
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <button type="button" class="btn btn-primary" (click)="back()">Aceptar</button>
+    </div>
+  </app-modal>
+  
+  <app-token-modal  [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)" (onClose)="isVisibleToken=false">
+  </app-token-modal>

@@ -1,0 +1,16 @@
+.margen{
+    margin-bottom: 5%;
+    color:orangered;
+    font-weight: bold; 
+}
+.margen_nombre_empresa{
+    margin-bottom: 3%;
+    margin-top: 5%;
+    color:orangered;
+    font-weight: bold;    
+}
+.Btn_color{
+    background-color: orangered;
+    color: white;
+    border:0vw;
+}

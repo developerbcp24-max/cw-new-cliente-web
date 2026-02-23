@@ -1,0 +1,42 @@
+import { UserInvolved } from './user-involved';
+import { UifDto } from './uif-dto';
+import { CismartApprover } from '../../approvers-and-controllers/models/cismart-approver';
+
+export class ProcessBatchDto {
+  id!: number;
+  operationTypeId!: number;
+  operationTypeName!: string;
+  sourceAccountId!: number;
+  sourceAccount!: string;
+  amount!: number;
+  sourceCurrency!: string;
+  currency: string = '';
+  currencyDescription!: string;
+  description: string = '';
+  isScheduledProcess!: boolean;
+  scheduledProcess!: Date;
+  scheduledProcessString!: string;
+  isMultipleDebits = false;
+  isTicket!: boolean;
+  numberTicket?: number;
+  preferentialExchange!: number;
+  indicatorBuyOrSale!: string;
+  fundSource!: string;
+  fundDestination!: string;
+  sendVouchers!: string;
+  approvers!: number[];
+  controllers!: number[];
+  gloss!: string;
+  cismartApprovers!: CismartApprover[];
+  tokenCode!: string;
+  tokenName!: string;
+  isPrePreparer!: boolean;
+  userInvolveds!: UserInvolved[];
+  uif: UifDto[] = [];
+  isAch!: boolean;
+  isBlocked!: boolean;
+  formattedNumber!: string;
+  isValidUif = false;
+  causalTransaction?: string;
+  operationStatusId: number = 0;
+}

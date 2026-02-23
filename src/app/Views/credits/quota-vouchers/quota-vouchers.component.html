@@ -1,0 +1,61 @@
+<app-source-accounts [accountRequest]="sourceAccountDto" [disabled]="false" (onChange)="handleAccounts($event)"
+  [companyAccounts]="true" [showBalances]="false" #sourceAccount>
+</app-source-accounts>
+<app-bar-route [isLast]="true"></app-bar-route>
+<h4 class="historical__h4">Exportar Datos</h4>
+<ng-container *ngIf="totalResponse > 0">
+  <div class="row historical__options-table">
+    <div class="col-md-4">
+      <p class="historical__p">Formato para exportar</p>
+      <select class="input-simple historical__input-table" name="typeReport" [(ngModel)]="request.typeReport">
+        <option [ngValue]="false">PDF</option>
+        <option [ngValue]="true">EXCEL</option>
+      </select>
+    </div>
+    <div class="col-md-2  col-md-6 historical__button--align">
+      <button class="button__secondary historical__button-secondary" (click)="handleExportList()"><em class="fa fa-download"></em>
+        EXPORTAR</button>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="totalResponse > 0">
+  <div class="table-responsive">
+    <table class="cw-table table-striped"><caption></caption>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Glosa</th>
+          <th>Importe</th>
+          <th>Agencia</th>
+          <th>Usuario</th>
+          <th>Sucursal</th>
+          <th>Nro. Operacion</th>
+          <th>Ver Comprobante</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of response">
+          <td>{{detail.movementDate.substring(6, 8) + "/" + detail.movementDate.substring(6, 4) + "/" +
+            detail.movementDate.substring(0, 4)}}</td>
+          <td>{{detail.movementHour.substring(0, 2) + ":" + detail.movementHour.substring(4, 2) + ":" +
+            detail.movementHour.substring(6, 4)}}</td>
+          <td>{{detail.gloss}}</td>
+          <td>{{detail.amount | number: '1.2-2'}}</td>
+          <td>{{detail.agency}}</td>
+          <td>{{detail.userName}}</td>
+          <td>{{detail.branchOffice}}</td>
+          <td>{{detail.operationNumber}}</td>
+          <td>
+            <a (click)="getDetail(detail.movementDate, detail.movementHour)"><em class="fas fa-download button__size"></em></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="totalResponse" [maxSize]="pageItems"
+    (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+</ng-container>
+<ng-container class="row" *ngIf="emptyData">
+  <app-information-panel [message]="message" [type]="'attention'"></app-information-panel>
+</ng-container>

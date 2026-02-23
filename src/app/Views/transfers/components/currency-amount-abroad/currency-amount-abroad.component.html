@@ -1,0 +1,187 @@
+<h4 class="historical__h4">Ingresa el importe</h4>
+<p
+  class="historical__p--cancel transferencia-ext__p-link helpers__hidden-small"
+  (click)="showCompanyLimits = true"
+>
+  <a>Ver límite diario</a>
+</p>
+<form
+  class="form-horizontal"
+  name="currencyAmountAbroadForm"
+  novalidate
+  #currencyAmountAbroadForm="ngForm"
+  autocomplete="off"
+>
+  <fieldset [disabled]="disabled">
+    <legend></legend>
+    <br />
+    <div class="row historical__box">
+      <div class="col-md-12">
+        <div class="row margin">
+          <div class="col-md-6 col-xs-12">
+            <label class="historical__label">Monto a transferir</label>
+            <input
+              class="input-simple"
+              type="tel"
+              name="amountTransfer"
+              [(ngModel)]="transferAbroadDto.amount"
+              #amountTransfer="ngModel"
+              [maxLength]="22"
+              required
+              mask-money
+              appValidate="majorZero"
+              (ngModelChange)="showOriginAndDestinationFundsForm()"
+            />
+            <app-show-errors [control]="amountTransfer"></app-show-errors>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <label class="historical__label">Moneda del abono</label>
+            <select
+              class="input-simple"
+              [(ngModel)]="transferAbroadDto.currency"
+              name="currencyTransfer"
+              required
+              #currencyTransfer="ngModel"
+              disabled="disabled"
+              (ngModelChange)="showOriginAndDestinationFundsForm()"
+            >
+              <option
+                *ngFor="let item of currenciesTransfer"
+                value="{{ item.value }}"
+              >
+                {{ item.name }}
+              </option>
+            </select>
+            <app-show-errors [control]="currencyTransfer"></app-show-errors>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="col-md-6 col-xs-12">
+            <label class="historical__label">Importe de destino:</label>
+            <input
+              class="input-simple"
+              type="tel"
+              name="amountDestiny"
+              [(ngModel)]="transferAbroadDto.destinationAmount"
+              #amountDestiny="ngModel"
+              [maxLength]="22"
+              required
+              mask-money
+              appValidate="majorZero"
+              (ngModelChange)="showOriginAndDestinationFundsForm()"
+            />
+            <app-show-errors [control]="amountDestiny"></app-show-errors>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <label class="historical__label">Moneda de destino:</label>
+            <select
+              class="input-simple"
+              #fundDiv
+              [(ngModel)]="transferAbroadDto.destinationCurrency"
+              name="currencyDestiny"
+              (change)="handleCurrencyDestiny()"
+              #currencyDestiny="ngModel"
+              required
+              (ngModelChange)="showOriginAndDestinationFundsForm()"
+            >
+              <option
+                *ngFor="let item of currencies"
+                value="{{ item.currency }}"
+              >
+                {{ item.description }}
+              </option>
+            </select>
+            <app-show-errors [control]="currencyDestiny"></app-show-errors>
+          </div>
+        </div>
+
+        <div class="row margin">
+          <div class="col-md-12">
+            <div *ngIf="isShowOriginAndDestinationFundsForm">
+              <div class="transferencias__container-x2 all-width">
+                <label for="fundSource">Orígen de los fondos:</label>
+                <textarea
+                  class="transferencias__input--text all-width"
+                  type="text"
+                  [(ngModel)]="transferAbroadDto.fundSource"
+                  name="fundSource"
+                  required
+                  appValidate="repeatedCharacters"
+                  appOnlyType="alphanumericBasicSymbols"
+                  #fundSource="ngModel"
+                  minlength="15"
+                  maxlength="500"
+                  [disabled]="disabledAfterSave"
+                ></textarea>
+                <app-show-errors [control]="fundSource"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2 all-width">
+                <label for="fundDestination">Destino de los fondos:</label>
+                <textarea
+                  class="transferencias__input--text all-width"
+                  type="text"
+                  [(ngModel)]="transferAbroadDto.fundDestination"
+                  name="fundDestination"
+                  required
+                  appValidate="repeatedCharacters"
+                  appOnlyType="alphanumericBasicSymbols"
+                  #fundDestination="ngModel"
+                  minlength="15"
+                  maxlength="500"
+                  [disabled]="disabledAfterSave"
+                ></textarea>
+                <app-show-errors [control]="fundDestination"></app-show-errors>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row margin">
+          <div class="col-md-12 col-xs-12 transferencia-ext__description">
+            <label class="historical__label">Descripción</label>
+            <textarea
+              class="input-simple"
+              type="text"
+              name="description"
+              [(ngModel)]="transferAbroadDto.description"
+              [maxLength]="75"
+              #description="ngModel"
+              required
+              appOnlyType="otherAlphanumeric"
+              appValidate="otherAlphanumeric"
+              rows="5"
+              cols="40"
+            >
+            </textarea>
+            <app-show-errors [control]="description"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div class="row helpers__hidden-small">
+    <div class="col-md-12">
+      <div class="bar-route"></div>
+      <div class="historical__box">
+        <label class="historical__label">Descripción</label>
+        <input
+          class="input-simple"
+          type="text"
+          name="description"
+          [(ngModel)]="transferAbroadDto.description"
+          [maxLength]="75"
+          #description="ngModel"
+          required
+          [appOnlyType]="'otherAlphanumeric'"
+          rows="5"
+          cols="40"
+        />
+        <app-show-errors [control]="description"></app-show-errors>
+      </div>
+    </div>
+  </div>
+</form>
+<app-company-limits
+  [isVisible]="showCompanyLimits"
+  (onClose)="showCompanyLimits = false"
+></app-company-limits>

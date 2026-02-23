@@ -1,0 +1,41 @@
+import { TransferAbroadResult } from '../../transfers-abroad/models/transfer-abroad-result';
+import { TransferAbroadFrecuentResult } from './transfer-abroad-frecuent-result';
+
+export class TransferAbroadDetailResult extends TransferAbroadResult {
+    beneficiaryBusinessName!: string;
+    beneficiaryAddress!: string;
+    beneficiaryPhone!: string;
+    beneficiaryNumberAccount!: string;
+    beneficiaryPaymentConcept!: string;
+    beneficiaryDocumentNumber!: string;
+    beneficiaryDocumentType!: string;
+    beneficiaryCountryResidence!: string;
+    beneficiaryCityResidence!: string;
+    beneficiaryEmail!: string;
+    payerBankName!: string;
+    payerBankCodeSwift!: string;
+    payerBankAddress!: string;
+    payerBankCity!: string;
+    payerBankCountry!: string;
+    payerBankFullData!: string;
+    intermediaryBankName!: string;
+    intermediaryBankCodeSwift!: string;
+    intermediaryBankAddress!: string;
+    intermediaryBankCity!: string;
+    intermediaryBankCountry!: string;
+    intermediaryBankFullData!: string;
+    intermediaryBankNumberAccountPayer!: string;
+    requesterBusinessName!: string;
+    requesterAddress!: string;
+    requesterDocumentNumber!: string;
+    requesterPhone!: string;
+    requesterEmail!: string;
+    requesterNumberAccount!: string;
+    exchangeRate!: number;
+    override detailCharges: string='';
+    transferCategoryCode!: string;
+    transferCategory!: string;
+    transferReason!: string;
+    sourceAccountFormatted!: string;
+    transferAbroadFrecuentResult!: TransferAbroadFrecuentResult;
+}

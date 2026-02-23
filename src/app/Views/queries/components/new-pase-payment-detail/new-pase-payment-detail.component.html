@@ -1,0 +1,113 @@
+<div>
+    <div class="row transferencia-ext__card align-left">
+        <div class="col-md-6">
+            <h4 class="historical__h4">Detalle del lote</h4>
+            <div class="transferencias__box transferencia-ext__box">
+                <div class="transferencias__card card-destination align-left">
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Lote</p>
+                        <p class="home__card__item__small-value">{{detail.processBatchId}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Cuenta origen</p>
+                        <p class="home__card__item__small-value">{{detail.accountNumber}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Monto</p>
+                        <p class="home__card__item__small-value">{{detail.amount | number: '1.2-2'}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Moneda</p>
+                        <p class="home__card__item__small-value">{{detail.currency}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Servicio</p>
+                        <p class="home__card__item__small-value">{{ detail.serviceType}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="detail.comisionDetail.nameBill">
+                      <p class="home__card__item__small-title">Nombre de Factura</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.nameBill}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.nitFactura">
+                      <p class="home__card__item__small-title">NIT</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.nitFactura}}</p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" *ngIf="detail.comisionDetail.streetOrAvenue">
+          <h4 class="historical__h4">Dirección de la factura</h4>
+          <div class="transferencias__box transferencia-ext__box">
+              <div class="transferencias__card card-destination align-left" *ngIf="detail.isComission">
+                  <div class="home__card__item">
+                      <p class="home__card__item__small-title">{{detail.comisionDetail.isStreet ? 'Calle' : 'Avenida'}}</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.streetOrAvenue}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.zoneOrNeighborhood">
+                      <p class="home__card__item__small-title">Zona</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.zoneOrNeighborhood}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.number">
+                      <p class="home__card__item__small-title">Número</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.number}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.floorOrDepartament">
+                      <p class="home__card__item__small-title">Depto./Piso</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.floorOrDepartament}}</p>
+                  </div>
+                  <div class="home__card__item">
+                      <p class="home__card__item__small-title">Departamento</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.departament}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.batchOrCondominium">
+                      <p class="home__card__item__small-title">Lote</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.batchOrCondominium}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.province">
+                      <p class="home__card__item__small-title">Provincia</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.province}}</p>
+                  </div>
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.location">
+                      <p class="home__card__item__small-title">Localidad</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.location}}</p>
+                  </div>
+              </div>
+              <div class="transferencias__card card-destination align-left" *ngIf="!detail.isComission">
+                  <div class="home__card__item" *ngIf="detail.comisionDetail.streetOrAvenue">
+                      <p class="home__card__item__small-title">Dirección</p>
+                      <p class="home__card__item__small-value">{{detail.comisionDetail.streetOrAvenue}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>
+    <table class="cw-table table-striped"><caption></caption>
+        <thead>
+            <tr>
+                <th *ngIf="!isGenericPayment">Linea</th>
+                <th>Código</th>
+                <th *ngIf="!isGenericPayment">Cliente</th>
+                <th *ngIf="isGenericPayment">Información</th>
+                <th>Tipo de Pago</th>
+                <th *ngIf="!isGenericPayment">Periodo</th>
+                <th>Monto</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of detail.detail">
+                <td title="Linea" *ngIf="!isGenericPayment">{{item.line}}</td>
+                <td title="Código">{{item.parameters}}</td>
+                <td title="Cliente" *ngIf="!isGenericPayment">{{item.clientName}}</td>
+                <td title="Cliente" *ngIf="isGenericPayment">{{item.information}}</td>
+                <td title="Servicio">{{item.descriptionPayment}}</td>
+                <td title="Periodo" *ngIf="!isGenericPayment">{{item.paymentInformation}}</td>
+                <td title="Monto">{{item.amount | number: '1.1-2'}}</td>
+                <td title="Código">{{item.operationStatusId}}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  
+  

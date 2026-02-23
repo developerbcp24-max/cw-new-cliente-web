@@ -1,0 +1,167 @@
+<div class="row">
+    <div class="col-sm-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Solicitud de Modificaciones</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="historical__label"><strong>Anexo Full Acceso</strong></label>
+          <div class="transferencias__card align-left">
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Nombre o Razón Social</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.name}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">IDC</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.idc}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">E-mail</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.email}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Dirección</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.address}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Teléfono</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.phone}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+            <label class="historical__label"><strong>Datos Generales</strong></label>
+            <div class="transferencias__card align-left">
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Nro. de Autorizadores</p>
+                <p class="home__card__item__small-value">Actual: {{modificationData.companyInformations.authorizersNumber}}</p>
+                <p class="home__card__item__small-value" *ngIf="modificationData.isModification && modificationData.companyInformations.newAuthorizerNumber! > 0">
+                  Nuevo: {{modificationData.companyInformations.newAuthorizerNumber}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Nro. de Controladores</p>
+                <p class="home__card__item__small-value">Actual: {{modificationData.companyInformations.controllersNumber}}</p>
+                <p class="home__card__item__small-value" *ngIf="modificationData.isModification && modificationData.companyInformations.newControllerNumber! >0">
+                  Nuevo: {{modificationData.companyInformations.newControllerNumber}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Límite de la empresa (USD)</p>
+                <p class="home__card__item__small-value">Actual: {{modificationData.companyInformations.limit}}</p>
+                <p class="home__card__item__small-value" *ngIf="modificationData.isModification && modificationData.companyInformations.newLimit! >0">
+                  Nuevo: {{modificationData.companyInformations.newLimit}}</p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Usuarios</h4>
+      <div class="row">
+        <div class="col-md-10  col-sm-10">
+          <table class="cw-table table-striped"><caption></caption>
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Nombre Completo</th>
+                <th *ngIf="modificationData.newEmailLimit">Nuevo E-mail</th>
+                <th *ngIf="modificationData.newEmailLimit">Nuevo Límite</th>
+                <th *ngIf="modificationData.deleteUser">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of listUsers; let i = index" data-toggle="tooltip" data-placement="top" data-html="true">
+                <td>{{i +1 }}</td>
+                <td>{{row.fullName}}</td>
+                <td *ngIf="modificationData.newEmailLimit">{{row.newEmail}}</td>
+                <td *ngIf="modificationData.newEmailLimit">{{row.newLimit}}</td>
+                <td *ngIf="modificationData.deleteUser">{{row.status == 2?'ELIMINAR':''}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <app-pagination [totalItems]="totalItemsUsers" [maxSize]="pageItemsUsers"
+            (onChange)="handlePageChangedUsers($event)" [rowsPerPage]="rowsPerPageUsers"
+            (onChangeRowsPerPage)="handleViewRowsUsers($event)"></app-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="totalItemsRoles > 0">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Roles por Usuario</h4>
+      <div class="row">
+        <div class="col-md-10  col-sm-10">
+          <table class="cw-table table-striped"><caption></caption>
+            <thead>
+              <tr>
+                <th>Nombre de Cuenta</th>
+                <th>Consultor</th>
+                <th>Preparador</th>
+                <th>Controller</th>
+                <th>Autorizador</th>
+                <th>Operación</th>
+                <th>Nombre Usuario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of changesInformationPerPage" data-toggle="tooltip" data-placement="top"
+                data-html="true">
+                <td>{{row.account}}</td>
+                <td *ngFor="let role of row.roles" class="text-center">
+                    <label class="checkbox">
+                      <input type="checkbox" [disabled]="true" *ngIf="!role.isSelected" [checked]="role.status === 2 && !role.isSelected">
+                      <input type="checkbox" [disabled]="true" *ngIf="role.isSelected" [checked]="role.status === 2 && role.isSelected">
+                      <span class="check disabled"></span>
+                    </label>
+                </td>
+                <td>{{row.operationType}}</td>
+                <td>{{row.user}}</td>
+                <td>{{modificationData.isModification ? 'ELIMINADO' : 'ADICIONADO'}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <app-pagination [totalItems]="totalItemsRoles" [maxSize]="pageItemsRoles"
+            (onChange)="handlePageChangedRoles($event)" [rowsPerPage]="rowsPerPageRoles"
+            (onChangeRowsPerPage)="handleViewRowsRoles($event)"></app-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Autorizadores</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card card--padding-fix">
+          <div *ngFor="let authorizer of namesApprovers" class="home__card__item">
+            <p class="transferencia-ext__card__title">
+              {{authorizer.firstLastName}} {{authorizer.secondLastName}}, {{authorizer.names}}
+            </p>
+            <div>
+              <p class="transferencia-ext__card__title">{{authorizer.fullName}}</p>
+              <p class="transferencia-ext__card__value">{{authorizer.type}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-bar-route [isLast]="true"></app-bar-route>
+  <div class="row transferencia-ext__submit"><br>
+    <div class="col-md-2 col-sm-12">
+      <input type="button" class="button__principal button-next" [disabled]="isOperationSuccessful"
+        (click)="handleShowToken()" value="ACEPTAR">
+    </div>
+    <div class="col-md-2 col-sm-12">
+      <p class="historical__p--cancel"><a [routerLink]="['/operations/modification-request']">NUEVO</a></p>
+    </div>
+  </div>
+
+  <app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)"
+    (onClose)="isVisibleToken=false"></app-token-modal>

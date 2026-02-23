@@ -1,0 +1,9 @@
+<div class="row steps">
+    <div *ngFor="let step of steps; index as i" class="col-xs-{{col}}">
+      <div *ngIf="i+1!==steps.length" [ngClass]="'step-bar-success'"></div>
+      <div class="step">
+        <p>{{step.title}}</p>
+        <div [ngClass]="'button__principal-success'">{{i+1}}</div>
+      </div>
+    </div>
+  </div>

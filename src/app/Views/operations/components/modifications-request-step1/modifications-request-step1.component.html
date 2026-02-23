@@ -1,0 +1,116 @@
+<div class="row">
+    <div class="col-sm-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Solicitud de Modificaciones</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="historical__label"><strong>Anexo Full Acceso</strong></label>
+          <div class="transferencias__card align-left">
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Nombre o Razón Social</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.name}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">IDC</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.idc}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">E-mail</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.email}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Dirección</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.address}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Teléfono</p>
+              <p class="home__card__item__small-value">{{modificationData.companyInformations.phone}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-bar-route [isLast]="true"></app-bar-route>
+      <h4 class="historical__h4">Anexo</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-information">
+            <p> Como representantes legales del CLIENTE, al momento de realizar la autorización declaramos que conocemos y
+              aceptamos todos los términos y condiciones del CONTRATO DE AFILIACIÓN AL SERVICIO CREDINET WEB y asimismo el
+              presente ANEXO tiene el objeto de Modificar y Adicionar.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row"><br>
+        <div class="col-md-6">
+          <div class="historical__box">
+            <label class="historical__label"></label>
+            <div class="haberes__debit">
+              <label class="radio">
+                <input type="radio" name="type1" [(ngModel)]="modificationData.operation" [value]="true"
+                  (change)="handleChangeOperation()">
+                <span class="check-radio"></span>
+              </label>
+              <p>Modificar</p>
+              <label class="radio">
+                <input type="radio" name="type1" [(ngModel)]="modificationData.operation" [value]="false"
+                  (change)="handleChangeOperation()">
+                <span class="check-radio"></span>
+              </label>
+              <p>Adicionar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="isChangeAction">
+        <div class="col-md-6"><br>
+          <div class="historical__box">
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <label class="transferencias__label"> <strong>Datos Generales </strong></label>
+                <label class="transferencias__label"> Nro. de Autorizadores </label>
+                <label class="laber_modifications">{{modificationData.companyInformations.authorizersNumber}}</label>
+
+                <label class="transferencias__label"> Nro. de Controladores </label>
+                <label class="laber_modifications">{{modificationData.companyInformations.controllersNumber}}</label>
+
+                <label class="transferencias__label"> Límite de la empresa (USD): </label>
+                <label class="laber_modifications">{{modificationData.companyInformations.limit}}</label>
+              </div>
+              <div class="transferencias__container-x2" *ngIf="modificationData.isModification">
+                <form name="newDataForm" novalidate #newDataForm="ngForm" autocomplete="off">
+                  <label class="transferencias__label"><strong>Nuevo Valor </strong></label> <br>
+                  <input class="input-simple" type="text" name="authorize"
+                    [(ngModel)]="modificationData.newAuthorizerNumber" appOnlyType="integer"
+                    appValidate="integer" #authorize="ngModel" maxlength="2">
+                  <app-show-errors [control]="authorize"></app-show-errors>
+                  <label class="transferencias__label"><br></label>
+                  <input class="input-simple" type="text" name="controller"
+                    [(ngModel)]="modificationData.newControllerNumber" appOnlyType="integer"
+                    appValidate="integer" #controller="ngModel" maxlength="2">
+                  <app-show-errors [control]="controller"></app-show-errors>
+                  <label class="transferencias__label"><br></label>
+                  <input class="input-simple" type="text" name="limit"
+                    [(ngModel)]="modificationData.newLimit" appValidate="majorZero" #limit="ngModel"
+                   mask-money maxlength="11">
+                  <app-show-errors [control]="limit"></app-show-errors>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row transferencia-ext__submit mt-4"><br>
+    <div class="col-md-2 col-sm-12">
+      <input type="button" class="button__principal button-next" (click)="handleValidateForms()" value="SIGUIENTE">
+    </div>
+    <div class="col-md-2 col-sm-12">
+      <p class="historical__p--cancel"><a [routerLink]="['/operations/modification-request']">CANCELAR</a></p>
+    </div>
+  </div>

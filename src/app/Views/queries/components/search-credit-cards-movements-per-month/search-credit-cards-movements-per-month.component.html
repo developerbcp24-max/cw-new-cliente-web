@@ -1,0 +1,103 @@
+<div class="fluid-container">
+    <div class="row">
+      <div class="offset-md-1 col-md-10">
+        <app-bar-route></app-bar-route>
+
+        <h4 class="historical__h4">Detalle tarjeta de crédito</h4>
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Usuario:</p>
+            <p class="home__card__item__small-value">{{account?.userName}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Total Cargos:</p>
+            <p class="home__card__item__small-value">{{totalDebit || 0}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Cuenta:</p>
+            <p class="home__card__item__small-value">{{account?.accountNumber}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Total Abonos:</p>
+            <p class="home__card__item__small-value">{{totalCredit || 0}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Tipo:</p>
+            <p class="home__card__item__small-value">{{account?.typeAccount}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Estado:</p>
+            <p class="home__card__item__small-value">{{account?.estateAccount}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Moneda:</p>
+            <p class="home__card__item__small-value">{{account?.currency}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Disponible Actual:</p>
+            <p class="home__card__item__small-value">{{account?.availableBalance}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-md-1 col-md-11">
+        <app-bar-route [isLast]="true"></app-bar-route>
+        <h4 class="historical__h4">Seleccionar periodo</h4>
+        <div class="historical__box">
+          <div class="row historical__options-table">
+            <div class="col-md-6 col-sm-4">
+              <app-list-of-months [quantity]="numberOfMonths" [isOptionAllVisible]="true" [optionText]="'Filtrar por mes'" (onChange)="handleGetMonths($event)"></app-list-of-months>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input type="submit" class="button__principal historical__button-secondary" (click)="getMovements()" value="Actualizar Reporte" [disabled]="!isVisibleComponents">
+            </div>
+            <div class="col-md-2 col-sm-4">
+              <p class="historical__p--cancel"><a routerLink="/queries/creditCards">REGRESAR</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div *ngIf="isVisible">
+        <div class="row historical__options-table">
+          <div class="col-md-4">
+            <p class="historical__p">Total de operaciones en el periodo: {{totalMovements - 2}}</p>
+          </div>
+          <div class="col-md-3 offset-md-5" *ngIf="isVisible && !isVisibleComp">
+            <button class="button__principal historical__button-secondary" (click)="getReport()">
+              <span class="icon-Descargar icono-naranjo">
+              </span>Generar Reporte
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="cw-table table-striped"><caption></caption>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Glosa</th>
+                  <th>Tipo Movimiento</th>
+                  <th>Monto</th>
+                  <th>Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let movement of movements">
+                  <td>{{movement.dateMovement}}</td>
+                  <td>{{movement.glossMovement}}</td>
+                  <td>{{movement.typeMovement}}</td>
+                  <td>{{movement.amountMovement}}</td>
+                  <td>{{movement.balanceMovement}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <app-pagination [totalItems]="totalMovements" [isCenter]="true" [maxSize]="pageItems" [rowsPerPage]="rowsPerPage" (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+    <br>
+    <app-information-panel [message]="'No existen operaciones en el periodo.'" [type]="'attention'" [visible]="tableFlag"></app-information-panel>
+  </div>

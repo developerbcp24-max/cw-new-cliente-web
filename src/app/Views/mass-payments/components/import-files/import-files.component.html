@@ -1,0 +1,217 @@
+<fieldset [disabled]="disabled"><legend></legend><br>
+    <div class="col-md-12">
+      <div class="row haberes__destination-examine">
+        <div class="col-md-6">
+          <div class="historical__box">
+            <label class="historical__label">Selecciona archivo</label>
+            <div>
+              <label for="file-upload" class="button__secondary custom-file-upload col-md-3">
+                EXAMINAR
+              </label>
+              <input id="file-upload" type="file" (change)="onFileChange($event); changeEventLogImport(1)" />
+              <span class="spantext">{{nameFile}}</span>
+            </div>
+            <br>
+          </div>
+        </div>
+        <div class="col-md-6 transferencia-ext__text-info haberes_text-info">
+          <div class="bar-route helpers__show-small"></div>
+          <div class="bar"></div>
+          <p>
+            Si tiene un archivo con la planilla, puedes cargarlo, el archivo tiene que tener formato
+            txt.
+          </p>
+          <p>Seleccione que tipo de archivo de ejemplo desea descargar</p>
+          <ng-container [ngSwitch]="operationType">
+            <div class="historical__p--cancel" *ngSwitchCase="24">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProv_ACH.zip" (click)="changeEventLogImport(3)"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PRO_OTR_ACH20090508155405.zip" (click)="changeEventLogImport(4)"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="25">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProv_EFE.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PRO_EFE20060727091950.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="26">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProv_CHG.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PRO_CHG20060727091926.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="46">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProv_CHG.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PRO_CHG20060727091926.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="27">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProv_OTR.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PRO_OTR20060727092006.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="28">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PlanillaPagoImpuestosCheque.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PlanillaPagoImpuestosChequeTexto.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="29">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PlanillaACHOrdenesDebito.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PlanillaACHOrdenesDebitoTexto.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="8">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoHaberes.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_HAB20060727091819.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="16">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProveedoresAC.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PROV20060727091902.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="17">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/ConfiguracionPagoFavoritos.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/ConfiguracionPagoFavoritosTexto.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="20">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoMasivoMultipleExcel.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PagoMasivoMultipleTexto.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoMasivoMultipleExcel_v2.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato ' , ')</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PagoMasivoMultipleTexto_v2.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="23">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PlanillaPagoFavoritos.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PlanillaPagoFavoritosTexto.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="41">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoProv_EFE.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_PRO_EFE20060727091950.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+            <div class="historical__p--cancel" *ngSwitchCase="45">
+              <div class="col-md-6">
+                <div class="row">
+                  <a href="assets/guias/PagoSOLI.zip"><em class="fas fa-download"></em>
+                    Archivo EXCEL (Formato XML)</a>
+                </div>
+                <div class="row">
+                  <a href="assets/guias/PLA_SOLI20220221163604.zip"><em class="fas fa-download"></em>Archivo
+                    TXT</a>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row  helpers__hidden-small" *ngIf="isValid">
+        <div class="col-md-3">
+          <button class="button__principal" (click)="handleSendFile(); changeEventLogImport(2)">CARGAR PLANILLA</button>
+        </div>
+        <div class="col-md-4 col-md-6 transferencia-ext__text-info haberes_text-info ">
+          <div class="bar"></div>
+          <p>Seleccione cargar la planilla para ver la grilla</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>

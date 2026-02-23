@@ -1,0 +1,9 @@
+{
+  "server": "CERCWM10",
+  "port": "443",
+  "runner": "runner_certification_group1",
+  "appName": "Default Web Site",
+  "projectName": "cw-new-cliente-web",
+  "virtualPath": "/",
+  "env_suffix": "cert"
+}

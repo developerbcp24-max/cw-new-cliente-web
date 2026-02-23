@@ -1,0 +1,24 @@
+<div class="h-full flex flex-col justify-center items-center">
+  <h1 class="onboarding-font text-2xl font-bold text-center mb-5">
+    ¿Tienes una cuenta corriente en BCP?
+  </h1>
+  <div class="onboarding-font flex flex-col gap-4 w-full max-w-xs">
+    <button
+      type="button"
+      (click)="newRegister()"
+      mat-dialog-close
+      class="px-4 py-2 bg-[#2a91a8] text-white rounded hover:bg-[#153F7B] transition-colors"
+    >
+      Tengo una cuenta corriente/ahorro
+    </button>
+    <a
+      href="https://www.bcp.com.bo/cuentaDigitalEmpresas"
+      target="_blank"
+      rel="noopener"
+      mat-dialog-close
+      class="px-4 py-2 bg-white text-[#153F7B] border border-[#153F7B] rounded hover:bg-gray-100 transition-colors text-center"
+    >
+      No tengo una cuenta corriente/ahorro
+    </a>
+  </div>
+</div>

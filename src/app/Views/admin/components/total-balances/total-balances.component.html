@@ -1,0 +1,16 @@
+<div class="col-md-12">
+  <div class="home__container-data helpers__hide-medium">
+    <div class="home__data">
+      <p class="home__data__value">{{numberAccounts}}</p>
+      <p class="home__data__detail">Cuentas</p>
+    </div>
+    <div class="home__data" *ngIf="totalBol">
+      <p class="home__data__value">{{totalBol| number: '1.2-2'}} Bs</p>
+      <p class="home__data__detail">Total en bolivianos</p>
+    </div>
+    <div class="home__data" *ngIf="totalUsd">
+      <p class="home__data__value">{{totalUsd| number: '1.2-2'}} Dólares</p>
+      <p class="home__data__detail">Total en dólares</p>
+    </div>
+  </div>
+</div>

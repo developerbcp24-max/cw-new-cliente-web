@@ -1,0 +1,15 @@
+.register-mobile-tab {
+  width: 101px;
+  height: 55px;
+  background-color: #f2f4f8;
+  color: #32335c;
+  border-radius: 16px;
+  font-family: "Flexo";
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.register-mobile-tab.active {
+  background-color: #34b1cf !important;
+  color: white !important;
+}

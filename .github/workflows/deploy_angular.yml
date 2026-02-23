@@ -1,0 +1,88 @@
+name: Deploy Angular Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Entorno destino'
+        required: true
+        type: choice
+        options:
+          - DESARROLLO
+          - CERTIFICACION
+          - PRODUCCION
+      version:
+        description: 'Versión del Artefacto (ej: 12.01.2026.1)'
+        required: false
+
+jobs:
+  load_config:
+    runs-on:
+      group: runner_build_group1
+    outputs:
+      appName: ${{ steps.get_config.outputs.appName }}
+      projectName: ${{ steps.get_config.outputs.projectName }}
+      server: ${{ steps.get_config.outputs.server }}
+      port: ${{ steps.get_config.outputs.port }}
+      runner: ${{ steps.get_config.outputs.runner }}
+      virtualPath: ${{ steps.get_config.outputs.virtualPath }}
+      env_suffix: ${{ steps.get_config.outputs.env_suffix }}
+    steps:
+      - name: Validate Branch
+        uses: BCP-BOL-TI-WORKFLOWS/reusable-custom-action/.github/actions/validatebranch@main
+        with:
+          branch: ${{ github.ref_name }}
+          allowedBranch: ${{ inputs.environment == 'DESARROLLO' && 'feature,develop' || 'main' }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Cargar config de entorno
+        id: get_config
+        uses: BCP-BOL-TI-WORKFLOWS/reusable-custom-action/.github/actions/readjsonconfig@main
+        with:
+          environment: ${{ inputs.environment }}
+          json-dir: '.github/workflows/env'
+          repo_name: ${{ github.event.repository.name }}
+
+  approvers:
+    needs: [load_config]
+    uses: BCP-BOL-TI-WORKFLOWS/reusable-workflow-templates/.github/workflows/flow_approvers_template.yml@main
+    with:
+      target_environment: ${{ inputs.environment }}
+      runner: ${{ needs.load_config.outputs.runner }}
+
+  set-version:
+    needs: [load_config, approvers]
+    runs-on:
+      group: runner_build_group1
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Get Latest Version
+        if: ${{ inputs.version == '' }}
+        id: get_version
+        uses: BCP-BOL-TI-WORKFLOWS/reusable-custom-action/.github/actions/setversion@main
+        with:
+          path-artefactos: ${{ vars._V_PATH_ARTEFACTOS_RUNNER_BUILDS }}
+          prefix-carpeta: ${{ format('{0}-{1}', github.event.repository.name, needs.load_config.outputs.env_suffix) }}
+
+      - name: Show obtained version
+        if: ${{ inputs.version == '' }}
+        run: echo "Versión encontrada:${{ steps.get_version.outputs.version }}"
+
+  deploy-iis:
+    needs: [load_config, approvers, set-version]
+    uses: BCP-BOL-TI-WORKFLOWS/reusable-workflow-templates/.github/workflows/deploy_webapi_site_template.yml@main
+    with:
+      entorno: ${{ inputs.environment }}
+      runner: ${{ needs.load_config.outputs.runner }}
+      nombre-base: ${{ format('{0}-{1}', github.event.repository.name, needs.load_config.outputs.env_suffix) }}
+      nombre-site: ${{ needs.load_config.outputs.appName }}
+      version: ${{ inputs.version || needs.set-version.outputs.version }}
+      nombre-servidor: ${{ needs.load_config.outputs.server }}
+      nombre-proyecto: ${{ needs.load_config.outputs.projectName }}
+      puerto-base: ${{ needs.load_config.outputs.port }}
+      virtual-path: '' #${{ needs.load_config.outputs.virtualPath }}
+      start-apppool: true
+      apppool-identity-type: 'ApplicationPoolIdentity'
+      replacement-json: 'NO_JSON_CONFIG'
+    secrets: inherit

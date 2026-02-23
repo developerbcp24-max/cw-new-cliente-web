@@ -1,0 +1,32 @@
+<div class="row historical__authorizers helpers--margin-bottom-A" *ngIf="detailElfec">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Selecciona periodos de deuda</h4>
+      <div class="row haberes__destination-info bottom-space">
+        <div class="col-md-12">
+          <div class="row card-info ach__card-info">
+            <div class="col-md-3">
+              <p class="text-big">{{amount | number:'1.1-2'}} Bs.</p>
+              <p class="text-small">Monto</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="historical__box historical__account-box">
+        <label class="historical__label">Empiece por la deuda más antigua</label>
+        <div class="row">
+          <div *ngFor="let debtDetail of detailElfec.quotas" class="col-md-4 authorizers">
+            <label class="checkbox checkbox--margin">
+              <input type="checkbox" [(ngModel)]="debtDetail.selected" [disabled]="true">
+              <span class="check"></span>
+            </label>
+            <div>
+              <p class="authorizers-name">{{debtDetail.amount | number: '1.1-2'}} BOLIVIANOS</p>
+              <p class="authorizers-limit">Fecha de Vencimiento: {{debtDetail.expirationDate | date:'dd-MM-yyyy h:mm:ss a'}}</p>
+              <p class="authorizers-limit">{{debtDetail.message}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

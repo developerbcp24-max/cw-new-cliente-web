@@ -1,0 +1,282 @@
+<div class="alert alert-information">
+    <strong>Número de Tarjeta : </strong> {{ claimRequestDto.cardNumber}}
+</div>
+
+<div class="col-md-12">
+    <app-information-panel
+        [message]="'En el plazo de cinco (5) días hábiles administrativos a partir del día de mañana, usted recibirá la carta de respuesta a su reclamo a través del medio que haya requerido o puede apersonarse por la Entidad Financiera a recoger su respuesta.'"
+        [type]="'attention'" [visible]="true"></app-information-panel>
+</div>
+
+<form name="claimForm" novalidate #claimForm="ngForm" autocomplete="off">
+    <div class="row">
+        <div class="col-md-12">
+            <app-bar-route></app-bar-route>
+            <h4 class="historical__h4">Datos Personales</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="historical__box">
+                        <div class="transferencias__flex">
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Departamento </label>
+                                <select name="department" class="select-account input-simple"
+                                    [(ngModel)]="claimRequestDto.department">
+                                    <option *ngFor="let claimDepartment of claimDepartments"
+                                        [ngValue]="claimDepartment.code">
+                                        {{claimDepartment.description}}</option>
+                                </select>
+                                <label class="transferencias__label"> Dirección Domicilio</label>
+                                <input class="input-simple" type="text" name="address_" [(ngModel)]="address"
+                                    #address_="ngModel" appOnlyType="alphanumericAddress"
+                                    appValidate="alphanumericAddress" required autocomplete="off">
+                                <app-show-errors [control]="address_"></app-show-errors>
+                            </div>
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Teléfono </label>
+                                <input class="input-simple" type="text" name="phone" [(ngModel)]="claimRequestDto.phone"
+                                    #phone="ngModel" appOnlyType="integer" maxlength="8" required autocomplete="off">
+                                <app-show-errors [control]="phone"></app-show-errors>
+                                <label class="transferencias__label"> Nro. </label>
+                                <input class="input-simple" type="text" name="number" [(ngModel)]="numberAddres"
+                                    #number="ngModel" appOnlyType="integer" maxlength="8" required autocomplete="off">
+                                <app-show-errors [control]="number"></app-show-errors>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="historical__box">
+                        <div class="transferencias__flex">
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Celular </label>
+                                <input class="input-simple" type="text" name="cellPhone"
+                                    [(ngModel)]="claimRequestDto.cellPhone" #cellPhone="ngModel" appOnlyType="integer"
+                                    maxlength="8" required autocomplete="off">
+                                <app-show-errors [control]="cellPhone"></app-show-errors>
+                                <label class="transferencias__label"> Fax </label>
+                                <input class="input-simple" type="text" name="fax" [(ngModel)]="claimRequestDto.fax"
+                                    #fax="ngModel" appOnlyType="alphanumeric" appValidate="alphanumeric" maxlength="20"
+                                    autocomplete="off">
+                            </div>
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Teléfono Laboral </label>
+                                <input class="input-simple" type="text" name="workPhone"
+                                    [(ngModel)]="claimRequestDto.workPhone" #workPhone="ngModel" appOnlyType="integer"
+                                    maxlength="8" autocomplete="off">
+                                <label class="transferencias__label"> Celular Laboral </label>
+                                <input class="input-simple" type="text" name="workCellPhone"
+                                    [(ngModel)]="claimRequestDto.workCellPhone" #workCellPhone="ngModel"
+                                    appOnlyType="integer" maxlength="8" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=""></div><br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="historical__box">
+                        <form name="descriptionForm" novalidate #descriptionForm="ngForm" autocomplete="off">
+                            <fieldset [disabled]="disabled"><legend></legend><br>
+                                <div class="haberes__debit">
+                                    <label class="transferencias__label"> Envio de Respuesta vía: </label><br>
+                                    <div class="haberes__debit">
+                                        <label class="radio">
+                                            <input type="radio" name="radioCheck" [value]="1" (change)="getChecking(1)">
+                                            <span class="check-radio"></span>
+                                        </label>
+                                        <p>Generado en Línea</p>
+                                        <label class="radio">
+                                            <input type="radio" name="radioCheck" [value]="2" (change)="getChecking(2)">
+                                            <span class="check-radio"></span>
+                                        </label>
+                                        <p>SMS</p>
+                                        <label class="radio">
+                                            <input type="radio" name="radioCheck" [value]="3" (change)="getChecking(3)">
+                                            <span class="check-radio"></span>
+                                        </label>
+                                        <p>Correo Elecrónico</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="isVisibleEmails">
+                                    <label class="transferencias__label"> Correo Electrónico </label>
+                                    <input class="input-simple" type="text" name="email"
+                                        [(ngModel)]="claimRequestDto.email" #email="ngModel" appValidate="emailOptional"
+                                        autocomplete="off">
+                                    <label class="transferencias__label"> Confirmar correo electrónico </label>
+                                    <input class="input-simple" type="text" name="emails"
+                                        [(ngModel)]="emailConfirmation" #emails="ngModel" appValidate="emailOptional"
+                                        autocomplete="off">
+                                    <div *ngIf="isValidEmail"><br>
+                                        <app-information-panel
+                                            [message]="'El correo electrónico no coincide con el correo de confirmación.'"
+                                            [type]="'attention'"></app-information-panel>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <app-source-accounts [accountRequest]="accountRequest" [defaultAccount]="claimRequestDto.sourceAccountId"
+                [disabled]="disabled" (onChange)="handleAccountChanged($event)" #sourceAccount></app-source-accounts>
+        </div>
+        <div class="col-md-12">
+            <app-bar-route></app-bar-route>
+            <h4 class="historical__h4">Producto</h4>
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="historical__box">
+                        <label class="transferencias__label"> Tipo de Producto </label>
+                        <select name="productName" class="select-account input-simple"
+                            [(ngModel)]="productTypesSelected" (ngModelChange)="handleChange($event);">
+                            <option *ngFor="let productType of productTypes" [ngValue]="productType">
+                                {{productType.description}}</option>
+                        </select>
+                        <div class="transferencias__flex">
+                            <div class="transferencias__container-x2">
+                                <div class="haberes__debit">
+                                    <label class="transferencias__label">Tipo </label>
+                                    <label class="radio">
+                                        <input name="radio" type="radio" (click)="handleChangeChecked($event,'REC')"
+                                            [checked]="true">
+                                        <span class="check-radio"></span>
+                                    </label>
+                                    <p>Reclamo</p>
+                                    <label class="radio">
+                                        <input name="radio" type="radio" (click)="handleChangeChecked($event,'CONS')">
+                                        <span class="check-radio"></span>
+                                    </label>
+                                    <p>Consulta</p>
+                                </div>
+                            </div>
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Tipo de Reclamo</label>
+                                <select name="codeBranch" class="select-account input-simple" [(ngModel)]="serviceValue"
+                                    (ngModelChange)="handleChangeClaimType($event);" #serviceName="ngModel" required>
+                                    <option value="">(seleccionar)</option>
+                                    <option *ngFor="let claimType of claimTypes" [ngValue]="claimType">
+                                        {{claimType.description}}</option>
+                                </select>
+                                <app-show-errors [control]="serviceName"></app-show-errors>
+                            </div>
+                        </div>
+                        <div class="transferencias__flex" *ngIf="showAmountCurrency">
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Monto Transacción </label>
+                                <input class="input-simple" type="text" name="amount"
+                                    [(ngModel)]="claimRequestDto.amountClaim" #amount="ngModel" required mask-money
+                                    [appMaxLength]=16 appOnlyType="majorZero" appValidate="majorZero">
+                            </div>
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Moneda </label>
+                                <select class="select-account input-simple" name="currency"
+                                    [(ngModel)]="claimRequestDto.currencyClaim" required #currency="ngModel">
+                                    <option *ngFor="let item of currencies" value="{{item.value}}">{{item.name}}
+                                    </option>
+                                </select>
+                                <app-show-errors [control]="currency"></app-show-errors>
+                            </div>
+                        </div>
+                        <div class="transferencias__flex" *ngIf="showDate">
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Fecha Transacción </label>
+
+                                <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+                                    <mat-label>Fecha Transacción </mat-label>
+                                    <input name="dateClaims" locale="es" [(ngModel)]="dateClaim" locale="es" required
+                                        matInput [matDatepicker]="dateClaims"
+                                        (dateChanged)="handleChangeDP($event)">
+                                    <mat-datepicker-toggle matSuffix [for]="dateClaims"></mat-datepicker-toggle>
+                                    <mat-datepicker #dateClaims></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="transferencias__container-x2">
+                                <label class="transferencias__label"> Hora Transacción </label>
+                                <input class="input-simple" value="00:00" type="time" name="transactionTimes"
+                                    [(ngModel)]="transactionTime" #transactionTimes="ngModel" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="historical__box">
+                        <label class="transferencias__label"> Sucursal </label>
+                        <select name="code" class="select-account input-simple"
+                            [(ngModel)]="claimRequestDto.branchOffice">
+                            <option *ngFor="let item of constants.branchOfficesNational" [ngValue]="item.value">
+                                {{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-information-panel [visible]="validateAmount" [message]="'El monto debe ser mayor a 0.'"
+            [type]="'attention'"></app-information-panel>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <app-bar-route></app-bar-route>
+            <h4 class="historical__h4">Descripción de Reclamo</h4>
+            <div class="historical__box">
+                <label class="transferencias__label"> Descripción </label>
+                <textarea class="form-control" type="text" name="description"
+                    [(ngModel)]="claimRequestDto.descriptionClaim" required appOnlyType="alphanumeric"
+                    appValidate="alphanumeric" #description="ngModel" autocomplete="off"></textarea>
+                <small class="form-text">La descripción de su reclamo o consulta debe ser extensa y completa para poder
+                    ser
+                    atendida correctamente.</small>
+                <app-show-errors [control]="description"></app-show-errors>
+            </div>
+        </div>
+    </div>
+</form>
+<app-approvers-and-controllers [disabled]="isDisabledForm" [approversRequest]="claimRequestDto"
+    [currency]="claimRequestDto.currency" (onChange)="handleApproversAndControllersChanged($event)"
+    [isAdministrative]="true" #approversAndControllers>
+</app-approvers-and-controllers>
+
+<div class="transferencia-ext__submit row mt-4">
+    <div class="col-md-3">
+        <button class="button__principal historical__button-secondary" (click)="handleValidate(sourceAccount.handleValidate()!,approversAndControllers.handleValidate(),
+            approversAndControllers.validateApproversLimit())">ACEPTAR</button>
+    </div>
+    <div class="col-md-2">
+        <button class="button__secondary historical__button-secondary button-program"
+            [routerLink]="['/operations/claimRequest']">
+            <em class="fas fa-file"></em> NUEVO
+        </button>
+    </div>
+</div>
+
+<app-modal [visible]="isRemoveModalVisible" (onClose)="isRemoveModalVisible=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12"> Operación Realizada </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+        Estimado cliente, su operación ha sido enviada satisfactoriamente su lote es: {{numProcesBatch}}.<br>
+        Le informamos que el código de su caso ingresado es: <br>{{letterNumber}}
+
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+        <button type="button" class="btn btn-primary" (click)="handleReturn()">Aceptar</button>
+    </div>
+</app-modal>
+
+<app-token-modal  [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)" (onClose)="isVisibleToken=false">
+</app-token-modal>
+
+<app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente </div>
+    <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con
+        fondos suficientes al
+        momento de realizar la autorización.</div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+            <button class="button__principal modal__button"
+                (click)="excedeedAmount=false; isVisibleToken=false;">Aceptar</button>
+        </div>
+    </div>
+</app-modal>

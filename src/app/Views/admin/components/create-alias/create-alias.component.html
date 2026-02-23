@@ -1,0 +1,80 @@
+<form name="form" class="space-y-6" (ngSubmit)="f.valid && register()" #f="ngForm" novalidate autocomplete="off">
+	<div class="form-group">
+		<div class="w-full">
+			<div class="login--containerb-a">
+				<h5 class="login__h7">¿Qué es el alias y para qué sirve?</h5>
+					<div class="bg-blue-50 text-blue-800 text-sm p-3 rounded-md border border-blue-200">
+						<h5 class=" text-justify">
+							El alias reemplazará a tu número de acceso de 16 dígitos. Una vez creado, podrás ingresar a la plataforma con
+							tu alias y contraseña. </h5>
+		</div>
+
+
+		<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+	</div>
+	</div>
+	</div>
+	<div class="form-group">
+		<ng-container *ngIf="!currentUrl">
+			<div class="form-group">
+				<div class="login__password-container">
+					<label class="radio">
+						<input class="w-full border border-gray-300 rounded-md shadow-sm p-2 pr-10 focus:ring-blue-500 focus:border-blue-500" type="radio" name="radioText" [checked]="radioSelected==='alias'"
+							(click)="handleRadio('alias')">
+						<span class="check-radio"></span>
+					</label>
+					<input name="userAlias" class="w-full border border-gray-300 rounded-md shadow-sm p-2 pr-10 focus:ring-blue-500 focus:border-blue-500" required #userAlias="ngModel"
+						type="{{visibleConfirmPass?'text':'password'}}" [(ngModel)]="newUserAlias.userAlias"
+						(click)="handleRadio('alias')" validateEqual="newPassword" #txtAlias minlength="8" maxlength="12"
+						appOnlyType="alphanumericBasicSymbolsLogin" appValidate="userAlias" placeholder="Ingresa tu nuevo alias" />
+					<p *ngIf="visibleConfirmPass"><a (click)="showHideConfirmPassword()"><em class="fa fa-eye"></em></a></p>
+					<p *ngIf="!visibleConfirmPass"><a (click)="showHideConfirmPassword()"><em class="fa fa-eye-slash"></em></a>
+				</div>
+				<div class="form-group errors">
+					<p class="list__error" [hidden]="userAlias.valid"><em class="fas fa-times-circle"></em> Debe ser Alias Valido
+					</p>
+					<app-show-errors [control]="userAlias"></app-show-errors>
+				</div>
+			</div>
+		</ng-container>
+		<ng-container *ngIf="currentUrl">
+			<div class="form-group">
+				<div class="flex flex-1 relative mt-1">
+					<label class="radio mt-2 mx-2">
+					<input class="form-check-input" type="radio" name="radioText" [checked]="radioSelected==='alias'"
+						(click)="handleRadio('alias')">
+					<span class="check-radio"></span>
+					</label>
+						<input name="userAlias" class="w-full border border-gray-300 rounded-md shadow-sm p-2 pr-10 focus:ring-blue-500 focus:border-blue-500" required #userAlias="ngModel"
+						type="{{visibleConfirmPass?'text':'password'}}" [(ngModel)]="newUserAliasPass.userAlias"
+						(click)="handleRadio('alias')" validateEqual="newPassword" #txtAlias minlength="8" maxlength="12"
+						appOnlyType="alphanumericBasicSymbolsLogin" appValidate="userAlias" placeholder="Ingresa tu nuevo alias" />
+
+						<div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" (click)="showHideConfirmPassword()">
+              <svg width="25" height="15" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.0833 11.4L18.9208 6.9852M12.5 13.35V8.8M2.91667 11.4L6.0715 6.9956M1 1C5.6 11.4 19.4 11.4 24 1" stroke="#53607E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+			      </div>
+				</div>
+				<div class="form-group errors">
+					<p class="list__error" [hidden]="userAlias.valid"><em class="fas fa-times-circle"></em> El Alias debe ser único
+					</p>
+					<app-show-errors [control]="userAlias"></app-show-errors>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+	<div class="keyboard-text" (click)="handleShowKeyboard()">
+		<p><em class="fas fa-keyboard text-primary"></em></p>
+		<p class="login__checkbox-p text-primary">Teclado Virtual</p>
+	</div>
+	<div class="col-sm-12 keyboard-content">
+		<app-virtual-path *ngIf="isVisibleKeyboard" (onKeyChange)="handleKeyChange($event)"></app-virtual-path>
+	</div>
+	<div class="flex justify-center">
+		<button type="submit" class="btn-new-primary cursor-pointer" [disabled]="!f.valid">Aceptar</button>
+	</div>
+</form>
+<div class="text-center mt-4">
+	<p class="login__p--password"><a class="login__a--password" routerLink="/login">CANCELAR</a></p>
+</div>

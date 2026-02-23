@@ -1,0 +1,14 @@
+<div class="historical__box">
+    <div class="haberes__debit">
+      <label class="radio">
+        <input type="radio" name="filterType" [value]="'send'" [(ngModel)]="filterType" (change)="handleChangeFilter()">
+        <span class="check-radio"></span>
+      </label>
+      <p>Enviadas</p>
+      <label class="radio">
+        <input type="radio" name="filterType" [value]="'received'" [(ngModel)]="filterType" (change)="handleChangeFilter()">
+        <span class="check-radio"></span>
+      </label>
+      <p>Recibidas</p>
+    </div>
+  </div>

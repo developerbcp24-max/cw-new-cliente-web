@@ -1,0 +1,15 @@
+<div class="login__virtual-keyboard">
+  <div class="login__keyboard-row" *ngFor="let columnKey of keyboard">
+    <ng-container *ngFor="let key of columnKey">
+      <ng-container [ngSwitch]="key[select]">
+        <button *ngSwitchCase="'shift'" (click)="handleKeyPress(key[select])">
+          <em class="fas fa-arrow-up"></em>
+        </button>
+        <button *ngSwitchCase="'back'" (click)="handleKeyPress(key[select])">
+          <em class="fas fa-arrow-left"></em>
+        </button>
+        <button *ngSwitchDefault (click)="handleKeyPress(key[select])">{{key[select]}}</button>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

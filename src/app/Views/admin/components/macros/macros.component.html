@@ -1,0 +1,27 @@
+<div>
+  <h2 class="manuales-texto-op2 text-gray-800 mb-4">Macros</h2>
+  <p class="manuales-texto mb-4">Encuentra las nuevas macros para cargar tus pagos de una manera más rápida y sencilla.
+  </p>
+  <!-- Grid de macros paginados -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 px-4">
+    <div *ngFor="let macro of paginatedMacros"
+      class="bg-[#F2F4F8] p-4 rounded-xl shadow-md flex flex-col justify-end transform -translate-x-5">
+      <!-- Footer con dos columnas -->
+      <div class="flex justify-between items-end mt-2">
+        <div class="flex flex-col my-1 flex-1 pr-3 items-start text-left">
+          <p class="text-gray-700 manuales-texto">{{ macro.nombre }}</p>
+          <button (click)="downloadMacro(macro)"
+            class="text-blue-600 hover:underline manuales-texto bg-transparent border-none cursor-pointer p-0 mt-1">
+            Descargar
+          </button>
+        </div>
+        <!-- Columna derecha (botón/SVG) -->
+        <div class="flex-shrink-0">
+          <img class="cursor-pointer" src="assets/svgs/icon_download.svg" alt="icon_download "
+            (click)="downloadMacro(macro)">
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

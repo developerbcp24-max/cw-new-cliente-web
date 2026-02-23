@@ -1,0 +1,332 @@
+<div
+  class="bg-[#F3F6FB] w-full lg:h-screen flex flex-col lg:flex-row relative max-w-screen-3xl mx-auto overflow-hidden">
+  <app-container class="hidden lg:block absolute top-0 left-0 w-full h-full z-0"></app-container>
+  <app-mobile-container class="block lg:hidden absolute top-0 left-0 w-full h-full z-0"></app-mobile-container>
+  <!-- Header Desktop -->
+  <app-header class="hidden lg:block absolute top-4 xl:top-8 inset-x-0 z-20 mb-0.5 px-4 xl:px-8"></app-header>
+  <!-- Header Mobile -->
+  <app-header
+    class="bg-[#F3F6FB] block lg:hidden absolute top-4 left-1/2 w-full max-w-screen-md -translate-x-1/2 z-20 mb-2.5 px-4"></app-header>
+  <!-- Contenedor de las dos columnas con posición fija pero dentro del layout -->
+  <div class="flex flex-col lg:flex-row w-full h-full max-w-[1718px] mx-auto">
+    <!-- Columna izquierda - Visible en mobile arriba, lado izquierdo en desktop -->
+    <div class="flex w-full lg:w-1/2 relative p-4 md:p-8 lg:p-16 xl:p-18 flex-col justify-center items-start text-white z-10
+            lg:mt-[11vh] xl:mt-[1vh] 3xl:mt-[20vh] pb-8 lg:pb-32 mt-20">
+      <div class="mx-16 max-w-lg xl:max-w-xl">
+        <div class="mb-4 lg:mb-8 -mt-2 lg:-mt-4 xl:-mt-4">
+          <h1 class="tittle-compani-2 mt-2 mb-3 lg:mb-4">Bienvenido a <br> <br><span
+              class="tittle-compani-3">Credinet<span class="tittle-compani-4">Web</span> </span></h1>
+          <p class="text-parrafo-1 mt-2 lg:mt-4">
+            La plataforma <strong>empresarial</strong> exclusiva para nuestros clientes, en
+            la cual podrás realizar operaciones y consultas 100% digitales.
+          </p>
+
+        </div>
+        <div class="mb-4 lg:mb-6 space-y-2 lg:space-y-3 invisible">
+          <p class="text-account-1">¿Ya tienes una cuenta corriente/ahorro?</p>
+          <p class="text-affiliation-1">¿Quieres afiliar tu empresa a <span>CredinetWeb</span>?</p>
+          <button class="btn-affiliation cursor-pointer mt-1 lg:mt-2" (click)="openDialog()">
+            Afiliar a mi empresa
+          </button>
+        </div>
+        <div class="space-y-2 lg:space-y-3">
+          <p class="text-affiliation-1">
+            ¿Ya afiliaste tu empresa a <span>CredinetWeb</span>?
+          </p>
+
+          <button class="btn-new-secondary cursor-pointer mt-2 lg:mt-4" (click)="routerLinkGo()">
+            Crear contraseña
+          </button>
+        </div>
+      </div>
+      <!-- SVG secure -->
+      <div class="bg-white mt-4 lg:mt-8 w-fit -ml-8 md:-ml-16 lg:-ml-24 xl:-ml-28 3xl:-ml-32 cursor-pointer invisible"
+        (click)="urlSecure()">
+        <img src="assets/svgs/secure.svg" alt="" class="w-[150px] lg:w-[180px] h-[64px] lg:h-[77px]">
+      </div>
+    </div>
+    <!-- Columna derecha - Contenedor principal del formulario - Ocupa todo el ancho en mobile -->
+    <div class="w-full lg:w-1/2 flex flex-col min-h-[50vh] lg:min-h-0">
+      <!-- Formulario -->
+      <div
+        class="flex-1 p-3 md:p-8 flex flex-col justify-start items-center z-10 mt-2 lg:mt-[15vh] xl:mt-[18vh] 3xl:mt-[30vh] pb-8 lg:pb-32">
+        <div
+          class="bg-white rounded-[24px] shadow-sm p-4 md:p-8 w-full max-w-md sm:max-w-sm md:max-w-sm lg:max-w-md -mt-8 lg:mt-28 xl:mt-28 3xl:mt-28">
+          <h2 class="credinet-title-bold">
+            Ingresa a Credinet Web <span class="credinet-title-regular">con:</span>
+          </h2>
+          <div class="w-full mx-auto my-4 lg:my-6">
+            <div class="flex border border-[#153F7B] rounded-lg overflow-hidden text-center text-[#153F7B]">
+              <!-- Opción Número de acceso -->
+              <div class="w-1/2 py-2 px-2 sm:px-4 cursor-pointer" [ngClass]="{
+                  'bg-[#153F7B] text-white': isAccountNumber,
+                  'bg-white': !isAccountNumber
+                }" (click)="activateAccountNumber()">
+                <p class="access-number-text">Número de acceso</p>
+              </div>
+
+              <!-- Opción Alias -->
+              <div class="w-1/2 py-2 px-2 sm:px-4 cursor-pointer" [ngClass]="{
+                  'bg-[#153F7B] text-white': !isAccountNumber,
+                  'bg-white': isAccountNumber
+                }" (click)="activateAlias()">
+                <p class="access-number-text">Alias</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full mx-auto space-y-3 lg:space-y-4 mt-2">
+            <form [formGroup]="formLogin" class="w-full">
+              <!-- <mat-form-field appearance="fill" hintLabel="Ej: 900001001234560"
+                class="input-field material-custom-input w-full" (click)="keyboardOnPass = false" [ngClass]="{
+                  'mb-2':
+                    !isAccountNumber &&
+                    formLogin.get('username')?.invalid &&
+                    (formLogin.get('username')?.errors?.['required'] !== undefined ||
+                      formLogin.get('username')?.errors?.['minlength'] !== undefined) &&
+                    formLogin.get('username')?.errors?.['validate'] !== undefined &&
+                    formLogin.get('username')?.touched
+                }"> -->
+              <mat-form-field appearance="fill" hintLabel="Ej: 900001001234560"
+                class="input-field material-custom-input w-full" (click)="keyboardOnPass = false" [ngClass]="{
+                'mb-2':
+                  !isAccountNumber &&
+                  formLogin.get('username')?.invalid &&
+                  formLogin.get('username')?.touched &&
+                  (formLogin.get('username')?.hasError('required') ||
+                  formLogin.get('username')?.hasError('minlength')) &&
+                  !formLogin.get('username')?.hasError('validate')
+              }">
+                <mat-label class="access-number-text required">{{
+                  isAccountNumber ? "Número de acceso" : "Alias"
+                  }}</mat-label>
+
+                <input *ngIf="isAccountNumber; else noNumber" matInput [type]="!visibleUss ? 'password' : 'text'"
+                  formControlName="username" tabindex="1" autofocus maxlength="16" appOnlyNumber class="w-full" />
+                <ng-template #noNumber class="access-number-text">
+                  <input matInput [type]="!visibleUss ? 'password' : 'text'" formControlName="username" tabindex="1"
+                    autofocus maxlength="20" appOnlyType="alphanumericBasicSymbolsLogin" appValidate="userAlias"
+                    class="w-full" />
+                </ng-template>
+
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                  (click)="visibleUss = !visibleUss">
+                  <img *ngIf="!visibleUss" src="assets/svgs/eye_close.svg" alt="Show password"
+                    class="w-6 h-6 text-[#153F7B]">
+                  <img *ngIf="visibleUss" src="assets/svgs/eye_open.svg" alt="Show password"
+                    class="w-6 h-6 text-[#153F7B]">
+                </div>
+              </mat-form-field>
+              <div class="external-errors"
+                *ngIf="formLogin.get('username')?.invalid && formLogin.get('username')?.touched">
+                <app-show-errors [control]="formLogin.get('username')"></app-show-errors>
+              </div>
+
+              <mat-form-field appearance="fill" hintLabel="Ej: ********"
+                class="input-field material-custom-input w-full" (click)="keyboardOnPass = true">
+                <mat-label class="access-number-text required">Contraseña</mat-label>
+                <input matInput [type]="!visiblePass ? 'password' : 'text'" formControlName="password"
+                  maxlength="{{ maxLength }}" tabindex="2" appOnlyType="alphanumericBasicSymbolsLogin"
+                  appValidate="alphanumericBasicSymbolsLogin" class="w-full" />
+
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                  (click)="visiblePass = !visiblePass">
+
+                  <!-- Ojo cerrado (SVG personalizado cuando visiblePass es false) -->
+                  <img *ngIf="!visiblePass" src="assets/svgs/eye_close.svg" alt="Show password"
+                    class="w-6 h-6 text-[#153F7B]">
+                  <img *ngIf="visiblePass" src="assets/svgs/eye_open.svg" alt="Show password"
+                    class="w-6 h-6 text-[#153F7B]">
+                </div>
+              </mat-form-field>
+              <div class="external-errors"
+                *ngIf="formLogin.get('password')?.invalid && formLogin.get('password')?.touched">
+                <app-show-errors [control]="formLogin.get('password')"></app-show-errors>
+              </div>
+              <div
+                class="keyboard-text keyboard-text-login flex items-center cursor-pointer text-[#153F7B] mb-2 lg:mb-2.5"
+                (click)="handleShowKeyboard()">
+
+                <img class="text-[#153F7B] mr-2" src="assets/svgs/keyboard.svg" alt="">
+                <span class="access-number-text login__checkbox-p login-virtual-keyboard text-[#153F7B]">Teclado
+                  Virtual</span>
+              </div>
+
+              <div class="form-group w-full">
+                <app-virtual-path *ngIf="isVisibleKeyboard" (onKeyChange)="handleKeyboard($event)"
+                  class="text-[#153F7B]"></app-virtual-path>
+              </div>
+              <div *ngIf="isRecaptcha" class="mb-3">
+                <!-- Loading reCAPTCHA -->
+                <div *ngIf="isRecaptchaLoading"
+                  class="flex items-center justify-center gap-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                  </svg>
+                  <span class="text-sm text-blue-700 font-medium">Verificando protección reCAPTCHA...</span>
+                </div>
+
+                <!-- reCAPTCHA válido -->
+                <!-- <div *ngIf="!isRecaptchaLoading && isRecaptchaValid"
+                  class="flex items-center justify-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg invisible">
+                  <svg class="h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm text-green-700 font-medium">Protección reCAPTCHA activa</span>
+                </div> -->
+
+                <!-- reCAPTCHA inválido -->
+                <div *ngIf="!isRecaptchaLoading && !isRecaptchaValid"
+                  class="p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <div class="flex items-start gap-2">
+                    <svg class="h-5 w-5 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <div class="flex-1">
+                      <p class="text-sm text-red-700 font-medium">{{ recaptchaError }}</p>
+                      <button type="button" (click)="retryRecaptcha()"
+                        class="mt-2 text-sm text-red-600 hover:text-red-800 underline font-medium">
+                        Reintentar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botón de login con validación -->
+              <div class="flex flex-col items-center justify-center mb-3 lg:mb-4">
+                <button class="btn-new-primary cursor-pointer access-number-text" type="submit" (click)="login()"
+                  [disabled]="!canSubmit()" [class.opacity-50]="!canSubmit()" [class.cursor-not-allowed]="!canSubmit()">
+                  <span *ngIf="!isLoggingIn">Ingresar</span>
+                  <span *ngIf="isLoggingIn" class="flex items-center justify-center gap-2">
+                    <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                      viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                      </path>
+                    </svg>
+                    Ingresando...
+                  </span>
+                </button>
+
+                <!-- Mensaje de ayuda cuando reCAPTCHA está deshabilitado -->
+                <p *ngIf="isRecaptcha && !isRecaptchaValid && !isRecaptchaLoading"
+                  class="text-xs text-red-600 text-center mt-2">
+                  El botón de inicio de sesión está deshabilitado por seguridad.
+                </p>
+              </div>
+              <!-- <div class="flex flex-col items-center justify-center mb-3 lg:mb-4">
+                <button class="btn-new-primary cursor-pointer access-number-text " type="submit"
+                  (click)="(isRecaptcha ? true : '') && login()" [disabled]="!formLogin.valid || loading">
+                  Ingresar
+                </button>
+              </div> -->
+            </form>
+          </div>
+
+          <div class="flex flex-row items-center justify-center gap-4 mb-1">
+            <a class="inline-block font-semibold access-number-text text-sm text-[#145abb] hover:text-[#153F7B]"
+              routerLink="/login/changePassword">
+              ¿Cambiar contraseña?
+            </a>
+
+            <a *ngIf="!isAccountNumber" class="text-[#153F7B] underline access-number-text"
+              routerLink="/login/generateAlias">
+              Crear Alias
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- Información de contacto con scroll alineada al formulario -->
+        <div class="p-2 md:p-2 w-full max-w-xs sm:max-w-sm md:max-w-sm lg:max-w-md mt-1">
+          <div
+            class="text-sm text-[#32335C] max-h-18 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+            <!-- Icono y título -->
+            <div class="flex flex-col items-center mb-2">
+              <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M5.92668 1.69321C5.66691 1.06572 4.98208 0.73174 4.3276 0.91054L1.35885 1.7202C0.771851 1.88213 0.363647 2.41516 0.363647 3.0224C0.363647 11.3686 7.13105 18.136 15.4773 18.136C16.0845 18.136 16.6176 17.7278 16.7795 17.1408L17.5891 14.1721C17.7679 13.5176 17.434 12.8328 16.8065 12.573L13.5678 11.2236C13.0179 10.9942 12.3803 11.1527 12.0059 11.6149L10.6429 13.2781C8.26794 12.1547 6.345 10.2317 5.2216 7.85674L6.88478 6.49719C7.34696 6.11935 7.50552 5.48511 7.27611 4.93522L5.92668 1.69658V1.69321Z"
+                    fill="#1E3050" />
+                </svg>
+              </div>
+              <p class="mt-1 font-semibold text-base access-number-text">¿Necesita ayuda?</p>
+            </div>
+
+            <!-- Correo y Teléfono -->
+            <div class="flex flex-col sm:flex-row justify-center items-start gap-4 sm:gap-12 text-sm">
+              <div class="flex flex-col items-start text-left">
+                <span class="access-number-text">Correo electrónico:</span>
+                <a href="mailto:bolhdspe&#64;bcp.com.bo"
+                  class="font-semibold access-number-text text-[#1F2A44] hover:text-blue-700">
+                  bolhdspe&#64;bcp.com.bo
+                </a>
+              </div>
+
+              <div class="flex flex-col items-start text-left">
+                <span class="access-number-text">Línea gratuita (Help desk):</span>
+                <span class="font-semibold text-[#1F2A44] access-number-text">800 10 22 44</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer para móviles -->
+      <div class="block lg:hidden w-full -mt-8 lg:-mt-16">
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer para desktop (mantiene posición absoluta) -->
+  <div class="hidden lg:block absolute bottom-0 left-0 w-full">
+    <app-footer></app-footer>
+  </div>
+</div>
+
+<app-modal [visible]="isVisibleInitialMessage" (onClose)="isVisibleInitialMessage = false" [size]="'lg'"
+  [onlyImage]="true" [isImgLogin]="true">
+  <div *ngIf="isDesktopOrTablet" class="app-modal-body">
+    <div class="relative">
+      <img class="w-full h-auto rounded-t-[12px] block max-w-[750px] mx-auto" src="assets/img/cw/boleta.jpg"
+        loading="lazy" alt="Boleta" style="max-height: 70vh; object-fit: contain;" />
+      <div class="w-full p-2.5 bg-white border-t rounded-b-[12px] max-w-[600px] mx-auto">
+        <div class="flex justify-center">
+          <button type="button" (click)="isVisibleInitialMessage = false"
+            class="btn-new-primary cursor-pointer access-number-text">
+            Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isDesktopOrTablet" class="app-modal-body">
+    <div class="relative">
+      <img class="w-full h-auto max-h-[650px] rounded-t-[12px] block object-contain" src="assets/img/cw/boletasm.jpg"
+        loading="lazy" alt="boletasm" />
+      <!-- Footer debajo de la imagen -->
+      <div class="w-full p-4 bg-white border-t rounded-b-[12px]">
+        <div class="flex justify-center">
+          <button type="button" (click)="isVisibleInitialMessage = false"
+            class="btn-new-primary cursor-pointer access-number-text">
+            Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

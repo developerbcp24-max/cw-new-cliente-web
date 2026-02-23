@@ -1,0 +1,290 @@
+<section class="font-sans w-full mb-8">
+  <div *ngFor="let item of stepOptions" class="flex flex-col items-end mb-4">
+
+    <!-- 1st page - Representantes Legales -->
+    <ng-container *ngIf="item.selected && item.value == 1">
+      <div class="w-full max-w-2xl mx-auto px-6 py-8 font-flexo">
+
+        <!-- Título principal -->
+        <h2 class="text-center text-2xl font-bold text-[#32335C] mb-6">
+          Representantes Legales
+        </h2>
+
+        <!-- Descripción -->
+        <div class="text-center text-[#32335C] text-base mb-4">
+          <p class="mb-2">
+            Las siguientes personas figuran como
+            <span class="text-[#32335C] font-semibold">representantes legales</span>
+            de la empresa.
+          </p>
+        </div>
+
+        <!-- Instrucción -->
+        <p class="text-center text-gray-600 text-base mb-8">
+          Seleciona a las personas que tendran un usuario transaccional en Credinet
+        </p>
+
+        <!-- Lista de representantes -->
+        <div class="flex flex-col items-center space-y-3 mb-8">
+          <ng-container *ngFor="let signature of signatures; index as i">
+            <div class="bg-gray-100 rounded-lg px-6 py-4 flex items-center justify-between w-full max-w-md">
+              <div class="flex items-center space-x-3">
+                <mat-checkbox
+                [(ngModel)]="signature.selected"
+                [disabled]="signature.signature.isMainSignature"
+                (ngModelChange)="onSignatureCheckboxChange(signature.signature.personId, $event)"
+                  class="scale-90 flex-shrink-0">
+                </mat-checkbox>
+
+                <span class="text-gray-800 font-medium text-base leading-none">
+                  {{ signature.signature.names }} {{ signature.signature.lastNames }}
+                </span>
+              </div>
+
+              <div
+                class=" text-[#34B1CF] px-3 py-1 rounded-lg text-xs font-medium flex-shrink-0 border border-[#34B1CF]">
+                Representante legal
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Botones de navegación -->
+      <div class="w-full px-6 pb-6">
+        <app-register-buttons (onBackEvent)="changeStepEvent.emit(-1)" (onNextEvent)="changePage(2)">
+        </app-register-buttons>
+      </div>
+    </ng-container>
+
+    <!-- 2nd page - Lista de usuarios -->
+    <ng-container *ngIf="item.selected && item.value == 2">
+      <div class="w-full max-w-4xl mx-auto px-6 py-8">
+
+        <h2 class="text-center text-2xl font-bold text-gray-800 mb-8">
+          Lista de usuarios afiliados a Credinet
+        </h2>
+
+        <!-- Sección de Cuentas -->
+        <div class="mb-8">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Cuentas</h3>
+          <div class="bg-white border border-[#F6F7F9] rounded-lg overflow-hidden my-4">
+            <ng-container *ngFor="let account of selectedAccounts">
+              <div class="bg-[#F6F7F9] flex border-b border-gray-50 last:border-b-0 my-4">
+                <!-- Columna de contenido -->
+                <div class="flex-1 p-4 relative">
+                  <div class="flex items-center">
+                    <span class="text-[#32335C] font-medium text-[15px]">
+                      {{ account.noAccount }}
+                    </span>
+                  </div>
+                  <!-- Línea horizontal inferior -->
+                  <div class="absolute bottom-0 left-0 right-0 h-px bg-gray-800"></div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <!-- Sección de Usuarios -->
+        <div class="mb-8">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Usuarios</h3>
+          <div class="bg-[#F6F7F9] border border-[#F6F7F9] rounded-lg overflow-hidden">
+            <ng-container *ngFor="let affiliatedUser of getAffiliatedUsers()">
+              <div class="flex border-b border-gray-200 last:border-b-0 gap-3">
+                <!-- Columna de contenido (con línea inferior) -->
+                <div class="flex-1 p-4 border-r border-gray-50 relative">
+                  <div class="flex items-center">
+                    <span class="text-[#32335C] font-medium text-[15px]">
+                      {{ affiliatedUser.name }} {{affiliatedUser.lastNames}}
+                    </span>
+                    <span class="h-4 w-px bg-gray-300 mx-3"></span>
+                    <span class="text-[#34B1CF] text-sm font-medium border border-[#34B1CF] rounded-lg px-3 py-1">
+                      Representante legal
+                    </span>
+                  </div>
+                  <!-- Línea horizontal inferior -->
+                  <div class="absolute bottom-0 left-0 right-0 h-px w-full bg-gray-800"></div>
+                </div>
+
+                <!-- Columna del icono (con línea inferior) -->
+                <div class="w-16 p-4 flex justify-center items-center relative">
+                  <button class="text-blue-600 hover:text-blue-800 transition-colors"
+                    (click)="openUserInfoDialog(affiliatedUser)">
+                    <img src="assets/svgs/icon_info.svg" class="w-4 h-4" alt="Información">
+                  </button>
+                  <!-- Línea horizontal inferior -->
+                  <div class="absolute bottom-0 left-0 right-0 h-px bg-gray-800"></div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <!-- Botón para añadir usuario -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center space-x-2 text-gray-600 mb-2">
+            <span>Si desea añadir un usuario <strong>Consultor</strong> o <strong>Preparador</strong> seleccione:</span>
+          </div>
+          <button
+            class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg inline-flex items-center space-x-2 transition-colors"
+            (click)="changePage(3)">
+            <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2.6967 12.8033C4.10322 14.2098 6.01088 15 8 15C9.98912 15 11.8968 14.2098 13.3033 12.8033C14.7098 11.3968 15.5 9.48912 15.5 7.5C15.5 5.51088 14.7098 3.60322 13.3033 2.1967C11.8968 0.790176 9.98912 0 8 0C6.01088 0 4.10322 0.790176 2.6967 2.1967C1.29018 3.60322 0.5 5.51088 0.5 7.5C0.5 9.48912 1.29018 11.3968 2.6967 12.8033ZM8 4.144C8.38946 4.144 8.70434 4.45889 8.70227 4.84628V6.79358H10.6496C11.039 6.79358 11.3539 7.10847 11.3519 7.49586C11.3498 7.88325 11.037 8.2002 10.6496 8.19813H8.70227V10.1454C8.70227 10.5349 8.38739 10.8498 8 10.8477C7.61261 10.8456 7.29566 10.5328 7.29773 10.1454V8.19813H5.35042C4.96096 8.19813 4.64608 7.88325 4.64815 7.49586C4.65022 7.10847 4.96303 6.79151 5.35042 6.79358H7.29773V4.84628C7.29773 4.45682 7.61261 4.14193 8 4.144Z"
+                fill="white" />
+            </svg>
+            <span>Añadir Nuevo Usuario</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botones de navegación -->
+      <div class="w-full px-6 pb-6 mb-4">
+        <app-register-buttons (onBackEvent)="backUserList()"
+          (onNextEvent)="updateSelectedAccountAndFirmantesAndGetDocument()">
+        </app-register-buttons>
+      </div>
+
+      <!-- <div class="w-full px-6 pb-6">
+        <iframe id="iframeDocument" class="w-full h-[600px] border rounded-lg"></iframe>
+      </div> -->
+
+    </ng-container>
+
+    <!-- 3rd page - Añadir usuario -->
+    <ng-container *ngIf="item.selected && item.value == 3">
+      <div class="w-full max-w-4xl mx-auto px-6 py-8">
+        <p class="text-center text-gray-600 mb-8">
+          Ingrese los datos del usuario que desea añadir. Campo obligatorio *
+        </p>
+        <form [formGroup]="formCli" class="space-y-6">
+          <!-- Nombres y Apellidos -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Nombres *</mat-label>
+              <input matInput formControlName="names" required maxlength="100" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Apellidos *</mat-label>
+              <input matInput formControlName="lastNames" required maxlength="100" />
+            </mat-form-field>
+          </div>
+          <!-- Documento y Complemento -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Nro de Documento *</mat-label>
+              <input matInput formControlName="personId" required [appMaxLength]="16" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Complemento</mat-label>
+              <input matInput formControlName="complement" [appMaxLength]="3" />
+            </mat-form-field>
+          </div>
+          <!-- Tipo de Documento y Extensión -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Tipo de Documento *</mat-label>
+              <mat-select formControlName="idcType" required>
+                <mat-option value="Q">CI</mat-option>
+                <mat-option value="T">NIT</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Extensión *</mat-label>
+              <mat-select formControlName="extension">
+                <mat-option *ngFor="let branch of _respBranchOffices" [value]="branch.sigla">
+                  {{ branch.sigla }}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-show-errors [control]="formCli.get('extension')"></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Teléfono y Email -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Teléfono *</mat-label>
+              <input matInput formControlName="phone" required maxlength="15" appOnlyNumber/>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full material-custom-input">
+              <mat-label>Correo Electrónico *</mat-label>
+              <input matInput formControlName="email" required maxlength="100" appEmail/>
+            </mat-form-field>
+          </div>
+          <!-- Ver más roles -->
+          <div class="text-center">
+            <button type="button" class="text-blue-600 hover:text-blue-800 underline text-sm" (click)="openRoles()">
+              Ver más acerca de los roles
+            </button>
+          </div>
+          <!-- Sección de Cuentas -->
+          <div class="mt-8">
+            <!-- Header de la tabla -->
+            <div class="grid grid-cols-[1fr_120px_120px] pb-3 mb-4">
+              <div class="text-left">
+                <h3 class="text-base font-medium text-gray-900">Cuenta</h3>
+              </div>
+              <div class="text-center">
+                <h3 class="text-base font-medium text-gray-900 flex items-center justify-center gap-2">
+                  Consultor
+                  <span
+                    class="inline-flex items-center justify-center w-4 h-4 bg-gray-400 text-white text-xs rounded-full cursor-help">
+                    i
+                  </span>
+                </h3>
+              </div>
+              <div class="text-center">
+                <h3 class="text-base font-medium text-gray-900 flex items-center justify-center gap-2">
+                  Preparador
+                  <span
+                    class="inline-flex items-center justify-center w-4 h-4 bg-gray-400 text-white text-xs rounded-full cursor-help">
+                    i
+                  </span>
+                </h3>
+              </div>
+            </div>
+            <!-- Contenedor de filas con fondo gris -->
+            <div class="bg-[#F6F7F9] rounded-lg overflow-hidden">
+              <ng-container *ngFor="let account of selectedAccounts; let i = index; let last = last">
+                <div class="grid grid-cols-[1fr_120px_120px] py-4 px-6 border-b border-gray-300"
+                  [class.border-b-0]="last">
+                  <!-- Columna de cuenta -->
+                  <div class="flex items-center">
+                    <span class="text-sm text-gray-900">{{ account.noAccount }}</span>
+                  </div>
+
+                  <!-- Columna consultor -->
+                  <div class="flex items-center justify-center">
+                    <mat-checkbox [ngModel]="getIsConsultant(i)" (ngModelChange)="setIsConsultant(i, $event)"
+                      [ngModelOptions]="{standalone: true}">
+                    </mat-checkbox>
+                  </div>
+
+                  <!-- Columna preparador -->
+                  <div class="flex items-center justify-center">
+                    <mat-checkbox [ngModel]="getIsPreparador(i)" (ngModelChange)="setIsPreparador(i, $event)"
+                      [ngModelOptions]="{standalone: true}">
+                    </mat-checkbox>
+                  </div>
+
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Botón Añadir Usuario -->
+          <div class="flex justify-center gap-2 mt-8 mb-12">
+            <button type="button" class="btn-new-secondary cursor-pointer" (click)="resetForm()">
+              Atrás
+            </button>
+            <button type="button" class="btn-new-primary cursor-pointer" (click)="addUser()">
+              Añadir Usuario
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </ng-container>
+
+  </div>
+</section>

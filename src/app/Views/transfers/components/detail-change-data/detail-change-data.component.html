@@ -1,0 +1,31 @@
+<div class="row transferencia-ext__card">
+    <div class="col-md-12">
+      <h4 class="historical__h4">Datos del cambio</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ticket Dólar</p>
+            <p class="home__card__item__small-value">{{transfer.isTicket ? transfer.numberTicket!.toString() : ''}}
+              TC={{transfer.isTicket ?
+              transfer.preferentialExchange : transfer.exchangeSale + '(Actual)'}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Detalle Cargos</p>
+            <p class="home__card__item__small-value">{{detail.detailCharges}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ticket Comisión</p>
+            <p class="home__card__item__small-value">{{transfer.numberTicketCommission}} =
+              {{transfer.isTicketCommission ? transfer.commissionAmount + ' USD' :
+              transfer.commissionTransfer + ' USD (tarifario)'}}
+              USD
+            </p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ticket Otra Moneda</p>
+            <p class="home__card__item__small-value">{{transfer.numberTicketOtherCurrency}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,96 @@
+<br>
+<div class="row">
+  <div class="offset-md-1 col-md-10">
+    <div class="historical__certificate-send-nroLote">
+      <div class="home__card__title">
+        <p class="home__card__title__medium-title">Detalle recaudaciones</p>
+      </div>
+      <div class="items">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Servicio:</p>
+          <p class="home__card__item__small-value">{{ResponseModelPaseHeadObj.codeService}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Monto Recaudación:</p>
+          <p class="home__card__item__small-value">{{ResponseModelPaseHeadObj.totalAmount | number: '1.2-2'}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Empresa:</p>
+          <p class="home__card__item__small-value">{{currentUser.company_name}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Moneda:</p>
+          <p class="home__card__item__small-value">{{ResponseModelPaseHeadObj.currencyDescriptionTalks}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Descripción:</p>
+          <p class="home__card__item__small-value">{{ResponseModelPaseHeadObj.tradeName}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Transacciones:</p>
+          <p class="home__card__item__small-value">{{totalResponse}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<br />
+<div class="row justify-content-center historical__options-table">
+  <div class="offset-md-2 col-md-5 col-sm-4">
+    <p class="historical__p">Formato para exportar</p>
+    <select name="TipoExportar" class="input-simple historical__input-table" [(ngModel)]="FormatSelected">
+      <option value=undefined disabled>Seleccione formato</option>
+      <option value="xls">Excel</option>
+      <option value="pdf">PDF</option>
+      <option value="txt">Texto</option>
+      <option value="sap">SAP(General)</option>
+      <option value="sap-D">SAP(Detalle)</option>
+    </select>
+  </div>
+  <div class="col-md-2 col-sm-4">
+    <button class="button__secondary historical__button-secondary" [disabled]="FormatSelected==undefined"
+            (click)="export()">
+      Exportar
+    </button>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <p class="historical__p--cancel"><a (click)="back()">REGRESAR</a></p>
+  </div>
+</div>
+
+
+<br>
+<div>
+  <table class="cw-table table-striped" title="Lista de servicios"><caption></caption>
+    <thead>
+      <tr>
+        <th>Fecha Txn</th>
+        <th>Nro Txn</th>
+        <th>Codigo Depositante</th>
+        <th>Numero Documento</th>
+        <th>Nombre del Depositante</th>
+        <th>Importe Pago</th>
+        <th>Importe Mora</th>
+        <th>Importe Total</th>
+        <th>Hora</th>
+        <th>Oficina</th>
+      </tr>
+    <tbody>
+      <tr *ngFor="let list of ListModelPase">
+        <td>{{list.dateTxn.substr(6,2) +"/"+ list.dateTxn.substr(4,2) +"/"+ list.dateTxn.substr(0,4)}}</td>
+        <td>{{list.numberTxn}}</td>
+        <td>{{list.codeDepositor}}</td>
+        <td>{{list.numberDocument}}</td>
+        <td>{{list.nameDepositor}}</td>
+        <td>{{list.amountIPay | number: '1.2-2'}}</td>
+        <td>{{list.amountDwells | number: '1.2-2'}}</td>
+        <td>{{list.totalAmount | number: '1.2-2'}}</td>
+        <td>{{list.hourTxn}}</td>
+        <td>{{list.office}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <app-pagination [totalItems]="ResponseModelPase.length" [maxSize]="pageSize" [isCenter]="true"
+  (onChange)="handlePageChanged($event)" [rowsPerPage]="rowsPerPage" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+</div>

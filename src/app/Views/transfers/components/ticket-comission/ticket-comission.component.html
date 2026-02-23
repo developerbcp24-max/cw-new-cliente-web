@@ -1,0 +1,30 @@
+<form name="formTicket" #formTicket="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <button class="button__secondary" *ngIf="!isGenerate" (click)="handleGetTicketCommission()" [disabled]="!(this.amount>0)"><em
+                class="fas fa-file-invoice-dollar"></em>
+              COMISIÓN PREFERENCIAL</button>
+            <button class="button__principal" *ngIf="isGenerate" (click)="handleReset()">
+              Modificar Comision Preferencial</button>
+          </div>
+          <div class="col-sm-6">
+            <select class="input-simple" [(ngModel)]="request.commissionCharge" (change)="handleChangeCharge()" name="commissionCharge"
+              [disabled]="isGenerate || !(this.amount>0)" required #commissionCharge="ngModel">
+              <option value='default'>Tarifario Normal</option>
+              <option *ngFor="let item of charges" value="{{item.code}}">{{item.description}}</option>
+            </select>
+            <app-show-errors [control]="commissionCharge"></app-show-errors>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 offset-sm-6 padding-ticket" *ngIf="request.commissionCharge!=='default'">
+            <input type="string" name="ticket" [(ngModel)]="result.ticket" class="input-simple" [disabled]="isGenerate"
+              (ngModelChange)="handleTextTicketChange()" required #ticketCommission="ngModel" placeholder="Ingrese numero de ticket">
+            <app-show-errors [control]="ticketCommission"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>

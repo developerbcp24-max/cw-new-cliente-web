@@ -1,0 +1,94 @@
+<div class="row transferencia-ext__bank-pay">
+    <div class="col-md-6" *ngIf="!disabled">
+      <form name="formSearchBank" #formSearchBank="ngForm" autocomplete="off" (ngSubmit)="formSearchBank.valid && handleSearchBanks()"
+            novalidate>
+        <fieldset [disabled]="disabled" *ngIf="!disabled"><legend></legend><br>
+          <div class="historical__box box-search">
+            <label class="transferencias__label">Busca el banco por nombre o swift</label>
+            <p>Introducir mínimo 3 caracteres de búsqueda.</p>
+            <input type="text" name="search" [(ngModel)]="searchText" class="input-simple" appOnlyType="alphanumeric" appValidate="alphanumeric" placeholder="Escriba aquí su búsqueda"
+                   #search="ngModel" minlength="3" required>
+            <button class="button__principal" type="submit">BUSCAR</button>
+            <app-show-errors [control]="search"></app-show-errors>
+            <div class="box-search__options">
+              <div>
+                <label class="radio">
+                  <input type="radio" name="searchType" [value]="'swift'" [(ngModel)]="searchType">
+                  <span class="check-radio"></span>
+                </label>
+                <p>Buscar por SWIFT/ABA</p>
+              </div>
+              <div>
+                <label class="radio">
+                  <input type="radio" name="searchType" [value]="'name'" [(ngModel)]="searchType">
+                  <span class="check-radio"></span>
+                </label>
+                <p>Buscar por nombre de banco <em class="fas fa-question-circle"></em></p>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      <div class="historical__box box-search" [hidden]="!existBanks">
+        <label class="transferencias__label">Seleccionar banco</label>
+        <div class="row full-size">
+          <div class="col-sm-12">
+            <form name="formDetailBank" #formDetailBank="ngForm" novalidate>
+              <fieldset [disabled]="disabled" *ngIf="!disabled"><legend></legend><br>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <select class="input-simple full-size" [(ngModel)]="bankSelected" name="codeBank" required #codeBank="ngModel"
+                            (ngModelChange)="handleSelectBank()">
+                      <option *ngFor="let item of filterBanks" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                    <app-show-errors [control]="codeBank"></app-show-errors>
+                  </div>
+                  <div class="col-sm-12">
+                    <p *ngIf="!isFirstTime">
+                      <strong>{{filterBanks.length}}</strong> resultado(s) para le criterio de busqueda:
+                      {{searchTextSelected}}
+                    </p>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bank-info" [ngClass]="{'col-md-12':disabled,'col-md-6':!disabled }" *ngIf="existBanks || bankSelectedDetail.code">
+      <div class="bar-route helpers__show-small"></div>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Nombre del Banco</p>
+            <p class="home__card__item__small-value">{{bankSelectedDetail.name}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">SWIFT/ ABA</p>
+            <p class="home__card__item__small-value">{{bankSelectedDetail.code}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Dirección</p>
+            <p class="home__card__item__small-value">{{bankSelectedDetail.address}}</p>
+            <div class=" home__card__info--hover">
+              <div class="item-triangle"></div>
+              <p>
+                Su transacción cuenta con un Ticket de comisión Preferencial,
+                se le cobrará la comisión indicada en el mismo.
+              </p>
+            </div>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ciudad</p>
+            <p class="home__card__item__small-value">{{bankSelectedDetail.city}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">País</p>
+            <p class="home__card__item__small-value">{{bankSelectedDetail.country}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

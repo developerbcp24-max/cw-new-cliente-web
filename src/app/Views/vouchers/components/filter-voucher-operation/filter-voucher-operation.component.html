@@ -1,0 +1,58 @@
+<div class="col-sm-12">
+  <app-bar-route></app-bar-route>
+  <h4 class="historical__h4">Seleccione rango de fechas</h4>
+  <div class="col-md-6">
+    <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange"></app-date-range>
+  </div>
+</div>
+
+<div class="col-sm-12">
+  <app-bar-route [isLast]="true"></app-bar-route>
+  <h4 class="historical__h4">Opciones de búsqueda</h4>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="historical__box">
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label class="transferencias__label">Lotes:</label>
+            <input type="text" name="batchIds" id="lotInput" [(ngModel)]="lotInput" class="input-simple"
+                   placeholder="N° de Lote (Ejem: 00,00)" (ngModelChange)="handleCaptureLotInput()"
+                   appOnlyType="numberList"
+                   #batchIds="ngModel" maxlength="35" autocomplete="off"/>
+            <app-show-errors [control]="batchIds"></app-show-errors>
+          </div>
+          <div class="col-md-6">
+            <label class="transferencias__label">Tipo de Operación:</label>
+            <select name="typeOperation" class="transferencia-ext__select input-simple" [(ngModel)]="operationSelected"
+                    (change)="handleTypeOperationChanged()">
+              <option [ngValue]="0">(Todos)</option>
+              <option *ngFor="let operation of operations" [ngValue]="operation.id">
+                {{ operation.nameTypeOperation }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4"><br>
+  <div class="col-md-3 col-sm-4">
+    <button type="button" class="historical__button-secondary button__principal" (click)="handleSearch()"><em
+      class="icon-Lupa"></em>
+      Buscar
+    </button>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <button type="button" class="button__secondary historical__button-secondary" (click)="handleCleanSearch()"><em
+      class="icon-eliminar"></em> Limpiar
+      Búsqueda
+    </button>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <button type="button" class="button__secondary historical__button-secondary" (click)="handleDownloadReport()"
+            [disabled]="voucherCheckedList.length==0"><em class="icon-Descargar"></em> Descargar Archivos
+    </button>
+  </div>
+</div>

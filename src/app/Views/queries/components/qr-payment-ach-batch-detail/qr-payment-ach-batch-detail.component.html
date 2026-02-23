@@ -1,0 +1,67 @@
+<div class="col-md-12">
+  <div class="transferencias__card">
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Cuenta origen</p>
+      <p class="home__card__item__small-value">{{ detail.sourceAccount }}</p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Cuenta destino</p>
+      <p class="home__card__item__small-value">
+        {{ detail.destinationAccount }}
+      </p>
+    </div>
+    <div class="home__card__item" *ngIf="detail.beneficiary !== ''">
+      <p class="home__card__item__small-title">Beneficiario</p>
+      <p class="home__card__item__small-value">{{ detail.beneficiary }}</p>
+    </div>
+    <div class="home__card__item" *ngIf="detail.bank !== ''">
+      <p class="home__card__item__small-title">Banco</p>
+      <p class="home__card__item__small-value">{{ detail.bank }}</p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Monto</p>
+      <p class="home__card__item__small-value">
+        {{ detail.amount | number : "1.2-2" }}
+      </p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Moneda</p>
+      <p class="home__card__item__small-value">{{ detail.currency }}</p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Usuario</p>
+      <p class="home__card__item__small-value">{{ detail.user }}</p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Glosa</p>
+      <p class="home__card__item__small-value">{{ detail.gloss }}</p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Estado del lote</p>
+      <p class="home__card__item__small-value">{{ detail.batchStatus }}</p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Mensaje</p>
+      <p class="home__card__item__small-value">{{ detail.processMessage }}</p>
+    </div>
+  </div>
+</div>
+<div class="col-md-12" *ngIf="detail.sourceFunds">
+  <div class="transferencias__card">
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Orígen de los Fondos</p>
+      <p class="home__card__item__small-value aling-justify">
+        {{ detail.sourceFunds }}
+      </p>
+    </div>
+    <div class="home__card__item">
+      <p class="home__card__item__small-title">Destino de los Fondos</p>
+      <p class="home__card__item__small-value aling-justify">
+        {{ detail.destinationFunds }}
+      </p>
+    </div>
+  </div>
+</div>
+<app-approvers-and-controllers-detail
+  [details]="detail.userInvolved"
+></app-approvers-and-controllers-detail>

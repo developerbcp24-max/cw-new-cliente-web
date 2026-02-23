@@ -1,0 +1,126 @@
+<div class="col-md-6">
+    <div class="historical__box transferencias__account-box  transferencias__flex-column ">
+      <form name="requestForm" novalidate #requestForm="ngForm" autocomplete="off">
+        <fieldset [disabled]="disabled"><legend></legend><br>
+          <div class="transferencias__flex">
+            <div class="transferencias__container-x2">
+              <label>Criterio de búsqueda</label>
+              <select name="criteria" class="input-simple" [(ngModel)]="ruatDto.criteria" #criteria="ngModel" required
+                (change)="handleFormChanged()">
+                <option *ngFor="let criteria of criterias" [ngValue]="criteria.value">{{criteria.description}}</option>
+              </select>
+              <app-show-errors [control]="criteria"></app-show-errors>
+            </div>
+            <div class="transferencias__container-x2">
+              <label>{{ruatDto.criteria === '1' ? 'Número de inmueble':'Código catastral'}}</label>
+              <input class="transferencias__input--text" type="text" name="identifier" [(ngModel)]="ruatDto.identifier"
+                #identifier="ngModel" required (keyup)="handleFormChanged()">
+              <app-show-errors [control]="identifier"></app-show-errors>
+            </div>
+          </div>
+          <div class="transferencias__flex">
+            <div class="transferencias__container-x2">
+              <label>Alcaldía</label>
+              <select name="cityHall" class="input-simple" [(ngModel)]="ruatDto.cityHallCode" #cityHall="ngModel" required
+                (change)="handleFormChanged()">
+                <option *ngFor="let cityHall of cityHalls" [ngValue]="cityHall.value">{{ cityHall.description }}</option>
+              </select>
+              <app-show-errors [control]="cityHall"></app-show-errors>
+            </div>
+            <div class="transferencias__container-x2">
+              <label>Tipo de documento</label>
+              <select name="documentType" class="input-simple" [(ngModel)]="ruatDto.documentType" #documentType="ngModel"
+                required (change)="handleFormChanged()">
+                <option *ngFor="let documentType of documentTypes" [ngValue]="documentType.value">
+                  {{ documentType.description }}</option>
+              </select>
+              <app-show-errors [control]="documentType"></app-show-errors>
+            </div>
+          </div>
+          <div class="transferencias__flex">
+            <div class="transferencias__container-x2">
+              <label>Número de documento</label>
+              <input class="transferencias__input--text " type="text" name="documentNumber"
+                [(ngModel)]="ruatDto.documentNumber" #documentNumber="ngModel" required (keyup)="handleFormChanged()">
+              <app-show-errors [control]="documentNumber"></app-show-errors>
+            </div>
+            <div class="transferencias__container-x2">
+              <label>Extensión</label>
+              <select name="documentExtension" class="input-simple" [(ngModel)]="ruatDto.documentExtension"
+                #documentExtension="ngModel" required (change)="handleFormChanged()">
+                <option *ngFor="let documentExtension of documentExtensions" [ngValue]="documentExtension.value">
+                  {{ documentExtension.name }}</option>
+              </select>
+              <app-show-errors [control]="documentExtension"></app-show-errors>
+            </div>
+          </div>
+          <div class="row">
+            <div class="transferencias__container-x2">
+              <button class="button__principal transferencia-ext__button-secondary"
+                (click)="handleSearch()">BUSCAR</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="transferencias__card helpers--padding-top-B" *ngIf="ruatResponse">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Número de inmueble</p>
+        <p class="home__card__item__small-value">{{ruatResponse.property.number}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Código catastral</p>
+        <p class="home__card__item__small-value">{{ruatResponse.property.cadastralCode}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Clase</p>
+        <p class="home__card__item__small-value">{{ruatResponse.property.class}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Tipo</p>
+        <p class="home__card__item__small-value">{{ruatResponse.property.type}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Dirección</p>
+        <p class="home__card__item__small-value">{{ruatResponse.property.address}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Area</p>
+        <p class="home__card__item__small-value">{{ruatResponse.property.area}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 historical__authorizers helpers--margin-bottom-A" *ngIf="ruatResponse">
+    <img src="assets/new-face/images/circle.svg" class="item-circle" alt="">
+    <h4 class="historical__h4">Selecciona periodos de deuda</h4>
+    <div class="row haberes__destination-info bottom-space">
+      <div class="col-md-12">
+        <div class="row card-info ach__card-info">
+          <div class="col-md-3">
+            <p class="text-big">{{batchInformation.amount | number:'1.1-2'}} Bs.</p>
+            <p class="text-small">Monto</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="historical__box historical__account-box">
+      <label class="historical__label">Empieza por la deuda más antigua</label>
+      <div class="row">
+        <div *ngFor="let debtDetail of ruatResponse.debtDetail" class="col-md-4 authorizers">
+          <label class="checkbox checkbox--margin">
+            <input type="checkbox" [(ngModel)]="debtDetail.selected" (change)="handleDetailChecked(debtDetail)"
+              [disabled]="disabled||!debtDetail.isPaymentPossible">
+            <span class="check"></span>
+          </label>
+          <div>
+            <p class="authorizers-name" title="{{debtDetail.comment}}">{{debtDetail.amount | number: '1.1-2'}} BOLIVIANOS
+            </p>
+            <p class="authorizers-limit">Concepto: {{debtDetail.concept}}</p>
+            <p class="authorizers-limit">Gestión: {{debtDetail.year}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

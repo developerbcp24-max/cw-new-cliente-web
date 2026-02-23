@@ -1,0 +1,124 @@
+/* --- STEP STYLES --- */
+.steps {
+    display: flex;
+    padding: 1px 0 0 0;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.steps .step {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.steps .step--margin-top {
+    margin-top: 2px;
+}
+
+.steps .step__number-container {
+    border-radius: 10px; /* Más redondo */
+    width: 90px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Inactivo */
+.steps .step--inactive .step__number-container {
+    background-color: #E6EAF2;
+    color: #555A67;
+    box-shadow: none;
+}
+
+/* Activo */
+.steps .step--active .step__number-container {
+    background-color: #2BA7C2;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(43, 167, 194, 0.3);
+}
+
+/* Hover (opcional) */
+.steps .step--inactive .step__number-container:hover {
+    cursor: pointer;
+    background-color: #DAE0EB;
+}
+
+.steps .step--active .step__number-container:hover {
+    cursor: default;
+}
+
+.steps .step p {
+    color: #555A67;
+    font-size: 12px;
+    margin-top: 8px;
+    white-space: nowrap;
+}
+
+.steps .step--active p {
+    color: #34B1CF;
+;
+}
+
+/* ---- RESPONSIVE: SOLO MOSTRAR EL ACTIVO EN CELULAR ---- */
+@media only screen and (max-width: 768px) {
+    .steps {
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    .steps .step--inactive {
+        display: none !important;
+    }
+
+    /* Opcional: ocultar texto bajo número en móvil */
+    .steps .step p {
+        display: none;
+    }
+}
+
+/* --- UTILITIES --- */
+.historical__p--cancel {
+    margin-top: 10px;
+}
+
+.button__principal {
+    background-color: #ff5d19;
+    width: 100%;
+    height: 40px;
+    border: none;
+    padding: 8px;
+    color: #fff;
+    font-family: "Lato";
+    font-size: 14px;
+    border-radius: 20px;
+    box-shadow: 1px 3px 13px -2px #f38823;
+    cursor: pointer;
+    transition: all ease 0.5s;
+}
+
+.button__principal:hover {
+    background-color: #004b8e;
+    box-shadow: 1px 3px 13px -2px #004b8e;
+}
+
+.button__principal:active,
+.button__principal:focus,
+.button__principal:active:focus {
+    background-color: #ff5d19;
+    box-shadow: 1px 3px 13px -2px #f38823;
+    outline: none;
+}
+
+.button__principal:disabled,
+.button__principal:hover:disabled {
+    background-color: #d8d8d8;
+    border: 1px solid #707070;
+    box-shadow: 0px 4px 13px -2px #a1a1a1;
+}

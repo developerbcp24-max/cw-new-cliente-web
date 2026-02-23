@@ -1,0 +1,203 @@
+<div class="row">
+  <div class="col-md-2 home__saldo__volver">
+    <p class="historical__p--cancel"><a href="#" [routerLink]="['/']"> &lt;
+        Volver</a></p>
+  </div>
+</div>
+
+<div class="row" *ngIf="isLoadComplete && account">
+  <div class="col-md-12">
+    <div class="home__table-title  home__table-title-saldo">
+      <div class="home__table-title__colB"></div>
+      <div class="home__table-title__colB"></div>
+      <div class="home__table-title__colB"></div>
+      <div class="home__table-title__colB">Titular</div>
+      <div class="home__table-title__colB">Moneda</div>
+      <div class="home__table-title__colB">Operación en trámite</div>
+      <div class="home__table-title__colB">Saldos</div>
+    </div>
+  </div>
+
+  <div
+    class="col-md-12 home__layout__list home__table-card-saldo helpers__hidden-small">
+    <div class="home__card">
+      <div class="home__card__title">
+        <p class="home__card__item__small-title">{{account.type}}</p>
+        <p class="home__card__item__small-value">{{account.number}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Titular</p>
+        <p class="home__card__item__small-value">{{account.owner}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Moneda</p>
+        <p class="home__card__item__small-value">{{account.currency}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Operación en trámite</p>
+        <p class="home__card__item__small-value">{{account.inProgressOperations
+          | number: '1.2-2'}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Saldos</p>
+        <p class="home__card__item__small-value">{{account.availableBalance |
+          number: '1.2-2'}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mensaje cuando no hay cuenta -->
+<div class="row" *ngIf="isLoadComplete && !account">
+  <div class="col-md-12">
+    <div class="alert alert-attention">
+      <em class="icon-info icono-naranjo"></em>
+      <p class="title">No se encontró información de la cuenta.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Mensaje cuando no hay movimientos (solo si existe la cuenta) -->
+<div class="row" *ngIf="isLoadComplete && account && movements.length === 0">
+  <div class="col-md-12">
+    <div class="alert alert-attention">
+      <em class="icon-info icono-naranjo"></em>
+      <p class="title">La cuenta no tiene movimientos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Sección de exportación y tabla (solo si existe cuenta y hay movimientos) -->
+<div *ngIf="isLoadComplete && account && movements.length > 0">
+  <div class="row historical__options-table">
+    <div class="col-md-3 col-sm-12">
+      <p class="historical__p"></p>
+    </div>
+    <div class="offset-md-2 col-md-5 historical__button--align">
+      <p class="historical__p">Formato para exportar</p>
+      <select class="input-simple historical__input-table"
+        [(ngModel)]="voucherType" #typeReport>
+        <option value="pdf">PDF</option>
+        <option value="xls">Excel</option>
+      </select>
+    </div>
+    <div class="col-md-2 col-sm-6 historical__button--align">
+      <button class="button__secondary historical__button-secondary"
+        (click)="getReport()">
+        EXPORTAR
+      </button>
+    </div>
+  </div>
+  <br>
+</div>
+
+<!-- Tabla de movimientos (solo si existe cuenta y hay movimientos) -->
+<div class="col-md-12"
+  *ngIf="isLoadComplete && account && movements.length > 0">
+
+  <ng-container *ngIf="account.application != 'CFO'; else elseTemplate">
+
+    <table class="home__table">
+      <caption></caption>
+      <thead>
+        <tr>
+          <th class="helpers__hide-medium">Fecha</th>
+          <th class="helpers__hide-medium">Glosa</th>
+          <th class="helpers__hide-medium">Importe</th>
+          <th class="helpers__hide-medium">Saldo Disponible</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of movementsList">
+          <td class="helpers__show-medium home__table__td-mobile">
+            <p class="helpers__text-left">Fecha<br><span
+                class="home__mobile-table-text">{{detail.date | date:
+                'dd/MM/yyyy'}}</span></p>
+            <p class="helpers__text-left">Glosa<br><span
+                class="home__mobile-table-text">{{detail.description}}</span></p>
+            <p class="helpers__text-left">Importe<br><span
+                class="home__mobile-table-text">{{detail.amount| number:
+                '1.2-2'}}</span></p>
+            <p class="helpers__text-left">Saldo Disponible<br><span
+                class="home__mobile-table-text">{{detail.availableBalance|
+                number:
+                '1.2-2'}}</span></p>
+            <p class="helpers__text-left">Usuario<br><span
+                class="home__mobile-table-text">{{detail.user}}</span></p>
+            <p class="helpers__text-left">Suc./Age.<br><span
+                class="home__mobile-table-text">{{detail.branch}}</span></p>
+          </td>
+          <td class="helpers__hide-medium">{{detail.date | date:
+            'dd/MM/yyyy'}}</td>
+          <td class="helpers__hide-medium">{{detail.description}}</td>
+          <td class="helpers__hide-medium">{{detail.amount| number:
+            '1.2-2'}}</td>
+          <td class="helpers__hide-medium">{{detail.accountingBalance| number:
+            '1.2-2'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </ng-container>
+  <ng-template #elseTemplate>
+
+  </ng-template>
+
+  <div class="col-sm-12">
+    <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true"
+      [totalItems]="totalItems" [maxSize]="pageItems"
+      (onChange)="handlePageChanged($event)"
+      (onChangeRowsPerPage)="handleViewRows($event)">
+    </app-pagination>
+  </div>
+</div>
+
+<!-- <table class="home__table">
+  <caption></caption>
+  <thead>
+    <tr>
+      <th class="helpers__hide-medium">Fecha</th>
+      <th class="helpers__hide-medium">Glosa</th>
+      <th class="helpers__hide-medium">Importe</th>
+      <th class="helpers__hide-medium">Saldo Contable</th>
+      <th class="helpers__hide-medium">Saldo Disponible</th>
+      <th class="helpers__hide-medium">Suc./Age.</th>
+      <th class="helpers__hide-medium">Usuario</th>
+      <th class="helpers__hide-medium">Nro. de Operación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let detail of movementsList">
+      <td class="helpers__show-medium home__table__td-mobile">
+        <p class="helpers__text-left">Fecha<br><span
+            class="home__mobile-table-text">{{detail.date | date:
+            'dd/MM/yyyy'}}</span></p>
+        <p class="helpers__text-left">Glosa<br><span
+            class="home__mobile-table-text">{{detail.description}}</span></p>
+        <p class="helpers__text-left">Importe<br><span
+            class="home__mobile-table-text">{{detail.amount| number:
+            '1.2-2'}}</span></p>
+        <p class="helpers__text-left">Saldo Disponible<br><span
+            class="home__mobile-table-text">{{detail.availableBalance|
+            number:
+            '1.2-2'}}</span></p>
+        <p class="helpers__text-left">Usuario<br><span
+            class="home__mobile-table-text">{{detail.user}}</span></p>
+        <p class="helpers__text-left">Suc./Age.<br><span
+            class="home__mobile-table-text">{{detail.branch}}</span></p>
+      </td>
+      <td class="helpers__hide-medium">{{detail.date | date:
+        'dd/MM/yyyy'}}</td>
+      <td class="helpers__hide-medium">{{detail.description}}</td>
+      <td class="helpers__hide-medium">{{detail.amount| number:
+        '1.2-2'}}</td>
+      <td class="helpers__hide-medium">{{detail.accountingBalance| number:
+        '1.2-2'}}</td>
+      <td class="helpers__hide-medium">{{detail.availableBalance| number:
+        '1.2-2'}}</td>
+      <td class="helpers__hide-medium">{{detail.branch}}</td>
+      <td class="helpers__hide-medium">{{detail.user}}</td>
+      <td class="helpers__hide-medium">{{detail.transactionNumber}}</td>
+    </tr>
+  </tbody>
+</table> -->

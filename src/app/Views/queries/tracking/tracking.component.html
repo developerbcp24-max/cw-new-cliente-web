@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-md-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Opciones de filtro:</h4>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="historical__box">
+          <div class="transferencias__flex">
+            <div class="transferencias__container-x2">
+              <label class="transferencias__label">Estado:</label>
+              <select name="drpStatus" class="select-account input-simple" [(ngModel)]="statusSelected">
+                <option *ngFor="let status of statuses" [ngValue]="status">
+                  {{ status.description }}
+                </option>
+              </select>
+            </div>
+            <div class="transferencias__container-x2">
+              <label class="transferencias__label">Tipo de operación:</label>
+              <select name="drpOperationTypes" class="select-account input-simple" [(ngModel)]="operationTypeSelected">
+                <option *ngFor="let operationType of operationTypes" [ngValue]="operationType">
+                  {{ operationType.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange"></app-date-range>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="historical__box">
+          <label class="transferencias__label">Beneficiario:</label>
+          <input type="text" class="input-simple" name="nameBeneficiary" [(ngModel)]="beneficiary"
+                 #nameBeneficiary="ngModel" appOnlyType="alphanumericBasicSymbols"
+                 appValidate="alphanumericBasicSymbols"
+                 maxlength="30"/>
+          <app-show-errors [control]="nameBeneficiary"></app-show-errors>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="historical__box">
+          <div class="haberes__debit">
+            <label class="transferencias__label">Orden : </label>
+            <label class="radio">
+              <input type="radio" name="radio" (click)="handleChangeChecked(false)" checked="true">
+              <span class="check-radio"></span>
+            </label>
+            <p>Descendente</p>
+            <label class="radio">
+              <input type="radio" name="radio" (click)="handleChangeChecked(true)">
+              <span class="check-radio"></span>
+            </label>
+            <p>Ascendente</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2"><br>
+      <div class="col-md-8">
+        <div class="historical__box">
+          <form name="lotForm" novalidate #lotForm="ngForm" autocomplete="off">
+            <label class="transferencias__label">Lote:</label>
+            <input type="text" name="batchIds" id="lotInput" [(ngModel)]="tracksDto.batchId" class="input-simple"
+                   placeholder="N° de lote (Ejem: 0000,0000)" appOnlyType="numberList" appValidate="numberList"
+                   #batchIds="ngModel" maxlength="45"
+                   autocomplete="off"/>
+            <app-show-errors [control]="batchIds"></app-show-errors>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-bar-route [isLast]="true"></app-bar-route>
+<div class="row">
+  <div class="col-md-3">
+    <button type="button" class="historical__button-secondary button__principal"
+            (click)="handleSearch()">Buscar
+    </button>
+  </div>
+  <div class="col-md-2 offset-md-1">
+    <button type="button" class="button__secondary historical__button-secondary" (click)="handleClear()">Limpiar
+      fechas
+    </button>
+  </div>
+</div>
+<br><br>
+<app-information-panel [message]="'No se encontraron lotes.'" [type]="'attention'" [visible]="swMessage">
+</app-information-panel>
+<div class="row" *ngIf="swTable">
+  <div class="col-md-12 col-xs-12">
+    <app-tracking-list [tracks]="tracks" [totalItems]="totalItems" (changePaginate)="handleProcessBatches($event)"
+                       [tracksDto]="tracksDto">
+    </app-tracking-list>
+  </div>
+</div>

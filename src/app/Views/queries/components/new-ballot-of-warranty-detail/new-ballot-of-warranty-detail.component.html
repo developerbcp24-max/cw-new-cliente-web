@@ -1,0 +1,215 @@
+<div class="row">
+    <div class="col-md-12">
+      <h4 class="historical__h4">A. Tipo de Boleta de garantia</h4>
+      <div class="transferencias__card">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Nro. de Lote</p>
+          <p class="home__card__item__small-value">{{batchId}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Tipo de Boleta de garantia</p>
+          <p class="home__card__item__small-value">{{detail.typeBallotDescription}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12"><br>
+      <h4 class="historical__h4">B. Datos de Afianzado</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Tipo de Persona</p>
+            <p class="home__card__item__small-value">{{detail.personTypeDescription}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.nameThirdPerson != ''">
+            <p class="home__card__item__small-title"> Nombre solicitante</p>
+            <p class="home__card__item__small-value">{{detail.nameThirdPerson}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.nameThirdPerson != ''">
+            <p class="home__card__item__small-title">Tipo de documento</p>
+            <p class="home__card__item__small-value">{{detail.documentCIThirdPerson}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Dirección</p>
+            <p class="home__card__item__small-value">{{detail.address}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.nameThirdPerson != ''">
+            <p class="home__card__item__small-title">Estado Civil</p>
+            <p class="home__card__item__small-value">{{detail.civilStateDescription}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ingreso</p>
+            <p class="home__card__item__small-value">{{detail.annualIncome}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Patrimonio</p>
+            <p class="home__card__item__small-value">{{detail.heritage}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Número de empleados</p>
+            <p class="home__card__item__small-value">{{detail.numberOfEmployees}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="bar-route"></div>
+      <h4 class="historical__h4">C. Datos de la Fianza</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title"> Importe</p>
+            <p class="home__card__item__small-value">{{detail.amount}} {{detail.currencyDescription}}
+              ({{detail.literalAmount}})</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.typeWarranty !== 'DPF'">
+            <p class="home__card__item__small-title">Tasa acorde a su Funcionario de Negocios</p>
+            <p class="home__card__item__small-value">{{detail.cupRate}} % </p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.termInDays != 0">
+            <p class="home__card__item__small-title">Plazo en Días</p>
+            <p class="home__card__item__small-value">{{detail.termInDays}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.termInDays != 0">
+            <p class="home__card__item__small-title">Computables a partir de</p>
+            <p class="home__card__item__small-value">{{detail.startDate | date:'dd/MM/yyyy'}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.termInDays == 0">
+            <p class="home__card__item__small-title">Fecha de Inicio</p>
+            <p class="home__card__item__small-value">{{detail.startDate | date:'dd/MM/yyyy'}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.termInDays == 0">
+            <p class="home__card__item__small-title">Fecha de vencimiento</p>
+            <p class="home__card__item__small-value">{{detail.expirationDate | date:'dd/MM/yyyy'}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Beneficiario</p>
+            <p class="home__card__item__small-value">{{detail.beneficiary}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Objeto</p>
+            <p class="home__card__item__small-value">{{detail.objectOtherDescription}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Descripción</p>
+            <p class="home__card__item__small-value">{{detail.objectDescription}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.object === 'OTR'">
+            <p class="home__card__item__small-title">Título del Objeto</p>
+            <p class="home__card__item__small-value">{{detail.objectSpecification}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Renovación de Boleta de Garantía</p>
+            <p class="home__card__item__small-value">{{!detail.statusRenovation ? 'NO' : detail.numberRenovation}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="historical__h4">D. Otros</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title"> Forma de pago de las comisiones</p>
+            <p class="home__card__item__small-value">Cuenta de Débito : {{detail.formattedAccountDebit}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Tipo de garantía</p>
+            <p class="home__card__item__small-value">{{detail.typeWarrantyDescription}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.typeWarranty != 'LRC'">
+            <p class="home__card__item__small-title">Monto</p>
+            <p class="home__card__item__small-value">{{detail.amountWarranty | number: '1.2-2'}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.typeWarranty === 'DPF'">
+            <p class="home__card__item__small-title">Número</p>
+            <p class="home__card__item__small-value">{{detail.numberDPF}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.typeWarranty === 'PDF'">
+            <p class="home__card__item__small-title">Número de Cuenta</p>
+            <p class="home__card__item__small-value">{{detail.formattedAccountPDF}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.typeWarranty === 'DPF'">
+            <p class="home__card__item__small-title">Banco</p>
+            <p class="home__card__item__small-value">{{detail.bank}}</p>
+          </div>
+        </div>
+        <div class="transferencias__card" *ngIf="detail.typeWarranty === 'DPF'">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Titular 1</p>
+            <p class="home__card__item__small-value">{{detail.firstTitular}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">CI</p>
+            <p class="home__card__item__small-value">{{detail.firstDocumentCI}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.secondTitular != '-'">
+            <p class="home__card__item__small-title">Titular 2</p>
+            <p class="home__card__item__small-value">{{detail.secondTitular}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.secondDocumentCI != '-'">
+            <p class="home__card__item__small-title">CI</p>
+            <p class="home__card__item__small-value">{{detail.secondDocumentCI}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.thirdTitular != '-'">
+            <p class="home__card__item__small-title">Titular 3</p>
+            <p class="home__card__item__small-value">{{detail.thirdTitular}}</p>
+          </div>
+          <div class="home__card__item" *ngIf="detail.thirdDocumentCI != '-'">
+            <p class="home__card__item__small-title">CI</p>
+            <p class="home__card__item__small-value">{{detail.thirdDocumentCI}}</p>
+          </div>
+        </div>
+        <div class="transferencias__card" *ngIf="detail.typeBallotOfWarranty == 'GPR'">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Modalidad</p>
+            <p class="home__card__item__small-value">{{detail.modality == 'MAU' ? 'AMORTIZACIÓN ÚNICA' : 'AMORTIZACIÓN GRADUAL O PROGRESIVA'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="detail.modality === 'SMO'">
+    <div class="col-md-12">
+      <table class="cw-table table-striped" data-html="true" data-toggle="tooltip" data-placement="top"><caption></caption>
+        <thead>
+          <tr>
+            <th>Al</th>
+            <th>US$</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of detail.amortizations; let i = index">
+            <td>{{data.toThe | date:'dd-MM-yyyy'}}</td>
+            <td>{{data.amount | number: '1.2-2'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="historical__h4">E. Instrucciones de Entrega de la Boleta</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title"> Nombre</p>
+            <p class="home__card__item__small-value">{{detail.entityName}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">CI</p>
+            <p class="home__card__item__small-value">{{detail.entityDocumentCI}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Ciudad de Origen</p>
+            <p class="home__card__item__small-value">{{detail.placeOfDelivery}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

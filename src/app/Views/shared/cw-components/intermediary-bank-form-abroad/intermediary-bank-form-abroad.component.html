@@ -1,0 +1,41 @@
+<form class="form-horizontal" name="formIsIntermediary" #formIsIntermediary="ngForm" novalidate>
+    <fieldset [disabled]="disabled" *ngIf="!disabled"><legend></legend><br>
+      <div class="row transferencia-ext__bank-intermediate">
+        <div class="col-md-5">
+          <button (click)="handleBankIntermediary(false)" [ngClass]="{'button-selected':!bankIntermediary.isBankIntermediary}"
+            class="historical__box historical__button-period">No</button>
+          <button (click)="handleBankIntermediary(true)" [ngClass]="{'button-selected':bankIntermediary.isBankIntermediary}"
+            class="historical__box historical__button-period box--margin-right">Sí</button>
+        </div>
+        <div class="col-md-6 transferencia-ext__destination--hidden">
+          <select class="input-simple" name="isBankIntermediary" [(ngModel)]="bankIntermediary.isBankIntermediary">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Si</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <div *ngIf="bankIntermediary.isBankIntermediary">
+    <app-banks-searcher [sourceAccount]="sourceAccount" [bankSelectedDetail]="bankIntermediary.destinationBankResult" (onChange)="handleChangeBank($event)"
+      [disabled]="disabled">
+    </app-banks-searcher>
+    <div class="row full-size">
+      <div class="col-sm-12 col-md-6">
+        <form name="accountIntermediaryForm" #accountIntermediaryForm="ngForm" novalidate>
+          <fieldset [disabled]="disabled"><legend></legend><br>
+            <div class="historical__box box-search">
+              <div class="row">
+                <div class="col-md-12 box-input">
+                  <label class="transferencias__label">Nro.Cuenta Banco Pag/IBAN(Europa):</label>
+                  <input type="text" name="account" [(ngModel)]="bankIntermediary.numberAccount" (ngModelChange)="handleAccountChange()"
+                    class="form-control" #account="ngModel" [appOnlyType]="'otherAlphanumeric'">
+                  <app-show-errors [control]="account"></app-show-errors>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>

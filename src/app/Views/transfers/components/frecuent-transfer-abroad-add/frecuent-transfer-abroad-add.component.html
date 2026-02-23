@@ -1,0 +1,38 @@
+<div class="row helpers__hidden-small">
+    <div class="col-md-8">
+      <button class="button__secondary transferencia-ext__button-secondary" *ngIf="!frecuent.isFrecuent"
+        (click)="isAddVisible=true">GUARDAR
+        COMO FAVORITO</button>
+      <button class="button__principal transferencia-ext__button-secondary" *ngIf="frecuent.isFrecuent"
+        (click)="handleResetFavoriteTransfer()">CANCELAR
+        FAVORITO</button>
+      <input *ngIf="frecuent.isFrecuent" class="input-simple description-favorite" disabled="disabled" type="text"
+        name="description" value="{{frecuent.description}}">
+    </div>
+  </div>
+  <app-modal [visible]="isAddVisible" (onClose)="isAddVisible=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-xs-12">
+      Guardar como favorito
+    </div>
+    <div class="app-modal-body col-md-12 col-xs-12">
+      <div class="row transferencia-ext__bank">
+        <div class="col-md-8 offset-md-2">
+          <input class="input-simple" type="text" name="description" placeholder="Nombre del favorito" [(ngModel)]="frecuentTemp.description" required
+            maxlength="50" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" #description>
+          <app-show-errors [control]="description"></app-show-errors>
+        </div>
+      </div>
+    </div>
+    <div class="app-modal-footer col-md-12 col-xs-12">
+      <div class="row modal__container-button">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <button class="button__principal modal__button" (click)="handleAddFavoriteTransfer()">Guardar</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="isAddVisible=false" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

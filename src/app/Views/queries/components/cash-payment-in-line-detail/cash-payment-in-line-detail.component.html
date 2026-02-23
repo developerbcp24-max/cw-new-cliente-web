@@ -1,0 +1,92 @@
+<div class="col-md-12">
+    <div class="transferencias__card">
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Número de lote</p>
+            <p class="home__card__item__small-value">{{detail.processBatchId}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Cuenta origen</p>
+            <p class="home__card__item__small-value">{{detail.sourceAccount}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Fecha de ingreso</p>
+            <p class="home__card__item__small-value">{{detail.dateProcess | date:'dd/MM/yyyy'}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Monto del lote</p>
+            <p class="home__card__item__small-value">{{detail.amount | number: '1.2-2'}} {{detail.currency}}
+            </p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Estado del lote</p>
+            <p class="home__card__item__small-value">{{detail.statusOperation}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.isTicket">
+            <p class="home__card__item__small-title">Número de ticket</p>
+            <p class="home__card__item__small-value">{{detail.numberTicket}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Débito por operación</p>
+            <p class="home__card__item__small-value">{{detail.isMultipleDebits ? 'Multiple' : 'Único'}}</p>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="detail.fundSource != ''">
+    <div class="transferencias__card">
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Orígen de los Fondos</p>
+            <p class="home__card__item__small-value aling-justify">{{detail.fundSource}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Destino de los Fondos</p>
+            <p class="home__card__item__small-value aling-justify">{{detail.fundDestination}}</p>
+        </div>
+    </div>
+  </div>
+  
+  <app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>
+  
+  <div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12  col-sm-12">
+                <table class="cw-table table-striped"><caption></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Monto</th>
+                            <th scope="col">Razon Beneficiario</th>
+                            <th scope="col">Tipo Documento</th>
+                            <th scope="col">Documento </th>
+                            <th scope="col">Instrucciones</th>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Detalle</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">E-mail Proveedor</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Mensaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of payments.spreadsheet">
+                            <td>{{data.code}}</td>
+                            <td>{{data.amount | number: '1.2-2'}}</td>
+                            <td>{{data.name}} {{data.firstLastName}} {{data.secondLastName}}</td>
+                            <td>{{data.documentType}}</td>
+                            <td>{{data.documentNumber}}</td>
+                            <td>{{data.instructions}}</td>
+                            <td>{{data.branchOfficeDescription}}</td>
+                            <td>{{data.detail}}</td>
+                            <td>{{data.addressBeneficiary}}</td>
+                            <td>{{data.mail}}</td>
+                            <td>{{data.operationStatus}}</td>
+                            <td>{{data.errorMessages}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="detail.spreadsheet.length" [maxSize]="pageItems" (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)">
+        </app-pagination>
+    </div>
+  </div>

@@ -1,0 +1,170 @@
+<section class="font-sans">
+  <div *ngFor="let item of stepOptions" class="flex flex-col items-end mb-6">
+
+    <!-- 2nd page - Cuenta vinculada -->
+    <ng-container *ngIf="item.selected && item.value == 2">
+      <div class="w-full max-w-2xl mx-auto px-6 py-8">
+
+        <!-- Título principal -->
+        <h2 class="text-center text-2xl font-bold text-[#32335C] mb-6 font-flexo">
+          Cuenta vinculada a Credinet
+        </h2>
+
+        <!-- Descripción -->
+        <p class="text-center text-[#32335C] text-base mb-8 font-flexo">
+          La cuenta que vincularemos a Credinet es:
+        </p>
+
+        <!-- Cuenta principal -->
+        <div class="flex justify-center items-center mb-8">
+          <div class="bg-gray-100 rounded-lg px-6 py-4 flex items-center justify-between w-80">
+            <span class="text-gray-800 font-medium text-lg tracking-wider leading-none">
+              {{ accountNumber | formatAccount }}
+            </span>
+            <div class="w-8 h-6 flex-shrink-0">
+              <mat-icon
+                [svgIcon]="accountNumber.substring(accountNumber.length - 3, accountNumber.length - 2) === '3' ? 'bolivia-flag' : 'usa-flag'"
+                [inline]="true" class="w-8 h-6">
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuentas adicionales -->
+        <ng-container *ngIf="accounts.length !== 1">
+          <p class="text-center text-[#32335C] text-sm mb-6 px-4 font-flexo">
+            Si desea añadir otra cuenta, seleccione una o todas las cuentas que desea vincular a credinet
+          </p>
+
+          <div class="flex flex-col items-center space-y-3 mb-8">
+  <ng-container *ngFor="let account of getAccountsToShow()">
+    <div class="bg-gray-100 rounded-lg px-6 py-4 flex items-center justify-between w-80">
+      <div class="flex items-center space-x-3">
+        <mat-checkbox
+          [ngModel]="account.selected"
+          (ngModelChange)="onAccountSelectionChange(account.account.noAccount, $event)"
+          class="scale-90">
+        </mat-checkbox>
+        <span class="text-[#32335C] font-medium tracking-wider font-flexo">
+          {{ account.account.noAccount | obfuscateAccountNumber | formatAccount }}
+        </span>
+      </div>
+
+      <div class="w-8 h-6">
+        <mat-icon
+          [svgIcon]="account.account.noAccount.substring(account.account.noAccount.length - 3, account.account.noAccount.length - 2) === '3' ? 'bolivia-flag' : 'usa-flag'"
+          [inline]="true"
+          class="w-8 h-6">
+        </mat-icon>
+      </div>
+    </div>
+  </ng-container>
+</div>
+        </ng-container>
+
+        <!-- Nota informativa -->
+        <div class="bg-blue-50 border-l-4 border-[#34B1CF] px-4 py-3 mb-8">
+          <p class="text-sm text-[#32335C] leading-relaxed font-flexo">
+            La información es obtenida de los datos registrados en la apertura de cuenta.
+            El cobro de comisión de operaciones mayores a BS 50M se hará de esta cuenta
+          </p>
+        </div>
+      </div>
+
+      <!-- Botones de navegación -->
+      <div class="w-full px-6 pb-6 mb-4">
+        <app-register-buttons (onBackEvent)="changePage(1)" (onNextEvent)="getSignatures()">
+        </app-register-buttons>
+      </div>
+    </ng-container>
+
+    <!-- 1st page - Afiliación -->
+    <ng-container *ngIf="item.selected && item.value == 1">
+      <div class="w-full max-w-4xl mx-auto px-6 py-8">
+        <h2 class="text-center text-3xl font-bold text-blue-900 mb-4 font-flexo">
+          Afiliación a paquete Full Acceso
+        </h2>
+
+        <p class="text-center text-base text-[#32335C] mb-8 cursor-pointer font-flexo" (click)="changePage(3)">
+          ¿Cómo funciona CredinetWeb?
+          <span class="underline text-[#34B1CF] hover:text-[#157d97] ml-1 font-flexo">
+            Tipos de usuarios
+          </span>
+        </p>
+
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+          <div class="text-center mb-6">
+            <h4 class="text-lg text-[#2B9BE0] mb-2 font-flexo">El paquete full acceso incluye</h4>
+            <hr class="w-60 h-0.5 bg-[#2B9BE0] mx-auto" />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <ng-container *ngFor="let item of fullAccessItems">
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-5 h-5 mt-0.5 text-green-500">
+                  <mat-icon svgIcon="check" [inline]="true"></mat-icon>
+                </div>
+                <p class="text-sm text-[#32335C] font-flexo">{{ item }}</p>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-3 mb-6">
+  <mat-checkbox [(ngModel)]="canGetAccounts" class="mt-0.5"></mat-checkbox>
+  <label class="text-md text-[#32335C] leading-relaxed cursor-pointer flex-1 mt-2.5 font-flexo"
+         (click)="canGetAccounts = !canGetAccounts">
+    He leído y Acepto los
+    <span class="text-[#34B1CF] underline cursor-pointer hover:text-[#157d97] ml-1 font-flexo"
+          (click)="$event.stopPropagation(); openTermsAndConditionsDialog()">
+      términos y condiciones
+    </span>
+  </label>
+</div>
+      </div>
+
+      <div class="w-full px-6 pb-6">
+        <app-register-buttons (onBackEvent)="changeStepEvent.emit(-1)" (onNextEvent)="getAccounts()"
+          [nextDisabled]="!canGetAccounts">
+        </app-register-buttons>
+      </div>
+    </ng-container>
+
+    <!-- 3rd page - Cómo funciona -->
+    <ng-container *ngIf="item.selected && item.value == 3">
+      <div class="w-full max-w-4xl mx-auto px-6 mb-14">
+        <h2 class="text-center text-2xl font-bold text-blue-900 mb-6">
+          ¿Cómo funciona Credinet Web?
+        </h2>
+
+        <p class="text-center text-gray-600 mb-8 px-4">
+          Credinet ofrece roles de usuario con distintos niveles de acceso que
+          permiten realizar consultas y transacciones a requerimiento.
+        </p>
+
+        <div class="text-center mb-8">
+          <img src="../../../../../assets/new-face/images/register/how-cw-works.png" alt="how-cw-works"
+            class="mx-auto max-w-full h-auto" />
+        </div>
+
+        <p class="text-center mb-8">
+          <button class="text-blue-600 hover:text-blue-800 underline text-sm" (click)="openRoles()">
+            Ver más acerca de los roles
+          </button>
+        </p>
+
+        <div class="flex justify-center">
+          <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+            (click)="changePage(1)">
+            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5">
+              <path d="M12.5 15.5L7.5 10.5L12.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span class="text-sm">Volver</span>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

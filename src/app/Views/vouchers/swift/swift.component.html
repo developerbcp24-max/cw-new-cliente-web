@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="alert alert-information">
+      <p>Seleccione fecha inicial, fecha final, escoja transferencias enviadas o recibidas y presione el botón Buscar
+        para buscar
+        las operaciones realizadas. </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Seleccione rango de fechas</h4>
+      <div class="col-md-12">
+        <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange"></app-date-range>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <app-bar-route [isLast]="true"></app-bar-route>
+      <h4 class="historical__h4">Transferencias</h4>
+      <div class="col-md-12">
+        <app-filter-type-transfers (onChange)="handleChangeFilter($event)"></app-filter-type-transfers>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4"><br>
+      <button class="button__secondary" (click)="handleSearch()" [disabled]="!dateRange.isValid"><em class="icon-Lupa"></em>
+        BUSCAR</button>
+    </div>
+  </div>
+
+  <div class="row"><br>
+    <ng-container *ngIf="isVisibleError">
+      <app-information-panel [visible]="isVisibleError" [message]="'Nota: No existe ningún registro.'" [type]="'attention'"></app-information-panel>
+    </ng-container>
+    </div>
+
+
+  <div class="row" *ngIf="swifts.totalItems>0 && filterType==='send'">
+    <div class="col-md-12">
+      <app-list-swift-sent [swifts]="swifts.transfersAbroadSwiftResult"></app-list-swift-sent>
+      <div class="mt-4">
+        <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="swifts.totalItems" [maxSize]="swifts.pageSize"
+          [returnFirstChange]="false" (onChange)="handleChangePagination($event)" (onChangeRowsPerPage)="handleViewRowsSent($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="received.length>0 && filterType!=='send'">
+    <app-list-swift-received [received]="receivedPage" [message]="''"></app-list-swift-received>
+    <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="received.length" [maxSize]="pageReceivedSize"
+      (onChange)="handleChangePaginationReceived($event)" (onChangeRowsPerPage)="handleViewRowsReceived($event)"></app-pagination>
+  </div>

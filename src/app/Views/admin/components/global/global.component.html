@@ -1,0 +1,45 @@
+<!-- notification.component.html con Tailwind CSS -->
+<div class="position-notification">
+  <div *ngFor="let message of messages">
+    <div
+      *ngIf="!message.isModalContainer"
+      [ngClass]="getTailwindAlertClass(message)"
+      [ngStyle]="{ opacity: message.isVisible ? 1 : 0 }"
+      class="p-4 mb-2 rounded relative transition-opacity duration-300 ease-in-out"
+      role="alert"
+    >
+      <button
+        type="button"
+        class="absolute top-0 right-0 p-2"
+        (click)="removeMessage(message)"
+        aria-label="Close"
+      >
+        <span aria-hidden="true" class="text-lg">&times;</span>
+      </button>
+      <strong class="font-semibold mr-1">{{ message.summary }}</strong>
+      <span>{{ message.detail }}</span>
+    </div>
+  </div>
+
+  <app-modal [visible]="currentMessage.isVisible" [size]="'md'">
+    <div class="app-modal-header w-full font-semibold text-lg">
+      {{ currentMessage.summary }}
+    </div>
+    <div class="app-modal-body w-full">
+      {{ currentMessage.detail }}
+    </div>
+    <div class="app-modal-footer w-full flex justify-center">
+      <div class="w-full md:w-1/3">
+        <button
+          type="button"
+          class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          (click)="removeMessage(currentMessage)"
+        >
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </app-modal>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>

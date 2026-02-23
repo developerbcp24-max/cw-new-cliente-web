@@ -1,0 +1,47 @@
+<div
+  class="bcp-layout-container"
+  style="height: auto !important; line-height: 1.2"
+>
+  <!-- Headers -->
+  <app-header class="bcp-header-mobile"></app-header>
+  <div class="register-mobile-main-container mt-[86px] rounded-t-[16px]">
+    <!-- Top tags -->
+    <app-register-mobile-tabs [currentStep]="currentStep">
+    </app-register-mobile-tabs>
+
+    <!-- Body tags -->
+    <div class="register-mobile-container">
+      <div [ngSwitch]="currentStep">
+        <ng-container *ngSwitchCase="1">
+          <app-register-mobile-annex
+            [affiliationDocument]="affiliationDocument"
+            [affiliationDocumentJson]="affiliationDocumentJson"
+            [affiliationDocumentBase64]="affiliationDocumentBase64"
+            [affiliationDocumentBase64Str]="affiliationDocumentBase64Str"
+            [companyName]="getOnboardingMobileDataResponse.companyName"
+            (changeStepEvent)="generateOtp()"
+          ></app-register-mobile-annex>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <app-register-mobile-signature
+            [getOnboardingMobileDataResponse]="getOnboardingMobileDataResponse"
+            [createDigitalFileAndSendOTPResponse]="
+              createDigitalFileAndSendOTPResponse
+            "
+            [startCountdownEvent]="startCountdownEvent"
+            (changeStepEvent)="getRespPassiveLiveTest()"
+          ></app-register-mobile-signature>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <app-register-mobile-facial-recognition
+            [getRespPassiveLiveTestResponse]="getRespPassiveLiveTestResponse"
+          ></app-register-mobile-facial-recognition>
+        </ng-container>
+        <ng-container *ngSwitchCase="4">
+          <app-register-mobile-complete></app-register-mobile-complete>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,50 @@
+<form class="form-horizontal" name="detailForm" novalidate #detailForm="ngForm">
+  <fieldset [disabled]="true"><legend></legend><br>
+    <p class="tituloGeneral h_no-MarginBottom">Cuenta de Origen del Pago</p>
+    <div class="form-group">
+      <label for="batchId" class="col-sm-2 control-label">Numero de Lote:</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="batchId" [(ngModel)]="batchId">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="sourceAccount" class="col-sm-2 control-label">Cuenta:</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="sourceAccount" [(ngModel)]="detail.sourceAccount">
+      </div>
+      <label for="sourceCurrency" class="col-sm-2 control-label">Moneda:</label>
+      <div class="col-xs-10 col-sm-3">
+        <input class="form-control" type="text" name="sourceCurrency" [(ngModel)]="detail.sourceCurrency">
+      </div>
+      <div class="col-xs-2">
+        <app-depecrated-currency-flag [flag]="detail.sourceCurrency" [visible]="true"></app-depecrated-currency-flag>
+      </div>
+    </div>
+    <p class="tituloGeneral h_no-MarginBottom">Información del Crédito</p>
+    <div class="form-group">
+      <label for="destinationAccount" class="col-sm-2 control-label">Cuenta:</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="destinationAccount" [(ngModel)]="detail.destinationAccount">
+      </div>
+      <label for="destinationCurrency" class="col-sm-2 control-label">Moneda:</label>
+      <div class="col-xs-10 col-sm-3">
+        <input class="form-control" type="text" name="destinationCurrency" [(ngModel)]="detail.destinationCurrency">
+      </div>
+      <div class="col-xs-2">
+        <app-depecrated-currency-flag [flag]="detail.destinationCurrency" [visible]="true"></app-depecrated-currency-flag>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="amount" class="col-sm-2 control-label">Monto:</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="amount" [(ngModel)]="detail.amount" mask-money>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="expirationDate" class="col-sm-2 control-label">Fecha de Expiración:</label>
+      <div class="col-sm-5">
+        <input class="form-control" type="text" name="expirationDate" value="{{detail.expirationDate|date:'dd/MM/yyyy'}}">
+      </div>
+    </div>
+  </fieldset>
+</form>

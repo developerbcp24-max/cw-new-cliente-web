@@ -1,0 +1,61 @@
+<div class="row historical__account">
+  <div class="col-md-6">
+    <app-bar-route></app-bar-route>
+    <div class="transferencias__container-title-detail">
+      <h4 class="historical__h4">Ingresa el importe</h4>
+      <p *ngIf="showCompanyLimitsLink" class="historical__p--cancel transferencia-ext__p-link helpers__hidden-small"
+        (click)="showCompanyLimits=true"><a>Ver límite diario</a></p>
+    </div>
+    <form name="currencyAndAmountForm" novalidate #currencyAndAmountForm="ngForm" autocomplete="off">
+      <div class="historical__box transferencias__account-box">
+        <div class="transferencias__flex" *ngIf="!isMassivePayment">
+          <div class="transferencias__container-x2">
+            <label for="amount">{{amountTag}}</label>
+            <input class="transferencias__input--text" type="text" #fundDiv name="amount" [disabled]="disabled" [readonly]="isAmountDisabled"
+              [(ngModel)]="batchInformation.amount" #amount="ngModel" required mask-money [appMaxLength]=maximumDigitsAllowed
+              appValidate="majorZero">
+            <app-show-errors [control]="amount"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label for="currency">{{currencyTag}}</label>
+            <div class="account-flag" *ngIf="sameCurrency">
+              <input class="input-account-qr input-simple input-simple-dos"
+                [(ngModel)]="currenDesc.description" name="currency" required [disabled]="true"
+                value='{{currenDesc.description}}' #currency="ngModel">
+            </div>
+            <div class="account-flag"*ngIf="!sameCurrency">
+              <select class="transferencias__select-account input-simple" #fundDiv [(ngModel)]="batchInformation.currency" name="currency"
+                required #currency="ngModel" (change)="handleAmountOrCurrencyChanged(); handleChangeCurrency();" [disabled]="disabled || isCurrencyBlocked">
+                <option value="" disabled>Seleccione una moneda</option>
+                <option *ngFor="let item of currencies" value="{{item.value}}">{{item.description}}</option>
+              </select>
+              <app-currency-flag [flag]="batchInformation.currency" [visible]="isFlagVisible"></app-currency-flag>
+              <app-show-errors [control]="currency"></app-show-errors>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="verifyFundDeclarationAmount && (isShowOriginAndDestinationFundsForm || (alwaysShowFundDeclarationForm && batchInformation.amount))">
+          <div class="transferencias__container-x2 all-width">
+            <label for="fundSource">Orígen de los fondos:</label>
+            <textarea class="transferencias__input--text" type="text" [(ngModel)]="batchInformation.fundSource" name="fundSource"
+              required appValidate="repeatedCharacters" appOnlyType="alphanumericBasicSymbols" #fundSource="ngModel" (keyup)="handleAmountOrCurrencyChanged()"
+              minlength="15" [maxlength]="500" [disabled]="disabled"></textarea>
+            <app-show-errors [control]="fundSource"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2 all-width">
+            <label for="fundDestination">Destino de los fondos:</label>
+            <textarea class="transferencias__input--text" type="text" [(ngModel)]="batchInformation.fundDestination"
+              name="fundDestination" required appValidate="repeatedCharacters" appOnlyType="alphanumericBasicSymbols" #fundDestination="ngModel" (keyup)="handleAmountOrCurrencyChanged()"
+              minlength="15" [maxlength]="500" [disabled]="disabled"></textarea>
+            <app-show-errors [control]="fundDestination"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <app-ticket *ngIf="preferentialExchangeTicket" [disabled]="disabled" [batchInformation]="batchInformation"
+      [amount]="data.amount"></app-ticket>
+  </div>
+</div>
+<app-company-limits [isVisible]="showCompanyLimits" (onClose)="showCompanyLimits=false"></app-company-limits>

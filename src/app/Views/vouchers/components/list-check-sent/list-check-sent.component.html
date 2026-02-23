@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-12">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Número de cheque</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Oficina</th>
+            <th scope="col">Fecha de registro</th>
+            <th scope="col">Ver detalle</th>
+            <th scope="col">Descargar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of checkList">
+            <td>{{detail.idCheck}}</td>
+            <td>{{detail.cityName}}</td>
+            <td>{{detail.officeName}}</td>
+            <td>{{detail.regDate | date: 'dd/MM/yyyy'}}</td>
+            <td style="align-items: center;">
+              <a (click)="handleShowDetails(detail.idCheck)"><em class="fas fa-info-circle button__size"></em></a>
+            </td>
+            <td style="align-items: center;">
+                <a (click)="handleDownload(detail.idCheck)"><em class="fa fa-arrow-circle-down button__size"></em></a>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-pagination [totalItems]="checks.length" [maxSize]="pageSize" [isCenter]="true"
+        (onChange)="handlePageChanged($event)" [rowsPerPage]="rowsPerPage" (onChangeRowsPerPage)="handleViewRows($event)">
+      </app-pagination>
+    </div>
+  </div>

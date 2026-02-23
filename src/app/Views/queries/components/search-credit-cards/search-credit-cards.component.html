@@ -1,0 +1,55 @@
+<div class="fluid-container">
+    <div class="row" *ngIf="isVisible">
+      <div class="alert alert-information">
+        <em class="fas fa-exclamation-circle"></em><p>
+          Para ver el detalle de los movimientos de una Tarjeta de Crédito presione el ícono 
+          <span class="icon-Lupa icono-naranjo" aria-hidden="true">
+          </span><strong>VER MOVIMIENTOS</strong> (Nota. La información corresponde al día anterior)
+        </p>
+      </div>
+    </div>
+    <div class="row" *ngIf="isVisible">
+      <div class="col-md-12">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th>Nro. Cuenta</th>
+            <th>Usuario</th>
+            <th>Moneda</th>
+            <th>Linea de Credito</th>
+            <th>Disponible</th>
+            <th>Utilizado</th>
+            <th>Fecha Cuota</th>
+            <th>Monto Cuota</th>
+            <th>Ver Movimientos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let account of responsePerPage">
+            <td>{{account.accountNumber}}</td>
+            <td>{{account.userName}}</td>
+            <td>{{account.currency}}</td>
+            <td>{{account.creditLine | number}}</td>
+            <td>{{account.availableBalance | number}}</td>
+            <td>{{account.amountUsed | number}}</td>
+            <td>{{account.quotaDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{account.quotaAmount | number}}</td>
+            <td>
+              <a (click)="handleShowDetails(account.Id)">
+                <em class="fas fa-search"></em>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <app-pagination [totalItems]="Response.length" [isCenter]="true" [maxSize]="pageSize" [rowsPerPage]="rowsPerPage" (onChange)="handleChangePage($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-information-panel [message]="'No se encontraron Tarjetas de crédito.'" [type]="'attention'" [visible]="swMessage"></app-information-panel>
+      </div>
+    </div>
+    <br>
+  </div>
+  

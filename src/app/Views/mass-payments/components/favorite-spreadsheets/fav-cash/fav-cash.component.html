@@ -1,0 +1,190 @@
+<fieldset [disabled]="disabled"><legend></legend><br>
+    <app-amount-account-verificated [amount]="batchInformation.amount" [totalErrors]="totalErrors" [totalCorrects]="totalCorrects"
+    [haveErrors]="haveErrors" [errorsDetail]="errorsDetail" [currency]="batchInformation.currency" [isVisibleButton]="false">
+    </app-amount-account-verificated>
+    <div *ngIf="visible">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12  col-sm-12">
+              <table class="cw-table table-striped"><caption></caption>
+                <thead>
+                  <tr>
+                    <th *ngIf="headers.code">Seleccione Pago</th>
+                    <th *ngIf="headers.code">Código</th>
+                    <th *ngIf="headers.line">Linea</th>
+                    <th *ngIf="headers.amount">Monto</th>
+                    <th *ngIf="headers.name">Razon Beneficiario</th>
+                    <th *ngIf="headers.firstLastName">Apellido Paterno</th>
+                    <th *ngIf="headers.secondLastName">Apellido Materno</th>
+                    <th *ngIf="headers.documentType">Tipo Documento</th>
+                    <th *ngIf="headers.documentNumber">Documento</th>
+                    <th *ngIf="headers.documentExtension">Extension Documento</th>
+                    <th *ngIf="headers.instruccionsPayment">Instrucciones</th>
+                    <th *ngIf="headers.branchOfficeDescription">Ciudad</th>
+                    <th *ngIf="headers.details">Detalle</th>
+                    <th *ngIf="headers.mail">Email Proveedor</th>
+                    <th>Acciones</th>
+                    <th>
+                      <button (click)="showFilter=!showFilter" class="table-filter" #insideButton><em class="fas fa-plus"></em></button>
+                      <div class="historical__box table-filter--hidden" [ngClass]="{'show-filter':showFilter}" #insideElement>
+                        <ul>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.code">
+                              <span class="check"></span>
+                            </label>
+                            <p>Código</p>
+                          </li>
+                          <li>
+                              <label class="checkbox">
+                                <input type="checkbox" [(ngModel)]="headers.line">
+                                <span class="check"></span>
+                              </label>
+                              <p>Linea</p>
+                            </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.amount">
+                              <span class="check"></span>
+                            </label>
+                            <p>Monto</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.name">
+                              <span class="check"></span>
+                            </label>
+                            <p>Razon Beneficiario</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.firstLastName">
+                              <span class="check"></span>
+                            </label>
+                            <p>Apellido Paterno</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.secondLastName">
+                              <span class="check"></span>
+                            </label>
+                            <p>Apellido Materno</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.documentType">
+                              <span class="check"></span>
+                            </label>
+                            <p>Tipo Documento</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.documentNumber">
+                              <span class="check"></span>
+                            </label>
+                            <p>Documento</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.documentExtension">
+                              <span class="check"></span>
+                            </label>
+                            <p>Extension Documento</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.instruccionsPayment">
+                              <span class="check"></span>
+                            </label>
+                            <p>Instrucciones</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.branchOfficeDescription">
+                              <span class="check"></span>
+                            </label>
+                            <p>Ciudad</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.details">
+                              <span class="check"></span>
+                            </label>
+                            <p>Detalles</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.mail">
+                              <span class="check"></span>
+                            </label>
+                            <p>Email Proveedor</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr [ngClass]="{'error':row.isError}" *ngFor="let row of spreadsheetPerPage" data-toggle="tooltip"
+                    data-placement="top" data-html="true" title="{{row.errorMessages}}">
+                    <td>
+                      <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="row.isChecked" (click)="handleCheck(row)">
+                        <span class="check"></span>
+                      </label>
+                    </td>
+                    <td *ngIf="headers.code" title="Código">{{row.code}}</td>
+                    <td *ngIf="headers.line" title="Linea">{{row.line}}</td>
+                    <td *ngIf="headers.amount" title="Monto">{{row.amount | number: '1.2-2'}}</td>
+                    <td *ngIf="headers.name" title="Razon Beneficiario">{{row.titularName}}</td>
+                    <td *ngIf="headers.firstLastName" title="Apellido Paterno">{{row.firstLastName}}</td>
+                    <td *ngIf="headers.secondLastName" title="Apellido Materno">{{row.secondLastName}}</td>
+                    <td *ngIf="headers.documentType" title="Tipo Documento">{{row.documentType}}</td>
+                    <td *ngIf="headers.documentNumber" title="Documento">{{row.documentNumber}}</td>
+                    <td *ngIf="headers.documentExtension" title="Extensión Documento">{{row.documentExtension}}</td>
+                    <td *ngIf="headers.instruccionsPayment" title="Instrucciones">{{row.instruccionsPayment}}</td>
+                    <td *ngIf="headers.branchOfficeDescription" title="Ciudad">{{row.branchOfficeDescription}}</td>
+                    <td *ngIf="headers.details" title="Detalles">{{row.secondDetail}}</td>
+                    <td *ngIf="headers.mail" title="Email Proveedor">{{row.mail}}</td>
+                    <td title="Acciones" class="actions" colspan="2">
+                      <a (click)="handleShowEditForm(row)"><em class="fas fa-edit"></em></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-modal [visible]="showDetailForm" (onClose)="showDetailForm=false" [size]="'md'" [manualCloseModal]="true">
+      <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Modificar Monto' : 'Agregar fila'}}</div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        <form name="detailForm" #detailForm="ngForm" novalidate autocomplete="off">
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-12 inputs ">
+              <div class="input-numero">
+                <label>Monto</label>
+                <input class="input_modal_1" type="text" name="amount" [(ngModel)]="detail.amount" #amount="ngModel" required mask-money
+                  [appMaxLength]=16 appValidate="majorZero">
+                <app-show-errors [control]="amount"></app-show-errors>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="offset-md-4 col-md-4 col-xs-12">
+            <button class="button__principal modal__button" (click)="handleValidate()">{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+          </div>
+        </div>
+        <div class="row modal__cancelar" style="justify-content: center; display: flex;">
+          <div class="col-md-12 col-xs-12" style="text-align: center;">
+            <a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+  </fieldset>

@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-2 col-sm-4">
+      <button class="button__secondary historical__button-secondary button-program" [disabled]="vouchersIds.length == 0"
+        (click)="handleDownloadZip()"><em class="fas fa-download"></em> DESCARGAR
+      </button>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <button class="button__secondary historical__button-secondary button-program" (click)="handleDownloadMassive()"><em
+          class="fas fa-download"></em> DESCARGA MASIVA
+      </button>
+    </div>
+  </div>
+  
+  <div class="table-responsive">
+    <table class="cw-table table-striped"><caption></caption>
+      <thead>
+        <tr>
+          <th>Lote</th>
+          <th>Linea</th>
+          <th>Nro. Operación</th>
+          <th>Transacción</th>
+          <th>Cuenta origen</th>
+          <th>Importe</th>
+          <th>Moneda</th>
+          <th>Fecha transacción</th>
+          <th style="align-items: center;">
+            Comprobante
+            <label class="checkbox">
+              <input type="checkbox" [(ngModel)]="allVouchersSelected" (change)="handleAllVouchersChecked()">
+              <span class="check"></span>
+            </label>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let voucher of vouchers">
+            <td>{{voucher.id}}</td>
+            <td>{{voucher.line}}</td>
+            <td>{{voucher.operationNumberDebitHost}}</td>
+            <td style="align-items: left;">{{voucher.nameOperation}}</td>
+            <td>{{voucher.formattedAccount}}</td>
+            <td style="align-items: right;">{{voucher.amount | number: '1.2-2'}}</td>
+            <td style="align-items: right;">{{voucher.currency}}</td>
+            <td>{{voucher.dateCreation | date: 'dd/MM/yyyy'}}</td>
+            <td style="align-items: center;">
+              <div *ngIf="voucher.enabled==1">
+                <a *ngIf="!voucher.isVisibleButton" (click)="handleDownloadReport(voucher)"><em class="fa fa-arrow-circle-down button__size"></em></a>
+                <label class="checkbox" *ngIf="voucher.isVisibleButton">
+                  <input type="checkbox" [(ngModel)]="voucher.isSelected" (change)="handleVoucherChecked(voucher)">
+                  <span class="check"></span>
+                </label>
+              </div>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,9 @@
+{
+  "server": "DEVCWN10",
+  "port": "443",
+  "runner": "runner_development_group1",
+  "appName": "Default Web Site",
+  "projectName": "cw-new-cliente-web",
+  "virtualPath": "/",
+  "env_suffix": "dev"
+}

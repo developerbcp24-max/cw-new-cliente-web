@@ -1,0 +1,22 @@
+<div
+  class="font-sans flex justify-between items-center title-container"
+>
+  <h2 class="flex items-center mb-0 title-text">
+    <strong>
+      Términos y condiciones Proceso de Afiliación a Credinet Web
+    </strong>
+  </h2>
+  <div class="icon" (click)="dialogRef.close()">
+    <mat-icon svgIcon="close-blue" [inline]="true"></mat-icon>
+  </div>
+</div>
+<div class="font-sans flex justify-center mx-4">
+  <div class="terms-conditions-container">
+    <div [innerHTML]="termsAndConditions"></div>
+    <div class="w-full flex justify-center"></div>
+      <button mat-flat-button class="button" (click)="dialogRef.close()">
+        Aceptar
+      </button>
+    </div>
+  </div>
+

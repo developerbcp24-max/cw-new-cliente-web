@@ -1,0 +1,268 @@
+.security-validation-container {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e0e0;
+}
+
+.security-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.security-icon {
+  color: #1976d2;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.security-header h3 {
+  margin: 0;
+  color: #1976d2;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.validation-content {
+  margin-bottom: 32px;
+}
+
+.instruction-text {
+  text-align: center;
+  color: #424242;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.instruction-text small {
+  color: #757575;
+  font-size: 12px;
+}
+
+.slider-container {
+  margin: 24px 0;
+}
+
+.slider-track {
+  position: relative;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  border: 2px solid #e0e0e0;
+  transition: border-color 0.3s ease;
+}
+
+.slider-track:hover {
+  border-color: #1976d2;
+}
+
+.slider-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #153F7B, #153F7B);
+  border-radius: 6px;
+  transition: width 0.2s ease;
+  opacity: 0.1;
+}
+
+.security-slider {
+  width: 100%;
+  --mdc-slider-active-track-color: #153F7B;
+  --mdc-slider-inactive-track-color: #e0e0e0;
+  --mdc-slider-handle-color: #153F7B;
+  --mdc-slider-focus-ring-color: rgba(242, 110, 41, 0.2);
+  --mdc-slider-with-tick-marks-active-container-color: #153F7B;
+  --mdc-slider-with-tick-marks-inactive-container-color: #e0e0e0;
+}
+
+/* Estilos adicionales para asegurar el color naranja */
+.security-slider .mdc-slider__track--active_fill {
+  background-color: #153F7B !important;
+}
+
+.security-slider .mdc-slider__thumb {
+  background-color: #153F7B !important;
+  border-color: #153F7B !important;
+}
+
+.security-slider .mdc-slider__thumb::before {
+  background-color: #153F7B !important;
+}
+
+.security-slider .mdc-slider__thumb::after {
+  border-color: #153F7B !important;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #757575;
+}
+
+.end-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s ease;
+}
+
+.end-label.active {
+  color: #153F7B;
+  font-weight: 600;
+}
+
+.verification-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.status-pending {
+  background: #f3f4f6;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-verifying {
+  background: #e3f2fd;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-verified {
+  background: #e8f5e8;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-failed {
+  background: #ffebee;
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-icon {
+  color: #4caf50;
+}
+
+.error-icon {
+  color: #f44336;
+}
+
+.security-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #1976d2;
+  margin-top: 20px;
+}
+
+.info-icon {
+  color: #1976d2;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+}
+
+.security-info small {
+  color: #5f6368;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.cancel-button {
+  flex: 1;
+  color: #757575;
+  border-color: #e0e0e0;
+}
+
+.continue-button {
+  flex: 1;
+  background: #153F7B;
+  color: white;
+}
+
+.continue-button:disabled {
+  background: #e0e0e0;
+  color: #9e9e9e;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.security-validation-container {
+  animation: slideIn 0.4s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .security-validation-container {
+    margin: 16px;
+    padding: 24px 16px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+/* Método alternativo con !important para forzar el color */
+mat-slider.security-slider {
+  --mat-slider-active-track-color: #153F7B !important;
+  --mat-slider-inactive-track-color: #e0e0e0 !important;
+  --mat-slider-handle-color: #153F7B !important;
+}
+
+/* Para Material Design 3 (versiones más recientes) */
+mat-slider.security-slider {
+  --md-slider-active-track-color: #153F7B;
+  --md-slider-handle-color: #153F7B;
+  --md-slider-focus-handle-color: #153F7B;
+  --md-slider-hover-handle-color: #153F7B;
+  --md-slider-pressed-handle-color: #153F7B;
+}

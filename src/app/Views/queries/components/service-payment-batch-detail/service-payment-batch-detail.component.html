@@ -1,0 +1,185 @@
+<div *ngIf="batch">
+    <div class="row transferencia-ext__card align-left">
+        <div
+            [ngClass]="{'offset-md-1 col-md-10':service!==constants.creService && service!==constants.saguapacService,'col-md-6':service===constants.creService || service === constants.saguapacService}">
+            <h4 class="historical__h4">Detalle del lote</h4>
+            <div class="transferencias__box transferencia-ext__box">
+                <div class="transferencias__card card-destination align-left">
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Lote</p>
+                        <p class="home__card__item__small-value">{{batch.processBatchId}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Cuenta origen</p>
+                        <p class="home__card__item__small-value">{{batch.accountNumber}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Monto</p>
+                        <p class="home__card__item__small-value">{{batch.amount | number: '1.2-2'}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Moneda</p>
+                        <p class="home__card__item__small-value">{{batch.currency}}</p>
+                    </div>
+                    <div class="home__card__item"
+                        *ngIf="service == constants.fixedTelephonyService || service == constants.mobileTelephonyService">
+                        <p class="home__card__item__small-title">Ciudad</p>
+                        <p class="home__card__item__small-value">{{batch.city}}</p>
+                    </div>
+                    <div class="home__card__item"
+                        *ngIf="service == constants.fixedTelephonyService || service == constants.mobileTelephonyService">
+                        <p class="home__card__item__small-title">Concepto de pago</p>
+                        <p class="home__card__item__small-value">{{batch.concept}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="service == constants.vehicleRuatService">
+                        <p class="home__card__item__small-title">Clase</p>
+                        <p class="home__card__item__small-value">{{batch.vehicleClass}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="service == constants.vehicleRuatService">
+                        <p class="home__card__item__small-title">Número PTA</p>
+                        <p class="home__card__item__small-value">{{batch.vehiclePta}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="service == constants.propertyRuatService">
+                        <p class="home__card__item__small-title">Dirección</p>
+                        <p class="home__card__item__small-value">{{batch.propertyAddress}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="service == constants.propertyRuatService">
+                        <p class="home__card__item__small-title">Código catastral</p>
+                        <p class="home__card__item__small-value">{{batch.propertyCadastralcode}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" *ngIf="batch.billAddress">
+            <h4 class="historical__h4">Dirección de la factura</h4>
+            <div class="transferencias__box transferencia-ext__box">
+                <div class="transferencias__card card-destination align-left">
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">{{batch.billAddress.streetType}}</p>
+                        <p class="home__card__item__small-value">{{batch.billAddress.streetName}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Zona</p>
+                        <p class="home__card__item__small-value">{{batch.billAddress.neighborhood}}</p>
+                    </div>
+                    <div class="home__card__item home__card__sub-item">
+                        <div>
+                            <p class="home__card__item__small-title">Número</p>
+                            <p class="home__card__item__small-value">{{batch.billAddress.doorNumber}}</p>
+                        </div>
+                        <div>
+                            <p class="home__card__item__small-title">Depto./Piso</p>
+                            <p class="home__card__item__small-value">{{batch.billAddress.floor}}</p>
+                        </div>
+                    </div>
+                    <div class="home__card__item home__card__sub-item">
+                        <div>
+                            <p class="home__card__item__small-title">Manzano</p>
+                            <p class="home__card__item__small-value">{{batch.billAddress.block}}</p>
+                        </div>
+                        <div *ngIf="batch.billAddress.lot">
+                            <p class="home__card__item__small-title">Lote</p>
+                            <p class="home__card__item__small-value">{{batch.billAddress.lot}}</p>
+                        </div>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Departamento</p>
+                        <p class="home__card__item__small-value">{{batch.billAddress.city}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Provincia</p>
+                        <p class="home__card__item__small-value">{{batch.billAddress.province}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Localidad</p>
+                        <p class="home__card__item__small-value">{{batch.billAddress.location}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Urb./Condominio</p>
+                        <p class="home__card__item__small-value">{{batch.billAddress.urbanization}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-approvers-and-controllers-detail [details]="batch.userInvolveds"></app-approvers-and-controllers-detail>
+    <table class="cw-table table-striped" *ngIf="service == constants.delapazService"><caption></caption>
+        <thead>
+            <tr>
+                <th>Fecha del proceso</th>
+                <th>Código de cliente</th>
+                <th>Monto deuda</th>
+                <th>Moneda</th>
+                <th>Cliente</th>
+                <th>Dirección</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td title="Fecha de proceso">{{batch.processDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td title="Código de cliente">{{batch.detail.clientCode}}</td>
+                <td title="Monto">{{batch.detail.amount | number: '1.1-2'}}</td>
+                <td title="Moneda">{{batch.currency}}</td>
+                <td title="Nombre">{{batch.detail.name}}</td>
+                <td title="Dirección">{{batch.detail.address}}</td>
+                <td title="Estado">{{batch.detail.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="cw-table table-striped"
+        *ngIf="service == constants.creService || service == constants.saguapacService"><caption></caption>
+        <thead>
+            <tr>
+                <th>Número de documento</th>
+                <th>Período</th>
+                <th>Monto</th>
+                <th>Moneda</th>
+                <th>Nombre cliente</th>
+                <th>Código fijo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of batch.detail">
+                <td title="Número de documento">{{detail.documentNumber}}</td>
+                <td title="Perido">{{detail.period}}</td>
+                <td title="Monto">{{detail.amount | number: '1.2-2'}}</td>
+                <td title="Moneda">{{batch.currency}}</td>
+                <td title="Cliente">{{detail.name}}</td>
+                <td title="Código fijo">{{detail.code}}</td>
+                <td title="Estado">{{detail.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="cw-table table-striped" *ngIf="service == constants.vehicleRuatService"><caption></caption>
+        <thead>
+            <tr>
+                <th>Gestión</th>
+                <th>Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of batch.debtDetail">
+                <td title="Gestión">{{detail.year}}</td>
+                <td title="Importe">{{detail.amount | number:'1.1-2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="cw-table table-striped" *ngIf="service == constants.propertyRuatService"><caption></caption>
+        <thead>
+            <tr>
+                <th>Gestión</th>
+                <th>Concepto deuda</th>
+                <th>Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of batch.debtDetail">
+                <td title="Gestión">{{detail.year}}</td>
+                <td title="Concepto">{{detail.concept}}</td>
+                <td title="Importe">{{detail.amount | number:'1.1-2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

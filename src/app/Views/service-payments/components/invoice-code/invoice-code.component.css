@@ -1,0 +1,7 @@
+.transferencias__card_elfec {
+    background-color: #f9f9f9;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 28px;
+}

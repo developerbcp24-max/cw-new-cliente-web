@@ -1,0 +1,158 @@
+<div class="row" *ngIf="existFavorites">
+    <div class="col-md-6">
+      <div class="historical__box haberes__previous-form">
+        <label class="historical__label">Selecciona un pago guardado</label>
+        <form name="favoriteForm" #favoriteForm="ngForm" novalidate autocomplete="off">
+          <div class="form-group">
+            <select class="historical__select-account input-simple" name="favoriteTransaction" [disabled]="disabled"
+              [(ngModel)]="favoriteItem" (change)="handleFavoriteById(favoriteItem)">
+              <option [value]="undefined" disabled>Seleccione una opción</option>
+              <option *ngFor="let favorite of listFavorite" [ngValue]="favorite">{{favorite.name}}</option>
+            </select>
+          </div>
+        </form>
+        <div *ngIf="selectedFavorite">
+          <button class="button__secondary transferencia-ext__button-secondary" [disabled]="disabled"
+            (click)="handleRemove()"><em class="fas fa-trash"></em>
+            ELIMINAR</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="transferencias__card helpers--padding-top-B" *ngIf="selectedFavorite && !isDelapaz">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Tipo Pago</p>
+          <p class="home__card__item__small-value">{{selectedPayment.nameCompany}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">{{selectedPayment.nameCompany}}</p>
+          <p class="home__card__item__small-value">{{parameterCode}}</p>
+        </div>
+      </div>
+      <div class="transferencias__card helpers--padding-top-B" *ngIf="selectedFavorite && isDelapaz">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">N° Cliente</p>
+          <p class="home__card__item__small-value">{{parameterCode}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6 ">
+      <div class="historical__box haberes__previous-form">
+        <form name="epsasForm" novalidate #epsasForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="disabled"> <legend></legend><br>
+            <div *ngIf="!isDelapaz">
+              <div class="form-group" *ngIf="listCriteria.length > 0">
+                <label class="transferencias__label">Tipo de Pago</label>
+                <select name="selectedPayment" class="input-simple" [(ngModel)]="selectedPayment" (change)="handlePaymentType()"
+                  required>
+                  <option value="undefined" disabled>Seleccione un tipo de Pago</option>
+                  <option *ngFor="let item of listCriteria" [ngValue]="item">
+                    {{ item.nameCompany }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="selectedPayment != undefined && isWater">
+                <label class="transferencias__label">{{selectedPayment.nameCompany}}</label>
+                <div class="transferencias__container-input-btn">
+                  <input class="input-simple" type="text" name="codeC" [(ngModel)]="parameterCode" required
+                  appOnlyType="alphanumericBasicSymbols"
+                  appValidate="alphanumericBasicSymbols" maxlength="13" #codeC="ngModel" (ngModelChange)="handleChangeInput()">
+                  <app-show-errors [control]="codeC"></app-show-errors>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="selectedPayment != undefined && isEntel">
+                <label class="transferencias__label"> N° {{selectedPayment.nameCompany}}</label>
+                <div class="transferencias__container-input-btn">
+                  <input class="input-simple" type="text" name="codeC" [(ngModel)]="parameterCode" required
+                  appOnlyType="alphanumericBasicSymbols"
+                  appValidate="alphanumericBasicSymbols" maxlength="20" #codeC="ngModel" (ngModelChange)="handleChangeInput()">
+                  <app-show-errors [control]="codeC"></app-show-errors>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="selectedPayment != undefined && isTigo">
+                <label class="transferencias__label"> N° de Teléfono o Cuenta</label>
+                <div class="transferencias__container-input-btn">
+                  <input class="input-simple" type="text" name="codeC" [(ngModel)]="parameterCode"
+                  appOnlyType="integer" appValidate="integer" minlength="5" maxlength="10" #codeC="ngModel" (ngModelChange)="handleChangeInput()">
+                  <app-show-errors [control]="codeC"></app-show-errors>
+                </div>
+              </div>
+            </div>
+
+              <div class="form-group" *ngIf="isDelapaz">
+                <label class="transferencias__label">N° Cliente</label>
+                <div class="transferencias__container-input-btn">
+                  <input class="input-simple" type="text" placeholder="Ej. XXXX-X" name="codeC" [(ngModel)]="parameterCode" required
+                  appOnlyType="alphanumericBasicSymbols"
+                  appValidate="alphanumericBasicSymbols" maxlength="13" #codeC="ngModel" (ngModelChange)="handleChangeInput()">
+                  <app-show-errors [control]="codeC"></app-show-errors>
+                </div>
+              </div>
+
+              <div *ngIf="isTigo && amountsPrePago.length > 0">
+                <div class="form-group">
+                  <label class="transferencias__label">Monto en Bs.</label>
+                  <select name="selectedAmount" class="input-simple" [(ngModel)]="selectedAmount" (change)="handleChangeAmount()">
+                    <option value="undefined" disabled>Seleccione un Monto</option>
+                    <option *ngFor="let item of amountsPrePago" [ngValue]="item">
+                      {{ item }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </fieldset>
+        </form>
+        <div>
+          <button *ngIf="!favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary"
+            [disabled]="disabled ? disabled : disabled" (click)="handleShowFavorite()">GUARDAR COMO FAVORITO</button>
+          <button *ngIf="favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary"
+            [disabled]="disabled ? disabled : disabled" (click)="handleCancelFavorite()">CANCELAR FAVORITO</button>
+        <button class="button__secondary transferencia-ext__button-secondary" [disabled]="disabled"
+          (click)="handleGetDebts();">BUSCAR</button>
+          <hr *ngIf="favorite.isFavorite">
+           <span *ngIf="favorite.isFavorite"><strong>Pago favorito: </strong> {{favorite.name}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="transferencias__card helpers--padding-top-B" *ngIf="detail?.clientName">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Titular</p>
+          <p class="home__card__item__small-value">{{detail.clientName}}</p>
+        </div>
+      </div>
+      <div class="transferencias__card helpers--padding-top-B" *ngIf="!existDebts">
+          <p class="home__card__item__small-title"> No existen deudas pendientes.</p>
+        </div>
+    </div>
+  </div>
+
+
+  <app-modal [visible]="showSaveFavoriteForm" (onClose)="showSaveFavoriteForm=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">
+      Guardar operación como favorito
+    </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+        <input type="text" name="favoriteName" class="transferencias__select-account-large input-simple"
+          placeholder="Nombre del favorito" [(ngModel)]="favorite.name" required #favoriteName="ngModel" />
+        <app-show-errors [control]="favoriteName"></app-show-errors>
+      </form>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__container-button">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+          <button class="button__principal modal__button" (click)="handleSaveFavorite()">ACEPTAR</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="handleCancelFavorite()" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

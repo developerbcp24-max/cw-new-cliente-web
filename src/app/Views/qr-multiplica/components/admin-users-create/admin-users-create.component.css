@@ -1,0 +1,41 @@
+.border-animated {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.border-animated::before,
+.border-animated::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.5s;
+}
+
+.border-animated::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.border-animated::after {
+  transform: translate(50%, -50%) rotate(-45deg);
+}
+
+.border-animated:hover::before,
+.border-animated:hover::after {
+  border-color: blue;
+}
+.container-fluid {
+  max-width: 100% !important;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.historical__box {
+  width: 100%;
+}

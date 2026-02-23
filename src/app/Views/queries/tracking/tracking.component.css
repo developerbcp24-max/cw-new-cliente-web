@@ -1,0 +1,11 @@
+form .form-group .checkbox {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+}
+
+legend {
+    margin-bottom: 0px;
+    border-bottom: none;
+    font-size: 14px;
+}

@@ -1,0 +1,50 @@
+<div class="row transferencia-ext__amount">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <app-bar-route></app-bar-route>
+          <h4 class="historical__h4">Datos de Entrada</h4>
+          <p class="historical__p--cancel transferencia-ext__p-link helpers__hidden-small" (click)="showCompanyLimits=true"><a>Ver
+              límite diario</a></p>
+          <div class="historical__box">
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <label class="transferencias__label"> Tipo de documento: </label>
+                <select name="documentType" class="select-account input-simple" [(ngModel)]="data.Param3" #Param3="ngModel">
+                  <option value='' disabled>(Seleccione tipo de Documento)</option>
+                  <option *ngFor="let documentType of documentTypes" [ngValue]="documentType.value">{{documentType.description}}</option>
+                </select>
+                <label class="transferencias__label"> Número de Documento: </label>
+                <input class="input-simple" type="text" name="param2" [(ngModel)]="data.Param2" #param2="ngModel"
+                  appOnlyType="integer" appValidate="integer" required maxlength="16">
+                <app-show-errors [control]="param2"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2">
+                <label class="transferencias__label"> Seleccione AFP: </label>
+                <select name="TypeCompania" class="input-simple" [(ngModel)]="data.IdCompany" #IdCompany="ngModel"
+                  required>
+                  <option value='' disabled>(Seleccione AFP)</option>
+                  <option *ngFor="let TypeCompania of TypeCompanias" [ngValue]="TypeCompania.value">{{
+                    TypeCompania.description}}</option>
+                </select>
+                <label class="transferencias__label"> Número de Planilla: </label>
+                <input class="input-simple" type="text" name="idClient" [(ngModel)]="data.IdClient" #idClient="ngModel"
+                  appOnlyType="integer" appValidate="integer" required maxlength="20">
+                <app-show-errors [control]="idClient"></app-show-errors>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <app-information-panel [visible]="isVisibleAlert" [message]="messageAlert" [type]="'attention'"></app-information-panel>
+        <app-information-panel [visible]="isVisibleError" [message]="message" [type]="'attention'"></app-information-panel>
+        <div class="bar-route"></div>
+          <div class="col-md-4">
+
+            <button class="button__secondary historical__button-secondary button-program" (click)="handleValidate()">
+              TRAER DATOS PLANILLA
+            </button>
+          </div>
+    </div>
+  </div>
+  <app-company-limits [isVisible]="showCompanyLimits" (onClose)="showCompanyLimits=false"></app-company-limits>

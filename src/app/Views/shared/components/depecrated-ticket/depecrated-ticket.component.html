@@ -1,0 +1,23 @@
+<form class="form-horizontal" name="formTicket" #formTicket="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="checkbox">
+          <label class="col-sm-3 control-label">
+            <input type="checkbox" name="isSendVoucher" class="form-check-input" [(ngModel)]="ticketModel.isTicketSelected" [disabled]="!isValid()||ticketRequired||isFutureDate" (change)="handleChangeChecked($event)">Ticket (TC. Pref.)
+          </label>
+        </div>
+        <div *ngIf="ticketModel.isTicketSelected && !isFutureDate" class="col-sm-9">
+          <div class="col-xs-12 col-sm-4 no-padding">
+            <input type="text" name="preferentialTicket" #preferentialTicket="ngModel" class="form-control" [(ngModel)]="ticketModel.ticket.ticket"
+                   [disabled]="ticketModel.ticket.responseCode === 0"
+                   (ngModelChange)="handleTextTicketChange()" required appOnlyInteger>
+            <app-show-errors [control]="preferentialTicket"></app-show-errors>
+          </div>
+          <div class="col-xs-12 col-sm-8">
+            <button class="btn btn-primary" (click)="getTicket()" [disabled]="isSelectedTicket()">Obtener ticket</button>
+            <button *ngIf="!disabled" class="btn-new-secondary" [disabled]="!isValid()" (click)="modifyTicket()">Modificar ticket</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>

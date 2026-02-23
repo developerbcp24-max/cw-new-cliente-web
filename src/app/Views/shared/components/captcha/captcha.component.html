@@ -1,0 +1,11 @@
+<div class="form-group row captcha-row">
+  <div class="col-xs-12 div-flex">
+      <div class="captcha" [ngStyle]="{'background-image':'url(' + image.image + ')'}"></div>
+      <a class="login__a--password" (click)="handleChangeCaptcha()">Mostrar otra Imagen</a>
+  </div>
+</div>
+<div class="form-group">
+  <label class="login__label" for="password">Texto de la Imagen</label>
+  <input type="text" class="form-control" name="valueToVerify" [(ngModel)]="toVerify.captchaValueToVerify" (keydown)="handleKeyDown($event)"
+      required #valueToVerify="ngModel" tabindex="3" />
+</div>

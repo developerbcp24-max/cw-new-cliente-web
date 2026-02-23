@@ -1,0 +1,9 @@
+<app-modal [visible]="showMessageIsBlock" (onClose)="handleClose(false);" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">INFORMACIÓN </div>
+    <div class="app-modal-body col-md-12 col-sm-12">{{messageIsBlocked}}</div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handleClose(false)">Aceptar</button>
+      </div>
+    </div>
+  </app-modal>

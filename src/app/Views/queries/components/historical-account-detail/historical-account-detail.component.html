@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="transferencias__card">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Número de lote : </p>
+          <p class="home__card__item__small-value">{{detail.processBatchId}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Dirección de entrega : </p>
+          <p class="home__card__item__small-value">{{detail.addressShipping}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Estado : </p>
+          <p class="home__card__item__small-value">{{detail.state}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>
+  <div class="row">
+    <div class="table-responsive">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Cuenta</th>
+            <th scope="col">Tipo Certificado</th>
+            <th scope="col">Importe</th>
+            <th scope="col">Moneda</th>
+            <th scope="col">Glosa </th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Nro. Operación</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Nro. Carta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of historics.certificateTransacDetails">
+            <td>{{data.formattedAccount}}</td>
+            <td>{{data.certificateType}}</td>
+            <td>{{data.amount | number: '1.2-2'}}</td>
+            <td>{{data.currency}}</td>
+            <td>{{data.gloss}}</td>
+            <td>{{data.user}}</td>
+            <td>{{data.numberOperation}}</td>
+            <td>{{data.movementDate}}</td>
+            <td>{{data.movementHour}}</td>
+            <td>{{data.numberLeter}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="detail.certificateTransacDetails.length" [maxSize]="pageItems"
+              (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+  </div>

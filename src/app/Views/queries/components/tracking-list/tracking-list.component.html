@@ -1,0 +1,389 @@
+<div class="row haberes__submit top-space">
+  <div class="col-md-3">
+    <p class="historical__p">
+      Total de operacion en el periodo: {{ totalItems }}
+    </p>
+  </div>
+
+  <div
+    class="offset-md-2 col-md-5 historical__button--align helpers__hidden-small"
+  >
+    <p class="historical__p">Formato para exportar</p>
+
+    <select
+      name="TipoExportar"
+      class="input-simple historical__input-table"
+      [(ngModel)]="formatSelected"
+    >
+      <option value="undefined" disabled>Seleccione formato</option>
+      <option value="xls">Excel</option>
+      <option value="pdf">PDF</option>
+    </select>
+  </div>
+  <div class="col-md-2 historical__button--align helpers__hidden-small">
+    <button
+      class="button__secondary historical__button-secondary"
+      [disabled]="formatSelected == undefined"
+      (click)="getReport()"
+    >
+      Exportar
+    </button>
+  </div>
+</div>
+
+<app-information-panel
+  [message]="'Para exportar se debe seleccionar un rango de fechas de 5 días'"
+  [type]="'attention'"
+  [visible]="flag"
+></app-information-panel>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <table class="cw-table table-striped">
+      <caption></caption>
+      <thead class="thead-light">
+        <tr>
+          <th>Lote</th>
+          <th *ngIf="isVisibleEBS">Numero EBS</th>
+          <th>Operación</th>
+          <th>Cuenta Origen</th>
+          <th>Monto</th>
+          <th>Moneda</th>
+          <th>Fecha Ingreso</th>
+          <th>Fecha Proceso</th>
+          <th>Estado</th>
+          <th>Ver Det</th>
+          <th>Aut</th>
+          <th *ngIf="headers.col01">Ctrl</th>
+          <th *ngIf="headers.col02">Contrato</th>
+          <th *ngIf="headers.col03">Gral.</th>
+          <th *ngIf="headers.col04">Det.</th>
+          <th *ngIf="headers.col05">Frac.</th>
+          <th *ngIf="headers.col06">Fecha Programada</th>
+          <th *ngIf="headers.col07">Fecha Futura</th>
+          <th class="filter">
+            <button
+              (click)="showFilter = !showFilter"
+              class="table-filter"
+              #insideButton
+            >
+              <em class="fas fa-plus"></em>
+            </button>
+            <div
+              class="historical__box table-filter--hidden"
+              [ngClass]="{ 'show-filter': showFilter }"
+              #insideElement
+            >
+              <ul>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col01" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Ctrl</p>
+                </li>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col02" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Contrato</p>
+                </li>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col03" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Gral.</p>
+                </li>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col04" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Det.</p>
+                </li>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col05" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Frac.</p>
+                </li>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col06" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Fecha Programada</p>
+                </li>
+                <li>
+                  <label class="checkbox">
+                    <input type="checkbox" [(ngModel)]="headers.col07" />
+                    <span class="check"></span>
+                  </label>
+                  <p>Fecha Futura</p>
+                </li>
+              </ul>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tracktransfer of listTracks">
+          <td class="text-right">{{ tracktransfer.id }}</td>
+          <td class="text-center" *ngIf="isVisibleEBS">
+            {{ tracktransfer.ebsTransactionNumber }}
+          </td>
+          <td>{{ tracktransfer.name }}</td>
+          <td>{{ tracktransfer.formattedAccount }}</td>
+          <td class="text-right">
+            {{ tracktransfer.amount | number : "1.2-2" }}
+          </td>
+          <td>{{ tracktransfer.currency }}</td>
+          <td class="text-center">
+            {{ tracktransfer.dateCreation | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="text-center">
+            {{ tracktransfer.dateProcess | date : "dd/MM/yyyy HH:mm" }}
+          </td>
+          <td>{{ tracktransfer.description }}</td>
+          <td>
+            <a
+              *ngIf="
+                !tracktransfer.isVisibleButton &&
+                (tracktransfer.name != 'CONFIGURACIÓN DE PAGOS FAVORITOS' ||
+                  tracktransfer.description == 'Solicitado')
+              "
+              (click)="handleShowBatchDetail(tracktransfer)"
+              ><em class="fas fa-info-circle"></em
+            ></a>
+          </td>
+
+          <td>
+            <div *ngIf="tracktransfer.isAuth">
+              <a
+                (click)="
+                  handleShowBatchAuthorizersOrControllers(
+                    tracktransfer,
+                    'authorizers'
+                  )
+                "
+                ><em class="fas fa-user-circle"></em
+              ></a>
+            </div>
+          </td>
+          <td *ngIf="headers.col01">
+            <div *ngIf="tracktransfer.isCtrl">
+              <a
+                (click)="
+                  handleShowBatchAuthorizersOrControllers(
+                    tracktransfer,
+                    'controllers'
+                  )
+                "
+                ><em class="fas fa-user-circle"></em
+              ></a>
+            </div>
+          </td>
+          <td *ngIf="headers.col02">
+            <div *ngIf="tracktransfer.operationTypeId == 18">
+              <a (click)="handleBallotOfWarranty(tracktransfer)"
+                ><em class="fa fa-file-pdf"></em
+              ></a>
+            </div>
+          </td>
+          <td *ngIf="headers.col03">
+            <div *ngIf="!tracktransfer.isVisibleButton">
+              <div
+                *ngIf="
+                  (tracktransfer.description == 'Solicitado' ||
+                    tracktransfer.description == 'Controlado' ||
+                    tracktransfer.description == 'Autorizado') &&
+                  (tracktransfer.operationTypeId == 7 ||
+                    tracktransfer.operationTypeId == 8 ||
+                    tracktransfer.operationTypeId == 9 ||
+                    tracktransfer.operationTypeId == 10 ||
+                    tracktransfer.operationTypeId == 13 ||
+                    tracktransfer.operationTypeId == 14 ||
+                    tracktransfer.operationTypeId == 16 ||
+                    tracktransfer.operationTypeId == 20 ||
+                    tracktransfer.operationTypeId == 21 ||
+                    tracktransfer.operationTypeId == 23 ||
+                    tracktransfer.operationTypeId == 24 ||
+                    tracktransfer.operationTypeId == 25 ||
+                    tracktransfer.operationTypeId == 26 ||
+                    tracktransfer.operationTypeId == 46 ||
+                    tracktransfer.operationTypeId == 27 ||
+                    tracktransfer.operationTypeId == 28 ||
+                    tracktransfer.operationTypeId == 29 ||
+                    tracktransfer.operationTypeId == 15 ||
+                    tracktransfer.operationTypeId == 32 ||
+                    tracktransfer.operationTypeId == 33 ||
+                    tracktransfer.operationTypeId == 37 ||
+                    tracktransfer.operationTypeId == 38 ||
+                    tracktransfer.operationTypeId == 40 ||
+                    tracktransfer.operationTypeId == 41 ||
+                    tracktransfer.operationTypeId == 45 ||
+                    tracktransfer.operationTypeId == 51)
+                "
+              >
+                <a (click)="handleGetReport(tracktransfer, 1)"
+                  ><em class="fa fa-file-pdf"></em
+                ></a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="headers.col04">
+            <div *ngIf="!tracktransfer.isVisibleButton">
+              <div
+                *ngIf="
+                  (tracktransfer.description == 'Solicitado' ||
+                    tracktransfer.description == 'Controlado' ||
+                    tracktransfer.description == 'Autorizado') &&
+                  (tracktransfer.operationTypeId == 7 ||
+                    tracktransfer.operationTypeId == 8 ||
+                    tracktransfer.operationTypeId == 16 ||
+                    tracktransfer.operationTypeId == 20 ||
+                    tracktransfer.operationTypeId == 23 ||
+                    tracktransfer.operationTypeId == 24 ||
+                    tracktransfer.operationTypeId == 25 ||
+                    tracktransfer.operationTypeId == 26 ||
+                    tracktransfer.operationTypeId == 46 ||
+                    tracktransfer.operationTypeId == 27 ||
+                    tracktransfer.operationTypeId == 28 ||
+                    tracktransfer.operationTypeId == 29 ||
+                    tracktransfer.operationTypeId == 15 ||
+                    tracktransfer.operationTypeId == 40 ||
+                    tracktransfer.operationTypeId == 41 ||
+                    tracktransfer.operationTypeId == 45)
+                "
+              >
+                <a (click)="handleGetReport(tracktransfer, 2)"
+                  ><em class="fa fa-file-pdf"></em
+                ></a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="headers.col05">
+            <div *ngIf="!tracktransfer.isVisibleButton">
+              <div
+                *ngIf="
+                  (tracktransfer.description == 'Solicitado' ||
+                    tracktransfer.description == 'Controlado' ||
+                    tracktransfer.description == 'Autorizado') &&
+                  (tracktransfer.operationTypeId == 8 ||
+                    tracktransfer.operationTypeId == 16 ||
+                    tracktransfer.operationTypeId == 20 ||
+                    tracktransfer.operationTypeId == 23 ||
+                    tracktransfer.operationTypeId == 24 ||
+                    tracktransfer.operationTypeId == 25 ||
+                    tracktransfer.operationTypeId == 26 ||
+                    tracktransfer.operationTypeId == 46 ||
+                    tracktransfer.operationTypeId == 27 ||
+                    tracktransfer.operationTypeId == 28 ||
+                    tracktransfer.operationTypeId == 29 ||
+                    tracktransfer.operationTypeId == 15 ||
+                    tracktransfer.operationTypeId == 41 ||
+                    tracktransfer.operationTypeId == 45)
+                "
+              >
+                <a (click)="handleGetReport(tracktransfer, 3)"
+                  ><em class="fa fa-file-pdf"></em
+                ></a>
+              </div>
+            </div>
+          </td>
+
+          <td *ngIf="headers.col06" class="text-center">
+            {{ tracktransfer.isScheduledProcess ? "SI" : "NO" }}
+          </td>
+          <td *ngIf="headers.col07" class="text-center">
+            {{
+              tracktransfer.isScheduledProcess
+                ? (tracktransfer.scheduledProcess | date : "dd/MM/yyyy")
+                : ""
+            }}
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <app-pagination
+          [rowsPerPage]="rowsPerPage"
+          [totalItems]="totalItems"
+          [maxSize]="pageSize"
+          [isCenter]="true"
+          (onChange)="handleChangePage($event)"
+          (onChangeRowsPerPage)="handleViewRows($event)"
+        >
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+
+<app-modal
+  [visible]="transactionFxModal"
+  (onClose)="transactionFxModal = false"
+  [size]="'lg'"
+  [manualCloseModal]="true"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">
+    Fx COMPRA Y VENTA DE DOLARES
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <app-detaild [transactionFx]="transactionFx"></app-detaild>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="transactionFxModal = false" class="link-cancel-modal"
+          >CERRAR</a
+        >
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<div class="row justify-content-center">
+  <app-modal
+    [visible]="showBatchDetail"
+    (onClose)="showBatchDetail = false"
+    [size]="'xl'"
+  >
+    <div class="app-modal-header col-md-12 col-xs-12">
+      <p class="tituloGeneral h_no-MarginBottom">{{ operationType }}</p>
+    </div>
+    <div class="app-modal-body col-md-12 col-xs-12">
+      <app-batch-detail
+        [batchId]="batchId"
+        [operation]="operationType"
+        [operationTypeId]="operationTypeId"
+        [isShow]="showBatchDetail"
+      ></app-batch-detail>
+    </div>
+    <div class="app-modal-footer modal__cancelar col-md-12 col-xs-12 flex justify-center items-center">
+      <a (click)="showBatchDetail = false">CERRAR</a>
+    </div>
+  </app-modal>
+</div>
+<app-modal
+  [visible]="showAuthorizersOrControllers"
+  (onClose)="showAuthorizersOrControllers = false"
+  [size]="'lg'"
+>
+  <div class="app-modal-header col-md-12 col-xs-12">{{ operationType }}</div>
+  <div class="app-modal-body col-md-12 col-xs-12">
+    <app-approvers-and-controllers-list
+      [showOnly]="role"
+      [approversRequest]="approversDto"
+      [showApproversNumber]="true"
+      [isAdministrative]="isAdministrative"
+    ></app-approvers-and-controllers-list>
+  </div>
+  <div class="app-modal-footer modal__cancelar col-md-12 col-xs-12"></div>
+</app-modal>

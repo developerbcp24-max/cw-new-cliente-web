@@ -1,0 +1,67 @@
+<div class="col-md-6 ">
+    <div class="historical__box transferencias__account-box helpers--padding-top-B">
+      <form name="requestForm" #requestForm="ngForm" novalidate autocomplete="off">
+        <label class="transferencias__label">Número PTA</label>
+        <div class="transferencias__container-input-btn">
+          <input class="transferencias__select-account-large input-simple" type="text" name="ptaNumber" [(ngModel)]="ruatDto.identifier" (keyup)="handlePtaNumberChanged()" required appOnlyType="pta-ruat" #ptaNumber="ngModel" [disabled]="disabled">
+          <button class="historical__btn-submit button__principal transferencias__btn-validate" (click)="handleSearch()" [disabled]="!ptaNumber || disabled">Buscar</button>
+          <app-show-errors [control]="ptaNumber"></app-show-errors>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="transferencias__card helpers--padding-top-B" *ngIf="ruatResponse">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Clase</p>
+        <p class="home__card__item__small-value">{{ruatResponse.vehicle.class}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Marca</p>
+        <p class="home__card__item__small-value">{{ruatResponse.vehicle.brand}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Modelo</p>
+        <p class="home__card__item__small-value">{{ruatResponse.vehicle.model}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Color</p>
+        <p class="home__card__item__small-value">{{ruatResponse.vehicle.color}}</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="ruatResponse">
+    <img src="assets/new-face/images/circle.svg" class="item-circle" alt="">
+    <h4 class="historical__h4">Selecciona periodos de deuda</h4>
+
+  <div class="col-md-12" *ngIf="ruatResponse">
+
+
+    <div class="row haberes__destination-info bottom-space">
+      <div class="col-md-12">
+        <div class="row card-info ach__card-info">
+          <div class="col-md-3">
+            <p class="text-big">{{batchInformation.amount | number:'1.1-2'}} Bs.</p>
+            <p class="text-small">Monto</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="historical__box historical__account-box">
+      <label class="historical__label">Empieza por la deuda más antigua</label>
+      <div class="row">
+        <div *ngFor="let debtDetail of ruatResponse.debtDetail" class="col-md-4 authorizers">
+          <label class="checkbox checkbox--margin">
+            <input type="checkbox" [(ngModel)]="debtDetail.selected" (change)="handleDetailChecked(debtDetail)" [disabled]="disabled||!debtDetail.isPaymentPossible">
+            <span class="check"></span>
+          </label>
+          <div>
+            <p class="authorizers-name" title="{{debtDetail.concept}}">{{debtDetail.amount | number: '1.1-2'}} BOLIVIANOS</p>
+            <p class="authorizers-limit">Gestión: {{debtDetail.year}}</p>
+            <p class="authorizers-limit" *ngIf="debtDetail.comment||debtDetail.comment !== ''">Observaciones: {{debtDetail.comment}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

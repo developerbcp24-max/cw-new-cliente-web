@@ -1,0 +1,69 @@
+<div class="row historical__account">
+    <div class="col-md-12">
+      <app-bar-route *ngIf="showBarRoute && !isOnlyRead"></app-bar-route>
+      <h4 class="historical__h4" *ngIf="showDetails && !isOnlyRead">Selecciona la cuenta</h4>
+      <div class="row">
+        <div [ngClass]="{'col-md-12':isOnlyRead,'col-md-6':!isOnlyRead}" [hidden]="isOnlyRead">
+          <div class="historical__box historical__account-box">
+            <form name="sourceAccountForm" #sourceAccountForm="ngForm" novalidate autocomplete="off">
+              <fieldset [disabled]="disabled"><legend></legend><br>
+                <div class="form-group">
+                  <label class="transferencias__label">{{accountDropLabel}}</label>
+                  <div class="account-flag">
+                    <app-my-accounts class="align-account" [accountType]="accountType" [ngClass]="{'transferencias__select-account':!showDetails, 'select-account':showDetails}"
+                      [loadFirstAccount]="loadFirstAccount" [accountRequest]="accountRequest" [companyAccounts]="companyAccounts"
+                      [returnBalances]="showBalances" [selectedAccount]="selectedAccountId" [isAwait]="isAwait" [onlyCurrencyBOL]="onlyCurrencyBOL"
+                      (onChange)="handleAccountChanged($event)" [defaultAccount]="defaultAccount" ></app-my-accounts>
+                    <app-currency-flag [flag]="accountSelected.currency" [visible]="showFlag"></app-currency-flag>
+                    <p class="transferencias__p-flag" *ngIf="!showDetails && !accountSelected?.balanceErrorMessage">
+                      <span>Saldo disponible:</span>{{accountSelected.availableBalance | number: '1.1-2'}}<br>
+                      <span>Moneda:</span> {{accountSelected.currencyDescription}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <app-information-panel [visible]="!accountSelected.owner && accountSelected && !showDetails" [message]="accountSelected.balanceErrorMessage"></app-information-panel>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+        <div [ngClass]="{'col-md-12':isOnlyRead,'col-md-6':!isOnlyRead}" *ngIf="showBalances && showDetails">
+          <div class="transferencias__card" *ngIf="accountSelected?.owner">
+            <div class="home__card__item" *ngIf="isOnlyRead">
+              <p class="home__card__item__small-title">Nro. Cuenta</p>
+              <p class="home__card__item__small-value">{{accountSelected.formattedNumber}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Titular</p>
+              <p class="home__card__item__small-value">{{accountSelected.owner}}</p>
+            </div>
+            <div class="home__card__item" *ngIf="accountSelected?.documentAccount !== undefined">
+              <p class="home__card__item__small-title">Documento</p>
+              <p class="home__card__item__small-value">{{accountSelected.documentAccount}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Tipo</p>
+              <p class="home__card__item__small-value">{{accountSelected.applicationDescription}}</p>
+            </div>
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Saldo disponible</p>
+              <p class="home__card__item__small-value">
+                {{accountSelected.availableBalance | number:'1.2-2'}}
+                {{accountSelected.currencyDescription}}
+              </p>
+            </div>
+            <div class="home__card__item" *ngIf="isOverdraftBalance">
+              <p class="home__card__item__small-title">Sobregiro</p>
+              <p class="home__card__item__small-value">{{accountSelected.overdraftAmount | number: '1.2-2'}}</p>
+            </div>
+            <div class="home__card__item" *ngIf="isOverdraftBalance">
+              <p class="home__card__item__small-title">Línea de sobregiro</p>
+              <p class="home__card__item__small-value">{{accountSelected.overdraftBalance | number: '1.2-2'}}</p>
+            </div>
+          </div>
+          <app-information-panel [visible]="!accountSelected.owner && accountSelected ? true : false" [message]="accountSelected.balanceErrorMessage"></app-information-panel>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,18 @@
+.historical__certificate-send .bar-separate2 {
+    height: 2px;
+    width: 155px;
+    background-color: #C7C7C7;
+    /*display: inline-flex;*/
+    /*margin-bottom: 18px;*/
+    margin-top: 5px;
+}
+
+.text-align {
+    justify-content: center;
+    /*align-items: center;*/
+}
+
+.historical__certificate-send {
+    margin-top: 5px;
+    margin-bottom: 25px;
+}

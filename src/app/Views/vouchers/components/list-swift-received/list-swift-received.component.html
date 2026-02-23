@@ -1,0 +1,28 @@
+<div class="table-responsive">
+    <table class="cw-table table-striped"><caption></caption>
+      <thead>
+        <tr>
+          <th scope="col" style="width: 20%">Referencia del Remitente</th>
+          <th scope="col" style="width: 15%">Cliente Ordenante Dos de Cinco</th>
+          <th scope="col" style="width: 25%">Cuenta de Destino</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Moneda</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">SWIFT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of received">
+          <td>{{detail.reference}}</td>
+          <td>{{detail.clientOrderingTwoOfFive}}</td>
+          <td>{{detail.beneficiaryClientTwoOfFive}}</td>
+          <td>{{detail.amount | number: '1.2-2'}}</td>
+          <td>{{detail.currencyCode}}</td>
+          <td>{{detail.dateValidationProcess}}</td>
+          <td>
+            <a (click)="handleGetReport(detail)"><em class="fa fa-arrow-circle-down button__size"></em></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

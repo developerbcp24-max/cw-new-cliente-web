@@ -1,0 +1,12 @@
+.step-container {
+  background-color: white;
+  border-radius: 7px;
+  height: calc(100vh - 90px - 62px - 107px);
+  overflow-y: auto;
+}
+
+@media only screen and (max-height: 800px) {
+  .step-container {
+    height: calc(100vh - 90px - 62px - 92px);
+  }
+}

@@ -1,0 +1,296 @@
+[
+  {
+    "label": "Consultas",
+    "module": "queries",
+    "items": [
+      {
+        "label": "Saldos y movimientos",
+        "module": "queries",
+        "routerLink": "balances"
+      },
+      {
+        "label": "Historicos",
+        "module": "queries",
+        "routerLink": "HistoricalAccounts"
+      },
+      {
+        "label": "Extractos Bancarios",
+        "module": "queries",
+        "routerLink": "api-info-enrquecida"
+      },
+      {
+        "label": "Identificacion Abonos",
+        "module": "queries",
+        "routerLink": "identification-deposits"
+      },
+      {
+        "label": "Tarjetas de Crédito",
+        "module": "queries",
+        "routerLink": "creditCards"
+      },
+      {
+        "label": "Recaudaciones",
+        "module": "queries",
+        "routerLink": "pase"
+      },
+      {
+        "label": "Pendientes",
+        "module": "queries",
+        "routerLink": "pendings"
+      },
+      {
+        "label": "Seguimiento",
+        "module": "queries",
+        "routerLink": "tracking"
+      }
+    ]
+  },
+  {
+    "label": "Transferencias",
+    "module": "transfers",
+    "items": [
+      {
+        "label": "Nacionales",
+        "module": "transfers",
+        "routerLink": "national"
+      },
+      {
+        "label": "Internacionales",
+        "module": "transfers",
+        "routerLink": "transfer-abroad"
+      }
+    ]
+  },
+  {
+    "label": "Creditos",
+    "module": "credits",
+    "items": [
+      {
+        "label": "Comprobante de pago de cuotas",
+        "module": "credits",
+        "routerLink": "quota-vouchers"
+      },
+      {
+        "label": "Comprobante desembolso",
+        "module": "credits",
+        "routerLink": "disbursement-vouchers"
+      },
+      {
+        "label": "Plan de pagos",
+        "module": "credits",
+        "routerLink": "payment-plans"
+      }
+    ]
+  },
+  {
+    "label": "Pagos Masivos",
+    "module": "massPayments",
+    "items": [
+      {
+        "label": "Pagos billetera Yape",
+        "module": "massPayments",
+        "routerLink": "soliPayments"
+      },
+      {
+        "label": "Pago de Haberes",
+        "module": "massPayments",
+        "routerLink": "salariesPayments"
+      },
+      {
+        "label": "Pago a proveedores abono cuenta",
+        "module": "massPayments",
+        "routerLink": "providersAccountDeposit"
+      },
+      {
+        "label": "Proveedores pago en efectivo Online",
+        "module": "massPayments",
+        "routerLink": "cashInLinePayments"
+      },
+      {
+        "label": "Proveedores abono en otro Banco Cheque",
+        "module": "massPayments",
+        "routerLink": "providersDepositInOtherBankCheck"
+      },
+      {
+        "label": "Proveedores abono en otro Banco ACH",
+        "module": "massPayments",
+        "routerLink": "paymentsACH"
+      },
+      {
+        "label": "Proveedores con Cheque de Gerencia",
+        "module": "massPayments",
+        "routerLink": "providersCheckManagement"
+      },
+      {
+        "label": "Pagos LIP",
+        "module": "massPayments",
+        "routerLink": "providersCheckManagementLip"
+      },
+      {
+        "label": "Pagos Multiples",
+        "module": "massPayments",
+        "routerLink": "multiplePayments"
+      },
+      {
+        "label": "Proveedores Favoritos",
+        "module": "massPayments",
+        "routerLink": "favoritePayments"
+      },
+      {
+        "label": "ACH Ordenes de Debito",
+        "module": "massPayments",
+        "routerLink": "paymentsOddACH"
+      }
+    ]
+  },
+  {
+    "label": "QR",
+    "module": "qr-multiplica",
+    "items": [
+      {
+        "label": "Generación de QR",
+        "module": "qr-multiplica",
+        "routerLink": "qr-multiplica-bcp"
+      },
+      {
+        "label": "Reportes QR",
+        "module": "qr-multiplica",
+        "routerLink": "qr-report-bcp"
+      },
+      {
+        "label": "Administración QR",
+        "module": "qr-multiplica",
+        "routerLink": "qr-admin-bcp"
+      },
+      {
+        "label": "Reporte QR",
+        "module": "qr-multiplica",
+        "routerLink": "qr-report-bcp-copabol"
+      }
+    ]
+  },
+  {
+    "label": "Fx",
+    "module": "fx",
+    "items": [
+      {
+        "label": "Oferta de dólares",
+        "module": "fx",
+        "routerLink": "purchase"
+      },
+      {
+        "label": "Registro de Venta dólares",
+        "module": "fx",
+        "routerLink": "sales"
+      }
+    ]
+  },
+  {
+    "label": "Servicios",
+    "module": "service-payments",
+    "items": [
+      {
+        "label": "Nuevo Pago de Servicios",
+        "module": "new-service-payments",
+        "routerLink": "new-service"
+      },
+      {
+        "label": "Gas Natural",
+        "module": "service-payments",
+        "routerLink": "ypfb"
+      }
+    ]
+  },
+  {
+    "label": "Comprobantes",
+    "module": "vouchers",
+    "items": [
+      {
+        "label": "Actuales",
+        "module": "vouchers",
+        "routerLink": "current"
+      },
+      {
+        "label": "Un Mes Atrás",
+        "module": "vouchers",
+        "routerLink": "aMonthAgo"
+      },
+      {
+        "label": "Dos Meses Atrás",
+        "module": "vouchers",
+        "routerLink": "twoMonthsAgo"
+      },
+      {
+        "label": "Tres Meses Atrás",
+        "module": "vouchers",
+        "routerLink": "threeMonthsAgo"
+      },
+      {
+        "label": "Nueve Meses Atrás",
+        "module": "vouchers",
+        "routerLink": "aYearAgo"
+      },
+      {
+        "label": "SWIFT",
+        "module": "vouchers",
+        "routerLink": "swift"
+      },
+      {
+        "label": "Comprobante Electronico",
+        "module": "vouchers",
+        "routerLink": "voucherElectronic"
+      },
+      {
+        "label": "Consulta de Facturación electronica",
+        "module": "vouchers",
+        "routerLink": "newElectronicBill"
+      },
+      {
+        "label": "Comprobantes por operación",
+        "module": "vouchers",
+        "routerLink": "vouchersByOperation"
+      },
+      {
+        "label": "Comprobante por lote para pagos masivos",
+        "module": "vouchers",
+        "routerLink": "vouchersByBatch"
+      }
+    ]
+  },
+  {
+    "label": "Operaciones",
+    "module": "operations",
+    "items": [
+      {
+        "label": "Punto de reclamo - PR",
+        "module": "operations",
+        "routerLink": "claimRequest"
+      },
+      {
+        "label": "Configuración de Pagos Favoritos",
+        "module": "operations",
+        "routerLink": "favoritePaymentsSettings"
+      },
+      {
+        "label": "Solicitud Modificaciones",
+        "module": "operations",
+        "routerLink": "modification-request"
+      },
+      {
+        "label": "Boleta de Garantia",
+        "module": "operations",
+        "routerLink": "ballotOfWarranty"
+      }
+    ]
+  },
+  {
+    "label": "Soporte",
+    "module": "Soporte",
+    "items": [
+      {
+        "label": "Soporte",
+        "codeSupport": "supportPage"
+      }
+    ]
+  }
+]

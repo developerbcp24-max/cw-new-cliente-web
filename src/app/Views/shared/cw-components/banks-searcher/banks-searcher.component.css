@@ -1,0 +1,21 @@
+.panel {
+    background-color: transparent;
+}
+
+.full-size {
+    width: 100%;
+}
+
+.transferencia-ext__bank-pay .transferencias__card {
+    margin-top: 0px;
+}
+
+.margin-bank-selection {
+    margin-top: 65px;
+}
+
+@media screen and (max-width: 992px) {
+    .margin-bank-selection {
+        margin-top: 10px;
+    }
+}

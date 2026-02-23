@@ -1,0 +1,55 @@
+<div class="modal-body">
+  <div class="row transferencias__card">
+    <div class="col-md-6">
+
+      <p class="home__card__item__small-title">Cuenta</p>
+      <p class="home__card__item__small-value">{{ transactionFx.acountBs }}</p>
+
+      <p class="home__card__item__small-title">Preparador</p>
+      <p class="home__card__item__small-value">{{ transactionFx.user }}</p>
+
+      <p class="home__card__item__small-title">Vigencia</p>
+      <p class="home__card__item__small-value">{{ transactionFx.startDate | date:'dd/MM/yyyy' }}
+        -  {{ transactionFx.endDate | date:'dd/MM/yyyy' }}</p>
+
+    </div>
+    <div class="col-md-6">
+
+      <p class="home__card__item__small-title">Monto</p>
+      <p
+        class="home__card__item__small-value"> {{ transactionFx.amount | currency:'USD':'':'1.2-2' }} {{ transactionFx.currency }}</p>
+
+      <p class="home__card__item__small-title">Tipo cambio </p>
+      <p class="home__card__item__small-value"> {{ transactionFx.preferentialExchange | currency:'USD':'':'1.2-2' }}
+        BOL</p>
+
+      <p class="home__card__item__small-title">Estado</p>
+      <p class="home__card__item__small-value">{{ transactionFx.batchStatus }}</p>
+
+      <p class="home__card__item__small-title" *ngIf="transactionFx.detail != ''">Detalle del estado</p>
+      <p class="home__card__item__small-value" *ngIf="transactionFx.detail != ''"> {{ transactionFx.detail }}</p>
+
+    </div>
+  </div>
+  <br/>
+
+  <div class="table-responsive">
+    <table class="cw-table table-striped">
+      <caption></caption>
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">NOMBRES</th>
+        <th scope="col">ESTADO</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userFx of transactionFx.userInvolveds">
+        <td>{{ userFx.userName }}</td>
+        <td>
+          {{ userFx.userDescription }}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="row" *ngIf="showAmount && newPaseDto.newPasePayments.length > 0">
+  <div class="col-md-12"><br>
+    <div class="historical__box">
+      <h4 class="historical__h4">Bs. {{newPaseDto.amount | number: '1.2-2'}}</h4>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="newPaseDto.newPasePayments.length > 0">
+  <div class="col-md-12" *ngIf="newPaseDto.newPasePayments[0].billingType == '1' || newPaseDto.newPasePayments[0].billingType == '3' ||newPaseDto.newPasePayments[0].billingType == '4' || newPaseDto.newPasePayments[0].billingType == '5'">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Datos de la Factura</h4>
+    <form name="billingForm" #billingForm="ngForm" novalidate autocomplete="off">
+      <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="row">
+        <div class="col-md-6" *ngIf="newPaseDto.newPasePayments[0].billingType == '1' || newPaseDto.newPasePayments[0].billingType == '3' || newPaseDto.newPasePayments[0].billingType == '5'">
+          <div class="historical__box">
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                  <label class="historical__label">Nombre de Factura. </label>
+                  <input class="input_modal_1" type="text" name="nameBilling" class="input-simple" [(ngModel)]="newPaseDto.nameBill"
+                    appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" autocomplete="off"
+                    maxlength="100" #nameBilling="ngModel" required />
+                  <app-show-errors [control]="nameBilling"></app-show-errors>
+                  <label class="transferencias__label"> Nro Documento. </label>
+                  <input class="input-simple" type="text" name="documentNumber" [(ngModel)]="newPaseDto.documentNumber"
+                    #documentNumber="ngModel" appOnlyType="integer" maxlength="16" required autocomplete="off">
+                  <app-show-errors [control]="documentNumber"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2">
+                <label class="transferencias__label"> Tipo Documento </label>
+                <select class="select-account input-simple" name="documentType" [(ngModel)]="newPaseDto.documentType"
+                  #documentType="ngModel" required (ngModelChange)="selectDocType()">
+                  <option *ngFor="let type of docType" [ngValue]="type.code">
+                    {{type.description}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6"
+          *ngIf="newPaseDto.documentType == '02' || newPaseDto.newPasePayments[0].billingType == '3' || newPaseDto.newPasePayments[0].billingType == '4'">
+          <div class="historical__box">
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <div *ngIf="newPaseDto.documentType == '02'">
+                  <label class="transferencias__label"> Extensión </label>
+                  <select class="select-account input-simple" name="documentExtension"
+                    [(ngModel)]="newPaseDto.documentExtension" #documentExtension="ngModel" required
+                    (ngModelChange)="selectExtension()">
+                    <option *ngFor="let typ of docExtension" [ngValue]="typ.code">
+                      {{typ.description}}</option>
+                  </select>
+                </div>
+                <div
+                  *ngIf="newPaseDto.newPasePayments[0].billingType == '3' || newPaseDto.newPasePayments[0].billingType == '4'">
+                  <label class="transferencias__label"> Teléfono </label>
+                  <input class="input-simple" type="text" name="fax" [(ngModel)]="newPaseDto.phoneNumber" #fax="ngModel"
+                    appOnlyType="alphanumeric" appValidate="alphanumeric" maxlength="20" autocomplete="off">
+                </div>
+              </div>
+              <div class="transferencias__container-x2">
+                <div *ngIf="newPaseDto.documentType == '02'">
+                  <label class="transferencias__label"> Complemento </label>
+                  <input class="input-simple" type="text" name="workPhone" [(ngModel)]="newPaseDto.iDCComplement"
+                    #workPhone="ngModel" appOnlyType="alphanumeric" maxlength="8" autocomplete="off">
+                </div>
+                <div
+                  *ngIf="newPaseDto.newPasePayments[0].billingType == '3' || newPaseDto.newPasePayments[0].billingType == '4'">
+                  <label class="transferencias__label"> Correo </label>
+                  <input class="input-simple" type="email" name="email" [(ngModel)]="newPaseDto.email" #email="ngModel"
+                    appValidate="manyEmails" [appMaxLength]="90" placeholder="Ej: ana@gmail.com" required>
+                  <app-show-errors [control]="email"></app-show-errors>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+.login__center-flex-login {
+    align-items: normal;
+}
+
+.title-key-1{
+font-family: Flexo;
+font-weight: 700;
+font-style: Bold;
+font-size: 22px;
+padding-bottom: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+color: #32335C;
+}
+
+.text-key-1 {
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0;
+  background-color: #32335C;
+  color: #FFFFFF; /* Contraste con el fondo oscuro */
+
+  /* Compatibilidad con font-feature-settings */
+  font-feature-settings: "kern" 1;       /* estándar */
+  -webkit-font-feature-settings: "kern" 1; /* para WebKit */
+  -moz-font-feature-settings: "kern" 1;    /* para Firefox */
+  -ms-font-feature-settings: "kern" 1;     /* para Edge antiguo */
+
+  /* leading-trim aún no soportado ampliamente */
+  /* leading-trim: none; */
+  padding: 4px; /* opcional, para que el fondo se vea mejor */
+}
+.text-key-2{
+font-family: Flexo;
+font-weight: 700;
+font-style: Bold;
+font-size: 16px;
+padding-bottom: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+color: #32335C;
+}
+
+

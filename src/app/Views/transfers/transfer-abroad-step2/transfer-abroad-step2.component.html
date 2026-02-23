@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-bar-route></app-bar-route>
+    <app-requester-form-abroad
+      [charges]="parameters.chargesType"
+      [(ngModel)]="requester"
+      #requesterForm
+    >
+    </app-requester-form-abroad>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Revise los Datos del Beneficiario</h4>
+    <app-frecuent-transfers-abroad
+      (onChange)="handleChangeFrecuentTransfer($event)"
+      (onUpdateFrecuent)="
+        validateForms(
+          requesterForm.handleValidate()!,
+          beneficiaryForm.handleValidate(),
+          categoryAsfiForm.handleValidate()!,
+          payerBankForm.handleValidate()!,
+          intermediaryBankForm.handleValidate()!
+        ) && handleUpdateFrecuent($event)
+      "
+      [smsFavorite]="smsFavorite"
+      [smsFormTA]="smsFormTA"
+    >
+    </app-frecuent-transfers-abroad>
+    <app-depecrated-beneficiary-form-abroad
+      [(ngModel)]="beneficiary"
+      [documentTypes]="parameters.documentsType"
+      #beneficiaryForm
+    ></app-depecrated-beneficiary-form-abroad>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Selecciona la Categoría Transferencia ASFI</h4>
+    <app-transfer-categories-asfi
+      [parametersASFI]="parametersASFIResult"
+      (onChange)="handleChangeCategory($event)"
+      [categoryAsfiData]="categoryAsfi"
+      #categoryAsfiForm
+    ></app-transfer-categories-asfi>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Ingresa los Datos del Banco Pagador</h4>
+    <app-banks-searcher
+      (onChange)="handlePayerBank($event)"
+      [sourceAccount]="sourceAccount.number"
+      [bankSelectedDetail]="payerBank"
+      #payerBankForm
+    >
+    </app-banks-searcher>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Ingresa los Datos del Banco Intermediario</h4>
+    <app-intermediary-bank-form-abroad
+      (onChange)="handleIntermediaryBank($event)"
+      [sourceAccount]="sourceAccount.number"
+      [bankIntermediary]="intermediaryBank"
+      #intermediaryBankForm
+    ></app-intermediary-bank-form-abroad>
+  </div>
+</div>
+<app-bar-route [isLast]="true"></app-bar-route>
+<app-frecuent-transfer-abroad-add
+  [(ngModel)]="transferAbroadFrecuent"
+  [disabled]="disabledAddFrecuentTransfer"
+>
+</app-frecuent-transfer-abroad-add>
+<app-terms-transfers-abroad></app-terms-transfers-abroad>
+<div class="row transferencia-ext__submit">
+  <div class="col-md-2 col-sm-12">
+    <button
+      type="button"
+      class="button__principal button-next"
+      (click)="
+        validateForms(
+          requesterForm.handleValidate()!,
+          beneficiaryForm.handleValidate(),
+          categoryAsfiForm.handleValidate()!,
+          payerBankForm.handleValidate()!,
+          intermediaryBankForm.handleValidate()!
+        ) && handleSubmitDetail()
+      "
+    >
+      SIGUIENTE
+    </button>
+  </div>
+  <div class="col-md-2 col-sm-12">
+    <p class="historical__p--cancel">
+      <a routerLink="/transfers/transfer-abroad">CANCELAR</a>
+    </p>
+  </div>
+</div>
+
+<app-modal
+  [visible]="isVisibleInfoModal"
+  (onClose)="isVisibleInfoModal = false"
+  [size]="'md'"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">Comunicado</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <ol>
+      <li *ngIf="!requester.isTicket && requester.isDiferentCurrency">
+        Como la cuenta de debito es en bolivianos y no cuenta con un ticket de
+        cambio boliviano - dólar, se le cobrara al tipo de cambio actual.
+      </li>
+      <li *ngIf="!requester.isTicketCommission">
+        Como su transacción no cuenta con un ticket de comisión, se le cobrara
+        el tarifario normal.
+      </li>
+    </ol>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+      <button
+        type="button"
+        class="button__principal"
+        (click)="handleCloseAlert()"
+      >
+        Aceptar
+      </button>
+    </div>
+  </div>
+</app-modal>

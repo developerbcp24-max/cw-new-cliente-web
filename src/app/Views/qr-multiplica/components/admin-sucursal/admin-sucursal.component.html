@@ -1,0 +1,108 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <h3 class="mb-4"><strong>Formulario de registro</strong></h3>
+      </div>
+      <div class="historical__box historical__account-box">
+        <form name="currencyForm" novalidate #currencyForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="false"><legend></legend><br>
+            <div class="form-group">
+              <h3>Sucursal</h3><br>
+              <div class="account-flag">
+                <h4>Favor de crear las sucursales de su empresa y otorgarles un nombre con el que le sea fácil identificarlas en sus reportes de QR.</h4>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+        <div class="col-md-12">
+          <div class="row transferencia-ext__submit">
+            <br>
+            <div class="col-md-4"> <br>
+              <button [disabled]="regSuc" class="button__principal historical__button-secondary btn-lg" (click)="handleAddRow()">
+                REGISTRAR SUCURSAL <em class="fas fa-plus-circle"></em>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container w-full">
+  <div class="w-full">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <app-list-branch [visible]="visible"
+      [branchNewList]="branchNewList"
+      [spreadsheetSize]="spreadsheetSize"
+      [branchNewList]="branchNewList"
+      [businessId]="businesId"
+      [listBranchQrs]="listBranchQrs"
+      >
+    </app-list-branch>
+      <app-modal [visible]="showDetailForm" (onClose)="showDetailForm=false" [size]="'md'" [manualCloseModal]="true">
+        <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Editar sucursal' : 'Registro de sucursal'}}
+        </div>
+        <div class="app-modal-body col-md-12 col-sm-12">
+          <form name="sucursalForm" #sucursalForm="ngForm" novalidate autocomplete="off">
+            <div class="form-group">
+              <label for="nombre">Nombre sucursal:</label>
+
+              <input type="text" class="historical__select-account form-control helpers__select-modal" name="branchName" [(ngModel)]="detail.branchName" #branchName="ngModel" required
+                  appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" maxlength="35"
+                  placeholder="Ej: San Miguel" required>
+                <app-show-errors [control]="branchName"></app-show-errors>
+            </div>
+
+            <div class="form-group">
+              <label for="ciudad">Ciudad:</label>
+                <select class="historical__select-account input-simple helpers__select-modal"
+                  name="city" [(ngModel)]="reqSuc.city" (ngModelChange)="selectBranchOffice()"
+                  #city="ngModel" required>
+                  <option value="">Seleccione Ciudad</option>
+                  <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.description">{{branchOffice.description}}
+                  </option>
+                </select>
+                <app-show-errors [control]="city"></app-show-errors>
+
+
+            </div>
+            <div class="form-group">
+              <label for="Usuario">Asignar Jefe de Agencia:</label>
+              <select id="userId" name="userId" class="historical__select-account input-simple helpers__select-modal"
+              [(ngModel)]="reqSuc.qrUserId" (ngModelChange)="selectBranchQr(ListUserBranch)" #qrUserId="ngModel" required>
+                <option value="0">Seleccione un usuario</option>
+                <option *ngFor="let user of ListUserBranch" [value]="user.qrUserId">{{user.name}}</option>
+              </select>
+              <app-show-errors [control]="qrUserId"></app-show-errors>
+            </div>
+          </form>
+        </div>
+        <div class="app-modal-footer col-md-12 col-md-12">
+          <div class="row modal__container-button justify-content-center text-center">
+            <div class="col-md-4 col-xs-12">
+              <button class="button__principal modal__button" (click)="handleValidate()"
+                #closeApp>{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+            </div>
+          </div>
+          <div class="row modal__cancelar justify-content-center text-center">
+            <div class="col-md-12 col-xs-12">
+              <a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a>
+            </div>
+          </div>
+        </div>
+      </app-modal>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 offset-md-8">
+    <div class="row transferencia-ext__submit">
+      <div class="col-md-2 col-sm-12">
+        <input [disabled]="regSucSig" type="button" class="button__principal button-next" (click)="validateForms()" value="SIGUIENTE">
+      </div>
+    </div>
+  </div>
+</div>

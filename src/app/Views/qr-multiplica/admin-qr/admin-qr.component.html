@@ -1,0 +1,28 @@
+<app-stepper [currentStep]="currentStep" [showPreviusStep]="true" (onPreviusStep)="handlePreviusStep()">
+  <app-step title="Información">
+    <app-admin-users *ngIf="currentStep===1"  [ballot]="ballot"
+      (onChange)="handleChangeStep1($event)" (ballotDto)="handleBallotDto($event)"
+      (businesCodeEm)="handleQrBusinesCode($event)" (businesIdEm)="handleQrBusinesId($event)"
+      (usersAll)="handleUserQr($event)">
+    </app-admin-users>
+  </app-step>
+  <app-step title="Registro Usuario">
+    <app-admin-users-create *ngIf="currentStep===2"  [ballot]="ballotSetp1" [businesCode]="businesCode"
+       [businesId]="businesId" [userAll]="userAll"
+      (onchangeBallot)="handleBallotDto($event)" (onChangeStep2)="handleChangeStep2($event)"
+      (onChangeRoe)="handleChangeRoe($event)" (listUserBranch)="handleUserBranchQr($event)"
+      (businessCode)="businessCode($event)"(businessId)="businessId($event)"></app-admin-users-create>
+  </app-step>
+  <app-step title="{{nameC}}">
+    <app-admin-sucursal *ngIf="currentStep===3"  [ballot]="ballotSetp2" [userBranch]="userBranch"
+    [businesCode]="businesCode" [businesId]="businesId" (listUserAtm)="handleUserAtmQr($event)"
+    (listBranch)="handleBranchQr($event)" (businessCode)="businessCode($event)"(businessId)="businessId($event)"
+      (onchangeOthers)="handleBallotDto($event)" (onChangeStep3)="handleChangeStep3($event)"></app-admin-sucursal>
+  </app-step>
+
+<app-step title="{{nameD}}">
+  <app-admin-caja *ngIf="currentStep===4" [ballot]="ballotSetp3" [userAtm]="userAtm" [listBranchQr]="listBranchQr"
+  [businesCode]="businesCode" [businesId]="businesId"
+       (onChangeStep3)="handleChangeStep4(0)"></app-admin-caja>
+   </app-step>
+ </app-stepper>

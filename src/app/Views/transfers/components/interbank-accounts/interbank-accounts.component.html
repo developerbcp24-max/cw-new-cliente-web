@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-md-10">
+      <div class="historical__box transferencias__account-box  transferencias__flex-column ">
+        <form name="interbankAccountForm" novalidate #interbankAccountForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="disabled"><legend></legend><br>
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <label>Cuenta destino</label>
+                <input class="transferencias__input--text" type="text" name="account"
+                  [(ngModel)]="accountInformation.number" #account="ngModel" appOnlyType="integer" appValidate="integer"
+                  required minlength="5" maxlength="25">
+                <app-show-errors [control]="account"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2">
+                <label>Nombre de destinatario</label>
+                <input class="transferencias__input--text " type="text" name="beneficiary"
+                  [(ngModel)]="accountInformation.beneficiary" #beneficiary="ngModel"
+                  appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" required maxlength="49">
+                <app-show-errors [control]="beneficiary"></app-show-errors>
+              </div>
+            </div>
+            <div class="transferencias__flex">
+              <div class="transferencias__container-x2">
+                <label>Banco</label>
+                <select name="destinationBanks" class="input-simple" #destinationBanks="ngModel" [(ngModel)]="bank"
+                  (ngModelChange)="selectBank()" required>
+                  <option [ngValue]="undefined" disabled>Seleccione el banco destino</option>
+                  <option  *ngFor="let bank of banks" [ngValue]="bank">{{bank.description}}</option>
+                </select>
+                <app-show-errors [control]="destinationBanks"></app-show-errors>
+              </div>
+              <div class="transferencias__container-x2">
+                <label>Sucursal</label>
+                <select name="branches" class="input-simple" #branches="ngModel" [(ngModel)]="branchOffice"
+                  (ngModelChange)="selectBranchOffice()" required>
+                  <option [ngValue]="undefined" disabled>Seleccione la sucursal</option>
+                  <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice">{{branchOffice.description}}
+                  </option>
+                </select>
+                <app-show-errors [control]="branches"></app-show-errors>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="col-md-6 favorite-btn">
+      <button *ngIf="!favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary"
+        [disabled]="disabled" (click)="showSaveFavoriteForm=true">GUARDAR COMO FAVORITO</button>
+      <button *ngIf="favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary"
+        [disabled]="disabled" (click)="handleCancelFavorite()">CANCELAR FAVORITO</button>
+      <input *ngIf="favorite.isFavorite" class="transferencias__input--text" type="text" name="favoriteName"
+        [(ngModel)]="favorite.name" [disabled]="true">
+    </div>
+  </div>
+  
+  <app-modal [visible]="showSaveFavoriteForm" (onClose)="showSaveFavoriteForm=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">
+      Guardar operación como favorito
+    </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+        <input type="text" name="favoriteName" class="transferencias__select-account-large input-simple"
+          placeholder="Nombre del favorito" [(ngModel)]="favorite.name" maxlength="20"
+          appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" required
+          #favoriteName="ngModel" />
+        <app-show-errors [control]="favoriteName"></app-show-errors>
+      </form>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__container-button">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+          <button class="button__principal modal__button" (click)="handleSaveFavorite()">ACEPTAR</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="handleCancelFavorite()" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

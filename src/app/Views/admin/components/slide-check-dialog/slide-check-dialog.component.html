@@ -1,0 +1,78 @@
+<div class="security-validation-container">
+  <div class="security-header">
+    <mat-icon class="security-icon">security</mat-icon>
+    <h3>Verificación de Seguridad</h3>
+  </div>
+
+  <div class="validation-content">
+    <p class="instruction-text">
+      Por favor, complete la verificación deslizando el control hasta el final.
+      <!-- <br><small>Esta verificación protege sus transacciones bancarias.</small> -->
+    </p>
+
+    <div class="slider-container">
+      <div class="slider-track">
+        <div class="slider-progress" [style.width.%]="sliderValue"></div>
+        <mat-slider min="0" max="100" step="1" [disabled]="isVerifying" class="security-slider">
+          <input matSliderThumb [value]="sliderValue" (input)="onSliderChange($event)"
+            (change)="onSliderComplete($event)" />
+        </mat-slider>
+
+        <!-- <mat-slider
+          min="0"
+          max="100"
+          step="1"
+          [value]="sliderValue"
+          (input)="onSliderChange($event)"
+          (change)="onSliderComplete($event)"
+          class="security-slider"
+          [disabled]="isVerifying"
+        ></mat-slider> -->
+        <div class="slider-labels">
+          <span class="start-label">Deslizar</span>
+          <span class="end-label" [class.active]="sliderValue >= 100">
+            <mat-icon *ngIf="sliderValue >= 100">lock</mat-icon>
+            Verificar
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado de verificación -->
+    <div class="verification-status" [ngClass]="verificationStatus">
+      <div *ngIf="!isVerifying && !isVerified && sliderValue < 100" class="status-pending"
+        style="background-color: #f5f6fa; border-radius: 4px; padding: 12px; display: flex; align-items: center;">
+        <mat-icon style="color: #1976d2; margin-right: 8px;">info</mat-icon>
+        <span style="color: #1976d2; font-weight: 500;">
+          Por favor, deslice el control hasta el final para continuar con la verificación de seguridad.
+        </span>
+      </div>
+
+      <div *ngIf="isVerifying" class="status-verifying">
+        <mat-spinner diameter="10"></mat-spinner>
+        <span>Verificando...</span>
+      </div>
+
+      <div *ngIf="isVerified" class="status-verified">
+        <mat-icon class="success-icon">check_circle</mat-icon>
+        <span>Verificación completada exitosamente</span>
+      </div>
+
+      <div *ngIf="verificationFailed" class="status-failed">
+        <mat-icon class="error-icon">error</mat-icon>
+        <span>Verificación fallida. Intente nuevamente.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button mat-stroked-button (click)="onCancel()" [disabled]="isVerifying" class="cancel-button">
+      Cancelar
+    </button>
+
+    <button mat-raised-button color="primary" (click)="onContinue()" [disabled]="!isVerified" class="continue-button">
+      <mat-icon *ngIf="isVerified">arrow_forward</mat-icon>
+      Continuar
+    </button>
+  </div>
+</div>

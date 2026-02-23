@@ -1,0 +1,244 @@
+<div class="col-md-12">
+    <div class="transferencias__card">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Número de lote</p>
+        <p class="home__card__item__small-value">{{detail.processBatchId}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Cuenta origen</p>
+        <p class="home__card__item__small-value">{{detail.sourceAccount}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Fecha de ingreso</p>
+        <p class="home__card__item__small-value">{{detail.dateProcess | date:'dd/MM/yyyy'}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Monto del lote</p>
+        <p class="home__card__item__small-value">{{detail.amount | number: '1.2-2'}} {{detail.currency}}
+        </p>
+      </div>
+      <div class="home__card__item" *ngIf="detail.isTicket">
+        <p class="home__card__item__small-title">Número de ticket</p>
+        <p class="home__card__item__small-value">{{detail.numberTicket}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Débito por operación</p>
+        <p class="home__card__item__small-value">{{detail.isMultipleDebits ? 'Multiple' : 'Único'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="detail.fundSource != ''">
+    <div class="transferencias__card">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Orígen de los Fondos</p>
+        <p class="home__card__item__small-value aling-justify">{{detail.fundSource}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Destino de los Fondos</p>
+        <p class="home__card__item__small-value aling-justify">{{detail.fundDestination}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel-button-right">
+    <button type="button" class="btn btn-primary" *ngIf="updateMultiplePayments.length>0"
+      (click)="isCredentialsValidationVisible=true">Modificar
+      Montos</button>
+  </div>
+  <app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>
+  <!--Haberes-->
+  <ng-container *ngIf="isVisibleSalaries">
+    <p class="tituloGeneral h_no-MarginBottom" style="align-items: center;">PAGO DE HABERES</p>
+    <div class="table-responsive">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Linea</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Cuenta Destino</th>
+            <th scope="col">Tipo Documento</th>
+            <th scope="col">Documento </th>
+            <th scope="col">Ext. Doc</th>
+            <th scope="col">Titular</th>
+            <th scope="col">Detalle 1</th>
+            <th scope="col">Detalle 2</th>
+            <th scope="col">E-mail Proveedor</th>
+            <th scope="col">Nro de Celular</th>
+            <th scope="col" *ngIf="isAuthorizeFtp">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of payments.spreadsheet.formSalariesPayments">
+            <td>{{data.line}}</td>
+            <td>
+              <span *ngIf="!data.isEdit">{{data.amount | number: '1.2-2'}}</span>
+              <input *ngIf="data.isEdit && isAuthorizeFtp" [(ngModel)]="data.amount" class="form-control" type="text"
+                name="amount" mask-money>
+            </td>
+            <td>{{data.accountNumber}}</td>
+            <td>{{data.documentType}}</td>
+            <td>{{data.documentNumber}}</td>
+            <td>{{data.documentExtension}}</td>
+            <td>{{data.titularName}}</td>
+            <td>{{data.firstDetail}}</td>
+            <td>{{data.secondDetail}}</td>
+            <td>{{data.mail}}</td>
+            <td>{{data.telephoneNumber}}</td>
+            <td title="Acciones" class="actions" colspan="2" *ngIf="isAuthorizeFtp">
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="data.isEdit=!data.isEdit"><em class="fas fa-edit"></em></a>
+              <a *ngIf="data.isEdit && !data.isDelete" (click)="handleSave(data)"><em class="fas fa-save"></em></a>
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="handleRemove(data)"><em class="fas fa-trash"></em></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [isCenter]="true" [totalItems]="payments.spreadsheet.formSalariesPayments.length"
+      [rowsPerPage]="rowsPerPageS" [maxSize]="pageItemsS" (onChange)="handlePageChangedSalaries($event)"
+      (onChangeRowsPerPage)="handleViewRowsSalaries($event)">
+    </app-pagination>
+  </ng-container>
+  <!--Proveedores>-->
+  <ng-container *ngIf="isVisibleProviders">
+    <p class="tituloGeneral h_no-MarginBottom" style="align-items: center;">PAGO A PROVEEDORES</p>
+    <div class="table-responsive">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Linea</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Cuenta Destino</th>
+            <th scope="col">Tipo Documento</th>
+            <th scope="col">Documento </th>
+            <th scope="col">Ext. Doc</th>
+            <th scope="col">Titular</th>
+            <th scope="col">Detalle 1</th>
+            <th scope="col">Detalle 2</th>
+            <th scope="col">E-mail Proveedor</th>
+            <th scope="col" *ngIf="isAuthorizeFtp">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of payments.spreadsheet.formProvidersPayments">
+            <td>{{data.line}}</td>
+            <td><span *ngIf="!data.isEdit">{{data.amount | number: '1.2-2'}}</span>
+              <input *ngIf="data.isEdit && isAuthorizeFtp" [(ngModel)]="data.amount" class="form-control" type="text"
+                name="amount" mask-money>
+            </td>
+            <td>{{data.accountNumber}}</td>
+            <td>{{data.documentType}}</td>
+            <td>{{data.documentNumber}}</td>
+            <td>{{data.documentExtension}}</td>
+            <td>{{data.titularName}}</td>
+            <td>{{data.firstDetail}}</td>
+            <td>{{data.secondDetail}}</td>
+            <td>{{data.mail}}</td>
+            <td title="Acciones" class="actions" colspan="2" *ngIf="isAuthorizeFtp">
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="data.isEdit=!data.isEdit"><em class="fas fa-edit"></em></a>
+              <a *ngIf="data.isEdit && !data.isDelete" (click)="handleSave(data)"><em class="fas fa-save"></em></a>
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="handleRemove(data)"><em class="fas fa-trash"></em></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [isCenter]="true" [totalItems]="payments.spreadsheet.formProvidersPayments.length"
+      [rowsPerPage]="rowsPerPageP" [maxSize]="pageItemsP" (onChange)="handlePageChangedProviders($event)"
+      (onChangeRowsPerPage)="handleViewRowsProviders($event)">
+    </app-pagination>
+  </ng-container>
+  <!--Efectivo-->
+  <ng-container *ngIf="isVisibleCash">
+    <p class="tituloGeneral h_no-MarginBottom" style="align-items: center;">PAGO EN EFECTIVO</p>
+    <div class="table-responsive">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Monto</th>
+            <th scope="col">Razon Beneficiario</th>
+            <th scope="col">Apellido Paterno</th>
+            <th scope="col">Apellido Materno</th>
+            <th scope="col">Tipo Documento</th>
+            <th scope="col">Documento </th>
+            <th scope="col">Instrucciones</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Detalle</th>
+            <th scope="col">E-mail Proveedor</th>
+            <th scope="col" *ngIf="isAuthorizeFtp">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of payments.spreadsheet.formCashPayments">
+            <td><span *ngIf="!data.isEdit">{{data.amount | number: '1.2-2'}}</span>
+              <input *ngIf="data.isEdit && isAuthorizeFtp" [(ngModel)]="data.amount" class="form-control" type="text"
+                name="amount" mask-money>
+            </td>
+            <td>{{data.titularName}}</td>
+            <td>{{data.firstLastName}}</td>
+            <td>{{data.secondLastName}}</td>
+            <td>{{data.documentType}}</td>
+            <td>{{data.documentNumber}}</td>
+            <td>{{data.instruccionsPayment}}</td>
+            <td>{{data.branchOfficeDescription}}</td>
+            <td>{{data.firstDetail}}</td>
+            <td>{{data.mail}}</td>
+            <td title="Acciones" class="actions" colspan="2" *ngIf="isAuthorizeFtp">
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="data.isEdit=!data.isEdit"><em class="fas fa-edit"></em></a>
+              <a *ngIf="data.isEdit && !data.isDelete" (click)="handleSave(data)"><em class="fas fa-save"></em></a>
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="handleRemove(data)"><em class="fas fa-trash"></em></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [isCenter]="true" [totalItems]="payments.spreadsheet.formCashPayments.length"
+      [rowsPerPage]="rowsPerPageC" [maxSize]="pageItemsC" (onChange)="handlePageChangedCash($event)"
+      (onChangeRowsPerPage)="handleViewRowsCash($event)"></app-pagination>
+  </ng-container>
+  <!--ACH-->
+  <ng-container *ngIf="isVisibleAch">
+    <p class="tituloGeneral h_no-MarginBottom" style="align-items: center;">ABONO A OTRO BANCO ACH</p>
+    <div class="table-responsive">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Linea</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Cuenta Destino</th>
+            <th scope="col">Razon Beneficiario</th>
+            <th scope="col">Banco</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Detalle</th>
+            <th scope="col">E-mail</th>
+            <th scope="col" *ngIf="isAuthorizeFtp">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of payments.spreadsheet.formAchPayments">
+            <td>{{data.line}}</td>
+            <td><span *ngIf="!data.isEdit">{{data.amount | number: '1.2-2'}}</span>
+              <input *ngIf="data.isEdit && isAuthorizeFtp" [(ngModel)]="data.amount" class="form-control" type="text"
+                name="amount" mask-money>
+            </td>
+            <td>{{data.accountNumber}}</td>
+            <td>{{data.titularName}}</td>
+            <td>{{data.bankDescription}}</td>
+            <td>{{data.branchOfficeDescription}}</td>
+            <td>{{data.firstDetail}}</td>
+            <td>{{data.mail}}</td>
+            <td title="Acciones" class="actions" colspan="2" *ngIf="isAuthorizeFtp">
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="data.isEdit=!data.isEdit"><em class="fas fa-edit"></em></a>
+              <a *ngIf="data.isEdit && !data.isDelete" (click)="handleSave(data)"><em class="fas fa-save"></em></a>
+              <a *ngIf="!data.isEdit && !data.isDelete" (click)="handleRemove(data)"><em class="fas fa-trash"></em></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [isCenter]="true" [totalItems]="payments.spreadsheet.formAchPayments.length" [maxSize]="pageItemsA"
+      [rowsPerPage]="rowsPerPageA" (onChange)="handlePageChangedAch($event)"
+      (onChangeRowsPerPage)="handleViewRowsAch($event)"></app-pagination>
+  </ng-container>
+  
+  <app-token-modal *ngIf="isAuthorizeFtp" [isVisible]="isCredentialsValidationVisible" [isUserToken]="true"
+    (onSubmit)="handleCredentialsValidationSubmit($event)" (onClose)="isCredentialsValidationVisible=false">
+  </app-token-modal>

@@ -1,0 +1,132 @@
+<div *ngIf="batch">
+    <div class="row transferencia-ext__card align-left">
+        <div class="col-md-6">
+            <h4 class="historical__h4">Detalle del lote</h4>
+            <div class="transferencias__box transferencia-ext__box">
+                <div class="transferencias__card card-destination align-left">
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Lote</p>
+                        <p class="home__card__item__small-value">{{batch.processBatchId}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Cuenta origen</p>
+                        <p class="home__card__item__small-value">{{batch.accountNumber}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Monto</p>
+                        <p class="home__card__item__small-value">{{batch.amount | number: '1.2-2'}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Moneda</p>
+                        <p class="home__card__item__small-value">{{batch.currency}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="operationTypeId==37">
+                        <p class="home__card__item__small-title">Servicio</p>
+                        <p class="home__card__item__small-value">{{ batch.serviceType}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="operationTypeId==38">
+                        <p class="home__card__item__small-title">Servicio</p>
+                        <p class="home__card__item__small-value">{{batch.searchCode == '2' ? 'POSTPAGO' : 'PREPAGO'}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Código de Cliente</p>
+                        <p class="home__card__item__small-value">{{batch.parameters}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Nombre de Factura</p>
+                        <p class="home__card__item__small-value">{{batch.nameBill}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">NIT</p>
+                        <p class="home__card__item__small-value">{{batch.nitFactura}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4 class="historical__h4">Dirección de la factura</h4>
+            <div class="transferencias__box transferencia-ext__box">
+                <div class="transferencias__card card-destination align-left" *ngIf="batch.isComission">
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">{{batch.isStreet ? 'Calle' : 'Avenida'}}</p>
+                        <p class="home__card__item__small-value">{{batch.streetOrAvenue}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="batch.zoneOrNeighborhood">
+                        <p class="home__card__item__small-title">Zona</p>
+                        <p class="home__card__item__small-value">{{batch.zoneOrNeighborhood}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="batch.number">
+                        <p class="home__card__item__small-title">Número</p>
+                        <p class="home__card__item__small-value">{{batch.number}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="batch.floorOrDepartament">
+                        <p class="home__card__item__small-title">Depto./Piso</p>
+                        <p class="home__card__item__small-value">{{batch.floorOrDepartament}}</p>
+                    </div>
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Departamento</p>
+                        <p class="home__card__item__small-value">{{batch.departament}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="batch.batchOrCondominium">
+                        <p class="home__card__item__small-title">Lote</p>
+                        <p class="home__card__item__small-value">{{batch.batchOrCondominium}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="batch.province">
+                        <p class="home__card__item__small-title">Provincia</p>
+                        <p class="home__card__item__small-value">{{batch.province}}</p>
+                    </div>
+                    <div class="home__card__item" *ngIf="batch.location">
+                        <p class="home__card__item__small-title">Localidad</p>
+                        <p class="home__card__item__small-value">{{batch.location}}</p>
+                    </div>
+                </div>
+                <div class="transferencias__card card-destination align-left" *ngIf="!batch.isComission">
+                    <div class="home__card__item">
+                        <p class="home__card__item__small-title">Dirección</p>
+                        <p class="home__card__item__small-value">{{batch.streetOrAvenue}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-approvers-and-controllers-detail [details]="batch.userInvolveds"></app-approvers-and-controllers-detail>
+    <table class="cw-table table-striped" *ngIf="operationTypeId == 37"><caption></caption>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Beneficiario</th>
+                <th>Descripción</th>
+                <th>Monto deuda</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of batch.detail">
+                <td title="Fecha de proceso">{{detail.item}}</td>
+                <td title="Fecha de proceso">{{detail.beneficiaryReason}}</td>
+                <td title="Código de cliente">{{detail.description}}</td>
+                <td title="Monto" *ngIf="batch.paymentType =='PRE'">{{detail.minAmount | number: '1.1-2'}}</td>
+                <td title="Monto" *ngIf="batch.paymentType =='POS'">{{detail.amount | number: '1.1-2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="cw-table table-striped" *ngIf="operationTypeId==38"><caption></caption>
+        <thead>
+            <tr>
+                <th style="align-items: center;">N° de Comprobante</th>
+                <th style="align-items: center;">Periodo</th>
+                <th style="align-items: center;">Fecha Emisión</th>
+                <th style="align-items: center;">Fecha Vencimiento</th>
+                <th style="align-items: center;">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of batch.detail">
+                <td style="align-items: center;">{{detail.voucherNumber}}</td>
+                <td style="align-items: center;">{{detail.billingPeriod}}</td>
+                <td style="align-items: center;">{{detail.emissionDate}}</td>
+                <td style="align-items: center;">{{detail.endDate}}</td>
+                <td style="align-items: center;">{{detail.amount | number: '1.2-2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

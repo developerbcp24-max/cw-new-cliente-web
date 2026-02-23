@@ -1,0 +1,20 @@
+<form name="formTicket" #formTicket="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <button class="button__secondary" *ngIf="!isTicketOtherCurrency" [disabled]="true">
+              <em class="fas fa-file-invoice-dollar"></em>
+              TICKET OTRA MONEDA</button>
+            <button class="button__principal" *ngIf="isTicketOtherCurrency">
+              TICKET OTRA MONEDA</button>
+          </div>
+          <div class="col-sm-3" *ngIf="isTicketOtherCurrency">
+            <input type="text" name="ticket" [(ngModel)]="ticket" class="input-simple" (ngModelChange)="handleChangeTicket()"
+              required #ticketOtherCurrency="ngModel">
+            <app-show-errors [control]="ticketOtherCurrency"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>

@@ -1,0 +1,25 @@
+.align-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.home__layout__mosaic .home__card {
+    flex: 0 1 49%;
+}
+
+.home__layout__list .home__card {
+    flex: 0 1 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .home__layout__mosaic .home__card {
+        flex: 0 1 100%;
+    }
+}
+
+a.disabled {
+    color: gray;
+    cursor: not-allowed;
+}

@@ -1,0 +1,309 @@
+<figure class="text-center" *ngIf="!permissionActions">
+  <blockquote class="blockquote">
+    <h3>Alerta</h3>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    Esta opción no está habilitada. Por favor, comuníquese con el administrador para solicitarlo.
+  </figcaption>
+</figure>
+<div *ngIf="permissionActions">
+  <figure class="text-left">
+    <blockquote class="blockquote">
+      <h3 style="font-weight: bold; color: #34B1CF">Lista de oferta de dólares</h3>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      Banco de Crédito de Bolivia S.A.
+    </figcaption>
+  </figure>
+
+  <div *ngIf="paginatedData.length == 0">
+    <div class="alert alert-primary" role="alert">
+      No hay ofertas disponibles por el momento.
+    </div>
+  </div>
+
+  <div *ngIf="paginatedData.length > 0">
+    <div class="row hidden-mobile">
+      <div class="col-md-12 card-back shadow-sm rounded">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <strong class="text-font-size">Nombre </strong>
+          </div>
+          <div class="col-6 col-md-2">
+            <strong class="text-font-size">Monto </strong>
+          </div>
+          <div class="col-6 col-md-2">
+            <strong class="text-font-size">Precio </strong>
+          </div>
+          <div class="col-sm-12 col-md-2">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngFor="let item of paginatedData; let i = index">
+      <div class="col-md-12  shadow" [ngClass]="i == acordeon?'card-back-active':'card-back'">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <strong class="show-mobile text-font-size">Nombre:</strong>  {{ item.name }}
+            <p>Valido: {{ item.startDate | date:'dd/MM/yyyy' }} - {{ item.endDate | date:'dd/MM/yyyy' }} </p>
+          </div>
+          <div class="col-6 col-md-2">
+            <strong class="show-mobile text-font-size">Monto:</strong> {{ item.balance | currency:'USD':'':'1.2-2' }}
+          </div>
+          <div class="col-6 col-md-2">
+            <strong class="show-mobile text-font-size">Precio:</strong> <strong
+            class="text-center fontSizePrecio">{{ item.exchange | currency:'USD':'':'1.2-2' }}</strong>
+          </div>
+          <div class="col-sm-12 col-md-2">
+              <button
+                class="button__principal btn-buttom-app btn-icon"
+                (click)="changeSelect(i, item.exchange, item.companyId, item.id, item.commission)"
+                type="button"
+              >
+                <img alt="Comprar" src="assets/icons/abajo.png" style="width: 15px;">
+                Comprar
+              </button>
+            </div>
+
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="i == acordeon">
+        <app-source-accounts [accountRequest]="sourceAccountDto" [disabled]="isDisabledForm"
+                             [accountType]="'BOL'"
+                             [accountDropLabel]="'Cuenta desde la cual se realizará el pago de la compra de dólares'"
+                             (onChange)="handleSourceAccountChanged($event)"
+                             [defaultAccount]="batchInformation.sourceAccountId"
+                             #sourceAccount>
+        </app-source-accounts>
+        <div>
+          <app-bar-route></app-bar-route>
+          <app-source-accounts [showBarRoute]="false" [accountRequest]="targetAccountDto"
+                               [accountType]="'USD'"
+                               [accountDropLabel]="'Cuenta donde se depositarán los dólares'"
+                               [companyAccounts]="true"
+                               [onlyCurrencyBOL]="onlyCurrencyBOL"
+                               (onChange)="handleDestinationAccountChanged($event)"
+                               [disabled]="isDisabledForm"
+                               #targetAccount>
+          </app-source-accounts>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <app-bar-route></app-bar-route>
+            <h4 class="historical__h4">Agregar el monto a comprar</h4>
+            <div class="card shadow p-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <label for="inputRegUsd" class="text-center text-font-size">Monto a comprar USD. </label>
+                    <input autocomplete="off" [(ngModel)]="amount" class="input-simple"
+                           pattern="^[0-9]*\.?[0-9]*$"
+                           type="text" (input)="ComicionConfianza(item.balance)"
+                           mask-money id="inputRegUsd"
+                           placeholder="{{ 0 | currency:'USD':'':'1.2-2' }}">
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <label for="inputRegUsd" class="text-center text-font-size">Saldo a la venta
+                      USD.</label>
+                    <input autocomplete="off" disabled readonly
+                           class="input-simple input-simple-presentacion input-right-text"
+                           pattern="^[0-9]*\.?[0-9]*$"
+                           value="{{ (amount > item.balance) ? item.balance : (item.balance - amount) | currency:'USD':'':'1.2-2' }}">
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <label for="inputRegUsd" class="text-center text-font-size">Precio Bs.</label>
+                    <input autocomplete="off" disabled readonly
+                           class="input-simple input-simple-presentacion input-right-text"
+                           pattern="^[0-9]*\.?[0-9]*$"
+                           value="{{ amountTypeChange | currency:'USD':'':'1.2-2' }}">
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <label for="inputRegUsd" class="text-center text-font-size">Monto a comprar Bs.</label>
+                    <input autocomplete="off" disabled readonly
+                           class="input-simple input-simple-presentacion input-right-text"
+                           pattern="^[0-9]*\.?[0-9]*$"
+                           value="{{amountBs | currency:'USD':'':'1.2-2' }}">
+                  </div>
+                  <div class="col-md-12">
+                    <br/>
+                    <div class="alert alert-warning">
+                      <p> Comisión de Confianza: {{ getPosentaje() }} :
+                        <strong>( {{ ComicionConfianzaValue | currency:'USD':'':'1.2-2' }} Bs.)</strong></p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label text-font-size">Orígen de los fondos:</label>
+                      <textarea class="form-control" type="text" [(ngModel)]="fundSource"
+                                name="fundSourceControl"
+                                required
+                                appValidate="alphanumericBasicSymbols"
+                                #fundSourceControl="ngModel" minlength="20"
+                                maxlength="200"></textarea>
+                      <app-show-errors [control]="fundSourceControl"></app-show-errors>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label text-font-size">Destino de los fondos:</label>
+                      <textarea class="form-control" type="text" [(ngModel)]="fundDestination"
+                                name="fundDestinationControl"
+                                required appValidate="alphanumericBasicSymbols"
+                                #fundDestinationControl="ngModel"
+                                minlength="20"
+                                maxlength="200"></textarea>
+                      <app-show-errors [control]="fundDestinationControl"></app-show-errors>
+                    </div>
+                  </div>
+                </div>
+                <br/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-approvers-and-controllers [approversRequest]="approversDto" [currency]="batchInformation.currency"
+                                       [amount]="batchInformation.amount" [disabled]="isDisabledForm"
+                                       (onChange)="handleApproversOrControllersChanged($event)"
+                                       #approversAndControllers>
+        </app-approvers-and-controllers>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="alert alert-warning" role="alert">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="isChecked"
+                       (change)="onCheckboxChange($event)"
+                       id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Confirmo que he leído y acepto los términos y condiciones.
+                </label>
+                <strong (click)="viewTerminos()" style="cursor: pointer; margin-left: 15px;"> Visualizar
+                  términos</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row transferencia-ext__submit">
+          <div class="col-md-3 col-sm-4">
+            <button class="button__principal historical__button-secondary"
+                    (click)="handleValidate(true, approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimitFx(), true, sourceAccount.handleValidate()!,false)">
+              PREPARAR TRANSACCIÓN
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="previousPage()" aria-label="Anterior">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li *ngFor="let page of getPageNumbers()" class="page-item" [class.active]="page === currentPage">
+          <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="nextPage()" aria-label="Siguiente">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <app-date-future [visible]="scheduleOperation" (onClose)="scheduleOperation=false"
+                   (onChange)="handleDateFuture($event)"></app-date-future>
+  <app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken"
+                   (onSubmit)="handleTokenSubmit($event)"
+                   (onClose)="isVisibleToken=false"
+                   [message]="'Necesitamos que ingrese su número Token para confirmar la transferencia.'"></app-token-modal>
+  <app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente</div>
+    <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con
+      fondos suficientes al momento de realizar la autorización.
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="excedeedAmount=false; validationCismart()">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </app-modal>
+  <div *ngIf="!showMessageIsBlock">
+    <app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isTransferSuccessful"
+                                    [isTransferType]="isTransferSuccessful" [visible]="false"
+                                    (Accept)="handleAccept($event)"
+                                    [operationTypeId]="batchInformation.operationTypeId">
+    </app-successful-operation-modal>
+  </div>
+  <app-modal-is-block [showMessageIsBlock]="showMessageIsBlock" (onClose)="onClose($event);"></app-modal-is-block>
+  <app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>
+</div>
+
+
+<div class="modal fade" id="terminosCompra" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="border-radius: 0px !important;">
+      <h3 class="modal-title text-center" style="padding: 15px">TÉRMINOS Y CONDICIONES</h3>
+      <div class="container" style=" background-color: #bdbdbd">
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 shadow-lg p-3 mb-5 rounded" style="background-color: #FFFFFF">
+            <br *ngFor="let i of [1,1]"/>
+            <p class="text-condicones"> Con el llenado del formulario digital precedente, se formaliza la
+              solicitud al
+              Banco de Crédito de Bolivia S.A. para que, mediante su Plataforma FX, gestione la compra de
+              dólares por
+              el
+              importe, precio máximo, fecha límite, cuenta de origen para el débito y cuenta de destino
+              indicados en
+              esta solicitud, en mérito a lo establecido en el Artículo 119, Inciso m) de la Ley N° 393 de
+              Servicios
+              Financieros. </p>
+            <p class="text-condicones"> El solicitante autoriza el débito de su cuenta de origen por el
+              monto de la
+              compra y que el mismo sea abonado a la cuenta de la contraparte (vendedor) dentro del
+              servicio de
+              Plataforma FX.</p>
+            <p class="text-condicones"> El solicitante autoriza el débito de la comisión de confianza
+              establecida en
+              el
+              Tarifario, aplicable sobre el monto de la transacción, de la misma cuenta de origen, en caso
+              de
+              procesarse
+              la solicitud exitosamente.</p>
+            <p class="text-condicones">En caso de no poder realizarse la transacción en las condiciones
+              señaladas en
+              la
+              solicitud hasta la fecha
+              límite, esta solicitud quedará sin efecto.</p>
+            <p class="text-condicones"> El solicitante da fe en calidad de declaración jurada del origen y
+              destino de
+              los fondos correspondientes a esta solicitud.</p>
+            <p class="text-condicones">El solicitante manifiesta su consentimiento y conformidad con las
+              condiciones
+              de
+              esta solicitud electrónica, declarando conocer y aceptar los alcances del uso de la firma
+              electrónica
+              (usuario, clave, OTP, PIN, token, botones de aceptación y otros), la que, una vez inserta,
+              tendrá plena
+              validez legal, obligando al solicitante de la misma forma que lo hiciera mediante la
+              suscripción con fu
+              firma autógrafa.</p>
+            <br *ngFor="let i of [1,1]"/>
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <strong>¿Está de acuerdo con los términos y condiciones? </strong>
+        <button style="width: 150px" type="button" class="button__principal" data-bs-dismiss="modal"
+                (click)="isChecked=true">ACEPTAR
+        </button>
+        <button style="width: 150px" type="button" class="button__principal" data-bs-dismiss="modal"
+                (click)="isChecked=false">CERRAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

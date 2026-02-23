@@ -1,0 +1,31 @@
+/* Configuración del modal */
+.user-info-dialog-class {
+  max-width: 744px !important;
+  width: 744px !important;
+  max-height: 90vh !important;
+}
+
+.user-info-dialog-class .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  overflow: visible !important;
+}
+
+/* Estilos para inputs con borde inferior */
+.user-info-dialog-class input:focus {
+  outline: none !important;
+  border-bottom-color: #3b82f6 !important;
+}
+
+.user-info-dialog-class input:read-only {
+  cursor: default;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+  .user-info-dialog-class {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}

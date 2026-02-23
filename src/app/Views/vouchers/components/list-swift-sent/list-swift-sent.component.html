@@ -1,0 +1,32 @@
+<div class="table-responsive">
+    <table class="cw-table table-striped"><caption></caption>
+      <thead>
+        <tr>
+          <th scope="col">Lote</th>
+          <th scope="col">Nro Operación</th>
+          <th scope="col" style="width: 20%">Referencia del Remitente</th>
+          <th scope="col" style="width: 15%">Cuenta Origen</th>
+          <th scope="col" style="width: 25%">Cliente beneficiario</th>
+          <th scope="col">Moneda</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Fecha Autorizacion</th>
+          <th scope="col">SWIFT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of swifts">
+          <td>{{detail.processBatchId}}</td>
+          <td>{{detail.operationNumber}}</td>
+          <td>{{detail.referenceSender}}</td>
+          <td>{{detail.accountFormatted}}</td>
+          <td>{{detail.beneficiary}}</td>
+          <td>{{detail.currency}}</td>
+          <td>{{detail.operationAmount | number: '1.2-2'}}</td>
+          <td>{{detail.operationDate| date: 'dd/MM/yyyy'}}</td>
+          <td>
+            <a (click)="handleGetReport(detail)"><em class="fa fa-arrow-circle-down button__size"></em></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

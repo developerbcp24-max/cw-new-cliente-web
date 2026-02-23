@@ -1,0 +1,239 @@
+<app-source-accounts [accountRequest]="accountRequest" [disabled]="isDisabledForm"
+  (onChange)="handleSourceAccountChanged($event)" #sourceAccount></app-source-accounts>
+<div class="row  historical__period">
+  <div class="col-md-12">
+    <app-bar-route></app-bar-route>
+    <div class="transferencias__container-title-detail">
+      <p class="historical__p--cancel transferencia-ext__p-link helpers__hidden-small" (click)="showCompanyLimits=true">
+        <a>Ver
+          límite diario</a>
+      </p>
+    </div>
+
+    <h4 class="historical__h4">Seleccione rubro del Servicio</h4>
+    <div class="row historical__period-options">
+      <div class="col-md-6" *ngIf="isLoad">
+        <div class="historical__box historical__account-box">
+          <label class="transferencias__label">Rubro</label>
+
+          <select class="select-account input-simple" name="drpAccounts" [(ngModel)]="rubroSelected"
+            (change)="handleGroupChanged()">
+            <option *ngFor="let item of categoryResult" [ngValue]="item.code">
+              {{ item.name }}
+            </option>
+          </select>
+
+        </div>
+      </div>
+    </div>
+
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Seleccione el Tipo de Servicio</h4>
+    <div class="row historical__period-options" *ngIf="newPaseType.length > 0">
+      <div class="col-md-6">
+
+        <div class="historical__box historical__account-box">
+          <label class="transferencias__label">Servicio</label>
+          <div class="row">
+            <div class="col-md-6">
+              <select class="select-account input-simple" name="drpAccounts" [(ngModel)]="serviceSelected"
+                (change)="handleGroupChangedService(serviceSelected);">
+                <option *ngFor="let item of newPaseType" [ngValue]="item.code">
+                  {{ item.description }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-6" *ngIf="isActiveService">
+              <button class="button__principal" (click)="handleAddRow()" [disabled]="isDisabledForm"><em class="fas fa-search"></em> BUSCAR DEUDA</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="companycodeYpfb == 701"><br>
+      <div class="col-md-6">
+        <div class="historical__box haberes__previous-form">
+          <label class="historical__label">Selecciona Departamento</label>
+          <form name="favoriteForm" #favoriteForm="ngForm" novalidate autocomplete="off">
+            <div class="form-group">
+              <select class="historical__select-account input-simple" name="departament"
+                [disabled]="isPaymentSuccessful" [(ngModel)]="departament" (change)="handleChangeBranchOffice()">
+                <option [value]="undefined" disabled>Seleccione una opción</option>
+                <option *ngFor="let item of constants.branchOfficesPase" [ngValue]="item">{{item.name}}</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Selecciona un pago guardado</h4>
+    <div class="row" *ngIf="isActiveService">
+      <div class="col-md-6">
+        <div class="alert alert-info">Si anteriormente guardaste un pago de servicios, puedes buscarlo desde esta opción.</div>
+        <div class="historical__box haberes__previous-form">
+          <label class="historical__label">Pago guardado</label>
+          <form name="favoriteForm" #favoriteForm="ngForm" novalidate autocomplete="off">
+            <div class="form-group">
+              <select class="historical__select-account input-simple" name="favoriteTransaction"
+                [disabled]="isDisabledForm" [(ngModel)]="favoriteItem" (change)="handleChangeFavorite()">
+                <option [value]="undefined" disabled>Seleccione una opción</option>
+                <option *ngFor="let favorite of favoriteNewPaseResult" [ngValue]="favorite">
+                  {{favorite.name}}</option>
+              </select>
+            </div>
+          </form>
+          <div *ngIf="favoriteItem">
+            <button class="button__secondary transferencia-ext__button-secondary" (click)="handleSearchFavorite()"
+              [disabled]="isDisabledForm"><em class="fas fa-search"></em>
+              CARGAR FAVORITO</button>
+            <button class="button__secondary transferencia-ext__button-secondary" [disabled]="isDisabledForm"
+              (click)="handleRemoveFavorite()"><em class="fas fa-trash"></em>
+              ELIMINAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-info" *ngIf="newPaseDto.companyCode == '752'">
+      <p><strong>“</strong>SU <strong>FACTURA</strong>
+        SERÁ ENVIADA AL CORREO ELECTRÓNICO QUE SE REGISTRÓ O PUEDE SER CONSULTADA EN LAS PÁGINAS WEB DE <strong>ENTEL O
+          DEL SIN” </strong></p>
+    </div>
+
+    <div class="alert alert-info" *ngIf="newPaseDto.companyCode == '753'">
+      <p><strong>“</strong>SU <strong>FACTURA</strong>
+        DEL SISTEMA DE FACTURACIÓN ELECTRÓNICA PUEDE SER CONSULTADA EN LAS PÁGINAS WEB DE <strong>ENTEL O DEL
+          SIN</strong>, PARA FACTURAS ANTERIORES A ESTE SISTEMA DEBE RECABAR LA MISMA EN SU
+        <strong>BANCO” </strong>
+      </p>
+    </div>
+
+    <div class="row card-info" *ngIf="newPaseDto.newPasePayments.length > 0"><br>
+      <div class="col-md-3" *ngIf="!newPaseDto.isFavorite">
+        <button class="button__secondary" (click)="showSaveFavoriteForm=true" [disabled]="isDisabledForm">GUARDAR COMO
+          FAVORITO</button>
+      </div>
+      <div class="col-md-3" *ngIf="newPaseDto.isFavorite">
+        <button class="button__secondary" (click)="handleCancelFavorite()" [disabled]="isDisabledForm">CANCELAR
+          FAVORITO</button>
+      </div>
+    </div>
+    <br>
+    <span *ngIf="newPaseDto.isFavorite"><strong>Pago favorito: </strong>
+      {{newPaseDto.favoriteName}}</span>
+
+    <div class="row" *ngIf="newPaseDto.newPasePayments.length > 0">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="cw-table table-striped"><caption></caption>
+            <thead>
+              <tr>
+                <th style="align-items: center;">N° Cuota</th>
+                <th style="align-items: center;">Código</th>
+                <th style="align-items: center;">Información</th>
+                <th style="align-items: center;">Servicio</th>
+                <th style="align-items: center;">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of newPaseDto.newPasePayments">
+                <td style="align-items: center;">{{detail.numberQuote}}</td>
+                <td style="align-items: center;">{{detail.parametersDetail}}</td>
+                <td style="align-items: left;" [innerHTML]="detail.information">{{detail.information}}</td>
+                <td style="align-items: center;">{{detail.descriptionPayment}}</td>
+                <td style="align-items: center;">{{detail.amount | number: '1.2-2'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <app-invoice-detail [showAmount]="true" [configResult]="configResult" [newPaseDto]="newPaseDto"
+      *ngIf="isActiveService" [disabled]="isDisabledForm" #debtDetail></app-invoice-detail>
+  </div>
+</div>
+
+<app-add-debt [getServicesResult]="getServicesResult" [configurationResult]="configurationResult"
+  [showDetailForm]="showDetailForm" [newPaseDto]="newPaseDto" (onChange)="handleCancelModal($event)"
+  (onChangeDebts)="handleGetDebts($event);" [getDebtsDto]="getDebtsDto" [telephoneNumber]="telephoneNumber"
+  [resultParameters]="resultParameters"></app-add-debt>
+
+<app-send-bill-data [disabled]="isDisabledForm" *ngIf="isActiveService && newPaseDto.amount > 0"
+  [newPaseDto]="newPaseDto" #sendBill></app-send-bill-data>
+
+<app-approvers-and-controllers [approversRequest]="approversDto" [currency]="newPaseDto.currency"
+  [amount]="newPaseDto.amount" [disabled]="isDisabledForm" (onChange)="handleApproversAndControllersChanged($event)"
+  #approversAndControllers></app-approvers-and-controllers>
+<app-emails-input [disabled]="isDisabledForm" [batchInformation]="newPaseDto" #emailInput></app-emails-input>
+
+<app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isDisabledForm"
+  [operationTypeId]="newPaseDto.operationTypeId" [isGenericPase]="true"
+  [operationTypeName]="newPaseDto.operationTypeName">
+</app-successful-operation-modal>
+
+<div class="row transferencia-ext__submit">
+  <div class="col-md-3 col-sm-4">
+    <button class="button__principal historical__button-secondary" [disabled]="isPaymentSuccessful"
+      (click)="handleValidate(approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(),sourceAccount.handleValidate()!,false)">
+      PREPARAR TRANSACCIÓN
+    </button>
+  </div>
+  <div class="col-md-3" *ngIf="is_validbatchtoken">
+    <button class="button__pre_save historical__button-secondary" [disabled]="isPaymentSuccessful"
+      (click)="handleValidate(approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(),sourceAccount.handleValidate()!,true)">
+      ENVIAR A PREPARACIÓN MASIVA
+    </button>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <p class="historical__p--cancel" *ngIf="!isPaymentSuccessful"><a [routerLink]="['']">CANCELAR</a></p>
+    <p class="historical__p--cancel" *ngIf="isPaymentSuccessful"><a
+        [routerLink]="['/new-service-payments/new-service']">NUEVO</a></p>
+  </div>
+</div>
+
+<app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)"
+  (onClose)="isVisibleToken=false"></app-token-modal>
+<app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente </div>
+  <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con fondos
+    suficientes al
+    momento de realizar la autorización.</div>
+  <div class="app-modal-footer col-md-12 col-sm-12"><button type="button" class="button__principal modal__button"
+      (click)="excedeedAmount=false; showToken();">Aceptar</button></div>
+</app-modal>
+<app-company-limits [isVisible]="showCompanyLimits" (onClose)="showCompanyLimits=false"></app-company-limits>
+
+<app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>
+
+<app-modal [visible]="showSaveFavoriteForm" (onClose)="showSaveFavoriteForm=false" [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">
+    Guardar operación como favorito
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+      <input class="input_modal_1" type="text" name="favoriteName" [(ngModel)]="newPaseDto.favoriteName"
+        class="transferencias__select-account-large input-simple" placeholder="Nombre del favorito" required />
+    </form>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handleSaveFavorite()">ACEPTAR</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="showSaveFavoriteForm=false;" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<div class="alert alert-primary d-flex align-items-center" role="alert">
+  <h5>Estimado cliente, le informamos que las plataformas transaccionales o personas que se dedican a la venta y comercialización de Activos Virtuales, no se encuentran bajo control, supervisión ni regulación de ASFI, razón por lo cual, las transacciones con los mismos son realizadas a riesgo del consumidor financiero. </h5>
+</div>

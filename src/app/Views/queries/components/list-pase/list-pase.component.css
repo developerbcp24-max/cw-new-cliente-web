@@ -1,0 +1,41 @@
+.ContenidoGrilla{
+    background-color: #FFEFE7;
+	font-size: 11px;
+	color: #034fa4;
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:right;
+    padding-left:3px;
+
+}
+.CabeceraGrilla
+{
+    font-size: 11px;
+	background-color: #034fa4;
+	color: #FFFFFF;
+	text-align:center;
+}
+.ContenidoGrillaAlt
+{
+	background-color: #FFDFCE;
+	font-size: 10px;
+	text-align:right;
+	padding-left:3px;
+}
+.marge
+{
+	border-top: 10%;
+
+}
+.MensajesNaranja
+{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #FF6600;
+	font-size: 11px;
+}
+.Formulario
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #034fa4;
+	font-size: 12px;
+	padding-top:10px;
+}

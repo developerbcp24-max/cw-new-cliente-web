@@ -1,0 +1,113 @@
+<div class="row">
+  <div><br></div>
+  <div class="col-md-6">
+    <div class="historical__box historical__account-box">
+      <label class="historical__label">Selecciona un beneficiario guardado</label>
+      <form name="favoriteTransfersForm" #favoriteTransfersForm="ngForm" novalidate autocomplete="off">
+        <fieldset [disabled]="disabled">
+          <legend></legend><br>
+          <div class="form-group">
+            <select class="input-simple" name="favoriteTransfer" [(ngModel)]="selectedTransfer"
+              (change)="handleChangedFavoriteTransfer()" #favoriteTransfer="ngModel" required>
+              <option value="null" disabled>Seleccione una opción</option>
+              <option *ngFor="let transfer of favoriteTransfers" [ngValue]="transfer">{{transfer.name}}</option>
+            </select>
+            <app-show-errors [control]="favoriteTransfer"></app-show-errors>
+          </div>
+          <div class="container" *ngIf="selectedTransfer != null">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <button class="button__secondary" [disabled]="disabled" (click)="isRemoveModalVisible=true"><em
+                    class="fas fa-trash"></em>
+                  Eliminar</button>
+              </div>
+              <div class="col-12 col-md-6">
+                <button class="button__secondary" [disabled]="disabled" (click)="isUpdateModalVisible=true"><em
+                    class="fas fa-pen"></em>
+                  Modificar información</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="selectedTransfer != null">
+    <div class="transferencias__card">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Cuenta destino</p>
+        <p class="home__card__item__small-value">{{batchInformation.destinationAccount}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Titular</p>
+        <p class="home__card__item__small-value">
+          {{selectedTransfer.isAch ? selectedTransfer.beneficiary : batchInformation.beneficiary}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Monto</p>
+        <p class="home__card__item__small-value">{{batchInformation.amount | number:'1.2-2'}}
+          {{batchInformation.currency}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Nombre favorito</p>
+        <p class="home__card__item__small-value">{{selectedTransfer.name}}</p>
+      </div>
+      <div class="home__card__item" *ngIf="selectedTransfer.isAch">
+        <p class="home__card__item__small-title">Banco</p>
+        <p class="home__card__item__small-value">{{selectedTransfer.bank}}</p>
+      </div>
+      <div class="home__card__item" *ngIf="selectedTransfer.isAch">
+        <p class="home__card__item__small-title">Sucursal</p>
+        <p class="home__card__item__small-value">{{selectedTransfer.branchOffice}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Tipo de Transferencia</p>
+        <p class="home__card__item__small-value">
+          {{selectedTransfer.isAch ? 'Transferencia ACH' : 'Transferencia a Terceros'}}</p>
+      </div>
+    </div>
+    <app-information-panel
+      [visible]="!accountSelected?.owner && ((accountSelected == undefined || accountSelected == null) ? false : true)"
+      [message]="accountSelected?.balanceErrorMessage"></app-information-panel>
+  </div>
+</div>
+<app-modal [visible]="isUpdateModalVisible" (onClose)="isUpdateModalVisible=false" [size]="'sm'">
+  <div class="app-modal-header col-md-12 col-sm-12">
+    Actualización de información
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    ¿Está seguro de modificar los datos de esta transferencia favorita?
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-2 col-md-8 col-xs-12 d-flex justify-content-center">
+        <button class="button__principal modal__button" (click)="handleUpdateFavoriteTransfer()">ACTUALIZAR</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar justify-content-center">
+      <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+        <a (click)="isUpdateModalVisible=false" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+<app-modal [visible]="isRemoveModalVisible" (onClose)="isRemoveModalVisible=false" [size]="'sm'">
+  <div class="app-modal-header col-md-12 col-sm-12">
+    Eliminación de información
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    ¿Está seguro de eliminar esta transferencia de sus favoritas?
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handleRemoveFavoriteTransfer()">ELIMINAR</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="isRemoveModalVisible=false" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>

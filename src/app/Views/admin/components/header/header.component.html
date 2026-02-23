@@ -1,0 +1,126 @@
+<header
+  class="bg-[#F3F6FB] md:bg-white md:shadow-sm rounded-[24px] w-full max-w-[1318px] mx-auto transition-all duration-300 ease-in-out">
+  <div class="py-2 px-8 flex flex-col md:flex-row items-center w-full">
+    <!-- Logo con ancho fijo -->
+    <div class="flex items-center justify-between w-full md:w-auto md:flex-shrink-0" style="min-width: 200px;">
+      <a routerLink="/" class="flex items-center">
+        <img src="assets/svgs/logo.svg" alt="New News Image">
+      </a>
+
+      <button (click)="toggleMenu()"
+        class="block md:hidden text-gray-700 focus:outline-none transition-transform duration-200 hover:scale-110">
+        <svg class="h-6 w-6 transition-transform duration-200" [class.rotate-90]="isMenuOpen"
+          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex-1 hidden md:block"></div>
+  <div class="hidden md:flex md:flex-row md:items-center md:flex-shrink-0" style="min-width: 200px;">
+  <nav class="flex flex-row items-center space-x-8 justify-end pr-8" aria-label="Global">
+
+    <!-- Noticias -->
+    <div class="relative inline-flex items-center">
+      <span class="absolute -top-15 left-1/2 -translate-x-1/2 z-10">
+          <svg width="88" height="70" viewBox="0 0 98 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_d_5492_9403)">
+              <path d="M17 34.0275C17 24.6235 24.6235 17 34.0275 17H63.9725C73.3765 17 81 24.6235 81 34.0275V46.4048C81 48.973 78.9181 51.055 76.3499 51.055C73.9372 51.055 71.9253 52.9001 71.7171 55.3038L71.3724 59.2828C71.2641 60.5322 69.8798 61.2318 68.8098 60.5778L60.0144 55.2029C55.5755 52.4903 50.4742 51.055 45.272 51.055H34.0275C24.6235 51.055 17 43.4315 17 34.0275Z" fill="#34B1CF"/>
+              <path d="M34.0273 17.0996H63.9727C73.3213 17.0997 80.9003 24.6787 80.9004 34.0273V46.4053C80.9001 48.918 78.8624 50.9551 76.3496 50.9551C73.8853 50.9552 71.83 52.8398 71.6172 55.2949L71.2725 59.2744C71.1705 60.4496 69.8689 61.1072 68.8623 60.4922L60.0664 55.1172C55.612 52.3951 50.4928 50.9552 45.2725 50.9551H34.0273C24.6786 50.955 17.0996 43.3761 17.0996 34.0273C17.0997 24.6787 24.6787 17.0997 34.0273 17.0996Z" stroke="#1AA2C3" stroke-width="0.2"/>
+            </g>
+            <path d="M34.4501 29.6265L37.1144 34.7642V28.6112H38.6446V35.8083C38.6446 36.7012 38.2701 37.0864 37.6148 37.0864C36.992 37.0864 36.5995 36.8164 36.1675 35.9811L33.5068 30.8254V37H31.9767V29.7993C31.9767 28.9064 32.3619 28.5248 33.0064 28.5248C33.5896 28.5248 34.0289 28.8164 34.4501 29.6265ZM40.3288 34.6706V30.5878H41.9237V34.5266C41.9237 35.4302 42.0857 35.8083 43.1802 35.8083C43.5223 35.8083 43.9183 35.7471 44.1595 35.6355C44.1884 35.3762 44.1992 35.063 44.1992 34.775V30.5878H45.7869V35.2754C45.7869 35.7111 45.7725 36.0819 45.7329 36.4923C44.984 36.892 44.0011 37.0864 42.8742 37.0864C40.5736 37.0864 40.3288 36.0531 40.3288 34.6706ZM49.9127 37.0864C47.7381 37.0864 47.1692 35.6931 47.1692 33.7921C47.1692 31.4662 47.9001 30.5014 50.0459 30.5014C52.3861 30.5014 52.8686 31.7291 52.8686 33.6697C52.8686 33.8389 52.8614 34.0117 52.847 34.1845C52.1161 34.3177 50.6939 34.4581 49.8119 34.505L48.757 34.559C48.8146 35.5599 49.3474 35.8047 50.2727 35.8047C51.1368 35.8047 51.9253 35.7183 52.5841 35.6355L52.7174 36.8416C52.0405 36.9532 51.1548 37.0864 49.9127 37.0864ZM48.7101 33.4644L49.8119 33.4104C50.2295 33.3888 50.8776 33.3348 51.252 33.2844C51.2628 33.2124 51.2664 33.1008 51.2664 33.0288C51.2664 32.1863 50.9532 31.7255 50.0459 31.7255C48.8686 31.7255 48.7101 32.4599 48.7101 33.4644ZM59.9084 30.5878L57.9354 36.1071C57.6941 36.784 57.2981 37.0864 56.7292 37.0864C56.1568 37.0864 55.7679 36.784 55.5267 36.1071L53.5609 30.5878H55.2459L56.7652 35.3906L58.2846 30.5878H59.9084ZM63.4675 37.0864C61.3576 37.0864 60.5944 36.1899 60.5944 33.7921C60.5944 31.4014 61.3576 30.5014 63.4675 30.5014C65.5809 30.5014 66.3441 31.4302 66.3441 33.7921C66.3441 36.1611 65.5809 37.0864 63.4675 37.0864ZM63.4675 35.7975C64.4792 35.7975 64.7456 35.351 64.7456 33.7921C64.7456 32.2403 64.4792 31.7867 63.4675 31.7867C62.4594 31.7867 62.2001 32.1899 62.2001 33.7921C62.2001 35.4014 62.4594 35.7975 63.4675 35.7975Z" fill="white"/>
+            <defs>
+              <filter id="filter0_d_5492_9403" x="0" y="0" width="98" height="77.8275" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset/>
+                <feGaussianBlur stdDeviation="8.5"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0.203922 0 0 0 0 0.694118 0 0 0 0 0.811765 0 0 0 1 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_5492_9403"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5492_9403" result="shape"/>
+              </filter>
+            </defs>
+          </svg>
+        </span>
+      <a routerLink="/login/new-news"
+        [class.text-[#153f7b]]="isRouteActive('/login/new-news')"
+        [class.text-gray-800]="!isRouteActive('/login/new-news')"
+        class="hover:text-[#153f7b] transition-colors duration-200 menu-header whitespace-nowrap">
+        Noticias
+      </a>
+      <span *ngIf="isRouteActive('/login/new-news')"
+        class="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-[#153f7b] to-[#34B1CF] rounded-full"></span>
+    </div>
+
+    <!-- Manuales -->
+    <div class="relative inline-flex items-center">
+      <a routerLink="/login/manuals"
+        [class.text-[#153f7b]]="isRouteActive('/login/manuals')"
+        [class.text-gray-800]="!isRouteActive('/login/manuals')"
+        class="hover:text-[#153f7b] transition-colors duration-200 menu-header whitespace-nowrap">
+        Manuales
+      </a>
+      <span *ngIf="isRouteActive('/login/manuals')"
+        class="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-[#153f7b] to-[#34B1CF] rounded-full"></span>
+    </div>
+
+    <!-- Preguntas Frecuentes -->
+    <div class="relative inline-flex items-center">
+      <a routerLink="/login/questions"
+        [class.text-[#153f7b]]="isRouteActive('/login/questions')"
+        [class.text-gray-800]="!isRouteActive('/login/questions')"
+        class="hover:text-[#153f7b] transition-colors duration-200 menu-header whitespace-nowrap">
+        Preguntas Frecuentes
+      </a>
+      <span *ngIf="isRouteActive('/login/questions')"
+        class="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-[#153f7b] to-[#34B1CF] rounded-full"></span>
+    </div>
+
+  </nav>
+</div>
+  </div>
+
+  <!-- Menú móvil con animación de altura -->
+  <div class="md:hidden overflow-hidden transition-all duration-300 ease-in-out" [class.max-h-0]="!isMenuOpen"
+    [class.max-h-96]="isMenuOpen" [class.opacity-0]="!isMenuOpen" [class.opacity-100]="isMenuOpen">
+    <div class="border-t border-gray-200 bg-[#F3F6FB]">
+      <div class="flex flex-col divide-y divide-gray-200">
+        <div class="relative px-4 py-4 hover:bg-blue-50 transition-colors duration-200"
+          [class.bg-blue-50]="isRouteActive('/login/new-news')">
+          <a routerLink="/login/new-news" [class.text-[#153f7b]]="isRouteActive('/login/new-news')"
+            [class.text-gray-700]="!isRouteActive('/login/new-news')"
+            class="block hover:text-[#153f7b] transition-colors duration-200 font-medium" (click)="toggleMenu()">
+            Noticias
+          </a>
+          <span *ngIf="isRouteActive('/login/new-news')"
+            class="absolute top-4 right-4 w-2 h-2 bg-[#153f7b] rounded-full"></span>
+          <span
+            class="absolute top-2 right-10 bg-[#34B1CF] text-white text-xs font-semibold py-1 px-2 rounded-full">Nuevo</span>
+        </div>
+
+        <div class="px-4 py-4 hover:bg-blue-50 transition-colors duration-200"
+          [class.bg-blue-50]="isRouteActive('/login/manuals')">
+          <a routerLink="/login/manuals" [class.text-[#153f7b]]="isRouteActive('/login/manuals')"
+            [class.text-gray-700]="!isRouteActive('/login/manuals')"
+            class="block hover:text-[#153f7b] transition-colors duration-200 font-medium" (click)="toggleMenu()">
+            Manuales
+          </a>
+          <span *ngIf="isRouteActive('/login/manuals')"
+            class="absolute right-4 mt-1 w-2 h-2 bg-[#153f7b] rounded-full"></span>
+        </div>
+
+        <div class="px-4 py-4 hover:bg-blue-50 transition-colors duration-200"
+          [class.bg-blue-50]="isRouteActive('/login/questions')">
+          <a routerLink="/login/questions" [class.text-[#153f7b]]="isRouteActive('/login/questions')"
+            [class.text-gray-700]="!isRouteActive('/login/questions')"
+            class="block hover:text-[#153f7b] transition-colors duration-200 font-medium" (click)="toggleMenu()">
+            Preguntas Frecuentes
+          </a>
+          <span *ngIf="isRouteActive('/login/questions')"
+            class="absolute right-4 mt-1 w-2 h-2 bg-[#153f7b] rounded-full"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,278 @@
+<fieldset [disabled]="disabled"><legend></legend><br>
+    <app-amount-account-verificated [amount]="batchInformation.amount" [totalErrors]="totalErrors"
+      [haveErrors]="haveErrors" [errorsDetail]="errorsDetail" [totalCorrects]="totalCorrects"
+      [currency]="batchInformation.currency" (onAddRow)="handleShowAdditionForm()">
+    </app-amount-account-verificated>
+    <div *ngIf="visible">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12  col-sm-12">
+              <table class="cw-table table-striped"><caption></caption>
+                <thead>
+                  <tr>
+                    <th *ngIf="headers.line">Linea</th>
+                    <th *ngIf="headers.amount">Monto</th>
+                    <th *ngIf="headers.destinationAccount">Cuenta destino</th>
+                    <th *ngIf="headers.bank">Banco</th>
+                    <th *ngIf="headers.documentType">Tipo documento</th>
+                    <th *ngIf="headers.documentNumber">Documento</th>
+                    <th *ngIf="headers.documentExtension">Extensión documento</th>
+                    <th *ngIf="headers.branchOffice">Sucursal</th>
+                    <th *ngIf="headers.codeService">Código servicio</th>
+                    <th *ngIf="headers.beneficiary">Razon social</th>
+                    <th *ngIf="headers.mail">Correo electrónico</th>
+                    <th>Acciones</th>
+                    <th>
+                      <button (click)="showFilter=!showFilter" class="table-filter" #insideButton><em class="fas fa-plus"></em></button>
+                      <div class="historical__box table-filter--hidden" [ngClass]="{'show-filter':showFilter}" #insideElement>
+                        <ul>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.line">
+                              <span class="check"></span>
+                            </label>
+                            <p>Linea</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.amount">
+                              <span class="check"></span>
+                            </label>
+                            <p>Monto</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.destinationAccount">
+                              <span class="check"></span>
+                            </label>
+                            <p>Ciudad</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.bank">
+                              <span class="check"></span>
+                            </label>
+                            <p>Banco</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.documentType">
+                              <span class="check"></span>
+                            </label>
+                            <p>Tipo documento</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.documentNumber">
+                              <span class="check"></span>
+                            </label>
+                            <p>Documento</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.documentExtension">
+                              <span class="check"></span>
+                            </label>
+                            <p>Extensión documento</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.branchOffice">
+                              <span class="check"></span>
+                            </label>
+                            <p>Sucursal</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.codeService">
+                              <span class="check"></span>
+                            </label>
+                            <p>Código servicio</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.beneficiary">
+                              <span class="check"></span>
+                            </label>
+                            <p>Razon social</p>
+                          </li>
+                          <li>
+                            <label class="checkbox">
+                              <input type="checkbox" [(ngModel)]="headers.mail">
+                              <span class="check"></span>
+                            </label>
+                            <p>Correo electrónico</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr [ngClass]="{'error':row.isError}" *ngFor="let row of spreadsheetPerPage" data-toggle="tooltip"
+                    data-placement="top" data-html="true" title="{{row.errorMessages}}">
+                    <td *ngIf="headers.line" title="Linea">{{row.line}}</td>
+                    <td *ngIf="headers.amount" title="Monto">{{row.amount | number: '1.2-2'}}</td>
+                    <td *ngIf="headers.destinationAccount" title="Cuenta Destino">{{row.targetAccount}}</td>
+                    <td *ngIf="headers.bank" title="Banco">{{row.bankDescription}}</td>
+                    <td *ngIf="headers.documentType" title="Tipo documento">{{row.typeIdc}}</td>
+                    <td *ngIf="headers.documentNumber" title="Documento">{{row.idc}}</td>
+                    <td *ngIf="headers.documentExtension" title="Extensión documento">{{row.extensionIdc}}</td>
+                    <td *ngIf="headers.branchOffice" title="Sucursal">{{row.branchOfficeDescription}}</td>
+                    <td *ngIf="headers.codeService" title="Código servicio">{{row.serviceCode}}</td>
+                    <td *ngIf="headers.beneficiary" title="Razon Social">{{row.businessName}}</td>
+                    <td *ngIf="headers.mail" title="Correo electrónico">{{row.mail}}</td>
+                    <td title="Acciones" class="actions" colspan="2">
+                      <a (click)="handleShowEditForm(row)"><em class="fas fa-edit"></em></a>
+                      <a (click)="handleTryToRemoveRow(row.line)"><em class="fas fa-trash"></em></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-modal [visible]="showDetailForm" (onClose)="showDetailForm=false" [size]="'lg'" [manualCloseModal]="true">
+      <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Modificar fila' : 'Agregar fila'}}</div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        <form name="detailForm" #detailForm="ngForm" novalidate autocomplete="off">
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Monto</label>
+                <input class="input_modal_1" type="text" name="amount" [(ngModel)]="detail.amount" #amount="ngModel" required mask-money
+                  [appMaxLength]=16 appValidate="majorZero">
+                <app-show-errors [control]="amount"></app-show-errors>
+              </div>
+            </div>
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Cuenta destino</label>
+                <input class="input_modal_1" type="text" name="account" [(ngModel)]="detail.targetAccount" #account="ngModel" required
+                  appOnlyType="integer" appValidate="integer" minlength="5" [appMaxLength]="26">
+                <app-show-errors [control]="account"> </app-show-errors>
+              </div>
+            </div>
+          </div>
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Banco</label>
+                <select class="input_modal_1" class="historical__select-account input-simple helpers__select-modal" name="bankDescription"
+                  [(ngModel)]="bank" (ngModelChange)="selectBank()" #bankDescription="ngModel" required>
+                  <option *ngFor="let bank of banks" [ngValue]="bank">{{bank.description}}</option>
+                </select>
+                <app-show-errors [control]="bankDescription"></app-show-errors>
+              </div>
+            </div>
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Tipo de documento</label>
+                <select class="input_modal_1" class="historical__select-account input-simple helpers__select-modal" name="documentType"
+                  [(ngModel)]="detail.typeIdc" #documentType="ngModel" required (ngModelChange)="selectDocType()">
+                  <option *ngFor="let type of documentTypes" [ngValue]="type.description">{{type.description}}</option>
+                </select>
+                <app-show-errors [control]="documentType"></app-show-errors>
+              </div>
+            </div>
+          </div>
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Número de documento</label>
+                <input class="input_modal_1" type="text" name="document" [(ngModel)]="detail.idc" #document="ngModel" appOnlyType="integer"
+                  appValidate="integer" required only-number [appMaxLength]="12">
+                <app-show-errors [control]="document"></app-show-errors>
+              </div>
+            </div>
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Extensión de documento</label>
+                <select class="input_modal_1" name="documentExtension" class="historical__select-account input-simple helpers__select-modal"
+                  [(ngModel)]="detail.extensionIdc" #documentExtension="ngModel" required
+                  *ngIf="detail.typeIdc === 'C.I.'">
+                  <option *ngFor="let extension of documentExtensions" [ngValue]="extension.code">
+                    {{extension.description}}</option>
+                </select>
+                <div *ngIf="detail.typeIdc === 'PASAPORTE'">
+                  <input class="input_modal_1" type="text" name="documentExtension" [(ngModel)]="detail.extensionIdc"
+                    #documentExtension="ngModel" maxlength="3" appOnlyType="alphanumericBasicSymbols"
+                    appValidate="alphanumericBasicSymbols">
+                  <app-show-errors [control]="documentExtension"></app-show-errors>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Ciudad</label>
+                <select class="input_modal_1" class="historical__select-account input-simple helpers__select-modal"
+                  name="branchOfficeDescription" [(ngModel)]="branchOffice" (ngModelChange)="selectBranchOffice()"
+                  #branchOfficeDescription="ngModel" required>
+                  <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice">{{branchOffice.description}}
+                  </option>
+                </select>
+                <app-show-errors [control]="branchOfficeDescription"></app-show-errors>
+              </div>
+            </div>
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label>Codigo Servicio</label>
+                <input class="input_modal_1" type="text" name="serviceCode" [(ngModel)]="detail.serviceCode" #serviceCode="ngModel"
+                  appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" maxlength="15" required>
+                <app-show-errors [control]="serviceCode"></app-show-errors>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-6 inputs haberes__modal__inputs">
+              <div class="input-numero">
+                <label>Razon Social</label>
+                <input class="input_modal_1" type="text" name="beneficiary" [(ngModel)]="detail.businessName" #beneficiary="ngModel"
+                  appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" maxlength="40" required>
+                <app-show-errors [control]="beneficiary"> </app-show-errors>
+              </div>
+            </div>
+          </form>
+            <div class="col-md-6 inputs haberes__modal__inputs">
+              <div class="input-numero">
+                <label>Correo electrónico</label>
+                <input class="input_modal_1" type="email" name="email" [(ngModel)]="detail.mail" #email="ngModel" appValidate="manyEmails"
+                  [appMaxLength]="500">
+                <app-show-errors [control]="email"></app-show-errors>
+              </div>
+            </div>
+        <div class="row"></div>
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="offset-md-4 col-md-4 col-xs-12">
+            <button class="button__principal modal__button"
+              (click)="handleValidate()">{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+          </div>
+        </div>
+        <div class="row modal__cancelar">
+          <div class="col-md-12 col-xs-12"><a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a></div>
+        </div>
+      </div>
+    </app-modal>
+    <app-modal [visible]="showRemoveRowForm" (onClose)="showRemoveRowForm=false" [size]="'sm'">
+      <div class="app-modal-header col-md-12 col-sm-12">Eliminación de información</div>
+      <div class="app-modal-body col-md-12 col-sm-12">¿Está seguro de eliminar esta línea de la planilla?</div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="offset-md-3 col-md-6 col-xs-12">
+            <button class="button__principal modal__button" (click)="handleRemove()">ELIMINAR</button>
+          </div>
+        </div>
+        <div class="row modal__cancelar">
+          <div class="col-md-12 col-xs-12">
+            <a (click)="showRemoveRowForm=false" class="link-cancel-modal">CANCELAR</a>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+  </fieldset>

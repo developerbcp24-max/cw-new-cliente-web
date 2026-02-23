@@ -1,0 +1,84 @@
+<ng-container *ngIf="existAutorizer">
+    <app-modal [visible]="isVisible" (onClose)="handleOnClose()" [size]="'md'" [manualCloseModal]="true">
+      <div class="app-modal-header col-md-12 col-sm-12">
+        LÍMITE DIARIO
+      </div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Límite empresa</p>
+            <p class="home__card__item__small-value">{{limits.companyLimit | number: '1.2-2'}} DÓLARES</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Disponible</p>
+            <p class="home__card__item__small-value">{{limits.available | number: '1.2-2'}} DÓLARES</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Total operaciones USD</p>
+            <p class="home__card__item__small-value">{{limits.dollarsCompany | number: '1.2-2'}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Total operaciones BOL</p>
+            <p class="home__card__item__small-value">{{limits.bolsCompany | number: '1.2-2'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="offset-md-3 col-md-6 col-xs-12">
+            <button class="button__principal modal__button" (click)="handleOnClose()">ACEPTAR</button>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+    <app-modal [visible]="isVisibleLimit" (onClose)="handleOnClose()" [size]="'md'" [manualCloseModal]="true">
+      <div class="app-modal-header col-md-12 col-sm-12">
+        LÍMITE DIARIO EN DÓLARES
+      </div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        <div class="transferencias__card">
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Empresa</p>
+            <p class="home__card__item__small-value">{{limits.companyLimit | number: '1.2-2'}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Autorizador</p>
+            <p class="home__card__item__small-value">{{limits.authorizerLimit | number: '1.2-2'}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Total operaciones</p>
+            <p class="home__card__item__small-value">{{limits.dollarsCompany}}</p>
+          </div>
+          <div class="home__card__item">
+            <p class="home__card__item__small-title">Disponible</p>
+            <p class="home__card__item__small-value">{{limits.available | number: '1.2-2'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="offset-md-3 col-md-6 col-xs-12">
+            <button class="button__principal modal__button" (click)="handleOnClose()">ACEPTAR</button>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+  </ng-container>
+  <ng-container *ngIf="!existAutorizer">
+    <app-modal [visible]="isVisible" (onClose)="handleOnClose()" [size]="'md'" [manualCloseModal]="true">
+      <div class="app-modal-header col-md-12 col-sm-12">
+        Información
+      </div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        Usted no cuenta con los permisos suficientes para esta sección.
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="offset-md-3 col-md-6 col-xs-12">
+            <button class="button__principal modal__button" (click)="handleOnClose()">ACEPTAR</button>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+  </ng-container>
+  

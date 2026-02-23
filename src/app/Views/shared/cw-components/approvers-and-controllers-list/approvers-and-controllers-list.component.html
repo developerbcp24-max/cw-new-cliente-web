@@ -1,0 +1,145 @@
+<div *ngIf="isVisible">
+    <div *ngIf="controllers.length != 0 && (showOnly=='controllers'||showOnly=='')">
+        <p class="tituloGeneral h_no-MarginBottom">CONTROLADORES</p>
+        <div class="table-responsive">
+            <table class="cw-table table-striped"><caption></caption>
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">NOMBRES</th>
+                        <th scope="col">APELLIDO PATERNO</th>
+                        <th scope="col">APELLIDO MATERNO</th>
+                        <th scope="col" *ngIf="showOnly==''">NOTIFICAR</th>
+                        <th scope="col" *ngIf="showOnly!='' && !isAdministrative">ESTADO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let controller of controllers">
+                        <td>{{controller.names}}</td>
+                        <td>{{controller.firstLastName}}</td>
+                        <td>{{controller.secondLastName}}</td>
+                        <td *ngIf="showOnly==''" style="text-align:center">
+                            <input type="checkbox" class="form-check-input"
+                                (change)="handleControllerChecked(controller.id)" [disabled]="disabled">
+                        </td>
+                        <td *ngIf="showOnly!='' && !isAdministrative">{{controller.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul *ngIf="controllersHaveErrors">
+                <li class="message-invalid">Debe notificar a {{controllersNumber}} controlador(es).</li>
+            </ul>
+        </div>
+    </div>
+    <div *ngIf="showOnly=='authorizers' || showOnly==''">
+        <p class="tituloGeneral h_no-MarginBottom">AUTORIZADORES</p>
+        <div class="table-responsive"
+            *ngIf="(approversRequest?.isSignerScheme !== undefined && !approversRequest?.isSignerScheme ) || (!isSignature || isAdministrative)">
+            <table class="cw-table table-striped"><caption></caption>
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">NOMBRES</th>
+                        <th scope="col">APELLIDO PATERNO</th>
+                        <th scope="col">APELLIDO MATERNO</th>
+                        <th scope="col" *ngIf="!isAdministrative">LÍMITE</th>
+                        <th scope="col" *ngIf="showOnly==''">NOTIFICAR</th>
+                        <th scope="col"*ngIf="showOnly!='' && !isAdministrative">ESTADO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let approver of approvers">
+                        <td>{{approver.names}}</td>
+                        <td>{{approver.firstLastName}}</td>
+                        <td>{{approver.secondLastName}}</td>
+                        <td *ngIf="!isAdministrative">{{approver.limit}}</td>
+                        <td *ngIf="showOnly==''" style="text-align:center">
+                            <input type="checkbox" class="form-check-input"
+                                (change)="handleApproverChecked(approver.id)" [disabled]="disabled">
+                        </td>
+                        <td *ngIf="showOnly!='' && !isAdministrative">{{approver.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul *ngIf="approversHaveErrors">
+                <li class="message-invalid">Debe notificar a {{approversNumber}} autorizador(es).</li>
+            </ul>
+        </div>
+        <div class="table-responsive" *ngIf="approversRequest?.isSignerScheme || (isSignature && !isAdministrative)">
+            <app-information-panel
+                [message]="cismartApprovers.instructions?cismartApprovers.instructions:'LA CUENTA NO TIENE ASIGNADO AUTORIZADORES'"
+                [type]="'attention'" [visible]="showOnly!=='authorizers'"></app-information-panel>
+            <table class="table table-condensed table-bordered table-striped table-hover"><caption></caption>
+                <thead class="thead-light">
+                    <tr>
+                        <td *ngIf="showOnly=='authorizers'">NOMBRES</td>
+                        <td *ngIf="showOnly=='authorizers'">APELLIDO PATERNO</td>
+                        <td *ngIf="showOnly=='authorizers'">APELLIDO MATERNO</td>
+                        <th scope="col" *ngIf="showOnly==''">NOMBRE</th>
+                        <th scope="col" *ngIf="showOnly==''">TIPO</th>
+                        <th scope="col" *ngIf="showOnly==''">OBSERVACIÓN</th>
+                        <th scope="col" *ngIf="showOnly==''">NOTIFICAR</th>
+                        <th scope="col" *ngIf="showOnly!=''">ESTADO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let approver of cismartApprovers.authorizers">
+                        <td *ngIf="showOnly=='authorizers'">{{approver.names}}</td>
+                        <td *ngIf="showOnly=='authorizers'">{{approver.firstLastName}}</td>
+                        <td *ngIf="showOnly=='authorizers'">{{approver.secondLastName}}</td>
+                        <td *ngIf="showOnly==''">{{approver.fullName}}</td>
+                        <td *ngIf="showOnly==''">{{approver.type}}</td>
+                        <td *ngIf="showOnly==''">{{approver.comments}}</td>
+                        <td *ngIf="showOnly==''" style="text-align:center">
+                            <input type="checkbox" class="form-check-input" [disabled]="disabled"
+                                *ngIf="approver.isSelectionable"
+                                (change)="approver.isSelectionable && handleApproverCismartChecked(approver)">
+                        </td>
+                        <td *ngIf="showOnly!=''">{{approver.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul *ngIf="approversCismartHaveErrors">
+                <li class="message-invalid">Debe notificar al menos un autorizador.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-responsive"
+        *ngIf="(showOnly=='authorizers' || showOnly=='') && (!isSignature || isAdministrative || showApproversNumber)">
+        <table class="table table-condensed table-bordered table-striped table-hover"><caption></caption>
+            <thead class="thead-light">
+                <tr>
+                    <th>Nota</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Autorizadores para realizar esta operación </td>
+                    <td style="text-align:center">{{approversNumber}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul *ngIf="approversNumber == 0">
+            <li class="message-invalid">El número de autorizadores para la operación no puede ser cero.</li>
+        </ul>
+    </div>
+    <div class="table-responsive" *ngIf="controllersNumber != 0 && (showOnly=='controllers' || showOnly=='')">
+        <table class="table table-condensed table-bordered table-striped table-hover"><caption></caption>
+            <thead class="thead-light">
+                <tr>
+                    <th>Nota</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Controladores para realizar esta operación </td>
+                    <td style="text-align:center">{{controllersNumber}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul *ngIf="controllersNumber == 0">
+            <li class="message-invalid">El número de controladores para la operación no puede ser cero.</li>
+        </ul>
+    </div>
+</div>

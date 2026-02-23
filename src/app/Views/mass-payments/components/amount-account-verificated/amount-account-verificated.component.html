@@ -1,0 +1,56 @@
+<div class="row haberes__destination-info">
+    <div class="col-md-12">
+      <div class="row card-info">
+        <div class="col-md-3">
+          <p class="text-big">{{totalAmount | number: '1.2-2'}} {{totalCurrency}}</p>
+          <p class="text-small">Monto</p>
+        </div>
+        <div class="col-md-3">
+          <p class="text-big text--red">{{totalErrors}}</p>
+          <div class="row modal__cancelar" *ngIf="haveErrors">
+            <div class="col-md-12 col-xs-12">
+              <a (click)="modalErrors=true">Lineas Incorrectas</a>
+            </div>
+          </div>
+          <p class="text-small text--red" *ngIf="!haveErrors">Lineas Incorrectas</p>
+        </div>
+        <div class="col-md-3">
+          <p class="text-big text--green">{{totalCorrects}}</p>
+          <p class="text-small text--green">Lineas correctas</p>
+        </div>
+        <div class="col-md-3">
+          <button class="button__secondary" (click)="handleAddRow(); clickEventLogAddRow()"><em class="fas fa-plus-circle"></em> AGREGAR
+            FILA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal [visible]="modalErrors" (onClose)="modalErrors=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Detalle de lineas erroneas</div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th>Linea</th>
+            <th>Errores Encontrados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of errorsDetail">
+            <td>{{row.line}}</td>
+            <td [innerHTML]="row.messageError">{{row.messageError}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="false" [totalItems]="totalItems"
+        [maxSize]="pageItems" (onChange)="handleChangePagination($event)" (onChangeRowsPerPage)="handleViewRows($event)">
+      </app-pagination>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__container-button">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+          <button class="button__principal modal__button" (click)="modalErrors=false">ACEPTAR</button>
+        </div>
+      </div>
+    </div>
+  </app-modal>

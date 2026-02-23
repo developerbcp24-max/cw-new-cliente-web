@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-xs-12">
+      <nav aria-label="Page navigation" *ngIf="totalPages.length > 0" class="panel-pagination">
+        <ul class="pagination">
+          <li [ngClass]="{'disabled':currentPage===1}">
+            <a (click)="handlePrev()" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li *ngFor="let page of totalPages;let index = index" [ngClass]="{'active':(index+increase===currentPage)}">
+            <a (click)="handleChangePage(index+increase)">{{index+increase}}</a>
+          </li>
+          <li [ngClass]="{'disabled':currentPage===maxNumberPages}">
+            <a (click)="handleNext()" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>

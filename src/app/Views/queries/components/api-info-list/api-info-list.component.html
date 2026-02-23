@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <table class="cw-table table-striped"><caption></caption>
+            <thead>
+                <tr>
+                    <th scope="col" *ngIf="headers.Col01">Fecha</th>
+                    <th scope="col" *ngIf="headers.Col02">Hora</th>
+                    <th scope="col" *ngIf="headers.Col03">Glosa</th>
+                    <th scope="col" *ngIf="headers.Col04">Importe</th>
+                    <th scope="col" *ngIf="headers.Col05">Descripcion</th>
+                    <th scope="col" *ngIf="headers.Col06">Canal</th>
+                    <th scope="col" *ngIf="headers.Col07">Sucursal Agencia</th>
+                    <th scope="col" *ngIf="headers.Col08">N° Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let list of listResponseData">
+                    <td *ngIf="headers.Col01">{{list.date}}</td>
+                    <td *ngIf="headers.Col02">{{list.hour}}</td>
+                    <td *ngIf="headers.Col05">{{list.gloss}}</td>
+                    <td *ngIf="headers.Col04">{{list.amount | number: '1.2-2'}}</td>
+                    <td *ngIf="headers.Col03">{{list.description}}</td>
+                    <td *ngIf="headers.Col05">{{list.channel}}</td>
+                    <td *ngIf="headers.Col05">{{list.location}}</td>
+                    <td *ngIf="headers.Col05">{{list.hostOperationNumber}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [totalItems]="responseData.length" [maxSize]="pageSize" [isCenter]="true"
+            (onChange)="handlePageChanged($event)" [rowsPerPage]="rowsPerPage"
+            (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+</div>

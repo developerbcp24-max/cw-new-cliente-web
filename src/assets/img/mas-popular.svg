@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="108px" height="33px" viewBox="0 0 108 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>mas popular</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M232.775773,733.465022 L244.707377,721.533419 C245.613166,720.627629 245.613166,719.159054 244.707377,718.253265 L232.133454,705.679342 C231.631157,705.177045 230.955795,704.953292 230.299311,705.008083 C230.226039,705.002726 230.152037,705 230.077397,705 L143,705 L143,705 C141.343146,705 140,706.343146 140,708 L140,708 L140,732.152447 C140,733.809301 141.343146,735.152447 143,735.152447 L143,735.152447 L230.077397,735.152447 C231.263537,735.152447 232.288898,734.46407 232.775773,733.465022 Z" id="path-1"></path>
+        <filter x="-1.9%" y="-3.3%" width="103.8%" height="113.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="SP-4--Solicitud-de-cuenta-de-ahorro" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="D--Solicitud-apertura-cuenta-de-ahorro_00a" transform="translate(-139.000000, -705.000000)">
+            <g id="mas-popular">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FF8000" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

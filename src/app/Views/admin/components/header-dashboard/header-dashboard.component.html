@@ -1,0 +1,153 @@
+<header class="header container-fluid">
+  <!-- Barra principal modernizada con Tailwind -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-[1400px] mx-auto px-3 sm:px-4">
+      <div class="flex items-center justify-between py-2.5">
+        <!-- Logo -->
+        <div class="w-48">
+          <img src="assets/new-face/svgs/CredinetWeb.svg" alt="CredinetWeb" class="w-full h-auto">
+        </div>
+
+        <!-- Panel de usuario y hamburguesa -->
+        <div class="flex items-center gap-2">
+          <!-- Panel de usuario - Desktop -->
+          <div class="hidden md:flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm">
+            <!-- Avatar con mejor diseño -->
+            <div class="relative">
+              <div
+                class="w-9 h-9 bg-gradient-to-br from-[#1b5ab3] to-[#1e5a9e] rounded-full flex items-center justify-center text-white font-bold text-base shadow-md ring-2 ring-white">
+                {{currentUser.user_name.charAt(0).toUpperCase()}}
+              </div>
+              <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white">
+              </div>
+            </div>
+
+            <!-- Info usuario con mejor jerarquía -->
+            <div class="flex flex-col justify-center min-w-0 pr-3 border-r border-gray-200 space-y-0.5">
+              <p class="font-semibold text-[#153F7B] text-sm leading-tight truncate mb-0">
+                {{currentUser.user_name}}
+              </p>
+              <p class="text-xs text-gray-600 font-medium leading-tight mt-0 mb-0 truncate">
+                {{currentUser.role.toString().toLowerCase()}}
+              </p>
+              <p class="text-xs text-gray-500 leading-tight mt-0 mb-0 flex items-center gap-1 truncate">
+                <i class="fas fa-building text-[10px]"></i>
+                <span>{{currentUser.company_name || 'Sin empresa asignada'}}</span>
+              </p>
+            </div>
+            <button (click)="handleShowModalCloseSession()"
+              class="group flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-[#153F7B] hover:bg-[#e3eefa] rounded-lg transition-all duration-200 border border-transparent hover:border-[#2180ee]">
+              <i class="fas fa-sign-out-alt text-sm group-hover:scale-110 transition-transform"></i>
+              <span class="whitespace-nowrap">Cerrar Sesión</span>
+            </button>
+          </div>
+
+          <!-- Botón hamburguesa -->
+          <div class="header__hamburguer md:hidden mt-8" (click)="showMenu=!showMenu"
+            [ngClass]="{'header__hamburguer__open':showMenu}">
+            <span class="header__hamburguer__1"></span>
+            <span class="header__hamburguer__2"></span>
+            <span class="header__hamburguer__3"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info usuario mobile -->
+      <div class="md:hidden pb-4 border-t border-gray-200 mt-2 pt-4" *ngIf="showMenu">
+        <div class="flex items-center gap-3 mb-3">
+          <div
+            class="w-12 h-12 bg-[#153F7B] rounded-full flex items-center justify-center text-white font-bold text-lg">
+            {{currentUser.user_name.charAt(0).toUpperCase()}}
+          </div>
+          <div>
+            <p class="font-bold text-gray-800 text-sm">{{currentUser.user_name}}</p>
+            <p class="text-xs text-gray-600 uppercase">{{currentUser.role.toString().toLowerCase()}}</p>
+          </div>
+        </div>
+        <button (click)="handleShowModalCloseSession()"
+          class="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#153F7B] hover:bg-[#0f2d56] rounded-lg transition-colors duration-200">
+          <i class="fas fa-power-off text-xs"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showMenu" class="row header__secondary-bar" [ngClass]="{'header__secondary-bar__open':showMenu}">
+    <ul class="col-md-12">
+      <ng-container *ngFor="let itemMenu of menu; let i=index">
+        <li *ngIf="i!=0" class="helpers__hide-medium">|</li>
+        <li class="menu-item" [routerLinkActive]="['active']">
+          <p class="header__secondary-bar__p-main">{{itemMenu.label}}</p>
+          <div class="dialogbox">
+            <div class="body">
+              <span class="tip tip-up"></span>
+              <ul class="{{itemMenu.label == 'Servicios' ? 'width-service':''}}">
+                <li *ngFor="let subMenu of itemMenu.items" [routerLinkActive]="['active']"
+                  (click)="subMenu?.code == 'PS' || handleRouter(subMenu)">
+
+                  <p class="header__secondary-bar__p-primary"> <span class="mobileBar">-</span>{{subMenu.label}} <img
+                      *ngIf="subMenu.routerLink == 'cashInLinePayments' || subMenu.routerLink == 'newBallotOfWarranty' || subMenu.routerLink == 'soliPayments'|| subMenu.routerLink == 'api-info-enrquecida'"
+                      src="assets/new-face/images/ni.gif" alt="moreItems2"> <span class="moreItems"
+                      *ngIf="subMenu?.code == 'PS'" style="align-items:right"> &gt;</span>
+                  <p>
+                  <div class="sub-dialogbox" *ngIf="subMenu?.code == 'PS'">
+                    <div class="sub-body">
+                      <ul>
+                        <li *ngFor="let row of subMenu.subItems" [routerLinkActive]="['active']"
+                          (click)="handleRouter(row)">
+                          <div *ngIf="showYPFB">
+                            <p class="header__secondary-bar__p-secondary"><span class="mobileBar">-</span>
+                              <em *ngIf="row.routerLink != 'ypfb'"
+                                class="fas fa-{{row.routerLink == 'water' ? 'faucet':row.routerLink == 'electricity' ? 'plug' : row.routerLink == 'comunication' ? 'broadcast-tower' : 'phone-alt'}}"
+                                aria-hidden="true"></em>
+                              <em *ngIf="row.routerLink == 'ypfb'" class="fas fa-gas-pump" aria-hidden="true"></em>
+                              {{row.label}}
+                            </p>
+                          </div>
+                          <div *ngIf="!showYPFB">
+                            <p *ngIf="row.routerLink != 'ypfb'" class="header__secondary-bar__p-secondary"><span
+                                class="mobileBar">-</span>
+                              <em
+                                class="fas fa-{{row.routerLink == 'water' ? 'faucet':row.routerLink == 'electricity' ? 'plug' : row.routerLink == 'comunication' ? 'broadcast-tower' : 'phone-alt'}}"
+                                aria-hidden="true"></em>
+                              {{row.label}}
+                            </p>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <app-bread-crumb></app-bread-crumb>
+</header>
+<app-modal [visible]="isVisibleCloseSession" (onClose)="isVisibleCloseSession=false" [size]="'sm'">
+  <div class="app-modal-header col-md-12 col-sm-12">
+    Cerrar Sesion.
+    <hr class="mt-2 mb-0 border-t border-gray-300">
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    ¿Esta Seguro de salir de CredinetWeb?
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12 flex justify-center items-center gap-4 mt-4">
+    <button
+      type="button"
+      class="px-6 py-2 rounded-lg bg-gradient-to-r from-[#1b5ab3] to-[#153F7B] text-white font-semibold shadow-md hover:from-[#153F7B] hover:to-[#1b5ab3] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#2180ee]"
+      (click)="handleCloseSession()">
+      Sí, salir
+    </button>
+    <button
+      type="button"
+      class="px-6 py-2 rounded-lg bg-white border border-[#153F7B] text-[#153F7B] font-semibold shadow hover:bg-[#f3f7fa] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#2180ee]"
+      (click)="handleCloseModal()">
+      No, quedarme
+    </button>
+  </div>
+</app-modal>

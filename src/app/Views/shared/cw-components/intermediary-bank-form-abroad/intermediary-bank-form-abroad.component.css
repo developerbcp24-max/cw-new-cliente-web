@@ -1,0 +1,24 @@
+.button-selected {
+    background-color: #153F7B;
+    color: #fff;
+    -webkit-box-shadow: 1px 3px 13px -2px #34B1CF;
+    -moz-box-shadow: 1px 3px 13px -2px #34B1CF;
+    box-shadow: 1px 3px 13px -2px #34B1CF;
+}
+
+form :disabled .historical__box {
+    box-shadow: none !important;
+    background-color: #f9f9f9 !important;
+}
+
+form :disabled .historical__box input,
+form :disabled .historical__box select,
+form :disabled .historical__box textarea {
+    border: none !important;
+    background-color: #f9f9f9 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    color: #000;
+    font-weight: bold;
+    font-size: 12px;
+}

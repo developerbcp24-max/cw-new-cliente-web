@@ -1,0 +1,6 @@
+<select class="select-account input-simple" name="drpAccounts" [(ngModel)]="accountSelected" (change)="handleAccountChanged(); changeEventLogAccount($event)">
+    <option *ngIf="!loadFirstAccount" value="" disabled>Seleccione el número cuenta</option>
+    <option *ngFor="let account of accounts" [ngValue]="account">
+      {{ account.formattedNumber }}
+    </option>
+  </select>

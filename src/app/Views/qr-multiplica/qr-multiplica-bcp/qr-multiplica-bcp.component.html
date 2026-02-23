@@ -1,0 +1,328 @@
+<app-source-accounts [accountRequest]="accountDto" [defaultAccount]="batchInformation.sourceAccountId"
+    [disabled]="disabled" (onChange)="handleAccountChanged($event)" #sourceAccount
+    (onAddRow)="handleShowAdditionForm()"></app-source-accounts>
+<div class="row">
+    <div class="col-md-6">
+        <app-bar-route [isLast]="false"></app-bar-route>
+        <div class="historical__box historical__account-box">
+            <form name="currencyForm" novalidate #currencyForm="ngForm" autocomplete="off">
+                <fieldset [disabled]="disabled"><legend></legend><br>
+                    <div class="form-group">
+                        <label class="transferencias__label popup" (click)="myFunction()">Moneda
+                            <em class="fa fa-info-circle"
+                                title="La moneda de abono será la misma a la moneda de la cuenta de origen. Por lo tanto, el campo no es editable"
+                                aria-hidden="true">
+                            </em>
+                            <span class="popuptext" id="myPopup">La moneda de abono será la misma a la moneda de la
+                                cuenta de origen. Por lo tanto, el campo no es editable</span>
+                        </label>
+                        <div class="account-flag d-flex align-items-center">
+                          <input class="input-account-qr input-simple input-simple-dos"
+                            [(ngModel)]="batchInformation.currencyDescription" name="currency" required
+                            [disabled]="true" value="BOL">
+                          <app-show-errors [control]="currencyForm"></app-show-errors>
+                          <app-currency-flag [flag]="batchInformation.currency" [visible]="isFlagVisible" class="ml-2"></app-currency-flag>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 mt-7">
+        <app-bar-route [isLast]="true"></app-bar-route>
+        <button class="button__secondary" (click)="handleAddRow()">
+            <em class="fas fa-plus-circle"></em> AGREGAR FILA</button>
+    </div>
+</div>
+<fieldset [disabled]="disabled"><legend></legend><br>
+    <div *ngIf="visible">
+        <div class="row mt-12">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12  col-sm-12">
+                        <table class="cw-table table-striped"><caption></caption>
+                            <thead>
+                                <tr>
+                                    <th *ngIf="headers.line">Linea</th>
+                                    <th *ngIf="headers.account">N° Cuenta</th>
+                                    <th *ngIf="headers.gloss">Glosa</th>
+                                    <th *ngIf="headers.amount">Monto</th>
+                                    <th *ngIf="headers.city">Ciudad</th>
+                                    <th *ngIf="headers.branchOffice">Sucursal</th>
+                                    <th *ngIf="headers.atmName">Caja</th>
+                                    <th *ngIf="headers.expiration">Tiempo de Expiración</th>
+                                    <th *ngIf="headers.stock">Numoro de Pagos QR</th>
+
+                                    <th *ngIf="headers.email">Email</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [ngClass]="{'error':row.isError}" *ngFor="let row of spreadsheetPerPage"
+                                    data-toggle="tooltip" data-placement="top" data-html="true"
+                                    title="{{row.errorMessages}}">
+                                    <td *ngIf="headers.line" title="Linea">{{row.line}}</td>
+                                    <td *ngIf="headers.account" title="Cuenta destino">{{row.accountNumber}}</td>
+                                    <td *ngIf="headers.gloss" title="Glosa">{{row.gloss}}</td>
+                                    <td *ngIf="headers.amount" title="Monto">{{row.amount | number: '1.2-2'}}</td>
+                                    <td *ngIf="headers.city" title="Ciudad">{{row.city}}</td>
+                                    <td *ngIf="headers.branchOffice" title="Sucursal">{{row.branchName}}</td>
+                                    <td *ngIf="headers.atmName" title="Caja">{{row.atmName}}</td>
+                                    <td *ngIf="headers.expiration" title="expiracion">{{row.expiration}}</td>
+                                    <td *ngIf="headers.stock" title="stock">{{row.stock}}</td>
+
+                                    <td *ngIf="headers.email" title="Email proveedor">{{row.email}}</td>
+                                    <td title="Acciones" class="actions" colspan="2">
+                                        <a (click)="handleShowEditForm(row)"><em class="fas fa-edit"></em></a>
+                                        <a (click)="handleTryToRemoveRow(row.line)"><em class="fas fa-trash"></em></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <app-pagination *ngIf=" batchInformation.currency" [rowsPerPage]="rowsPerPage" [isCenter]="false"
+            [totalItems]="spreadsheetSize" [maxSize]="itemsPerPage" (onChange)="handlePageChanged($event)"
+            (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+    <app-modal [visible]="showDetailForm" (onClose)="showDetailForm=false" [size]="'lg'" [manualCloseModal]="true">
+        <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Modificar fila' : 'Agregar fila'}}</div>
+        <div class="app-modal-body col-md-12 col-sm-12">
+            <form name="detailForm" #detailForm="ngForm" novalidate autocomplete="off">
+
+                <div class="row haberes__modal__inputs">
+                    <div class="col-md-5 inputs mx-0">
+                        <div class="input-numero-header text-xs">
+                            <p>Los campos con (*) son obligatorios.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12 inputs mx-1">
+                        <div class="input-numero">
+                            <label class="text-xs text-red-500">* Glosa (max 17 Caracteres)</label><br>
+                            No incluir caracteres especiales
+                            <input type="text" class="input_modal_1 mb-2" name="gloss" [(ngModel)]="detail.gloss" #gloss="ngModel" required
+                                appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols"
+                                maxlength="17" placeholder="Ej: Cobro de Caja">
+                            <app-show-errors [control]="gloss"></app-show-errors>
+                        </div>
+                    </div>
+                </div>
+                <div class="row haberes__modal__inputs">
+                    <div class="col-md-6 inputs ">
+                        <div class="input-numero">
+                            <label class="transferencias__label popup" (click)="myPopUpModalUno()">Monto
+                                <em class="fa fa-info-circle"
+                                    title="El campo puede quedar vacío o puede llenarlo con un monto específico, por ej.:1,294.0"
+                                    aria-hidden="true">
+                                </em>
+                                <span class="popuptext" id="myPopupModalUno">El campo puede quedar vacío o puede
+                                    llenarlo con un
+                                    monto específico, por ej.:1,294.0</span>
+                            </label>
+                            <input type="text" class="input_modal_1 mb-2" name="amount" [(ngModel)]="detail.amount" #amount="ngModel" mask-money
+                                [appMaxLength]=6 appValidate="majorZeroIgual">
+                            <app-show-errors [control]="amount"></app-show-errors>
+                        </div>
+                    </div>
+                    <div class="col-md-6 inputs ">
+                        <div class="input-numero">
+                            <label class="transferencias__label">* Sucursal</label>
+                            <select class="historical__select-account input-simple helpers__select-modal"
+                                [(ngModel)]="detail.branchOffice" name="branchOffice" #branchOffice="ngModel" required
+                                (ngModelChange)="selectBranchOffice()">
+                                <option value="">Seleccione un Sucursal</option>
+                                <option *ngFor="let listBranch of listBranchQR" [ngValue]="listBranch.branchCode">
+                                    {{listBranch.branchName}}</option>
+                            </select>
+                            <app-show-errors [control]="branchOffice"></app-show-errors>
+                        </div>
+                    </div>
+                </div>
+                <div class="row haberes__modal__inputs">
+                    <div class="col-md-6 inputs ">
+                        <div class="input-numero">
+                            <label class="transferencias__label">* Ciudad</label>
+                            <select class="historical__select-account input-simple helpers__select-modal"
+                                [(ngModel)]="detail.city" name="city" #city="ngModel" required
+                                (ngModelChange)="selectCity()">
+                                <option *ngFor="let type of qrBranchs" [ngValue]="type.description">
+                                    {{type.description}}</option>
+                            </select>
+                            <app-show-errors [control]="city"></app-show-errors>
+                        </div>
+                    </div>
+                    <div class="col-md-6 inputs ">
+                        <div class="input-numero">
+                            <label class="transferencias__label">* Caja</label>
+                            <select class="historical__select-account input-simple helpers__select-modal"
+                                [(ngModel)]="detail.atmCode" name="atmCode" #atmName="ngModel" required
+                                (ngModelChange)="selectAtms()">
+                                <option value="0">Seleccione una Caja</option>
+                                <option *ngFor="let listAtm of listAtmQR" [ngValue]="listAtm.atmCode">
+                                    {{listAtm.atmName}}
+                                </option>
+                            </select>
+                            <app-show-errors [control]="atmName"></app-show-errors>
+                        </div>
+                    </div>
+                </div>
+                <div class="row haberes__modal__inputs">
+                    <div class="col-md-6 inputs ">
+                        <div class="input-numero">
+                            <label class="transferencias__label">* Tiempo de Expiración</label>
+                            <select class="historical__select-account input-simple helpers__select-modal"
+                                name="expiration" [(ngModel)]="detail.expiration" #expiration="ngModel" required
+                                (ngModelChange)="selectTime()">
+                                <option *ngFor="let time of qrExpirations" [ngValue]="time.code">
+                                    {{time.description}}</option>
+                            </select>
+                            <app-show-errors [control]="expiration"></app-show-errors>
+                        </div>
+                    </div>
+                    <div class="col-md-6 inputs ">
+                        <div class="input-numero">
+                            <label class="transferencias__label popup" (click)="myPopUpModalDos()">Numero de Pagos por
+                                QR
+                                <em class="fa fa-info-circle"
+                                    title="Si desea que el QR generado pueda ser utilizado una cantidad de veces limitada, favor de introducir un numero. Caso contrario, dejarlo en blanco."
+                                    aria-hidden="true">
+                                </em>
+                                <span class="popuptext" id="myPopupModalDos">Si desea que el QR generado pueda ser
+                                    utilizado una cantidad de veces limitada, favor de introducir un numero. Caso
+                                    contrario, dejarlo en blanco.</span>
+                            </label>
+                            <input type="text" class="input_modal_1 mb-2" name="stock" [(ngModel)]="detail.stock" #stock="ngModel"
+                                appOnlyType="integer" only-number [appMaxLength]="2" placeholder="Ej. 5">
+                            <app-show-errors [control]="stock"></app-show-errors>
+                        </div>
+                    </div>
+                </div>
+                <div class="row haberes__modal__inputs">
+                    <div class="col-md-12 inputs mx-1">
+                        <div class="input-numero">
+                            <label class="transferencias__label mt-3">* Correo electrónico proveedor
+                            </label>
+                            <span class="transferencias__label">Separar los correos con una (;) y sin espacios.</span>
+                            <input type="email" class="input_modal_1 mb-2" name="email" [(ngModel)]="detail.email" #email="ngModel"
+                                appValidate="manyEmails" [appMaxLength]="90"
+                                placeholder="Ej: ana@gmail.com;paola@gmail.com" required>
+                            <app-show-errors [control]="email"></app-show-errors>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="app-modal-footer col-md-12 col-sm-12">
+            <div class="row modal__container-button justify-content-center">
+              <div class="col-md-4 col-xs-12 text-center">
+                <button class="button__principal modal__button" (click)="handleValidate()"
+                  #closeApp>{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+              </div>
+            </div>
+            <div class="row modal__cancelar justify-content-center">
+              <div class="col-md-6 col-xs-12 text-center">
+                <a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a>
+              </div>
+            </div>
+        </div>
+    </app-modal>
+    <app-modal [visible]="showRemoveRowForm" (onClose)="showRemoveRowForm=false" [size]="'sm'">
+        <div class="app-modal-header col-md-12 col-sm-12">Eliminación de información</div>
+        <div class="app-modal-body col-md-12 col-sm-12">¿Está seguro de eliminar esta línea de la planilla?</div>
+        <div class="app-modal-footer col-md-12 col-sm-12">
+            <div class="row modal__container-button">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                    <button [disabled]="nextDelete" class="button__principal modal__button"
+                        (click)="handleRemove()">ELIMINAR</button>
+                </div>
+            </div>
+            <div class="row modal__cancelar">
+                <div class="col-md-12 col-xs-12">
+                    <a (click)="showRemoveRowForm=false" class="link-cancel-modal">CANCELAR</a>
+                </div>
+            </div>
+        </div>
+    </app-modal>
+    <app-modal [visible]="showdetailDownload" (onClose)="showDownload=false" [size]="'md'" [manualCloseModal]="true">
+        <div class="app-modal-header col-md-12 col-sm-12">INFORMACIÓN </div>
+        <div class="app-modal-body col-md-12 col-sm-12">
+            <div class="col-md-12 historical__certificate-send">
+                <div class="icon-send"><em class="fas fa-check"></em></div>
+                <div class="form-group">
+                    <h4>Estimado cliente, se genero el lote <strong>{{this.ProcessBatchId}}</strong> correctamente.
+                        <br>{{messageQrPreparer}}
+                    </h4>
+                    <span class="bar-separate2"></span>
+                </div>
+            </div>
+        </div>
+        <div class="app-modal-footer col-md-12 col-sm-12">
+            <div class="offset-md-3 col-md-6 col-xs-12">
+                <button [disabled]="isDownload" class="button__principal modal__button"
+                    (click)="getReport();handleOptiondownload()">DESCARGAR QR</button>
+            </div>
+            <div class="row modal__cancelar">
+                <div class="col-md-12 col-xs-12">
+                    <a (click)="handleOptiondownload()" class="link-cancel-modal">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </app-modal>
+    <app-modal [visible]="showNewQR" (onClose)="showQRNew=false" [size]="'md'" [manualCloseModal]="true">
+        <div class="app-modal-header col-md-12 col-sm-12">INFORMACIÓN</div>
+        <div class="app-modal-body col-md-12 col-sm-12">
+            <div class="col-md-12 historical__certificate-send">
+                <div class="icon-send-info"><em class="fas fa-exclamation-triangle"></em></div>
+                <div class="form-group">
+                    <h4 class="text-bold">{{messageQr}}</h4>
+                    <span class="bar-separate2"></span>
+                </div>
+            </div>
+            <div class="app-modal-footer col-md-12 col-sm-12">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                    <button class="button__principal modal__button" (click)="exit()">DE ACUERDO</button>
+                </div>
+                <div class="row modal__cancelar">
+                    <div class="col-md-12 col-xs-12">
+                        <a (click)="exit()" class="link-cancel-modal">CERRAR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </app-modal>
+</fieldset>
+<div class="row haberes__destination-info mt-6">
+    <div class="col-md-6">
+        <div class="row card-info">
+            <div class="col-md-12">
+                <p class="text-big">{{batchInformation.amount | number: '1.2-2'}} </p>
+                <p class="text-small">Monto</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="row transferencia-ext__submit mt-4">
+            <div class="col-md-3">
+                <button class="historical__btn-submit button__principal" [disabled]="isTransactionSuccessful"
+                    (click)="handleValidateQR()">
+                    PREPARAR QR
+                </button>
+            </div>
+            <div class="col-md-2 col-sm-12">
+                <p class="historical__p--cancel" *ngIf="!isTransactionSuccessful"><a [routerLink]="['/*']">CANCELAR</a>
+                </p>
+                <p class="historical__p--cancel" *ngIf="isTransactionSuccessful"><a
+                        (click)="isTransactionSuccessful=true;handleNewOperation()">NUEVO</a></p>
+            </div>
+        </div>
+    </div>
+</div>

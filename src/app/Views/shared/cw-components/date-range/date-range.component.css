@@ -1,0 +1,10 @@
+  .example-events {
+    height: 200px;
+    border: 1px solid rgb(9, 92, 170);
+    overflow: auto;
+  }
+  table thead {
+    background-color: #faf6f4;
+    color: #FFF;
+    text-align: center;
+}

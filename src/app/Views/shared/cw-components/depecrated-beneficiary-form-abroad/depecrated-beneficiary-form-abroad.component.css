@@ -1,0 +1,36 @@
+.formBeneficiary input {
+    padding: 8px 10px;
+    width: 94%;
+}
+
+.formBeneficiary select {
+    padding: 8px 10px;
+    width: 85%;
+}
+
+form :disabled .historical__box {
+    box-shadow: none !important;
+    background-color: #f9f9f9 !important;
+}
+
+form :disabled .historical__box input,
+form :disabled .historical__box select,
+form :disabled .historical__box textarea {
+    border: none !important;
+    background-color: #f9f9f9 !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    color: #000;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.jordania a {
+    color: #153F7B;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.jordania {
+    font-size: 14px;
+}

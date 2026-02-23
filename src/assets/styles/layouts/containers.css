@@ -1,0 +1,81 @@
+@layer components {
+  /* Layout principal */
+  .bcp-layout-container {
+    @apply bg-[#F3F6FB] flex flex-col relative overflow-y-auto lg:h-screen;
+  }
+
+  /* Header Desktop y Mobile */
+  .bcp-header-desktop {
+    @apply hidden lg:block absolute top-4 xl:top-8 inset-x-0 z-20 mb-0.5 px-4 xl:px-8;
+  }
+
+  .bcp-header-mobile {
+    @apply block lg:hidden absolute top-4 left-1/2 w-full max-w-screen-md -translate-x-1/2 z-20 mb-2.5 px-4;
+  }
+
+  /* Contenedor de contenido */
+  .bcp-content-container {
+    @apply w-full flex-1 flex px-6 md:px-8 lg:px-16 py-5 mx-auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 120px);
+    margin-top: 5.5rem;
+  }
+
+  /* Scroll en móviles */
+  @media (max-width: 1023px) {
+    .bcp-content-container {
+      @apply overflow-y-auto;
+      max-height: none;
+      margin-bottom: 2rem;
+    }
+
+    .bcp-layout-container {
+      @apply overflow-y-auto;
+    }
+  }
+
+  /* Personalización del scroll */
+  .bcp-content-container::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .bcp-content-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  .bcp-content-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+
+  .bcp-content-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  /* Fondo SVG */
+  .container-home::before {
+    content: "";
+    @apply block w-full h-full;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" ...></svg>') no-repeat center center;
+    background-size: cover;
+  }
+
+  /* OTP */
+  .onboarding-otp .n-o-c {
+    @apply flex justify-between;
+    width: 212px !important;
+  }
+
+  .onboarding-otp .otp-input {
+    @apply text-[#32335c];
+    width: 28.84px !important;
+    height: 37.41px !important;
+    margin: 0 !important;
+  }
+
+  /* Dialog mobile */
+  .register-mobile-annex-dialog {
+    @apply w-screen h-[90vh] rounded-none;
+  }
+}

@@ -1,0 +1,16 @@
+.my-modal {
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 0;
+  }
+  .custom-modal-header {
+    background-color: #ffff; /* Reemplaza con tu color preferido */
+    color: #153F7B; /* Reemplaza con tu color de texto preferido */
+  }
+
+  .custom_text {
+    color: #0267c0;
+    text-align: 'loto';
+    font-size: bold;
+  }

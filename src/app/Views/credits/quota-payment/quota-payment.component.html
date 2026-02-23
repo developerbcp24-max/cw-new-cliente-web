@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-information">
+        <div class="row">
+          <p>Seleccione la cuenta origen, despues seleccione la cuenta de crédito empresarial, hacer un click en la
+            opción pagar, seleccione
+            autorizadores y finalmente presione el botón ACEPTAR </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-source-accounts [accountRequest]="sourceAccountRequest" [disabled]="isDisabledForm" (onChange)="handleSourceAccountChanged($event)"
+    [showBalances]="true" #source>
+  </app-source-accounts>
+  <app-quota-payment-detail [disabled]="isDisabledForm" (onSelected)="handleQuotaSelected($event)" #quota></app-quota-payment-detail>
+  <app-approvers-and-controllers [disabled]="isDisabledForm" [approversRequest]="approversRequest" [amount]="amountCredit"
+    [currency]="source.accountSelected.currency" (onChange)="handleApproversOrControllersChanged($event)"
+    #approversAndControllers>
+  </app-approvers-and-controllers>
+  <app-emails-input [disabled]="isDisabledForm" [batchInformation]="quotaPaymentDto" #emailInput>
+  </app-emails-input>
+  <div class="row">
+      <div class="col-md-3" *ngIf="!isPayerSuccessful">
+        <button class="historical__btn-submit button__principal" (click)="validate(
+          source.handleValidate()!
+         ,emailInput.handleValidate()!
+         ,approversAndControllers.handleValidate()
+         ,approversAndControllers.validateApproversLimit()
+         ,quota.handleValidate()) && handleShowToken()"
+       [disabled]="isDisabledForm && !isPayerSuccessful">GUARDAR</button>
+      </div>
+      <div class="col-md-3" *ngIf="isPayerSuccessful">
+          <button class="button__secondary" [routerLink]="['/credits/quota-payment']">NUEVO</button>
+        </div>
+    </div>
+  <app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)"
+    (onClose)="isVisibleToken=false"></app-token-modal>

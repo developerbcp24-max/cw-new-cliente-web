@@ -1,0 +1,302 @@
+<app-header-detail [disabled]="isTransactionSuccessful" [accountDto]="accountDto" [amount]="batchInformation.amount"
+    [batchInformation]="batchInformation" (headerResultChange)="handleAccountChanged($event)"
+    (isShowFundsForm)="isShowFundsForm($event)" #header>
+</app-header-detail>
+<div class="row">
+    <div class="col-md-12">
+        <app-bar-route></app-bar-route>
+        <h4 class="historical__h4">Ingrese los destinatarios</h4>
+        <app-button-group (onChange)="handleGroupChanged($event)">
+            <app-button-group-content [active]="true" [contentTitle]="'Cargar planilla  manual'">
+            </app-button-group-content>
+            <app-button-group-content [disabled]="!batchInformation.currency||isTransactionSuccessful"
+                [contentTitle]="'Importar Archivo'">
+                <app-import-files [disabled]="isTransactionSuccessful" (action)="handleLoadFile($event)"
+                    [operationType]="batchInformation.operationTypeId"></app-import-files>
+            </app-button-group-content>
+            <app-button-group-content [disabled]="!batchInformation.currency||isTransactionSuccessful"
+                [contentTitle]="'Cargar planilla anterior'">
+                <app-information-panel [visible]="!haveOldPayments"
+                    [message]="'La empresa no tiene planillas anteriores procesadas'" [type]="'info'">
+                </app-information-panel>
+                <app-load-previous-form *ngIf="haveOldPayments"
+                    [disabled]="!batchInformation.currency||isTransactionSuccessful"
+                    [previousForm]="previousSpreadsheets" (onChange)="handleSelectSpreadsheetId($event)">
+                </app-load-previous-form>
+            </app-button-group-content>
+        </app-button-group>
+        <div class="row">
+            <div class="col-md-12">
+                <app-bar-route></app-bar-route>
+                <h4 class="historical__h4">Seleccione Pago</h4>
+                <div class="row haberes__destination-info">
+                    <div class="col-md-12">
+                        <div class="row card-info helpers__hidden-small">
+                            <div class="col-md-3">
+                                <p class="text-big {{totalHABPayments > 0 ? 'text--green' : 'text--red'}}">
+                                    {{totalHABPayments}}</p>
+                                <strong>
+                                    <p class="text-small text--red">Cantidad de pagos de Haberes</p>
+                                </strong>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-big {{totalPROVPayments > 0 ? 'text--green' : 'text--red'}}">
+                                    {{totalPROVPayments}}</p>
+                                <strong>
+                                    <p class="text-small text--red">Cantidad de pagos a Proveedores</p>
+                                </strong>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-big {{totalEFEPayments > 0 ? 'text--green' : 'text--red'}}">
+                                    {{totalEFEPayments}}</p>
+                                <strong>
+                                    <p class="text-small text--red">Cantidad de pagos en Efectivo</p>
+                                </strong>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-big {{totalACHPayments > 0 ? 'text--green' : 'text--red'}}">
+                                    {{totalACHPayments}}</p>
+                                <strong>
+                                    <p class="text-small text--red">Cantidad de pagos ACH</p>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <app-button-group (onChange)="handleGroupChanged($event)">
+                    <app-button-group-content [disabled]="!batchInformation.currency"
+                        [contentTitle]="'Pago de Haberes'">
+                        <app-salaries [disabled]="isTransactionSuccessful"
+                            [visible]="batchInformation.amount && batchInformation.currency && isVisibleHab"
+                            (onRowChange)="handleRowChanged()" [batchInformation]="batchInformation"
+                            [spreadsheetPerPage]="spreadsheetPerPageHab"></app-salaries>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset [disabled]="isTransactionSuccessful"><legend></legend><br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <app-pagination
+                                                        *ngIf="batchInformation.amount && batchInformation.currency && isVisibleHab"
+                                                        [rowsPerPage]="rowsPerPageHab" [isCenter]="false"
+                                                        [totalItems]="spreadsheetSizeHab" [maxSize]="itemsPerPageHab"
+                                                        (onChange)="handlePageChangedHab($event)"
+                                                        (onChangeRowsPerPage)="handleViewRowsHab($event)">
+                                                    </app-pagination>
+                                                </div>
+                                                <br>
+                                                <div class="offset-md-1 col-md-3 col-sm-12 top-space">
+                                                    <button
+                                                        *ngIf="batchInformation.amount && batchInformation.currency && isVisibleHab && !haveErrorsHab"
+                                                        class="button__secondary historical__button-secondary"
+                                                        (click)="showGlossForm=true; glossType='HAB';">CAMBIAR
+                                                        GLOSAS MASIVAMENTE</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </app-button-group-content>
+                    <app-button-group-content [disabled]="!batchInformation.currency"
+                        [contentTitle]="'Pago a Proveedores'">
+                        <app-providers [disabled]="isTransactionSuccessful"
+                            [visible]="batchInformation.amount && batchInformation.currency && isVisibleProv"
+                            (onRowChange)="handleRowChanged()" [batchInformation]="batchInformation"
+                            [spreadsheetPerPage]="spreadsheetPerPageProv"></app-providers>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset [disabled]="isTransactionSuccessful"><legend></legend><br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <app-pagination
+                                                        *ngIf="batchInformation.amount && batchInformation.currency && isVisibleProv"
+                                                        [rowsPerPage]="rowsPerPageProv" [isCenter]="false"
+                                                        [totalItems]="spreadsheetSizeProv"
+                                                        [maxSize]="itemsPerPageProv"
+                                                        (onChange)="handlePageChangedProv($event)"
+                                                        (onChangeRowsPerPage)="handleViewRowsProv($event)">
+                                                    </app-pagination>
+                                                </div>
+                                                <br>
+                                                <div class="offset-md-1 col-md-3 col-sm-12 top-space">
+                                                    <button
+                                                        *ngIf="batchInformation.amount && batchInformation.currency && isVisibleProv && !haveErrorsProv"
+                                                        class="button__secondary historical__button-secondary"
+                                                        (click)="showGlossForm=true; glossType='PROV';">CAMBIAR
+                                                        GLOSAS MASIVAMENTE</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </app-button-group-content>
+                    <app-button-group-content [disabled]="!batchInformation.currency"
+                        [contentTitle]="'Pago en Efectivo'">
+                        <app-cash [disabled]="isTransactionSuccessful"
+                            [visible]="batchInformation.amount && batchInformation.currency && isVisibleEfe"
+                            (onRowChange)="handleRowChanged()" [batchInformation]="batchInformation"
+                            [spreadsheetPerPage]="spreadsheetPerPageEfe"></app-cash>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset [disabled]="isTransactionSuccessful"><legend></legend><br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <app-pagination
+                                                        *ngIf="batchInformation.amount && batchInformation.currency && isVisibleEfe"
+                                                        [rowsPerPage]="rowsPerPageEfe" [isCenter]="false"
+                                                        [totalItems]="spreadsheetSizeEfe" [maxSize]="itemsPerPageEfe"
+                                                        (onChange)="handlePageChangedEfe($event )"
+                                                        (onChangeRowsPerPage)="handleViewRowsEfe($event)">
+                                                    </app-pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </app-button-group-content>
+                    <app-button-group-content [disabled]="!batchInformation.currency" [contentTitle]="'Pago ACH'">
+                        <app-ach [disabled]="isTransactionSuccessful"
+                            [visible]="batchInformation.amount && batchInformation.currency && isVisibleAch"
+                            (onRowChange)="handleRowChanged()" [batchInformation]="batchInformation"
+                            [spreadsheetPerPage]="spreadsheetPerPageAch"></app-ach>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <fieldset [disabled]="isTransactionSuccessful"><legend></legend><br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <app-pagination
+                                                        *ngIf="batchInformation.amount && batchInformation.currency  && isVisibleAch"
+                                                        [rowsPerPage]="rowsPerPageAch" [isCenter]="false"
+                                                        [totalItems]="spreadsheetSizeAch" [maxSize]="itemsPerPageAch"
+                                                        (onChange)="handlePageChangedAch($event)"
+                                                        (onChangeRowsPerPage)="handleViewRowsAch($event)">
+                                                    </app-pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </app-button-group-content>
+                </app-button-group>
+            </div>
+        </div>
+        <br>
+        <app-information-panel [visible]="validateAmount" [message]="'El monto debe ser mayor a 0.'"
+            [type]="'attention'"></app-information-panel>
+        <app-information-panel [visible]="validateProdem" *ngIf="validateProdem"
+            [message]="'Por el momento, PRODEM no acepta transferencias en DÓLARES, revise su planilla y corrija los pagos para preparar la operación'"
+            [type]="'attention'"></app-information-panel>
+    </div>
+</div>
+<app-approvers-and-controllers [disabled]="isTransactionSuccessful" [approversRequest]="authorizersDto"
+    [currency]="batchInformation.currency" [amounts]="amounts" [amount]="amount"
+    (onChange)="handleApproversOrControllersChanged($event)" #approversAndControllers></app-approvers-and-controllers>
+<app-emails-input [disabled]="isTransactionSuccessful" [batchInformation]="batchInformation" #emails>
+</app-emails-input>
+
+<div *ngIf="!showMessageIsBlock">
+    <app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isTransactionSuccessful"
+        [operationTypeId]="batchInformation.operationTypeId" [isMasive]="isTransactionSuccessful"
+        [operationTypeName]="'PRE'">
+    </app-successful-operation-modal>
+</div>
+
+<app-information-panel [visible]="isValidFunds" *ngIf="isValidFunds"
+    [message]="'Debe registrar los datos en la sección de Detalles.'" [type]="'attention'"></app-information-panel>
+
+<div class="row transferencia-ext__submit">
+    <div class="col-md-3">
+        <button class="button__principal historical__button-secondary" [disabled]="isTransactionSuccessful"
+            (click)="handleValidate(header.handleValidate()!,approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(), emails.handleValidate()!,false)">
+            PREPARAR TRANSACCIÓN
+        </button>
+    </div>
+    <div class="col-md-3" *ngIf="is_validbatchtoken">
+        <button class="button__pre_save historical__button-secondary" [disabled]="isTransactionSuccessful"
+            (click)="handleValidate(header.handleValidate()!,approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(), emails.handleValidate()!,true)">
+            ENVIAR A PREPARACIÓN MASIVA
+        </button>
+    </div>
+    <div class="col-md-2">
+        <button class="button__secondary historical__button-secondary button-program"
+            [disabled]="batchInformation.isTicket || isTransactionSuccessful"
+            (click)="handleValidateForScheduleOperation(header.handleValidate()!,approversAndControllers.handleValidate(),approversAndControllers.validateApproversLimit(),emails.handleValidate()!,true)">
+            <em class="fas fa-calendar-alt"></em> PROGRAMAR
+        </button>
+    </div>
+    <div class="col-md-2 col-sm-12">
+        <p class="historical__p--cancel" *ngIf="!isTransactionSuccessful"><a [routerLink]="['']">CANCELAR</a></p>
+        <p class="historical__p--cancel" *ngIf="isTransactionSuccessful"><a
+                [routerLink]="['/massPayments/multiplePayments']">NUEVO</a></p>
+    </div>
+</div>
+<app-date-future [visible]="scheduleOperation" (onClose)="scheduleOperation=false"
+    (onChange)="handleDateFuture($event)"></app-date-future>
+<app-token-modal [isVisible]="showTokenForm" (onSubmit)="handleTokenSubmit($event)" (onClose)="showTokenForm=false"
+    [message]="'Necesitamos que ingrese su número Token para confirmar la transferencia.'"></app-token-modal>
+<app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente </div>
+    <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con
+        fondos suficientes al
+        momento de realizar la autorización.</div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+            <button class="button__principal modal__button"
+                (click)="excedeedAmount=false; validationCismart()">Aceptar</button>
+        </div>
+    </div>
+</app-modal>
+<app-modal [visible]="showGlossForm" (onClose)="showGlossForm=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Cambiar glosa masivamente</div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+        <div class="row haberes__modal__inputs">
+            <div class="col-md-12 inputs ">
+                <form name="globalGlossForm" #globalGlossForm="ngForm" novalidate autocomplete="off">
+                    <div class="input-numero">
+                        <label>Glosa</label>
+                        <input class="input_modal_1" type="text" name="gloss" [(ngModel)]="globalGloss" required
+                            appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" maxlength="30"
+                            #gloss="ngModel">
+                        <app-show-errors [control]="gloss"></app-show-errors>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+            <div class="offset-md-4 col-md-4 col-xs-12">
+                <button class="button__principal modal__button" (click)="handleAssignGlobalGloss()"><em
+                        class="fas fa-plus-circle"></em>
+                    AGREGAR</button>
+            </div>
+        </div>
+        <div class="row modal__cancelar">
+            <div class="col-md-12 col-xs-12"><a (click)="showGlossForm=false;globalGloss='';"
+                    class="link-cancel-modal">CANCELAR</a></div>
+        </div>
+    </div>
+</app-modal>
+
+<app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>
+<app-modal-is-block [showMessageIsBlock]="showMessageIsBlock" (onClose)="onClose($event);"></app-modal-is-block>
+
+<div class="alert alert-primary d-flex align-items-center" role="alert">
+    <h5>Estimado cliente, le informamos que las plataformas transaccionales o personas que se dedican a la venta y comercialización de Activos Virtuales, no se encuentran bajo control, supervisión ni regulación de ASFI, razón por lo cual, las transacciones con los mismos son realizadas a riesgo del consumidor financiero. </h5>
+</div>

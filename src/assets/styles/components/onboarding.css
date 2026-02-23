@@ -1,0 +1,17 @@
+.ob-font-text{
+  font-family: 'Flexo', sans-serif;
+}
+.ob-font-text-secondary{
+  color: #34B1CF;
+  text-align: center;
+  font-family: 'Flexo', sans-serif;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.506px; /* 152.302% */
+}
+.ob-flex-container-side-by-side {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
+}

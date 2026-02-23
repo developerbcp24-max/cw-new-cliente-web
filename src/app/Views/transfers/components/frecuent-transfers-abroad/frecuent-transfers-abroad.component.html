@@ -1,0 +1,221 @@
+<form
+  class="form-horizontal"
+  name="formIsIntermediary"
+  #formIsIntermediary="ngForm"
+  novalidate
+>
+  <fieldset [disabled]="disabled" *ngIf="!disabled">
+    <legend></legend>
+    <br />
+    <div class="row historical__period-options">
+      <div class="col-md-8 d-flex justify-content-between">
+        <button
+          (click)="handleNewTA(true)"
+          [ngClass]="{ 'button-selected': isNewTA }"
+          class="historical__box historical__button-period box--margin-right me-2"
+        >
+          Nueva Cuenta Destino
+        </button>
+        <button
+          (click)="handleFrecuent(true)"
+          [ngClass]="{ 'button-selected': isFrecuent }"
+          class="historical__box historical__button-period mx-2"
+        >
+          Mis favoritos
+        </button>
+        <button
+          (click)="handleForm(true)"
+          [ngClass]="{ 'button-selected': isFormTA }"
+          class="historical__box historical__button-period box--margin-right ms-auto"
+
+        >
+          Planilla Anterior
+        </button>
+      </div>
+      <div class="col-md-6 transferencia-ext__destination--hidden">
+        <select
+          class="input-simple"
+          name="isBankIntermediary"
+          [(ngModel)]="isFrecuent"
+          (ngModelChange)="handleFrecuent(isFrecuent)"
+        >
+          <option [ngValue]="false">Nueva Cuenta Destino</option>
+          <option [ngValue]="true">Mis favoritos</option>
+        </select>
+      </div>
+    </div>
+  </fieldset>
+</form>
+<br />
+<div class="row" *ngIf="isFrecuent">
+  <div class="col-md-6">
+    <div class="historical__box historical__account-box">
+      <label class="historical__label">Selecciona un beneficiario</label>
+      <form
+        name="favoriteTransfersForm"
+        #favoriteTransfersForm="ngForm"
+        novalidate
+        autocomplete="off"
+      >
+        <fieldset [disabled]="disabled">
+          <legend></legend>
+          <br />
+          <div class="form-group">
+            <select
+              class="form-control"
+              name="drpfrecuentTransfer"
+              [(ngModel)]="frecuentSelected"
+              (change)="handleChangedFrecuentTransfer()"
+            >
+              <option value="null" disabled>Seleccione una opción</option>
+              <option *ngFor="let item of frecuents" [ngValue]="item">
+                {{ item.description }}
+              </option>
+            </select>
+          </div>
+          <div *ngIf="frecuentSelected != null" class="form-group">
+            <div class="col-md-6">
+              <button
+                class="button__secondary"
+                [disabled]="disabled"
+                (click)="isRemoveModalVisible = true"
+              >
+                <em class="fas fa-trash"></em> Eliminar
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button
+                class="button__secondary"
+                [disabled]="disabled"
+                (click)="isUpdateModalVisible = true"
+              >
+                <em class="fas fa-pen"></em> Modificar información
+              </button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="isFormTA">
+  <div class="col-md-6">
+    <div class="historical__box historical__account-box">
+      <label class="historical__label">Selecciona planilla anterior</label>
+      <form
+        name="favoriteTransfersForm"
+        #favoriteTransfersForm="ngForm"
+        novalidate
+        autocomplete="off"
+      >
+        <fieldset [disabled]="disabled">
+          <legend></legend>
+          <br />
+          <div class="form-group">
+            <select
+              class="form-control custom-select"
+              name="drpfrecuentTransfer"
+              [(ngModel)]="formSelected"
+              (change)="handleChangedFrecuentTransfer()"
+              style="
+                border-radius: 15px;
+                padding: 10px;
+                border: none;
+                background-color: #f8f9fa;
+              "
+            >
+              <option value="null" disabled>Seleccione una opción</option>
+              <option *ngFor="let item of formsTA" [ngValue]="item">
+                {{
+                  item.description +
+                    "  " +
+                    (item.dateForm | date : "mediumDate")
+                }}
+              </option>
+            </select>
+          </div>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="smsFavorite">
+  <div class="col-md-12">
+    <app-information-panel
+      [message]="'Por favor, verifique los datos de su pago favorito.'"
+      [type]="'attention'"
+    ></app-information-panel>
+  </div>
+</div>
+<div class="row" *ngIf="smsFormTA">
+  <div class="col-md-12">
+    <app-information-panel
+      [message]="'Por favor, verifique los datos de su planilla anterior.'"
+
+      [type]="'attention'"
+    ></app-information-panel>
+  </div>
+</div>
+<app-modal
+  [visible]="isUpdateModalVisible"
+  (onClose)="isUpdateModalVisible = false"
+  [size]="'sm'"
+>
+  <div class="app-modal-header col-md-12 col-xs-12">
+    Actualización de información
+  </div>
+  <div class="app-modal-body col-md-12 col-xs-12">
+    ¿Está seguro de modificar los datos de esta transferencia favorita?
+  </div>
+  <div class="app-modal-footer col-md-12 col-xs-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-2 col-md-8 col-xs-12 d-flex justify-content-center">
+        <button
+          class="button__principal modal__button"
+          (click)="handleUpdatefrecuentTransfer()"
+        >
+          ACTUALIZAR
+        </button>
+      </div>
+    </div>
+    <div class="row modal__cancelar justify-content-center">
+      <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+      <a (click)="isUpdateModalVisible = false" class="link-cancel-modal"
+        >CANCELAR</a
+      >
+      </div>
+    </div>
+  </div>
+</app-modal>
+<app-modal
+  [visible]="isRemoveModalVisible"
+  (onClose)="isRemoveModalVisible = false"
+  [size]="'sm'"
+>
+  <div class="app-modal-header col-md-12 col-xs-12">
+    Eliminación de información
+  </div>
+  <div class="app-modal-body col-md-12 col-xs-12">
+    ¿Está seguro de eliminar esta transferencia de sus favoritas?
+  </div>
+  <div class="app-modal-footer col-md-12 col-xs-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button
+          class="button__principal modal__button"
+          (click)="handleRemovefrecuentTransfer()"
+        >
+          ELIMINAR
+        </button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="isRemoveModalVisible = false" class="link-cancel-modal"
+          >CANCELAR</a
+        >
+      </div>
+    </div>
+  </div>
+</app-modal>

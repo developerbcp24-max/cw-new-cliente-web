@@ -1,0 +1,37 @@
+export class MovAccountsModel {
+  numberAccount!: string;
+  aplication!: string;
+  balanceClosing!: number;
+  balanceAvaliable!: number;
+  currency!: string;
+  creditDebit!: string;
+  credits!: number;
+  debits!: number;
+  amount!: number;
+  utc!: string;
+  moveName!: string;
+  client!: string;
+  movementDate!: Date;
+  movementYear!: number;
+  movementMonth!: number;
+  movementDay!: number;
+  users!: string;
+  teti!: string;
+  companyName!: string;
+  agency!: string;
+  sequentialCode!: number;
+  numberLot!: number;
+  ordenador!: string;
+  beneficiary!: string;
+  documentNumber!: string;
+  description!: string;
+  transactionNumber!: number;
+  hora!: string;
+  onlyDate!: string;
+  id!: number;
+  formattedAccount!: string;
+  idAccount!: number;
+  channel!: string;
+  providerId!: string;
+  EBSTransactionNumber!: string;
+  }

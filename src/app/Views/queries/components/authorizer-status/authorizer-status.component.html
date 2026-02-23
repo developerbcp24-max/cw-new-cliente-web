@@ -1,0 +1,64 @@
+<div *ngIf="role==='controllers'">
+    <table class="cw-table table-striped"><caption></caption>
+      <thead>
+        <tr>
+          <th>CONTROLADOR</th>
+          <th *ngIf="!isAdministrative">ESTADO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let controller of controllers">
+          <td title="Autorizador">{{controller.names}} {{controller.firstLastName}} {{controller.secondLastName}}</td>
+          <td title="Estado" *ngIf="!isAdministrative">{{controller.status}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="role==='authorizers'">
+    <div *ngIf="(approversRequest?.isSignerScheme !== undefined && !approversRequest?.isSignerScheme ) || (!isSignature || isAdministrative)">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th>AUTORIZADOR</th>
+            <th *ngIf="!isAdministrative">ESTADO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let authorizer of approvers">
+            <td title="Autorizador">{{authorizer.names}} {{authorizer.firstLastName}} {{authorizer.secondLastName}}</td>
+            <td title="Estado" *ngIf="!isAdministrative">{{authorizer.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="approversRequest?.isSignerScheme || (isSignature && !isAdministrative)">
+      <table class="cw-table table-striped"><caption></caption>
+        <thead>
+          <tr>
+            <th>AUTORIZADOR</th>
+            <th *ngIf="!isAdministrative">ESTADO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let authorizer of cismartApprovers.authorizers">
+            <td title="Autorizador">{{authorizer.names}} {{authorizer.firstLastName}} {{authorizer.secondLastName}}</td>
+            <td title="Estado" *ngIf="!isAdministrative">{{authorizer.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <table class="cw-table table-striped"><caption></caption>
+    <thead>
+      <tr>
+        <th>NOTA</th>
+        <th>CANTIDAD</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{role==='authorizers'?'AUTORIZADORES':'CONTROLADORES'}} PARA REALIZAR ESTA OPERACIÓN</td>
+        <td>{{role==='authorizers'? approversNumber: controllersNumber}}</td>
+      </tr>
+    </tbody>
+  </table>

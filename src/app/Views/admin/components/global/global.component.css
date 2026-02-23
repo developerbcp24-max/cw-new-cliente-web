@@ -1,0 +1,22 @@
+.position-notification {
+  position: fixed;
+  margin: 0px auto;
+  top: 15px;
+  transition: all 0.4s ease-in-out;
+  transition-property: all;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
+  transition-delay: initial;
+  z-index: 9999;
+  left: 5px;
+  right: 5px;
+  max-width: 450px;
+}
+
+.alert {
+  margin-bottom: 7px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  z-index: 9999;
+  transition: all 0.5s ease-in-out;
+}

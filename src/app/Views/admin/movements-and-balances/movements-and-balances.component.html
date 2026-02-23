@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-md-9">
+    <div class="row" *ngIf="isLoadComplete">
+      <div class="col-md-12">
+        <div class="home__container-ref ">
+          <p class="home__ref-title">Puedes consultar el estado de tus cuentas:</p>
+          <div class="home__view-mode helpers__hide-medium">
+            <p>Ver como</p>
+            <button id="Mozaicos" class="type-view" [ngClass]="{'selected': isMosaic}" (click)="isMosaic=true">
+              <em class="fas fa-th-large"></em>
+              Mosaicos
+            </button>
+            <button id="Listado" class="type-view" [ngClass]="{'selected': !isMosaic}" (click)="isMosaic=false">
+              <em class="fas fa-list"></em>
+              Listado
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <app-total-balances *ngIf="isLoadComplete" [totalBalances]="totalBalances" [numberAccounts]="accounts.length"></app-total-balances>
+    </div>
+    <div class="row">
+      <app-balances-list *ngIf="isLoadComplete" [accounts]="accounts" [isMosaic]="isMosaic"></app-balances-list>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="row">
+      <div class="home__card helpers--padding-top-B">
+        <p class="home__card__title__medium-title">Links de acceso rápido<br>_</p>
+
+        <div class="home__card__item-access" [routerLink]="['/service-payments/ypfb']">
+          <div class="home__card__item-access__icon"> <em class="fas fa-gas-pump"></em></div>
+          <p class="home__card__item-access__p">Pago de Gas Natural</p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/new-service-payments/new-service']">
+          <div class="home__card__item-access__icon"> <em class="fas fa-broadcast-tower"></em></div>
+          <p class="home__card__item-access__p">Pago de Comunicaciones</p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/new-service-payments/new-service']">
+          <div class="home__card__item-access__icon"> <em class="fas fa-faucet"></em></div>
+
+          <p class="home__card__item-access__p">Pago de Agua</p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/new-service-payments/new-service']">
+          <div class="home__card__item-access__icon"> <em class="fas fa-plug"></em></div>
+
+          <p class="home__card__item-access__p">Pago de Energía Eléctrica</p>
+        </div>
+
+        <div class="home__card__item-access" [routerLink]="['/service-payments/telephony']">
+          <div class="home__card__item-access__icon"> <em class="fas fa-phone-alt"></em></div>
+
+          <p class="home__card__item-access__p">Pago de Telefonía</p>
+        </div>
+
+        <div class="home__card__item-access" [routerLink]="['/transfers/national']">
+          <div class="home__card__item-access__icon"><em class="fas fa-money-bill"></em></div>
+          <p class="home__card__item-access__p">Transferencias Nacionales </p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/transfers/transfer-abroad']">
+          <div class="home__card__item-access__icon"><em class="fas fa-money-bill-wave-alt"></em></div>
+          <p class="home__card__item-access__p">Transferencias al Exterior</p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/massPayments/salariesPayments']">
+          <div class="home__card__item-access__icon"><em class="fas fa-hands-helping"></em></div>
+          <p class="home__card__item-access__p">Pago Masivo de Haberes</p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/massPayments/paymentsACH']">
+          <div class="home__card__item-access__icon"><em class="fas fa-money-check-alt"></em></div>
+          <p class="home__card__item-access__p">Pago Masivo ACH Interbancario</p>
+        </div>
+        <div class="home__card__item-access" [routerLink]="['/operations/claimRequest']">
+          <div class="home__card__item-access__icon"><em class="fas fa-check-square"></em></div>
+          <p class="home__card__item-access__p">Punto de reclamo - PR</p>
+        </div>
+        <div class="home__card__item-access">
+          <button class="button__secondary" (click)="handleRates()">
+            <em class="fas fa-clipboard-list"></em>
+            VER TARIFARIOS
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade my-modal" tabindex="-1" role="dialog" #myModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header custom-modal-header text-center ">
+        <h4 class="modal-title">{{messageValid}}</h4>
+        <button type="button" class="close" (click)="close()" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4 class="modal-body">Para garantizar la seguridad de su cuenta, le recomendamos cambiar su contraseña en <span
+            class="custom_text">Credinet Web</span> cada 3 meses. Si decide mantener su contraseña actual, recuerde que
+          puede solicitar el reseteo de la misma en cualquier momento llamando a nuestra línea gratuita de
+          <span class="custom_text">Help Desk 800102244.</span>
+        </h4>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="login__btn-submit button__principal" style="flex: 1;" (click)="close()">No,
+          mantendré la
+          misma</button>
+        <button type="button" class="button__secondary historical__button-secondary" style="flex: 1; margin-left: 8px;"
+          (click)="cereateNewPass()">Si, quiero
+          renovarla</button>
+      </div>
+    </div>
+  </div>
+</div>

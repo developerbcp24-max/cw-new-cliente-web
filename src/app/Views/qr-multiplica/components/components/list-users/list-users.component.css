@@ -1,0 +1,12 @@
+  .mat-slide-toggle.mat-checked.mat-slide-toggle-thumb {
+  background-color: #0D6EFD !important;
+}
+
+.container-fluid {
+  max-width: 100% !important;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.historical__box {
+  width: 100%;
+}

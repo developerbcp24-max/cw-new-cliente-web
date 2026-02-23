@@ -1,0 +1,27 @@
+.item-container {
+  width: 452px;
+}
+
+.text-title {
+  font-size: 20px;
+}
+
+.icon-container {
+  width: 65px;
+  height: 65px;
+  margin: 32px 0px;
+}
+
+.text-descripcion {
+  font-size: 16px;
+}
+
+.button {
+  width: 213px;
+  height: 37px;
+  border-radius: 7px;
+  margin-top: 32px;
+  font-size: 14px;
+  color: white;
+  background-color: #f26e29;
+}

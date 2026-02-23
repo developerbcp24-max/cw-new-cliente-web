@@ -1,0 +1,49 @@
+<div class="row historical__options-table helpers__hidden-small mt-4 ms-0">
+  <div class="col-md-{{ isCenter ? 2 : 4 }}">
+    <ng-container *ngIf="rowsPerPage.length > 0">
+      <p class="historical__p">Mostrar</p>
+      <select
+        class="input-simple"
+        name="rows"
+        (change)="handleChangeRowsPerPage()"
+        [(ngModel)]="rowsPerPageSelected"
+      >
+        <option *ngFor="let page of rowsPerPage" value="{{ page }}">
+          {{ page }}
+        </option>
+      </select>
+    </ng-container>
+  </div>
+  <div
+    class="offset-md-2 col-md-{{
+      isCenter ? 4 : 6
+    }} historical__table-pagination"
+  >
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li [ngClass]="{ disabled: currentPage === 1 }">
+          <a (click)="handlePrev()" aria-label="Previous">
+            <span aria-hidden="true"
+              ><em class="fas fa-chevron-left"></em
+            ></span>
+          </a>
+        </li>
+        <li
+          *ngFor="let page of totalPages; let index = index"
+          [ngClass]="{ active: index + increase === currentPage }"
+        >
+          <a (click)="handleChangePage(index + increase)">{{
+            index + increase
+          }}</a>
+        </li>
+        <li [ngClass]="{ disabled: currentPage === maxNumberPages }">
+          <a (click)="handleNext()" aria-label="Next">
+            <span aria-hidden="true"
+              ><em class="fas fa-chevron-right"></em
+            ></span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

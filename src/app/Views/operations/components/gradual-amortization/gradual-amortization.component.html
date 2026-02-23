@@ -1,0 +1,24 @@
+<div class="form-inline">
+  <div class="row">
+    <div class="col-xs-12 col-md-1">
+      <label>Al :</label>
+    </div>
+    <div class="form-inline col-xs-12 col-md-3">
+
+      <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+        <input name="Al" locale="es" [(ngModel)]="date" locale="es" required matInput
+          [matDatepicker]="mydateAl" (ngModelChange)="handledate($event)">
+        <mat-datepicker-toggle matSuffix [for]="mydateAl"></mat-datepicker-toggle>
+        <mat-datepicker #mydateAl></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-xs-12 col-md-1">
+      <label>US$ :</label>
+    </div>
+    <div class="form-inline col-xs-12 col-md-2">
+      <input type="text" class="form-control" name="Us" [(ngModel)]="dates.description"
+        (ngModelChange)="handleBallotOfWarrantyData()" #txtUs="ngModel" required mask-money maxlength="50">
+      <app-show-errors [control]="txtUs"></app-show-errors>
+    </div>
+  </div><br>
+</div>

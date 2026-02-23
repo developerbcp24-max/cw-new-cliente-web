@@ -1,0 +1,10 @@
+<button class="transferencias__box-button transferencias__button-period " *ngFor="let content of contents"
+    (click)="selectContent(content)" [ngClass]="{'transferencias__button-period__selected':content.active}"
+    [disabled]="content.disabled">{{content.title}}</button>
+<select class="historical__select-period input-simple" name="selectContent" [(ngModel)]="contentSelected"
+    (change)="selectContent(contentSelected)">
+    <option *ngFor="let content of contents" [disabled]="content.disabled" [ngValue]="content">{{content.title}}
+    </option>
+</select>
+<ng-content></ng-content>
+<ng-template button-group #container></ng-template>

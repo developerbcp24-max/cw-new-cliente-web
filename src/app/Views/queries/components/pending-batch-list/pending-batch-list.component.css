@@ -1,0 +1,16 @@
+td a svg {
+    text-align:center;
+    width: 18px;
+    height: 18px;
+    margin: 2px;
+  }
+  /*td a {
+    color: #333;
+  }*/
+  .top-space {
+    padding-top: 15px;
+  }
+  .txtLimit {
+    color: #153F7B;
+    text-decoration: none;
+  }

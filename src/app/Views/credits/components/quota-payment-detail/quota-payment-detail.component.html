@@ -1,0 +1,63 @@
+<div class="row historical__account">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <form class="form-horizontal" name="quotaPaymentForm" novalidate #quotaPaymentForm="ngForm">
+        <fieldset [disabled]="disabled">
+          <legend></legend><br>
+          <h4 class="historical__h4">Selecciona cuenta destino</h4>
+          <div class="row historical__period-options">
+            <div class="col-md-12">
+              <app-source-accounts [showBarRoute]="false" [showDetails]="true" [showBalances]="false" [accountRequest]="creditAccountRequest"
+                [accountDropLabel]="'Cuenta destino'" (onChange)="handleAccountChanged($event)"
+                [disabled]="isDisabledForm" #targetAccount></app-source-accounts>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <button class="historical__btn-submit button__principal" (click)="handleSearchQuota()">Buscar Cuota
+                Mensual</button>
+            </div>
+          </div><br>
+          <div class="form-group row align-items-center" [ngClass]="{ 'has-error': validateSubmit && !quotaSelected.amount }">
+            <label class="col-sm-2 control-label">Monto: </label>
+            <div class="col-sm-3">
+              <input type="text" name="amount" class="input-simple" [ngModel]="quotaSelected.amount" readonly="readonly"
+                required="required">
+            </div>
+          </div>
+          <div class="alert alert-information" *ngIf="validateSubmit && !quotaSelected.amount">
+            <div class="row">
+              <p>Seleccione una Cuota Mensual</p>
+            </div>
+          </div>
+          <div class="row" *ngIf="quota.amount>0">
+            <div class="table-responsive">
+              <table class="cw-table table-striped"><caption></caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Moneda</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Pagar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{quota.expirationDate|date:'dd/MM/yyyy'}}</td>
+                    <td>{{quota.currency}}</td>
+                    <td>{{quota.amount | number: '1.2-2'}}</td>
+                    <td>
+                      <label class="checkbox">
+                        <input type="checkbox" name="isPayment" [(ngModel)]="isPayment" (change)="handleCheckPayment()">
+                        <span class="check"></span>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>

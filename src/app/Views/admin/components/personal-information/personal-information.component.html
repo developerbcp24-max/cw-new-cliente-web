@@ -1,0 +1,322 @@
+<!-- Pantalla inicial - Paso 0 -->
+<ng-container *ngIf="currentStep === 0">
+  <div class="max-w-2xl mx-auto p-6">
+    <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">
+      Comencemos con el registro de su empresa
+    </h2>
+
+    <h6 class="text-center text-base text-gray-600 my-8">
+      Para iniciar con el proceso, debemos corroborar cuál es su rol dentro de la empresa que desea afiliar
+    </h6>
+    <div class="flex flex-col items-center">
+      <form [formGroup]="legalRepresentativeForm" class="w-full max-w-md">
+        <div class="space-y-4 mb-8">
+          <div class="flex flex-col space-y-3">
+            <!-- Opción 1: Soy representante legal -->
+            <label class="flex items-center cursor-pointer group">
+              <input type="radio" formControlName="isLegalRepresentative" value="true" class="sr-only">
+              <div class="flex items-center">
+                <div
+                  class="w-5 h-5 rounded-full border-2 border-blue-500 flex items-center justify-center mr-3 group-hover:border-blue-600 transition-colors">
+                  <div class="w-2.5 h-2.5 rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    [class.opacity-100]="legalRepresentativeForm.get('isLegalRepresentative')?.value === 'true'">
+                  </div>
+                </div>
+                <span class="text-gray-700 text-base">Soy representante legal</span>
+              </div>
+            </label>
+            <!-- Opción 2: No soy representante legal -->
+            <label class="flex items-center cursor-pointer group">
+              <input type="radio" formControlName="isLegalRepresentative" value="false" class="sr-only">
+              <div class="flex items-center">
+                <div
+                  class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 group-hover:border-blue-500 transition-colors">
+                  <div class="w-2.5 h-2.5 rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    [class.opacity-100]="legalRepresentativeForm.get('isLegalRepresentative')?.value === 'false'">
+                  </div>
+                </div>
+                <span class="text-gray-700 text-base">No soy representante legal</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          <button type="button"
+            class="w-64 py-3 px-8 btn-new-primary disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            [disabled]="!legalRepresentativeForm.valid" (click)="proceedToNextStep()">
+            Continuar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>
+<!-- Pantalla de onboarding - Paso 1, 2, 3, 4 -->
+<ng-container *ngIf="currentStep > 0 && currentStep <= 4">
+  <section class="onboarding-font legal-representative-container ">
+    <div *ngFor="let item of stepOptions" class="d-flex flex-column align-items-center mb-8">
+      <!-- 1st page -->
+      <ng-container *ngIf="item.selected && item.value === 1">
+        <div class="max-w-2xl mx-auto p-6 space-y-6">
+          <h2 class="text-center text-lg font-semibold text-gray-900">1/4</h2>
+          <h1 class="text-center text-2xl font-bold text-gray-900">Datos Generales</h1>
+          <h6 class="text-center text-sm text-gray-600 mb-8">
+            Los siguiente datos registrados corresponden al usuario que está iniciando el flujo
+            de solicitud de anexo al servicio de Credinet.
+            <span class="text-blue-600 font-medium">Campo obligatorio *</span>
+          </h6>
+          <form [formGroup]="formCli" class="space-y-6">
+            <!-- CI Section -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Ingrese su CI <span class="text-blue-600">*</span>
+              </label>
+
+              <div class="flex space-x-3">
+                <mat-form-field [ngStyle]="{
+                        	'margin-bottom':
+                          	formCli.get('idc')?.status === 'INVALID' &&
+                          	(formCli.get('idc')?.dirty || formCli.get('idc')?.touched)
+                            ? '20px'
+                            : null
+                      		}" style="width: 160px" appearance="fill">
+                  <mat-label>CI</mat-label>
+                  <input matInput type="text" placeholder="Ej: 2345678" formControlName="idc" maxLength="10"
+                    appOnlyInteger />
+                  <mat-error>
+                    <app-show-errors [control]="formCli.get('idc')"></app-show-errors>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field [ngStyle]="{'margin-bottom':
+                     										formCli.get('extensionIdc')?.status === 'INVALID' &&
+                        								  	(formCli.get('extensionIdc')?.dirty ||
+                        								    	formCli.get('extensionIdc')?.touched)
+                        								    	? '20px'
+                        								    	: null
+                      									}" style="width: 120px" appearance="fill">
+                  <mat-label>Extensión</mat-label>
+                  <mat-select class="extension-input" formControlName="extensionIdc">
+                    <mat-option *ngFor="let branch of _respBranchOffices" [value]="branch.sigla">
+                      {{ branch.sigla }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    <app-show-errors [control]="formCli.get('extensionIdc')"></app-show-errors>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field [ngStyle]="{
+                        	'margin-bottom':
+                          	formCli.get('complement')?.status === 'INVALID' &&
+                          	(formCli.get('complement')?.dirty ||
+                           	 formCli.get('complement')?.touched)
+                           	 ? '20px'
+                            	: null
+                      		}" style="width: 130px" appearance="fill">
+                  <mat-label>complemento</mat-label>
+                  <input type="text" matInput placeholder="Ej: 1-M" formControlName="complement" maxLength="3" />
+                  <mat-error>
+                    <app-show-errors [control]="formCli.get('complement')"></app-show-errors>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Cuenta -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Ingrese el número de la cuenta corriente que desea afiliar <span class="text-blue-600">*</span>
+              </label>
+              <mat-form-field [ngStyle]="{
+                    'margin-bottom':
+                      formCli.get('nroCuenta')?.status === 'INVALID' &&
+                      (formCli.get('nroCuenta')?.dirty ||
+                        formCli.get('nroCuenta')?.touched)
+                        ? '10px'
+                        : null
+                  }" class="general-data-account-field" appearance="fill">
+                <mat-label>Cuenta</mat-label>
+                <input type="text" matInput placeholder="Ej: 20112345678312" formControlName="nroCuenta"
+                  maxLength="14" />
+                <mat-error>
+                  <app-show-errors [control]="formCli.get('nroCuenta')"></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- NIT -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Ingrese el número de NIT de la empresa <span class="text-blue-600">*</span>
+              </label>
+              <mat-form-field [ngStyle]="{
+                    'margin-bottom':
+                      formCli.get('nit')?.status === 'INVALID' &&
+                      (formCli.get('nit')?.dirty || formCli.get('nit')?.touched)
+                        ? '10px'
+                        : null
+                  }" class="general-data-nit-container" appearance="fill">
+                <mat-label>NIT</mat-label>
+                <input type="text" matInput placeholder="Ej: 1234545675" formControlName="nit" maxLength="14"
+                  appOnlyInteger />
+                <mat-error>
+                  <app-show-errors [control]="formCli.get('nit')"></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Botón -->
+            <div class="flex justify-center">
+              <button mat-flat-button color="primary"
+                class="!rounded-2xl !px-12 !py-2 !text-base !font-medium !min-w-[300px] !h-[45px]"
+                [disabled]="formCli.invalid" [ngClass]="{
+                  '!bg-[#153F7B] text-white': formCli.valid,
+                  'bg-gray-200 text-gray-400 cursor-not-allowed': formCli.invalid
+                }" (click)="getInfClient()">
+                Continuar
+              </button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+      <!-- 2st page -->
+      <ng-container *ngIf="item.selected && item.value === 2">
+        <div class="d-flex flex-column align-items-center identity-validation-container">
+          <h2 class="text-center text-primary-color text-title-size number-page-text">
+            <strong>1/4</strong>
+          </h2>
+          <h2 class="text-center text-primary-color text-title-size title">
+            <strong>Validaremos tu identidad</strong>
+          </h2>
+          <p class="text-description-size text-principal-color identity-validation-item">
+            Para completar el proceso de validación tenga en cuenta lo siguiente:
+          </p>
+          <div class="flex items-center gap-3 identity-validation-instruction-container identity-validation-item">
+            <div class="identity-validation-icon">
+              <mat-icon svgIcon="camera" [inline]="true"></mat-icon>
+            </div>
+            <p class="mb-0 text-principal-color identity-validation-text font-flexo">
+              Necesita un dispositivo con cámara y permitir el acceso a la misma.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 identity-validation-instruction-container identity-validation-item">
+            <div class="identity-validation-icon">
+              <mat-icon svgIcon="smile" [inline]="true"></mat-icon>
+            </div>
+            <p class="mb-0 text-principal-color identity-validation-text font-flexo">
+              Mire de frente a la cámara y siga las instrucciones.
+            </p>
+          </div>
+          <div class="w-full flex justify-center mb-14">
+            <button class="btn-new-primary" (click)="getRespPassiveLiveTest()">
+              Estoy listo
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <!-- 3st page -->
+      <ng-container *ngIf="item.selected && item.value === 3">
+        <div class="col-6 d-flex flex-column align-items-center">
+          <ng-container *ngIf="cameraAvailable; then isAvaliable; else notAvaliable">
+          </ng-container>
+          <ng-template #isAvaliable>
+            <iframe title="Passive live test" width="500px" [src]="getRespPassiveLiveTestResUrl()" allow="camera"
+              class="height-container"></iframe>
+          </ng-template>
+          <ng-template #notAvaliable>
+            <div class="flex flex-col items-center no-camera-container space-y-6">
+              <div class="camera-icon">
+                <mat-icon svgIcon="camera" [inline]="true"></mat-icon>
+              </div>
+
+              <div class="text-center space-y-4">
+                <h3 class="text-primary-color text-title-size font-flexo">
+                  <strong>Parece que tu dispositivo no tiene cámara</strong>
+                </h3>
+
+                <p class="text-primary-color text-description-size text-camera-description font-flexo">
+                  Escanea el código QR desde un dispositivo con cámara. y continúe
+                  con su registro.
+                </p>
+              </div>
+
+              <qrcode class="mb-12" [qrdata]="_getRespPassiveLiveTestRes.url" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+            </div>
+          </ng-template>
+        </div>
+      </ng-container>
+
+      <!-- Paso 4 - OTP -->
+      <ng-container *ngIf="item.selected && item.value === 4">
+        <div class="max-w-md mx-auto mt-10 px-6 py-8 bg-white rounded-lg shadow-md">
+
+          <!-- Encabezado -->
+          <h2 class="text-center text-xl font-semibold text-primary mb-2">3/4</h2>
+          <h1 class="text-center text-2xl font-bold text-primary mb-4">
+            Comencemos con la afiliación de su empresa
+          </h1>
+
+          <!-- Texto descriptivo -->
+          <p class="text-center text-base text-gray-700 mb-2">
+            Para continuar con el proceso, le enviamos un código al correo
+            <strong>{{ _infClientRes.email | obfuscateEmail }}</strong>.
+          </p>
+          <p class="text-center text-sm text-secondary font-medium cursor-pointer underline mb-4"
+            (click)="openUpdateUserInfoDialog()">
+            ¿Este no es su correo actual?
+          </p>
+          <p class="text-center text-sm text-gray-500 mb-6">
+            correo registrado en nuestra base de datos
+          </p>
+
+          <!-- Formulario OTP -->
+          <form [formGroup]="formOtp" class="flex flex-col items-center">
+            <label class="mb-3 text-sm font-medium text-gray-700">
+              Ingrese el código que recibió
+            </label>
+            <div class="flex justify-center gap-2 mb-6">
+              <input #otp1 type="text" maxlength="1" formControlName="otp1" appOnlyInteger
+                class="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                (keyup)="moveFocus($event, otp2)" />
+              <input #otp2 type="text" maxlength="1" formControlName="otp2" appOnlyInteger
+                class="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                (keyup)="moveFocus($event, otp3, otp1)" />
+              <input #otp3 type="text" maxlength="1" formControlName="otp3" appOnlyInteger
+                class="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                (keyup)="moveFocus($event, otp4, otp2)" />
+              <input #otp4 type="text" maxlength="1" formControlName="otp4" appOnlyInteger
+                class="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                (keyup)="moveFocus($event, otp5, otp3)" />
+              <input #otp5 type="text" maxlength="1" formControlName="otp5" appOnlyInteger
+                class="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                (keyup)="moveFocus($event, otp6, otp4)" />
+              <input #otp6 type="text" maxlength="1" formControlName="otp6" appOnlyInteger
+                class="w-12 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                (keyup)="moveFocus($event, null!, otp5)" />
+            </div>
+
+            <!-- Temporizador -->
+            <p class="text-sm text-darkblue text-center mb-4">
+              00:{{ timeLeft | number : '2.0-0' }}
+            </p>
+
+            <!-- Reenviar código -->
+            <a class="text-sm text-secondary hover:underline cursor-pointer mb-6"
+              [ngClass]="{ 'text-disabled-color pointer-events-none': !canResend }">
+              Reenviar código
+            </a>
+
+            <!-- Botón continuar -->
+            <button type="button"
+              class="w-full py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-200 disabled:opacity-50"
+              [disabled]="!formOtp.valid" [ngClass]="{ 'text-white': !formOtp.valid }">
+              Continuar
+            </button>
+          </form>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+
+</ng-container>

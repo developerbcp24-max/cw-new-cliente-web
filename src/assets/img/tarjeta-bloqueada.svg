@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="47px" viewBox="0 0 54 47" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45 (43475) - http://www.bohemiancoding.com/sketch -->
+    <title>trajeta bloqueada</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="SP-4---Bloqueo-de-tarjetas" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Tarjeta-segura-01" transform="translate(-176.000000, -312.000000)">
+            <g id="trajeta-bloqueada" transform="translate(176.000000, 314.000000)">
+                <g id="Tarjeta" transform="translate(0.000000, 4.000000)" fill="#9B9B9B">
+                    <path d="M49.4467723,0.729166667 C51.6281584,0.729166667 53.5671683,2.44551282 53.5671683,4.65224359 L53.5671683,30.6426282 C53.5671683,32.849359 51.6281584,34.5657051 49.4467723,34.5657051 L3.8780198,34.5657051 C1.69663366,34.5657051 0,32.849359 0,30.6426282 L0,4.65224359 C0,2.44551282 1.69663366,0.729166667 3.8780198,0.729166667 L49.4467723,0.729166667 Z M49.9315248,10.2360176 L49.9315248,6.22678303 C49.9315248,4.76473463 49.204396,3.67351763 48.2328713,3.67351763 L5.33429703,3.67351763 C4.36277228,3.67351763 3.39326733,4.76473463 3.39326733,6.22678303 L3.39326733,10.2360176 L49.9315248,10.2360176 Z M49.9315248,29.5524133 L49.9315248,13.8541667 L3.39326733,13.8541667 L3.39326733,29.5524133 C3.39326733,30.7345325 4.36277228,31.6254407 5.33429703,31.6254407 L48.2328713,31.6254407 C49.204396,31.6254407 49.9315248,30.7345325 49.9315248,29.5524133 Z M7.75664554,26.9647436 L7.75664554,25.7387821 L27.3911406,25.7387821 L27.3911406,26.9647436 L7.75664554,26.9647436 Z M27.3911406,21.5725561 L27.3911406,23.0416667 L7.75664554,23.0416667 L7.75664554,21.5725561 L27.3911406,21.5725561 Z"></path>
+                </g>
+                <path d="M3,42.7905273 L45.7905273,0 L3,42.7905273 Z" id="Line-Copy-2" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M9,42.7905273 L51.7905273,0 L9,42.7905273 Z" id="Line-Copy-3" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6,42.7905273 L48.7905273,0 L6,42.7905273 Z" id="Line" stroke="#979797" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

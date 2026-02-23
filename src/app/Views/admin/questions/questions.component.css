@@ -1,0 +1,58 @@
+Animación para el icono .rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Estilos para el icono de Material */
+mat-icon {
+  transition: transform 0.3s ease;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Asegurar que el texto no se mueva con el icono */
+.flex-1 {
+  flex: 1;
+}
+
+.text-quuestion-1 {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 120%;
+  letter-spacing: 0%;
+}
+
+.text-quuestion-2 {
+  font-family: Flexo;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 16px;
+  line-height: 120%;
+  letter-spacing: 0%;
+
+}
+
+.text-quuestion-3 {
+  font-family: Roboto;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  line-height: 120%;
+  letter-spacing: 0%;
+}
+
+/* .title-questions-1{ */
+.title-questions-1{
+  font-family: Flexo;
+font-weight: 700;
+font-style: Bold;
+font-size: 28.83px;
+line-height: 120%;
+letter-spacing: 0%;
+color: #32335C;
+}
+/*   transform: rotate(180deg);
+}
+ */

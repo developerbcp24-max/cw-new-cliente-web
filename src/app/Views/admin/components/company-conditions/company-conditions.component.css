@@ -1,0 +1,304 @@
+.package-container {
+  width: 735px;
+  margin-top: 60px;
+}
+
+@media only screen and (max-height: 800px) {
+  .package-container {
+    margin-top: 15px;
+  }
+}
+
+.text-title {
+  margin-bottom: 40px;
+}
+
+@media only screen and (max-height: 800px) {
+  .text-title {
+    margin-bottom: 24px;
+  }
+}
+
+.package-second-container {
+  height: max-content;
+  border-radius: 14px;
+  padding-top: 20px;
+  padding-bottom: 29px;
+}
+
+.package-title-container {
+  width: max-content;
+}
+
+.package-title {
+  font-size: 18px;
+  color: #2b9be0;
+}
+
+.package-line {
+  color: #2b9be0;
+  border-width: 0.78px;
+}
+
+.package-list {
+  width: 580px;
+  margin-bottom: 5px;
+}
+
+.check-icon {
+  margin-top: -4px;
+  margin-right: 5px;
+  height: 13px;
+}
+
+.text-package-item {
+  font-size: 12px;
+  height: max-content;
+  margin-bottom: 0px;
+}
+
+.package-continue-button {
+  width: 197px;
+  margin-top: 10px;
+}
+
+.user-types-description {
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
+
+@media only screen and (max-height: 800px) {
+  .user-types-description {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+.linked-accounts-container {
+  width: 413px;
+  margin-top: 23px;
+}
+
+@media only screen and (max-height: 800px) {
+  .linked-accounts-container {
+    margin-top: 19px;
+  }
+}
+
+.text-linked-account-description {
+  margin: 20px 0px;
+}
+
+.principal-linked-account-container {
+  width: 350px;
+  height: 50px;
+  margin-right: 18px;
+}
+
+.flag-icon {
+  width: 32px;
+}
+
+.text-linked-accounts-description {
+  margin: 20px 0px 0px;
+}
+
+.linked-account-container {
+  height: 57px;
+  padding: 0px 24px;
+  margin-top: 21px;
+}
+
+.text-linked-accounts {
+  font-size: 16px;
+}
+
+.text-linked-accounts-complement {
+  margin-top: 15px;
+  font-size: 11px;
+}
+
+@media only screen and (max-height: 800px) {
+  .text-linked-accounts-complement {
+    margin-bottom: 40px;
+  }
+}
+
+.how-cw-work-container {
+  width: 1235px;
+  margin-top: 25px;
+}
+
+@media only screen and (max-width: 1440px) {
+  .how-cw-work-container {
+    width: 920px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .how-cw-work-container {
+    width: 700px;
+  }
+}
+
+.how-cw-work-description {
+  font-size: 16px;
+}
+
+.how-cw-work-button {
+  margin-top: -50px;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 1440px) {
+  .how-cw-work-button {
+    margin-left: 20px;
+  }
+}
+
+.how-cw-work-image {
+  margin-left: 250px;
+  margin-top: 100px;
+}
+
+@media only screen and (max-width: 1440px) {
+  .how-cw-work-image {
+    width: 600px;
+    margin-left: 110px;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .how-cw-work-image {
+    margin-left: 0px;
+  }
+}
+
+.how-cw-work-back-button {
+  margin-top: 200px;
+  margin-left: 1045px;
+  margin-bottom: 48px;
+}
+
+@media only screen and (max-width: 1440px) {
+  .how-cw-work-back-button {
+    margin-top: 40px;
+    margin-left: 650px;
+  }
+}
+
+.how-cw-work-back-icon {
+  width: 20px;
+}
+
+.scrollable-content {
+  width: 100%;
+  height: calc(100vh - 259px - 104px);
+  overflow-y: auto;
+}
+
+.general-data-terms {
+  margin-left: 10px;
+  margin-bottom: 24px;
+}
+
+.terms-conditions {
+  text-decoration: underline;
+  color: #f26e29;
+}
+
+.terms-conditions-container {
+  margin-top: 48px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .terms-conditions-container {
+    margin-top: 24px;
+  }
+}
+
+
+/* Estilos adicionales para el componente */
+
+/* Asegurar que las banderas se muestren correctamente */
+.mat-icon {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Estilos para los checkboxes de Angular Material */
+.mat-checkbox {
+  margin-right: 8px;
+}
+
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+/* Hover effects para los elementos interactivos */
+.cursor-pointer:hover {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+/* Estilos para las cuentas */
+.tracking-wider {
+  letter-spacing: 0.1em;
+}
+
+/* Asegurar que las banderas mantengan su proporción */
+mat-icon[svgIcon*="flag"] {
+  width: 32px !important;
+  height: 24px !important;
+  min-width: 32px;
+}
+
+/* Mejorar el espaciado de los checkboxes */
+.mat-checkbox-inner-container {
+  margin-right: 8px !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .max-w-4xl {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+
+
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+}
+
+/* Estilos para el contenedor de cuentas */
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
+}
+
+/* Mejoras visuales para los elementos de cuenta */
+.bg-gray-100 {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+.bg-gray-100:hover {
+  background-color: #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+/* Estilos para la nota informativa */
+.border-l-4 {
+  border-left-width: 4px;
+}
+
+.border-blue-400 {
+  border-left-color: #60a5fa;
+}
+
+.bg-blue-50 {
+  background-color: #eff6ff;
+}

@@ -1,0 +1,223 @@
+<div *ngIf="totalDebts > 0">
+  <div class="row" *ngIf="debtsDetail.length > 0">
+    <div class="col-md-10">
+      <div class="table-responsive">
+        <table class="cw-table table-striped"><caption></caption>
+          <thead>
+            <tr>
+              <th style="align-items: center;">Cuenta</th>
+              <th style="align-items: center;">Nombre</th>
+              <th style="align-items: center;">Descripción Servicio</th>
+              <th style="align-items: center;">Ver</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of debtsDetail">
+              <td style="align-items: center;">{{detail.numberAccount}}</td>
+              <td style="align-items: center;">{{detail.name}}</td>
+              <td style="align-items: center;">{{detail.serviceDescription}}</td>
+              <td style="align-items: center;">
+                <a (click)="handleShowDetail(detail)"><em class="fa fa-eye button__size"></em></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="showDetail">
+    <div class="col-md-10"><br>
+      <label class="historical__label">Empieza por la deuda más antigua por favor.</label>
+      <div class="table-responsive">
+        <table class="cw-table table-striped"><caption></caption>
+          <thead>
+            <tr style="align-items:left">
+              <th style="align-items:left">Items</th>
+              <th style="align-items:left">Descripción</th>
+              <th style="align-items:left" *ngIf="debtsByDetail.paymentType !='TC_POST'">Crédito Actual</th>
+              <th style="align-items:left">Monto</th>
+              <th style="align-items:left">Seleccionar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of details; let i=index" data-toggle="tooltip"
+            data-placement="top" data-html="true">
+              <td style="align-items: center;">{{detail.item}}</td>
+              <td style="align-items:left">{{detail.description}}</td>
+              <td style="align-items:left" *ngIf="debtsByDetail.paymentType !='TC_POST'">{{detail.actualBalance | number: '1.2-2'}}</td>
+              <td style="width: 12%;">
+                <input type="text" *ngIf="debtsByDetail.paymentType !='TC_POST'" name="minAmount" class="input-simple"
+                  [(ngModel)]="detail.minAmount" (ngModelChange)="handleChangeAmount()"
+                  autocomplete="off" #minAmount="ngModel" required mask-money [readonly]="detail.isSelected"
+                  [appMaxLength]=16 appValidate="majorZero" [disabled]="!detail.isSelected"/>
+                  <app-show-errors *ngIf="debtsByDetail.paymentType !='TC_POST'" [control]=""></app-show-errors>
+                <input type="text" *ngIf="debtsByDetail.paymentType =='TC_POST'" name="amount" class="input-simple"
+                  [(ngModel)]="detail.amount" (ngModelChange)="handleChangeAmount()"
+                  #amount="ngModel" required mask-money [disabled]="true" [readonly]="true"
+                  [appMaxLength]=16 appValidate="majorZero"/>
+                  <app-show-errors *ngIf="debtsByDetail.paymentType =='TC_POST'" [control]=""></app-show-errors>
+              </td>
+              <td style="align-items: center;">
+                <div *ngIf="validateDebts(detail.period)">
+                  <label class="checkbox">
+                    <input type="checkbox"  [disabled]="disabled" [(ngModel)]="detail.isSelected" (change)="handleSelectedDebt($event, detail)">
+                    <span class="check"></span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [isCenter]="true" [totalItems]="details.length"
+      [rowsPerPage]="rowsPerPage" [maxSize]="pageItems" (onChange)="handlePageChangedSalaries($event)"
+      (onChangeRowsPerPage)="handleViewRowsSalaries($event)">
+    </app-pagination>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="tigoDebtsDetail.length > 0">
+    <div class="col-md-10">
+      <div class="table-responsive">
+        <table class="cw-table table-striped"><caption></caption>
+          <thead>
+            <tr>
+              <th style="align-items: center;">N° de Comprobante</th>
+              <th style="align-items: center;">Periodo</th>
+              <th style="align-items: center;">Fecha Emisión</th>
+              <th style="align-items: center;">Fecha Vencimiento</th>
+              <th style="align-items: center;">Monto</th>
+              <th style="align-items: center;">Pagar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of tigoDebtsDetail">
+              <td style="align-items: center;">{{detail.voucherNumber}}</td>
+              <td style="align-items: center;">{{detail.billingPeriod}}</td>
+              <td style="align-items: center;">{{detail.emissionDate}}</td>
+              <td style="align-items: center;">{{detail.endDate}}</td>
+              <td style="align-items: center;">{{detail.amount | number: '1.2-2'}}</td>
+              <td style="align-items: center;">
+                <div *ngIf="validateTigoDebts(detail.billingPeriod)">
+                  <label class="checkbox">
+                    <input type="checkbox"  [disabled]="disabled" [(ngModel)]="detail.isSelected" (change)="handleSelectedTigoDebt($event, detail)">
+                    <span class="check"></span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+    <div class="row" *ngIf="showDataBillint"><br>
+      <div class="col-md-12">
+        <div class="historical__box">
+          <h4 class="historical__h4">Bs. {{amountDebts | number: '1.2-2'}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="showDataBillint"><br>
+      <div class="col-md-12">
+        <app-bar-route></app-bar-route>
+        <div class="historical__box">
+          <div class="row">
+            <h4 class="historical__h4">Datos de la factura</h4>
+            <form name="billingForm" #billingForm="ngForm" novalidate autocomplete="off">
+              <fieldset [disabled]="disabled"><legend></legend><br>
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="box-input">
+                      <label class="historical__label">Nombre de Factura. </label>
+                      <input class="input_modal_1 mb-2" type="text" name="nameBilling" class="input-simple" [(ngModel)]="entelDto.nameBill"
+                        appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" autocomplete="off"
+                        maxlength="100" #nameBilling="ngModel" required/>
+                        <app-show-errors [control]="nameBilling"></app-show-errors>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="box-input">
+                      <label class="historical__label">NIT. de Factura. </label>
+                      <input class="input_modal_1 mb-2" type="text" name="country" [(ngModel)]="entelDto.nitFactura"
+                        appOnlyType="integer" appValidate="integer" maxlength="10" required
+                        autocomplete="off" #country="ngModel"/>
+                        <app-show-errors [control]="country"></app-show-errors>
+                    </div>
+                  </div>
+              </div>
+              <hr>
+              <div class="col-md-6">
+                <div class="haberes__debit">
+                  <label class="historical__label">¿ Como desea recibir su factura ? </label>
+                  <div>
+                    <label class="radio">
+                      <input class="input_modal_1 mb-2" type="radio" name="radio" (click)="handleChangeChecked(false)" checked="true">
+                      <span class="check-radio"></span>
+                    </label>
+                    <p>Retiro la factura en una sucursal de BCP.</p>
+                  </div>
+                  <div>
+                    <label class="radio">
+                      <input class="input_modal_1 mb-2" type="radio" name="radio" (click)="handleChangeChecked(true)">
+                      <span class="check-radio"></span>
+                    </label>
+                    <p>En mi domicilio (Costo de factura Bs. {{resultParameters.value}})</p>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!billingType && showDataBillint">
+      <div class="col-md-12">
+        <app-bar-route></app-bar-route>
+        <h4 class="historical__h4">Ingresa información de la factura</h4>
+        <div class="historical__box ">
+          <fieldset [disabled]="disabled"><legend></legend><br>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-input">
+                  <label class="historical__label">Sucursal. </label>
+                  <select name="drpOperationTypes" class="select-account input-simple" [(ngModel)]="branchOfficeCode"
+                    (change)="handleBrachOffice()">
+                    <option *ngFor="let item of branchOffice.branchOffices" [ngValue]="item.value">
+                      {{centralOffice}} {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="box-input">
+                  <label class="historical__label">Ciudad. </label>
+                  <input class="input_modal_1 mb-2" type="text" name="country" class="input-simple" [(ngModel)]="country" [disabled]="true"
+                    autocomplete="off" />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="box-input">
+                  <label class="historical__label"> </label>
+                  <label class="historical__label">Dirección. </label>
+                  <textarea type="text" name="direction" class="input_modal_1 mb-2" [(ngModel)]="direction" [disabled]="true"
+                    #batchIds="ngModel" maxlength="45" autocomplete="off"></textarea>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="row">
+            <div class="col-md-12 top-space">
+              <app-information-panel
+                [message]="'Estimado cliente, de la exactitud de la información proporcionada depende el correcto envío de sus facturas.'">
+              </app-information-panel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

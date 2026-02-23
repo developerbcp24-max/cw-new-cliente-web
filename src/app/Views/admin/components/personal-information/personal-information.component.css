@@ -1,0 +1,326 @@
+/* Text colors */
+.text-info-color {
+  color: #1890ff;
+}
+
+.text-important-color {
+  color: #ff1300;
+}
+
+.text-darkblue-color {
+  color: #004b8e;
+}
+
+.text-title-size {
+  font-size: 22px;
+}
+
+.no-camera-container {
+  width: 452px;
+}
+
+.text-camera-description {
+  margin-top: 12px;
+}
+
+.link-no-underline {
+  text-decoration: none;
+}
+
+.icon {
+  color: rgb(255, 153, 0);
+  width: 35px;
+}
+
+.icon-text {
+  display: flex;
+  align-items: center;
+}
+
+.icono {
+  margin-right: 10px;
+}
+
+.camera-icon {
+  margin-top: 85px;
+  width: 50px;
+}
+
+.principal-button {
+  background-color: #f26e29;
+  color: white;
+}
+
+.invisible-but-spaced {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+}
+
+.waiting-container {
+  background: linear-gradient(137.62deg, #002b76 26.87%, #004bcc 123.07%);
+
+  width: 40%;
+}
+
+.height-container {
+  height: 68vh;
+  overflow: auto; /* or scroll, as needed */
+  border: none;
+}
+
+@media only screen and (max-height: 920px) {
+  .height-container {
+    height: 64vh;
+  }
+}
+
+.logo-icon {
+  width: 135px;
+  height: 35px;
+}
+
+.waiting-description {
+  color: white;
+}
+
+.waiting-description-2 {
+  margin-top: -25px;
+}
+
+.camera-result-container {
+  margin-top: 150px;
+}
+
+.camera-result-description {
+  width: 300px;
+  text-align: center;
+}
+
+.camera-result-icon {
+  width: 90px;
+  height: 90px;
+}
+
+.identity-validation-container {
+  margin-top: 50px;
+  width: 438px;
+}
+
+.number-page-text {
+  margin-bottom: 25px;
+}
+
+.title {
+  margin-bottom: 25px;
+}
+
+.identity-validation-item {
+  margin-bottom: 23px;
+}
+
+.identity-validation-instruction-container {
+  background-color: #f6f7f9;
+  height: 72px;
+  padding-left: 30px;
+  padding-right: 9px;
+  border-radius: 6px;
+}
+
+.identity-validation-icon {
+  width: 30px;
+}
+
+.identity-validation-text {
+  margin-left: 25px;
+  font-size: 16px;
+}
+
+.identity-validation-button {
+  background-color: #f26e29;
+  width: 213px;
+  color: white;
+}
+
+.general-data-container {
+  margin: 36px 0px;
+  width: 427px;
+}
+
+.general-data-title {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.general-data-description {
+  font-size: 14px;
+  margin-bottom: 22px;
+  color: #32335c;
+}
+
+.general-data-user-id-container {
+  margin-top: 22px;
+}
+
+.extension-input {
+  margin-top: -1px !important;
+}
+
+.general-data-account-field {
+  width: 100%;
+  margin-top: 22px;
+}
+
+.general-data-nit-container {
+  width: 100%;
+  margin-top: 22px;
+}
+
+.general-data-next-button {
+  width: 213px;
+}
+
+.general-data-otp-container {
+  margin-top: 53px;
+  width: 535px;
+}
+
+.general-data-otp-title {
+  margin: 25px 0px;
+}
+
+.general-data-otp-button {
+  margin-top: 32px;
+  width: 213px;
+  background-color: #f26e29;
+  color: white;
+}
+
+.resend-button {
+  background-color: white;
+}
+
+.otp-label {
+  margin-bottom: 20px;
+}
+.legal-representative-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.title-spacing {
+  margin-bottom: 30px;
+}
+
+.description-spacing {
+  margin-bottom: 50px;
+  line-height: 1.5;
+}
+
+.options-container {
+  width: 100%;
+}
+
+.radio-option-container {
+  margin-bottom: 40px;
+}
+
+.radio-group-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.radio-option {
+  margin-bottom: 15px;
+}
+
+.button-container {
+  margin-top: 30px;
+}
+
+.continue-button {
+  min-width: 150px;
+  height: 48px;
+  border-radius: 24px;
+}
+
+.onboarding-font h1,
+.onboarding-font h2,
+.onboarding-font h3,
+.onboarding-font h4,
+.onboarding-font h5,
+.onboarding-font h6,
+.onboarding-font button,
+.onboarding-font a {
+  font-family: "Flexo";
+}
+
+.onboarding-font h1 b,
+.onboarding-font h1 strong,
+.onboarding-font h1 em,
+.onboarding-font h1 i,
+.onboarding-font h1 span,
+.onboarding-font h2 b,
+.onboarding-font h2 strong,
+.onboarding-font h2 em,
+.onboarding-font h2 i,
+.onboarding-font h2 span,
+.onboarding-font h3 b,
+.onboarding-font h3 strong,
+.onboarding-font h3 em,
+.onboarding-font h3 i,
+.onboarding-font h3 span,
+.onboarding-font h4 b,
+.onboarding-font h4 strong,
+.onboarding-font h4 em,
+.onboarding-font h4 i,
+.onboarding-font h4 span,
+.onboarding-font h5 b,
+.onboarding-font h5 strong,
+.onboarding-font h5 em,
+.onboarding-font h5 i,
+.onboarding-font h5 span,
+.onboarding-font h6 b,
+.onboarding-font h6 strong,
+.onboarding-font h6 em,
+.onboarding-font h6 i,
+.onboarding-font h6 span,
+.onboarding-font button b,
+.onboarding-font button strong,
+.onboarding-font button em,
+.onboarding-font button i,
+.onboarding-font button span,
+.onboarding-font a b,
+.onboarding-font a strong,
+.onboarding-font a em,
+.onboarding-font a i,
+.onboarding-font a span {
+  font-family: "Flexo";
+}
+
+.onboarding-font div,
+.onboarding-font p,
+.onboarding-font label {
+  font-family: "Roboto";
+}
+
+.onboarding-font p b,
+.onboarding-font p strong,
+.onboarding-font p em,
+.onboarding-font p i,
+.onboarding-font p span,
+.onboarding-font label b,
+.onboarding-font label strong,
+.onboarding-font label em,
+.onboarding-font label i,
+.onboarding-font label span {
+  font-family: "Roboto";
+}
+
+.firstParagraph {
+  margin-top: 24px;
+  font-size: 16px;
+  font-family: "Lato";
+}

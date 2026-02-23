@@ -1,0 +1,317 @@
+<fieldset [disabled]="disabled"><legend></legend><br>
+    <app-amount-account-verificated [amount]="batchInformation.amount" [totalErrors]="totalErrors"
+        [totalCorrects]="totalCorrects" [haveErrors]="haveErrors" [errorsDetail]="errorsDetail"
+        [currency]="batchInformation.currency" (onAddRow)="handleShowAdditionForm()">
+    </app-amount-account-verificated>
+    <div class="row helpers__hidden-small">
+        <div class="col-md-12">
+            <div class="alert alert-attention bank-info-alert p-3 mb-3 rounded shadow-sm">
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2 d-flex align-items-start">
+                  <em class="fas fa-exclamation-circle text-[#153f7b] me-2 mt-1"></em>
+                  <div>
+                    <strong>Validación de la orden electrónica de transferencias de fondos:</strong>
+                    <span class="d-block text-muted">
+                      Los datos que se validarán para procesar la transferencia de fondos son el número de cuenta del beneficiario y el nombre de la Entidad Financiera Destinataria. Es responsabilidad del ordenante verificar dichos datos.
+                    </span>
+                  </div>
+                </li>
+                <li class="mb-2 d-flex align-items-start">
+                  <em class="fas fa-check-circle text-[#153f7b] me-2 mt-1"></em>
+                  <div>
+                    <strong>Cuenta validada:</strong>
+                    <span class="d-block text-muted">
+                      Se pudo validar el nombre del beneficiario de la cuenta destino según nuestra base de datos.
+                    </span>
+                  </div>
+                </li>
+                <li class="d-flex align-items-start">
+                  <em class="fas fa-times-circle text-[#153f7b] me-2 mt-1"></em>
+                  <div>
+                    <strong>Cuenta No Validada:</strong>
+                    <span class="d-block text-muted">
+                      No se pudo validar el nombre del beneficiario de la cuenta destino en nuestra base de datos. Esto no impedirá que pueda cargar sus pagos.
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <style>
+            .bank-info-alert {
+              background: #f8fafc;
+              border-left: 5px solid #153f7b;
+            }
+            .bank-info-alert strong {
+              color: #153f7b;
+            }
+            .bank-info-alert em {
+              font-size: 1.2em;
+            }
+            </style>
+        </div>
+    </div>
+    <div *ngIf="visible">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12  col-sm-12">
+                        <table class="cw-table table-striped"><caption></caption>
+                            <thead>
+                                <tr>
+                                    <th *ngIf="headers.line">Linea</th>
+                                    <th *ngIf="headers.bankDescription">Banco</th>
+                                    <th *ngIf="headers.branchOfficeDescription">Ciudad</th>
+                                    <th *ngIf="headers.targetAccount">Cuenta Destino</th>
+                                    <th *ngIf="headers.beneficiary">Razon Beneficiario</th>
+                                    <th *ngIf="headers.amount">Monto</th>
+                                    <th *ngIf="headers.details">Detalle</th>
+                                    <th *ngIf="headers.mail">Correo electrónico</th>
+                                    <th>Validación <em class="fa fa-info-circle"
+                                            title="El mensaje 'Cuenta validada' significa que la cuenta destino fué validada y pertenece &#013;al beneficiario que se vé en la fila correspondiente. &#013;Si el mensaje indica que 'No se pudo validar la cuenta' significa que no se encontró &#013;dentro de los registros del banco la cuenta, pero si se procederá con la transacción."></em>
+                                    </th>
+
+                                    <th scope="col" *ngIf="headers.beneficiaryValidado">Razon Beneficiario Validado</th>
+                                    <th>Acciones</th>
+                                    <th>
+                                        <button (click)="showFilter=!showFilter;handleValid()" class="table-filter" #insideButton><em
+                                                class="fas fa-plus"></em></button>
+                                        <div class="historical__box table-filter--hidden"
+                                            [ngClass]="{'show-filter':showFilter}" #insideElement>
+                                            <ul>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.line">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Linea</p>
+                                                </li>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.bankDescription">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Banco</p>
+                                                </li>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox"
+                                                            [(ngModel)]="headers.branchOfficeDescription">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Ciudad</p>
+                                                </li>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.targetAccount">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Cuenta Destino</p>
+                                                </li>
+
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.beneficiary">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Razon Beneficiario</p>
+                                                </li>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.amount">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Monto</p>
+                                                </li>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.details">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Detalle</p>
+                                                </li>
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="headers.mail">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Correo electrónico</p>
+                                                </li>
+
+                                                <li>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox"
+                                                            [(ngModel)]="headers.beneficiaryValidado">
+                                                        <span class="check"></span>
+                                                    </label>
+                                                    <p>Beneficiario Validado</p>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [ngClass]="{'error':row.isError}" *ngFor="let row of spreadsheetPerPage"
+                                    data-toggle="tooltip" data-placement="top" data-html="true"
+                                    title="{{row.errorMessages}}">
+                                    <td *ngIf="headers.line" title="Linea">{{row.line}}</td>
+                                    <td *ngIf="headers.bankDescription" title="Banco">{{row.bankDescription}}</td>
+                                    <td *ngIf="headers.branchOfficeDescription" title="Glosa">
+                                        {{row.branchOfficeDescription}}</td>
+                                    <td *ngIf="headers.targetAccount" title="Cuenta Destino">{{row.targetAccount}}</td>
+                                    <td *ngIf="headers.beneficiary" title="Razon Beneficiario">{{row.beneficiary}}</td>
+                                    <td *ngIf="headers.amount" title="Monto">{{row.amount | number: '1.2-2'}}</td>
+                                    <td *ngIf="headers.details" title="Detalle">{{row.details}}</td>
+                                    <td *ngIf="headers.mail" title="Correo electrónico">{{row.mail}}</td>
+                                    <td *ngIf="headers.validMessage" title="Cuenta validada">{{row.validMessage}}</td>
+                                    <td *ngIf="headers.beneficiaryValidado" title="Beneficiario Validado">
+                                        {{row.beneficiaryValidado}}</td>
+                                    <td title="Acciones" class="actions" colspan="2">
+                                        <a (click)="handleShowEditForm(row); clickEventLogSpreedsheet(4)"><em
+                                                class="fas fa-edit"></em></a>
+                                        <a (click)="handleTryToRemoveRow(row.line)"><em class="fas fa-trash"></em></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-modal [visible]="showDetailForm" (onClose)="showDetailForm=false" [size]="'lg'" [manualCloseModal]="true">
+      <div class="app-modal-header col-md-12 col-sm-12">{{operation === 1 ? 'Modificar fila' : 'Agregar fila'}}</div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        <form name="detailForm" #detailForm="ngForm" novalidate autocomplete="off">
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Banco</label>
+                <select class="historical__select-account input-simple helpers__select-modal input_modal_1"
+                  name="bankDescription" [(ngModel)]="bank"
+                  (ngModelChange)="selectBank(); changeEventLogSpreedsheet(1)" #bankDescription="ngModel"
+                  required>
+                  <option *ngFor="let bank of banks" [ngValue]="bank">{{bank.description}}</option>
+                </select>
+                <app-show-errors [control]="bankDescription"></app-show-errors>
+              </div>
+            </div>
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+                <select class="historical__select-account input-simple helpers__select-modal input_modal_1"
+                  name="branchOfficeDescription" [(ngModel)]="branchOffice"
+                  (ngModelChange)="selectBranchOffice(); changeEventLogSpreedsheet(2)"
+                  #branchOfficeDescription="ngModel" required>
+                  <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice">
+                    {{branchOffice.description}}
+                  </option>
+                </select>
+                <app-show-errors [control]="branchOfficeDescription"></app-show-errors>
+              </div>
+            </div>
+          </div>
+          <div class="row haberes__modal__inputs">
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Cuenta destino</label>
+                <input type="text" name="account" [(ngModel)]="detail.targetAccount" #account="ngModel"
+                  required appOnlyType="integer" appValidate="integer" minlength="5" [appMaxLength]="20"
+                  (blur)="blurEventLogSpreedsheet(1)"
+                  class="input_modal_1" />
+                <app-show-errors [control]="account"> </app-show-errors>
+              </div>
+            </div>
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Razon Beneficiario</label>
+                <input type="text" name="beneficiary" [(ngModel)]="detail.beneficiary"
+                  #beneficiary="ngModel" appOnlyType="alphanumericBasicSymbols"
+                  appValidate="alphanumericBasicSymbols" maxlength="40"
+                  (blur)="blurEventLogSpreedsheet(2)" required
+                  class="input_modal_1" />
+                <app-show-errors [control]="beneficiary"> </app-show-errors>
+              </div>
+            </div>
+          </div>
+          <div class="row haberes__modal__inputs">
+
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Razon Beneficiario Validado</label>
+                <input type="text" class="select-account input-simple input-simple-dos input_modal_1" name="beneficiaryValidado" [(ngModel)]="detail.beneficiaryValidado"
+                  #beneficiaryValidado="ngModel" appOnlyType="alphanumericBasicSymbols" placeholder="Validación Automatica del benificiario"
+                  appValidate="alphanumericBasicSymbols" maxlength="40"
+                  (blur)="blurEventLogSpreedsheet(6)" [disabled]="true" />
+                <app-show-errors [control]="beneficiaryValidado"> </app-show-errors>
+              </div>
+            </div>
+
+            <div class="col-md-6 inputs ">
+              <div class="input-numero">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
+                <input type="text" name="amount" [(ngModel)]="detail.amount" #amount="ngModel" required
+                  mask-money [appMaxLength]=16 appValidate="majorZero" (blur)="blurEventLogSpreedsheet(3)"
+                  class="input_modal_1" />
+                <app-show-errors [control]="amount"></app-show-errors>
+              </div>
+            </div>
+
+          </div>
+        </form>
+        <div class="row haberes__modal__inputs">
+          <div class="col-md-6 inputs ">
+            <div class="input-numero">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Detalles</label>
+              <input type="text" name="details" [(ngModel)]="detail.details" #details="ngModel"
+                appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" maxlength="40"
+                (blur)="blurEventLogSpreedsheet(4)"
+                class="input_modal_1" />
+              <app-show-errors [control]="details"></app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6 inputs ">
+            <div class="input-numero">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+              <input type="email" name="email" [(ngModel)]="detail.mail" #email="ngModel"
+                appValidate="manyEmails" [appMaxLength]="500" (blur)="blurEventLogSpreedsheet(5)"
+                class="input_modal_1" />
+              <app-show-errors [control]="email"></app-show-errors>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button justify-content-center">
+          <div class="col-md-4 col-xs-12 d-flex justify-content-center">
+            <button class="button__principal modal__button"
+              (click)="handleValidate(); clickEventLogSpreedsheet(1)">{{operation===1?'ACEPTAR':'GUARDAR'}}</button>
+          </div>
+        </div>
+        <div class="row modal__cancelar justify-content-center">
+          <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+            <a (click)="handleCancel(); clickEventLogSpreedsheet(2)"
+              class="link-cancel-modal">CANCELAR</a>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+    <app-modal [visible]="showRemoveRowForm" (onClose)="showRemoveRowForm=false" [size]="'sm'">
+        <div class="app-modal-header col-md-12 col-sm-12">Eliminación de información</div>
+        <div class="app-modal-body col-md-12 col-sm-12">¿Está seguro de eliminar esta línea de la planilla?</div>
+        <div class="app-modal-footer col-md-12 col-sm-12">
+            <div class="row modal__container-button">
+                <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+                  <button class="button__principal modal__button"
+                    (click)="handleRemove(); clickEventLogSpreedsheet(3)">ELIMINAR</button>
+                </div>
+            </div>
+            <div class="row modal__cancelar justify-content-center">
+              <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+                <a (click)="showRemoveRowForm=false" class="link-cancel-modal">CANCELAR</a>
+              </div>
+            </div>
+        </div>
+    </app-modal>
+</fieldset>

@@ -1,0 +1,195 @@
+@layer components {
+  /* Botón de afiliación responsivo */
+  .btn-affiliation {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px;
+    height: 37px;
+    border-radius: 8px;
+    background-color: #34b1cf;
+    font-family: "Flexo", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: white;
+    text-align: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  /* Efecto hover */
+  .btn-affiliation:hover {
+    background-color: #2a91a8;
+    transform: scale(1.05);
+  }
+
+  /* Efecto active */
+  .btn-affiliation:active {
+    transform: scale(0.95);
+  }
+  /* Botón secundario */
+  .btn-new-secondary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px;
+    height: 37px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-family: "Flexo", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #32335c;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  /* Efecto hover */
+  .btn-new-secondary:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+  }
+
+  /* Efecto active */
+  .btn-new-secondary:active {
+    transform: scale(0.95);
+  }
+
+  .btn-new-primary {
+  @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px] rounded-lg;
+  width: 213px;
+  height: 37px;
+  background-color: #153f7b;
+  font-family: "Flexo", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  color: #ffffff;
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Efecto hover */
+.btn-new-primary:hover {
+  background-color: #153f7b;
+  transform: scale(1.05);
+}
+
+
+  /* Efecto active */
+  .btn-new-primary:active {
+    transform: scale(0.95);
+  }
+
+  /* Efecto active */
+  .btn-affiliation:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño al hacer clic */
+  }
+  /* Botón secundario */
+  .btn-new-secondary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px; /* Ancho del botón */
+    height: 37px; /* Altura del botón */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #ffffff; /* Color de fondo */
+    font-family: "Flexo", sans-serif; /* Fuente personalizada */
+    font-weight: 400; /* Peso de la fuente */
+    font-size: 14px; /* Tamaño de la fuente */
+    line-height: 100%; /* Altura de línea */
+    letter-spacing: 0%; /* Espaciado entre letras */
+    color: #32335c; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Transición suave */
+  }
+
+  /* Efecto hover */
+  .btn-new-secondary:hover {
+    background-color: #f0f0f0; /* Color más claro al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  }
+
+  /* Efecto active */
+  .btn-new-secondary:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño al hacer clic */
+  }
+
+  .button-cw-new-primary {
+  width: 213px;
+  height: 37px;
+  background-color: #1e3a5f; /* Color azul oscuro del botón */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  gap: 10px;
+  opacity: 1;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-cw-new-primary:hover {
+  background-color: #2a4d7a;
+  transition: background-color 0.3s ease;
+}
+
+  .btn-new-primary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px; /* Ancho del botón */
+    height: 37px; /* Altura del botón */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #153f7b; /* Color de fondo */
+    font-family: "Flexo", sans-serif; /* Fuente personalizada */
+    font-weight: 400; /* Peso de la fuente */
+    font-size: 14px; /* Tamaño de la fuente */
+    line-height: 100%; /* Altura de línea */
+    letter-spacing: 0%; /* Espaciado entre letras */
+    color: #ffffff; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Transición suave */
+  }
+
+  /* Efecto hover */
+  .btn-new-primary:hover {
+    background-color: #153f7b; /* Color más claro al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  }
+
+  /* Efecto active */
+  .btn-new-primary:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño al hacer clic */
+  }
+
+  .mat-mdc-button-base {
+    height: 40px !important;
+    width: 288px;
+    border-radius: 12px !important;
+  }
+
+  .mat-mdc-outlined-button {
+    background-color: #f2f4f8 !important;
+    color: #34b1cf !important;
+    border-color: #34b1cf !important;
+  }
+
+  .mat-mdc-unelevated-button {
+    background-color: #153f7b !important;
+    color: white !important;
+  }
+
+  .mat-mdc-unelevated-button:disabled {
+    background-color: #c2c2c2 !important;
+    color: white !important;
+  }
+
+  .mdc-button__label {
+    font-family: Flexo;
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  .register-mobile-store-button {
+    background-color: black !important;
+    width: 139.56px !important;
+  }
+}

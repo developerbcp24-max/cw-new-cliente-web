@@ -1,0 +1,24 @@
+<form *ngIf="visible" class="form-horizontal" name="formDateFuture" #formDateFuture="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="checkbox">
+          <label class="col-sm-3 control-label">
+            <input type="checkbox" class="form-check-input" name="isDateFuture" [(ngModel)]="dateFuture.isDateFuture"
+              (ngModelChange)="handleChangeChecked($event)"> Programar fecha futura
+          </label>
+          <div *ngIf="dateFuture.isDateFuture" class="col-sm-3">
+              <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+                <input name="futureDate" locale="es" [(ngModel)]="model"  locale="es" required
+                    matInput [matDatepicker]="dateFuture"
+                    (dateChanged)="onDateChanged($event)">
+                <mat-datepicker-toggle matSuffix [for]="dateFuture"></mat-datepicker-toggle>
+                <mat-datepicker #dateFuture></mat-datepicker>
+            </mat-form-field>
+
+            <app-show-errors [control]="dateFuture"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  

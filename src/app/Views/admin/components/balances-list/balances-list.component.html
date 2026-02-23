@@ -1,0 +1,55 @@
+<div *ngIf="accounts.length == 0">
+    <div class="col-md-12">
+        <div class="alert alert-attention">
+            <em class="icon-info icono-naranjo"></em>
+            <p class="title">No existe ninguna Cuenta.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="accounts.length > 0">
+    <div class="col-md-12" *ngIf="!isMosaic">
+        <div class="home__table-title home__table-title-saldo">
+            <div class="home__table-title__colA"></div>
+            <div class="home__table-title__colB">Titular</div>
+            <div class="home__table-title__colB">Moneda</div>
+            <div class="home__table-title__colB">Operación en trámite</div>
+            <div class="home__table-title__colB">Saldos</div>
+        </div>
+    </div>
+</div>
+<div class="home__layout {{style}} align-items">
+    <div class="home__card" *ngFor="let account of accounts">
+        <div class="home__card__title">
+            <p class="home__card__title__medium-title">{{account.applicationDescription | titlecase}}</p>
+            <p class="home__card__title__medium__value">{{account.formattedNumber}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Titular</p>
+            <p class="home__card__item__small-value">{{account.owner | titlecase}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Moneda</p>
+            <p class="home__card__item__small-value">{{account.currencyDescription}}</p>
+        </div>
+
+        <div class="home__card__item">
+            @if(account.inProgressOperations != null){
+                <p class="home__card__item__small-title">Operación en trámite</p>
+                <p class="home__card__item__small-value">{{account.inProgressOperations | number: '1.2-2'}}</p>
+            }
+        </div>
+
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Saldos</p>
+            <p class="home__card__item__small-value">{{account.accountingBalance
+                | number: '1.2-2'}}</p>
+        </div>
+        <div class="home__card__see-transaction">
+            <a
+                (click)="errorMessageGettingAccountInformation!==account.owner && handleShowDetails(account.id)"
+                [ngClass]="{'disabled':errorMessageGettingAccountInformation===account.owner}"><strong><u>
+                        Ver
+                        movimientos</u></strong></a>
+        </div>
+    </div>

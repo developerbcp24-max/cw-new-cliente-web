@@ -1,0 +1,23 @@
+<div class="flex flex-row-reverse gap-6 w-full">
+	<!-- Botón Continuar (azul sólido) -->
+	<button
+		type="button"
+		class="px-8 py-2 bg-[#153F7B] hover:bg-[#153F7B] disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 min-w-[140px] font-flexo"
+		[disabled]="nextDisabled"
+		(click)="onNextClick()">
+		Continuar
+	</button>
+
+	<!-- Botón Volver (con icono) -->
+	<ng-container *ngIf="showBack">
+		<div class="flex  cursor-pointer text-[#153F7B] hover:text-[#062e66] transition-colors duration-200 mt-1.5" (click)="onBackClick()">
+			<div class="flex  justify-center w-8 h-8 mr-2 mt-1">
+				<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M10 20.2012C15.5234 20.2012 20 15.7246 20 10.2012C20 4.67773 15.5234 0.201172 10 0.201172C4.47656 0.201172 0 4.67773 0 10.2012C0 15.7246 4.47656 20.2012 10 20.2012ZM4.11719 9.31836L8.14453 5.29102C8.63281 4.80273 9.42383 4.80273 9.91211 5.29102C10.4004 5.7793 10.4004 6.57031 9.91211 7.05859L8.01563 8.95117L15 8.95117C15.6914 8.95117 16.25 9.50977 16.25 10.2012C16.25 10.8926 15.691 11.4512 15 11.4512L8.01563 11.4512L9.94453 13.3801C10.4328 13.8684 10.4328 14.6594 9.94453 15.1477C9.45625 15.6359 8.66523 15.6359 8.17695 15.1477L4.14961 11.1203C3.80469 10.7754 3.75 10.3926 3.75 10.2012C3.75 10.0098 3.80469 9.62695 4.11719 9.31836Z" fill="#153F7B"/>
+				</svg>
+			</div>
+			<span class="text-base font-medium font-flexo">Volver</span>
+		</div>
+	</ng-container>
+</div>
+

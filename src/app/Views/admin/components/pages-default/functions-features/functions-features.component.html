@@ -1,0 +1,275 @@
+<section class="row">
+  <div class="home__subtitle col-md-12">
+    <div class="row header__title-bar items-center">
+      <div class="col-md-10">
+        <h3>Funciones y Características</h3>
+      </div>
+      <div class="col-md-2 flex justify-end">
+        <button class="btn flex items-center gap-2 !bg-[#153f7b] !hover:bg-[#153f7b]" (click)="goBack()"
+          *ngIf="authService.isValidSession()" style="border: 1px solid #ffffff; color: #ffffff;">
+          <span>&#8592;</span> Atrás
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="offset-md-2 col-md-8">
+    <h4 class="login-title margin-top">Credinet Web</h4>
+    <p class="login-description"><strong>Credinet Web</strong> es el sistema electrónico de interacción entre su Empresa
+      y el
+      Banco de Crédito BCP, que le permite realizar sus transacciones financieras y consultar información
+      detallada de las mismas con la máxima rapidez, eficiencia y seguridad. Realice sus operaciones desde la
+      comodidad de su empresa o desde cualquier parte del mundo, las 24 horas del día, los 365 días del año. <br><br>El
+      sistema ofrece un conjunto de servicios desarrollados con tecnología de última generación que revolucionarán
+      su manejo administrativo y de tesorería.</p>
+    <h4 class="login-title">Requisitos</h4>
+    <div class="row">
+      <div class="offset-md-2 col-md-8 offset-lg-3  col-lg-6">
+        <table class="cw-table table-striped">
+          <caption></caption>
+          <thead>
+            <tr>
+              <th>HARDWARE</th>
+              <th>Mínimo</th>
+              <th>Recomendado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Procesador</td>
+              <td>Core i3</td>
+              <td>Core i3 o Superior</td>
+            </tr>
+            <tr>
+              <td>Sistema Operativo</td>
+              <td>Windows 7</td>
+              <td>Windows 7 o superior</td>
+            </tr>
+            <tr>
+              <td>RAM</td>
+              <td>4 GB</td>
+              <td>4 GB o superior</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="cw-table table-striped">
+          <caption></caption>
+          <thead>
+            <tr>
+              <th>BROWSER O NAVEGADOR</th>
+              <th>Mínimo Recomendado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chrome</td>
+              <td>Versión actualizada de Chrome</td>
+            </tr>
+            <tr>
+              <td>JavaScript</td>
+              <td>Habilitado</td>
+            </tr>
+            <tr>
+              <td>Ventanas emergentes (pop-ups)</td>
+              <td>Habilitado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <h4 class="login-title">Servicios</h4>
+    <p class="login-description">Mediante Credinet Web, usted puede acceder a:</p>
+
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header border-heading" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link item-acordion-title" data-toggle="collapse" data-target="#collapseOne"
+              aria-expanded="true" aria-controls="collapseOne">
+              Consultas
+            </button>
+          </h5>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            <ul>
+              <li>Saldos y movimientos de cuentas de ahorro y cuentas corrientes </li>
+              <li>Históricos</li>
+              <li>Tarjetas de crédito </li>
+              <li>Recaudación</li>
+              <li>Pendientes</li>
+              <li>Seguimientos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-1">
+        <div class="card-header border-heading" id="headingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed item-acordion-title" data-toggle="collapse" data-target="#collapseTwo"
+              aria-expanded="false" aria-controls="collapseTwo">
+              Transferencias
+            </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div class="card-body">
+            <p class="login-description">Mediante Credinet Web, usted puede acceder a:</p>
+            <ul>
+              <li>Nacionales</li>
+              <p class="login-description">- Mis Cuentas</p><br>
+              <p class="login-description">- Mis Favoritos</p><br>
+              <p class="login-description">- Cuenta Terceros BCP</p><br>
+              <p class="login-description">- Cuenta Terceros ACH</p><br>
+              <li>Internacionales</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-1">
+        <div class="card-header border-heading" id="headingThree">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed item-acordion-title" data-toggle="collapse"
+              data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Pagos Masivos
+            </button>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+          <div class="card-body">
+            <h3 class="login-title">Pago de Haberes</h3>
+            <p class="login-description">Realice una transferencia electrónica con cargo a la
+              cuenta de su empresa y abone a
+              las cuentas de sus funcionarios de una manera simple y segura.</p>
+            <h4 class="login-title">Beneficios para su Empresa</h4>
+            <ul>
+              <li>Abonos en línea</li>
+              <li>Ahorro de tiempo y dinero</li>
+              <li>Información de respaldo inmediata</li>
+              <li>Control total del proceso</li>
+              <li>Seguridad</li>
+            </ul>
+            <h4 class="login-title">Beneficios para sus trabajadores</h4>
+            <ul>
+              <li> La red más grande de oficinas y cajeros automáticos</li>
+              <li>Apertura de cuentas de ahorro sin monto mínimo</li>
+              <li>Tarjeta de débito Credimás</li>
+              <li>Canales de atención preferencial</li>
+            </ul>
+            <h3 class="login-title">Pago a Proveedores</h3>
+            <p class="login-description">Realice una transferencia electrónica a sus proveedores con
+              cargo a la cuenta de su Empresa, bajo seis diferentes modalidades:</p>
+            <ul>
+              <li>Pago a proveedores con abono en cuenta</li>
+              <li>Pago a proveedores en efectivo</li>
+              <li>Pago a proveedores con cheque de gerencia</li>
+              <li>Pago a proveedores con abono en otro banco cheque</li>
+              <li>Pago a proveedores con abono en otro banco ACH</li>
+              <li>Pago a proveedores favorito</li>
+            </ul>
+            <h4 class="login-title">Beneficios para su empresa</h4>
+            <p class="login-description">La red más grande de oficinas para el pago de sus proveedores:</p>
+            <p class="textos"></p>
+            <ul>
+              <li>Información de respaldo inmediata</li>
+              <li>Ahorro de tiempo y dinero</li>
+              <li>Cobertura a nivel nacional e internacional</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-1">
+        <div class="card-header border-heading" id="headingFive">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed item-acordion-title" data-toggle="collapse"
+              data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+              Solicitud de pagos
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+          <div class="card-body">
+            <ul>
+              <li>Impuestos</li>
+              <li>Servicios de telefonía fija y móvil</li>
+              <li>Pago de agua</li>
+              <li>Pago de electricidad</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-1">
+        <div class="card-header border-heading" id="headingSix">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed item-acordion-title" data-toggle="collapse" data-target="#collapseSix"
+              aria-expanded="false" aria-controls="collapseSix">
+              Comprobantes
+            </button>
+          </h5>
+        </div>
+        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+          <div class="card-body">
+            <ul>
+              <li>Transacciones actuales</li>
+              <li>Transacciones hasta un año de antigüedad</li>
+              <li>Históricos</li>
+              <li>Pre - comprobantes</li>
+              <li>Transacciones Swift</li>
+              <li>Comprobante electrónico</li>
+              <li>Consulta de facturación electronica</li>
+              <li>Comprobantes por operación</li>
+              <li>Cheque</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-1">
+        <div class="card-header border-heading" id="headingSeven">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed item-acordion-title" data-toggle="collapse"
+              data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+              Integración con sistemas SAP
+            </button>
+          </h5>
+        </div>
+        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+          <div class="card-body">
+            <p>En caso de que su empresa trabaje con el Sistema SAP, mediante Credinet Web podrá recibir toda la
+              información diaria que necesite para realizar su conciliación:</p>
+            <ul>
+              <li>SFTP</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3 class="login-title mt-4">Beneficios</h3>
+    <h4 class="login-title">Máxima Seguridad</h4>
+    <p class="login-description">
+      Credinet Web cuenta con elementos electrónicos de seguridad de última generación, para que usted
+      efectúe sus operaciones con la mayor confiabilidad:
+    </p>
+    <ul>
+      <li>Clave y nivel de acceso individual por usuario</li>
+      <li>Dispositivo Token que utiliza una clave dinámica para procesar las transacciones de manera más segura</li>
+      <li>Comunicación entre su Empresa y el Banco a través de una conexión segura y con algoritmo de
+        encriptación SSL de 128 bits</li>
+    </ul>
+    <h4 class="login-title">Máyor rapidez</h4>
+    <p class="login-description">Credinet Web establece altas velocidades de conexión On Line, transmitiendo
+      aproximadamente tres hojas de datos por segundo. Asimismo, el banco de Crédito BCP cuenta con una
+      infraestructura de comunicaciones y equipos que utilizan el protocolo de Internet TCP/IP, el más
+      eficiente y de mayor crecimiento en el mundo</p>
+    <h4 class="login-title">Flexibilidad</h4>
+    <p class="login-description">Credinet Web ha sido diseñado de forma modular, para ofrecer un conjunto de
+      servicios que pueden ser utilizados de acuerdo a sus necesidades. Asimismo, ha sido incorporado un
+      nuevo concepto, que le permite a usted ser el propio Administrador del Sistema.</p>
+    <h4 class="login-title">Facilidad de Uso</h4>
+    <p class="login-description">Credinet Web es un sistema amigable, fácil de entender y operar, porque
+      utiliza la estructura de un ambiente Windows. Estamos seguros de que usted de familiarizará con el
+      sistema rápidamente.</p>
+    <h4 class="login-title">Asesoría Permanente</h4>
+    <p class="login-description">Como usuario de Credinet Web, usted tendrá acceso permanente a nuestro
+      servicio especializado Línea Gratuita - Help Desk 800-10-2244, para atender sus consultas y cualquier
+      requerimiento técnico y operativo del sistema.</p>
+  </div>
+</section>

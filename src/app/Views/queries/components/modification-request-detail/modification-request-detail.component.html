@@ -1,0 +1,182 @@
+<div class="col-md-12">
+    <label>Anexo Full Acceso</label>
+    <div class="transferencias__card">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Número de lote</p>
+        <p class="home__card__item__small-value">{{batchId}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Nombre o Razón Social</p>
+        <p class="home__card__item__small-value">{{detail.companyInformations.name}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">IDC</p>
+        <p class="home__card__item__small-value">{{detail.companyInformations.idc}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">E-mail de Contacto</p>
+        <p class="home__card__item__small-value">{{detail.companyInformations.email}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Dirección</p>
+        <p class="home__card__item__small-value">{{detail.companyInformations.address}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Teléfono</p>
+        <p class="home__card__item__small-value">{{detail.companyInformations.phone}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <label>Anexo: {{detail.operation == 0 ? 'MODIFICAR' : 'ADICIONAR'}} - Datos Generales</label>
+    <div class="transferencias__card">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Número de Autorizadores</p>
+        <p class="home__card__item__small-value" *ngIf="detail.operation == 0">
+          Actual:{{detail.companyInformations.authorizersNumber}}</p>
+
+          <p class="home__card__item__small-value" *ngIf="detail.operation == 0 && detail.companyInformations.newAuthorizerNumber > 0">
+            Nuevo:{{detail.companyInformations.newAuthorizerNumber}}</p>
+
+        <p class="home__card__item__small-value" *ngIf="detail.operation == 1">
+          Actual:{{detail.companyInformations.authorizersNumber}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Número de Controllers</p>
+        <p class="home__card__item__small-value" *ngIf="detail.operation == 0">Actual:
+          {{detail.companyInformations.controllersNumber}}</p>
+
+          <p class="home__card__item__small-value" *ngIf="detail.operation == 0 && detail.companyInformations.newControllerNumber > 0">
+            Nuevo: {{detail.companyInformations.newControllerNumber}}</p>
+
+        <p class="home__card__item__small-value" *ngIf="detail.operation == 1">Actual:
+          {{detail.companyInformations.controllersNumber}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Límite de Empresa (USD)</p>
+        <p class="home__card__item__small-value" *ngIf="detail.operation == 0">Actual:
+          {{detail.companyInformations.limit}}</p>
+
+          <p class="home__card__item__small-value" *ngIf="detail.operation == 0 && detail.companyInformations.newLimit > 0">
+            Nuevo: {{detail.companyInformations.newLimit}}</p>
+
+        <p class="home__card__item__small-value" *ngIf="detail.operation == 1">Actual:
+          {{detail.companyInformations.limit}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="totalItemsUsers>0">
+    <label>Usuarios:</label>
+    <div class="row">
+      <div class="col-md-12  col-sm-12">
+        <table class="cw-table table-striped"><caption></caption>
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Nombre Completo</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of detail.users; let i = index" data-toggle="tooltip" data-placement="top"
+              data-html="true">
+              <td>{{i +1}}</td>
+              <td>{{row.fullName}}</td>
+              <td><a (click)="handleShowDetailUser(row)"><em class="fa fa-search"></em></a></td>
+            </tr>
+          </tbody>
+        </table>
+        <app-pagination [totalItems]="totalItemsUsers" [maxSize]="pageItemsUsers"
+            (onChange)="handlePageChangedUsers($event)" [rowsPerPage]="rowsPerPageUsers"
+            (onChangeRowsPerPage)="handleViewRowsUsers($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="showDetailUser">
+    <label>Datos de Usuario </label>
+    <div class="transferencias__card">
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Usuario</p>
+        <p class="home__card__item__small-value">{{user.fullName}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Nro de Documento</p>
+        <p class="home__card__item__small-value">{{user.documentNumber}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Extensión</p>
+        <p class="home__card__item__small-value">{{user.idcExtension}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Tipo de Documento</p>
+        <p class="home__card__item__small-value">{{user.idcType}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">E-mail Actual</p>
+        <p class="home__card__item__small-value">{{user.email}}</p>
+      </div>
+      <div class="home__card__item" *ngIf="user.newEmail != null">
+        <p class="home__card__item__small-title">Nuevo E-mail</p>
+        <p class="home__card__item__small-value">{{user.newEmail}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Límite Actual</p>
+        <p class="home__card__item__small-value">{{user.limit}}</p>
+      </div>
+      <div class="home__card__item" *ngIf="user.newLimit > 0">
+        <p class="home__card__item__small-title">Nuevo Límite</p>
+        <p class="home__card__item__small-value">{{user.newLimit}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Acción</p>
+        <p class="home__card__item__small-value">{{user.statusDescription}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="totalItemsRoles > 0">
+    <div class="col-md-6 inputs ">
+      <div class="input-numero">
+        <label>Tipo de Operación</label>
+        <select class="historical__select-account input-simple helpers__select-modal" name="operation"
+          [(ngModel)]="selectedOperation" (change)="handleGetRoles();">
+          <option *ngFor="let operationType of operationTypesDetail" [ngValue]="operationType">
+            {{operationType.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="totalItemsRoles > 0">
+    <div class="row">
+      <div class="col-md-12  col-sm-12">
+        <table class="cw-table table-striped"><caption></caption>
+          <thead>
+            <tr>
+              <th>Nombre de Cuenta</th>
+              <th>Consultor</th>
+              <th>Preparador</th>
+              <th>Controller</th>
+              <th>Autorizador</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of user.roles" data-toggle="tooltip" data-placement="top" data-html="true">
+              <td>{{row.formattedNumber}}</td>
+              <td class="text-center" *ngFor="let rol of originalRoles">
+                <label class="checkbox">
+                  <input type="checkbox" [disabled]="true" [checked]="row.roleId === rol">
+                  <span class="check disabled"></span>
+                </label>
+              </td>
+              <td>{{detail.operation == 0 ? 'ELIMINADO' : 'ADICIONADO'}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <app-pagination [totalItems]="totalItemsRoles" [maxSize]="pageItemsRoles"
+              (onChange)="handlePageChangedRoles($event)" [rowsPerPage]="rowsPerPageRoles"
+              (onChangeRowsPerPage)="handleViewRowsRoles($event)"></app-pagination>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,95 @@
+<div class="row historical__account">
+    <div class="col-md-12">
+        <app-bar-route *ngIf="showBarRoute && !isOnlyRead"></app-bar-route>
+        <h4 class="historical__h4" *ngIf="showDetails && !isOnlyRead">Selecciona un Sucursal</h4>
+        <div class="row">
+            <div [ngClass]="{'col-md-12':isOnlyRead,'col-md-6':!isOnlyRead}" [hidden]="isOnlyRead">
+                <div class="historical__box historical__account-box">
+                    <form name="sourceAccountForm" #sourceAccountForm="ngForm" novalidate autocomplete="off">
+                        <fieldset [disabled]="disabled"><legend></legend><br>
+                            <div class="form-group">
+                                <label class="transferencias__label">Sucursal</label>
+                                <div class="account-flag">
+                                    <select class="historical__select-account input-simple helpers__select-modal"
+                                        [(ngModel)]="request.BranchCode" name="BranchCode" #BranchCode="ngModel"
+                                        (ngModelChange)="selectBranchQR()" required>
+                                        <option value="">Seleccione un Sucursal</option>
+                                        <option *ngFor="let listBranch of listBranchQR"
+                                            [ngValue]="listBranch.branchCode">
+                                            {{listBranch.branchName}}</option>
+                                    </select>
+                                    <app-show-errors [control]="BranchCode"></app-show-errors>
+                                </div>
+                                <div class="all-width">
+                                    <label class="transferencias__label">Moneda</label>
+                                    <div class="account-flag">
+                                        <select class="select-account input-simple" #currencySelectDiv
+                                            [(ngModel)]="request.Currency" name="currency" required #currency="ngModel">
+                                            <option *ngFor="let item of currencyBO" value='{{item.value}}'>
+                                                {{item.description}}</option>
+                                        </select>
+                                        <app-show-errors [control]="Currency"></app-show-errors>
+                                        <app-currency-flag [flag]="request.Currency"
+                                            [visible]="true"></app-currency-flag>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-loader *ngIf="loading"></app-loader>
+<div class="row historical__period-options">
+    <div class="col-md-12">
+        <app-bar-route [isLast]="true"></app-bar-route>
+        <h4 class="historical__h4">Filtro de busqueda</h4>
+
+        <div class="row historical__period-options">
+            <div class="col-md-8">
+
+                <app-button-group (onChange)="handleGroupChanged($event)">
+                    <app-button-group-content [contentTitle]="'Por Fechas'">
+                        <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange" class="col-md-10">
+                        </app-date-range>
+                    </app-button-group-content>
+                </app-button-group>
+            </div>
+        </div>
+        <div class="row historical__submit">
+            <div class="alert alert-primary d-flex align-items-center" role="alert">
+                <h4>Tomar en cuenta que el reporte de QR en línea tiene una antigüedad de <strong>{{DaysQrReport}} días</strong>.
+                    Por este motivo le recomendamos que realice su descarga de forma diaria, o que la misma no exceda los <strong>{{DaysQrReport}} días</strong>.</h4>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="historical__btn-submit button__principal" (click)="showDetail()">Generar
+                    reporte</button>
+            </div>
+        </div>
+        <br>
+        <div *ngIf="isVisibleList">
+            <div class="row historical__options-table">
+                <div class="col-md-3 col-sm-12">
+                    <p class="historical__p">Total de operación en el periodo: </p>
+                </div>
+                <div class="offset-md-2 col-md-5 historical__button--align">
+                    <p class="historical__p">Formato para exportar</p>
+                    <select name="TipoExportar" class="input-simple historical__input-table"
+                        [(ngModel)]="FormatSelected">
+                        <option value=undefined disabled>Seleccione formato</option>
+                        <option value="xls">Excel</option>
+                        <option value="pdf">PDF</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-6 historical__button--align">
+                    <button class="button__secondary historical__button-secondary" (click)="export()">EXPORTAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-qr-list-bcp [responseData]="responseData" [isVisibleList]="isVisibleList"></app-qr-list-bcp>

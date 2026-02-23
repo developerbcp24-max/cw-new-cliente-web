@@ -1,0 +1,22 @@
+<app-modal [visible]="isPreSave" (onClose)="handleIsPreparer(false)" [size]="'md'" [manualCloseModal]="true">
+    <div class="app-modal-header col-md-12 col-sm-12">INFORMACIÓN </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <div class="col-md-12 historical__certificate-send">
+        <div class="icon-send"><em class="fas fa-check"></em></div>
+        <div class="form-group">
+          <h4>{{messagePrePreparer}}</h4>
+          <span class="bar-separate2"></span>
+        </div>
+      </div>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handleIsPreparer(true)">Aceptar</button>
+      </div>
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="handleIsPreparer(false)" class="link-cancel-modal">Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

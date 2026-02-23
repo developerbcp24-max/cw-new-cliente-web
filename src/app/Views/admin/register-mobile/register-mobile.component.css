@@ -1,0 +1,12 @@
+.register-mobile-main-container {
+  padding: 20px 20px 16px 20px;
+  background-color: white;
+}
+
+.register-mobile-container {
+  background-color: #f2f4f8;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  width: 100%;
+}

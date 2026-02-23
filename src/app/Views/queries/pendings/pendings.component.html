@@ -1,0 +1,11 @@
+<div class="top-space">
+    <app-information-panel
+        [message]="'Seleccione la(s) operacion(es) que quiere controlar o rechazar marcando el checkbox correspondiente y luego presione el boton CONFIRMAR o RECHAZAR según corresponda o Seleccione la(s) operacion(es) que quiere Autorizar o Rechazar marcando el checkbox correspondiente y luego presione el boton AUTORIZAR o RECHAZAR según corresponda. (Nota.Puede marcar todas las operaciones por rol a la vez seleccionando el checkbox: Marcar todos.)'">
+    </app-information-panel>
+</div>
+<app-pending-batch-list (onChange)="handleProcessBatches($event)" (onChangeUIF)="handleProcessBatchesUif($event)">
+</app-pending-batch-list>
+<app-token-modal [isVisible]="isCredentialsValidationVisible" [isUserToken]="true"
+    [validatePasswordInsteadToken]="validatePasswordInsteadToken" (onSubmit)="handleCredentialsValidationSubmit($event)"
+    (onClose)="isCredentialsValidationVisible=false"></app-token-modal>
+<app-modal-is-block [showMessageIsBlock]="showMessageIsBlock" (onClose)="onClose($event);"></app-modal-is-block>

@@ -1,0 +1,65 @@
+<form class="form-horizontal" name="formHist" #formHist="ngForm" novalidate autocomplete="off">
+  <fieldset [disabled]="valueGlobal"><legend></legend><br>
+    <p class="description-page">Seleccione una cuenta, seleccione el periodo de históricos y presione el botón ACTUALIZAR REPORTE; adicionalmente puede exportar el reporte en formatos conocidos presionando el botón EXPORTAR.</p>
+    <div class="form-group col-sm-12">
+        <label class="radio-inline">
+          <input type="radio" name="RadTip" id="RadTip1" value="optFec" (change)="setradio('optFec')" checked> Por fechas
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="RadTip" id="RadTip2" value="optMes" (change)="setradio('optMes')"> Por meses
+        </label>
+    </div>
+
+    <div class="form-group col-sm-12" *ngIf="val1">
+        <div class="form-group col-sm-12">
+          <app-depecrated-source-accounts [accountRequest]="sourceAccountRequest" [disabled]="false" (onChange)="handleSourceAccountChanged($event)"
+          [loadFirstAccount]="true" [showBalances]="false" #sourceAccount></app-depecrated-source-accounts>
+        </div>
+        <div class="form-group">
+            <div class="form-group col-sm-12">
+                <label class="col-xs-2 col-sm-2 control-label">Fecha Inicial:</label>
+                  <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+                    <mat-label>Ingrese fecha inicio. </mat-label>
+                    <input name="mydateIni" locale="es" [(ngModel)]="DateIniHead"  locale="es" required
+                        matInput [matDatepicker]="mydateIni"
+                        (dateChanged)="handleChangeDPIni($event)">
+                    <mat-datepicker-toggle matSuffix [for]="mydateIni"></mat-datepicker-toggle>
+                    <mat-datepicker #mydateIni></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+            <div class="form-group col-sm-12">
+                <label class="col-sm-2 col-sm-2 control-label">Fecha Final:</label>
+                <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+                  <mat-label>Ingrese fecha final. </mat-label>
+                  <input name="mydateEnd" locale="es" [(ngModel)]="DateEndHead"  locale="es" required
+                      matInput [matDatepicker]="mydateEnd"
+                      (dateChanged)="handleChangeDPIni($event)">
+                  <mat-datepicker-toggle matSuffix [for]="mydateEnd"></mat-datepicker-toggle>
+                  <mat-datepicker #mydateEnd></mat-datepicker>
+              </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-12" *ngIf="val2">
+        <div class="form-group col-sm-12">
+          <app-depecrated-source-accounts [accountRequest]="sourceAccountRequest" [disabled]="false" (onChange)="handleSourceAccountChanged($event)"
+          [loadFirstAccount]="true" [showBalances]="false" #sourceAccount></app-depecrated-source-accounts>
+        </div>
+        <div class="form-group">
+            <div class="form-group col-sm-12">
+                <label class="col-sm-2">Seleccione el mes:</label>
+                <div class="col-sm-3">
+                  <select name="dpMonth" class="form-control" [(ngModel)]="MonthSelected" (change)="handleChangedDrpMonth(MonthSelected)" required>
+                      <option value="null" disabled>Seleccione el mes</option>
+                      <option *ngFor="let monthdoce of MonthDoce" [ngValue]="monthdoce">
+                          {{ monthdoce.descriptionDate }}
+                      </option>
+                  </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" (click)="handleReportH()">Actualizar Reportes</button>
+  </fieldset>
+</form>

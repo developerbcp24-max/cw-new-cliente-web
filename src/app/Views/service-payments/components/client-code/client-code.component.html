@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-md-6 ">
+      <div class="historical__box transferencias__account-box helpers--padding-top-B">
+        <form name="clientCodeForm" novalidate #clientCodeForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="disabled"><legend></legend><br>
+            <div class="form-group">
+              <label class="transferencias__label">Código fijo</label>
+              <div class="transferencias__container-input-btn">
+                <input class="transferencias__select-account-large input-simple" type="text" name="clientCode"
+                  [(ngModel)]="getDebtRequest.code" #clientCode="ngModel" required appOnlyInteger maxlength="10">
+                <button class="historical__btn-submit button__principal transferencias__btn-validate" (click)="handleValidate() && getDebt()">Buscar</button>
+                <app-show-errors [control]="clientCode"></app-show-errors>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="transferencias__card helpers--padding-top-B" *ngIf="detail?.name && getDebtRequest.code !== ''">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Titular</p>
+          <p class="home__card__item__small-value">{{detail.name}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail?.code">
+          <p class="home__card__item__small-title">Código cliente</p>
+          <p class="home__card__item__small-value">{{detail.code}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail?.clientCode">
+          <p class="home__card__item__small-title">Código cliente</p>
+          <p class="home__card__item__small-value">{{detail.clientCode}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail?.address">
+          <p class="home__card__item__small-title">Dirección</p>
+          <p class="home__card__item__small-value">{{detail.address}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 favorite-btn">
+      <button class="button__secondary transferencia-ext__button-secondary" [disabled]="disabled" (click)="getFavorites();">BUSCAR
+        EN FAVORITOS</button>
+    </div>
+    <div class="col-md-6 favorite-btn">
+      <button *ngIf="!favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary" [disabled]="disabled"
+        (click)="showSaveFavoriteForm=true">GUARDAR COMO FAVORITO</button>
+      <button *ngIf="favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary" [disabled]="disabled"
+        (click)="handleCancelFavorite()">CANCELAR FAVORITO</button>
+      <input *ngIf="favorite.isFavorite" class="transferencias__input--text" type="text" name="favoriteName" [(ngModel)]="favorite.name"
+        [disabled]="true">
+    </div>
+  </div>
+  <app-modal [visible]="errorMessage != ''" (onClose)="errorMessage=''" [size]="'sm'">
+    <div class="app-modal-header col-md-12 col-sm-12">Mensaje de alerta </div>
+    <div class="app-modal-body col-md-12 col-sm-12">{{errorMessage}}</div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button type="button" class="button__principal modal__button" (click)="errorMessage=''">Aceptar</button>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal [visible]="showGetFavorite" (onClose)="showGetFavorite=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Operaciones favoritas</div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <form name="getFavoriteForm" #getFavoriteForm="ngForm" novalidate autocomplete="off">
+        <select name="favoriteList" class="input-simple" [(ngModel)]="selectedFavorite" (change)="handleFavoriteListChanged()">
+          <option value="null" disabled>Seleccione una operación</option>
+          <option *ngFor="let favorite of favorites" [ngValue]="favorite">
+            {{ favorite.name }}
+          </option>
+        </select>
+      </form>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="showGetFavorite=false" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal [visible]="showSaveFavoriteForm" (onClose)="showSaveFavoriteForm=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">
+      Guardar operación como favorito
+    </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+        <input type="text" name="favoriteName" class="transferencias__select-account-large input-simple" placeholder="Nombre del favorito"
+          [(ngModel)]="favorite.name" required #favoriteName="ngModel" />
+        <app-show-errors [control]="favoriteName"></app-show-errors>
+      </form>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__container-button">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+          <button class="button__principal modal__button" (click)="handleSaveFavorite()">ACEPTAR</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="handleCancelFavorite()" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

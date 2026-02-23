@@ -1,0 +1,618 @@
+<div *ngIf="is_validbatchtoken">
+  <div *ngIf="showPreSave">
+    <div class="row haberes__submit top-space">
+      <div class="col-md-8">
+        <p class="tituloGeneral h_no-MarginBottom">LOTES PARA PREPARAR</p>
+      </div>
+      <div class="col-md-2" *ngIf="totalBatchesToPreSave > 0">
+        <button
+          class="button__principal"
+          [disabled]="disabledPreparer || batchIdsToPreSave.length == 0"
+          (click)="handleBatchesToPreSave()"
+        >
+          <em class="fas fa-check"></em> Preparar
+        </button>
+      </div>
+      <div class="col-md-2" *ngIf="totalBatchesToPreSave > 0">
+        <button
+          class="button__secondary"
+          [disabled]="batchIdsToPreSave.length == 0"
+          (click)="
+            showRejectBatchForm = true; batchIdsToReject = batchIdsToPreSave
+          "
+        >
+          <em class="fas fa-ban"></em> Rechazar
+        </button>
+      </div>
+    </div>
+    <div *ngIf="totalBatchesToPreSave > 0">
+      <table class="cw-table table-striped">
+        <caption></caption>
+        <thead>
+          <tr>
+            <th width="5%">
+              <label class="checkbox checkbox--margin">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [(ngModel)]="allBatchesToPreSaveSelected"
+                  (change)="handleAllBatchesToPreSaveChecked($event)"
+                />
+                <span class="check"></span>
+              </label>
+            </th>
+            <th>Lote</th>
+            <th *ngIf="isVisibleEBS">Numero EBS</th>
+            <th>Operación</th>
+            <th width="15%">Cuenta origen</th>
+            <th>Monto</th>
+            <th>Moneda</th>
+            <th>Fecha ingreso</th>
+            <th>Beneficiario</th>
+            <th>Fecha programada</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let batch of batchesToPreSavePerPage">
+            <td title="Marcar">
+              <label class="checkbox checkbox--margin">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [(ngModel)]="batch.isSelected"
+                  (change)="handleBatchToPreSaveChecked($event, batch)"
+                />
+                <span class="check"></span>
+              </label>
+            </td>
+            <td title="Lote">{{ batch.id }}</td>
+            <td title="Número EBS" *ngIf="isVisibleEBS">
+              {{ batch.ebsTransactionNumber }}
+            </td>
+            <td title="Operación">{{ batch.operationType }}</td>
+            <td title="Cuenta origen">{{ batch.account }}</td>
+            <td title="Monto">{{ batch.amount | number : "1.2-2" }}</td>
+            <td title="Moneda">{{ batch.currency }}</td>
+            <td title="Fecha ingreso">
+              {{ batch.creationDate | date : "dd/MM/yyyy HH:mm:ss" }}
+            </td>
+            <td title="Beneficiario">{{ batch.beneficiary }}</td>
+            <td title="Fecha programada">
+              {{
+                batch.isOperationScheduled
+                  ? (batch.operationScheduledDate | date : "dd/MM/yyyy")
+                  : ""
+              }}
+            </td>
+            <td title="Acciones" class="actions">
+              <a (click)="handleShowBatchDetail(batch)"
+                ><em class="fas fa-info-circle"></em
+              ></a>
+              <a
+                (click)="
+                  handleShowBatchAuthorizersOrControllers(batch, 'authorizers')
+                "
+                ><em class="fas fa-user-circle"></em
+              ></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <app-pagination
+        [rowsPerPage]="rowsPerPagePreSave"
+        [isCenter]="true"
+        [totalItems]="totalBatchesToPreSave"
+        [maxSize]="pageItemsPreSave"
+        (onChange)="handleBatchesToPreSavePageChanged($event)"
+        (onChangeRowsPerPage)="handleViewRowsPreSave($event)"
+      ></app-pagination>
+    </div>
+    <app-information-panel
+      [message]="'No se encontraron lotes para preparar'"
+      [type]="'attention'"
+      [visible]="totalBatchesToPreSave === 0 && flagPreS"
+    ></app-information-panel>
+  </div>
+</div>
+
+<app-modal
+  [visible]="excedeedAmount"
+  (onClose)="excedeedAmount = false"
+  [size]="'md'"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">Información</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    Estimado cliente, su operación sobrepasa el monto limite por token.
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button
+          class="button__principal modal__button"
+          (click)="excedeedAmount = false"
+        >
+          ACEPTAR
+        </button>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-token-modal
+  [isVisible]="showTokenForm"
+  (onSubmit)="handleTokenSubmit($event)"
+  (onClose)="showTokenForm = false"
+  [message]="
+    'Necesitamos que ingrese su número Token para confirmar la transferencia.'
+  "
+></app-token-modal>
+
+<!--fin-->
+<div class="row haberes__submit top-space">
+  <div class="col-md-8">
+    <p class="tituloGeneral h_no-MarginBottom">LOTES PARA AUTORIZAR</p>
+  </div>
+  <div class="col-md-2" *ngIf="totalBatchesToAuthorize > 0">
+    <button
+      class="button__principal"
+      [disabled]="batchIdsToAuthorize.length == 0"
+      (click)="handleBatchesToAuthorize()"
+    >
+      <em class="fas fa-check"></em> Autorizar
+    </button>
+  </div>
+  <div class="col-md-2" *ngIf="totalBatchesToAuthorize > 0">
+    <button
+      class="button__secondary"
+      [disabled]="batchIdsToAuthorize.length == 0"
+      (click)="
+        showRejectBatchForm = true; batchIdsToReject = batchIdsToAuthorize
+      "
+    >
+      <em class="fas fa-ban"></em> Rechazar
+    </button>
+  </div>
+  <div class="col-md-12">
+    <p class="historical__p txtLimit" (click)="showAuthorizerLimit = true">
+      <a class="txtLimit"><u>LÍMITE DIARIO EN DÓLARES</u></a>
+    </p>
+  </div>
+  <div class="row" *ngIf="batchUIFResult.length > 0">
+    <div class="col-md-12">
+      <br />
+      <app-information-panel
+        [message]="
+          'Para los Lotes que fueron cargados vía SFTP se habilitó la última columna en el cual debe agregar el Origen y Destino de Fondos.'
+        "
+        [type]="'attention'"
+        [visible]="totalBatchesToAuthorize > 0"
+      ></app-information-panel>
+    </div>
+  </div>
+</div>
+<div *ngIf="totalBatchesToAuthorize > 0">
+  <table class="cw-table table-striped">
+    <caption></caption>
+    <thead>
+      <tr data-placement="top" data-html="true">
+        <th width="5%">
+          <label class="checkbox checkbox--margin">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="allBatchesToAuthorizeSelected"
+              (change)="handleAllBatchesToAuthorizeChecked()"
+            />
+            <span class="check"></span>
+          </label>
+        </th>
+        <th>Lote</th>
+        <th *ngIf="isVisibleEBS">Numero EBS</th>
+        <th>Operación</th>
+        <th width="15%">Cuenta origen</th>
+        <th>Monto</th>
+        <th>Moneda</th>
+        <th>Fecha ingreso</th>
+        <th>Beneficiario</th>
+        <th>Fecha programada</th>
+        <th>Acciones</th>
+        <th data-html="true" *ngIf="batchUIFResult.length > 0">
+          Orig. Dest. Fondos
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let batch of batchesToAuthorizePerPage"
+        data-placement="top"
+        data-html="true"
+      >
+        <td title="Marcar">
+          <label class="checkbox checkbox--margin">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="batch.isSelected"
+              (change)="handleBatchToAuthorizeChecked(batch)"
+            />
+            <span class="check"></span>
+          </label>
+        </td>
+        <td title="Lote">{{ batch.id }}</td>
+        <td title="Número EBS" *ngIf="isVisibleEBS">
+          {{ batch.ebsTransactionNumber }}
+        </td>
+        <td title="Operación">{{ batch.operationType }}</td>
+        <td title="Cuenta origen">{{ batch.account }}</td>
+        <td title="Monto">{{ batch.amount | number : "1.2-2" }}</td>
+        <td title="Moneda">{{ batch.currency }}</td>
+        <td title="Fecha ingreso">
+          {{ batch.creationDate | date : "dd/MM/yyyy HH:mm:ss" }}
+        </td>
+        <td title="Beneficiario">{{ batch.beneficiary }}</td>
+        <td title="Fecha programada">
+          {{
+            batch.isOperationScheduled
+              ? (batch.operationScheduledDate | date : "dd/MM/yyyy")
+              : ""
+          }}
+        </td>
+        <td title="Acciones" class="actions">
+          <a (click)="handleShowBatchDetail(batch)"
+            ><em class="fas fa-info-circle"></em
+          ></a>
+          <a
+            (click)="
+              handleShowBatchAuthorizersOrControllers(batch, 'authorizers')
+            "
+            ><em class="fas fa-user-circle"></em
+          ></a>
+        </td>
+        <td
+          title="Origen y Destino de fondos"
+          class="actions"
+          *ngIf="batchUIFResult.length > 0"
+          style="align-items: center"
+        >
+          <tr *ngFor="let row of batchUIFResult" data-html="true">
+            <a
+              *ngIf="row.isSFTP && row.processBatchId == batch.id"
+              (click)="handleShowFunds(batch)"
+              ><em class="fa fa-edit"></em
+            ></a>
+          </tr>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-pagination
+    [rowsPerPage]="rowsPerPageAuthorize"
+    [isCenter]="true"
+    [totalItems]="totalBatchesToAuthorize"
+    [maxSize]="pageItemsAuth"
+    (onChange)="handleBatchesToAuthorizePageChanged($event)"
+    (onChangeRowsPerPage)="handleViewRowsAuthorize($event)"
+  ></app-pagination>
+</div>
+<app-information-panel
+  [message]="'No se encontraron lotes pendientes de autorización.'"
+  [type]="'attention'"
+  [visible]="totalBatchesToAuthorize === 0 && flagAuth"
+></app-information-panel>
+
+<div *ngIf="controllerScheme">
+  <div class="row haberes__submit top-space">
+    <div class="col-md-8">
+      <p class="tituloGeneral h_no-MarginBottom">LOTES PARA CONTROLAR</p>
+    </div>
+    <div class="col-md-2" *ngIf="totalBatchesToControl > 0">
+      <button
+        class="button__principal"
+        [disabled]="batchIdsToControl.length == 0"
+        (click)="handleBatchesToControl()"
+      >
+        <em class="fas fa-check"></em> Confirmar
+      </button>
+    </div>
+    <div class="col-md-2" *ngIf="totalBatchesToControl > 0">
+      <button
+        class="button__secondary"
+        [disabled]="batchIdsToControl.length == 0"
+        (click)="
+          showRejectBatchForm = true; batchIdsToReject = batchIdsToControl
+        "
+      >
+        <em class="fas fa-ban"></em> Rechazar
+      </button>
+    </div>
+  </div>
+  <div *ngIf="totalBatchesToControl > 0">
+    <table class="cw-table table-striped">
+      <caption></caption>
+      <thead>
+        <tr>
+          <th width="5%">
+            <label class="checkbox checkbox--margin">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [(ngModel)]="allBatchesToControlSelected"
+                (change)="handleAllBatchesToControlChecked()"
+              />
+              <span class="check"></span>
+            </label>
+          </th>
+          <th>Lote</th>
+          <th *ngIf="isVisibleEBS">Numero EBS</th>
+          <th>Operación</th>
+          <th width="15%">Cuenta origen</th>
+          <th>Monto</th>
+          <th>Moneda</th>
+          <th>Fecha ingreso</th>
+          <th>Beneficiario</th>
+          <th>Fecha programada</th>
+          <th>Acciones</th>
+          <th>Contrato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let batch of batchesToControlPerPage">
+          <td title="Marcar">
+            <label class="checkbox checkbox--margin">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [(ngModel)]="batch.isSelected"
+                (change)="handleBatchToControlChecked(batch)"
+              />
+              <span class="check"></span>
+            </label>
+          </td>
+          <td title="Lote">{{ batch.id }}</td>
+          <td title="Número EBS" *ngIf="isVisibleEBS">
+            {{ batch.ebsTransactionNumber }}
+          </td>
+          <td title="Operación">{{ batch.operationType }}</td>
+          <td title="Cuenta origen">{{ batch.account }}</td>
+          <td title="Monto">{{ batch.amount | number : "1.2-2" }}</td>
+          <td title="Moneda">{{ batch.currency }}</td>
+          <td title="Fecha ingreso">
+            {{ batch.creationDate | date : "dd/MM/yyyy HH:mm:ss" }}
+          </td>
+          <td title="Beneficiario">{{ batch.beneficiary }}</td>
+          <td title="Fecha programada">
+            {{
+              batch.isOperationScheduled
+                ? (batch.operationScheduledDate | date : "dd/MM/yyyy")
+                : ""
+            }}
+          </td>
+          <td title="Acciones">
+            <a (click)="handleShowBatchDetail(batch)"
+              ><em class="fas fa-info-circle"></em
+            ></a>
+            <a
+              (click)="
+                handleShowBatchAuthorizersOrControllers(batch, 'controllers')
+              "
+              ><em class="fas fa-user-circle"></em
+            ></a>
+          </td>
+          <td title="Contrato"></td>
+        </tr>
+      </tbody>
+    </table>
+    <app-pagination
+      [rowsPerPage]="rowsPerPageControl"
+      [isCenter]="true"
+      [totalItems]="totalBatchesToControl"
+      [maxSize]="pageItemsControl"
+      (onChange)="handleBatchesToControlPageChanged($event)"
+      (onChangeRowsPerPage)="handleViewRows($event)"
+    ></app-pagination>
+  </div>
+  <app-information-panel
+    [message]="'No se encontraron lotes pendientes de control.'"
+    [type]="'attention'"
+    [visible]="totalBatchesToControl === 0 && flagCtrl"
+  ></app-information-panel>
+</div>
+<app-modal
+  [visible]="showAuthorizersOrControllers"
+  (onClose)="showAuthorizersOrControllers = false"
+  [size]="'lg'"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">{{ operationType }}</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <app-authorizer-status
+      [role]="role"
+      [approversRequest]="approversDto"
+      [isAdministrative]="isAdministrative"
+    >
+    </app-authorizer-status>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a
+          (click)="showAuthorizersOrControllers = false"
+          class="link-cancel-modal"
+          >CERRAR</a
+        >
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal
+  [visible]="showBatchDetail"
+  (onClose)="showBatchDetail = false"
+  [size]="'lg'"
+  [manualCloseModal]="true"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">{{ operationType }}</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <app-batch-detail
+      [batchId]="batchId"
+      [operation]="operationType"
+      [operationTypeId]="operationTypeId"
+      [isShow]="showBatchDetail"
+      [isAuthorize]="true"
+      (onChangeDetail)="handleChangeDetail()"
+    ></app-batch-detail>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12 flex justify-center items-center">
+        <a (click)="showBatchDetail = false" class="link-cancel-modal"
+          >CERRAR</a
+        >
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal
+  [visible]="showRejectBatchForm"
+  (onClose)="showRejectBatchForm = false"
+  [size]="'md'"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">
+    ¿Cuál es el motivo del rechazo?
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <form
+      *ngIf="showRejectBatchForm"
+      name="rejectBatchForm"
+      #rejectBatchForm="ngForm"
+      novalidate
+    >
+      <div class="row haberes__modal__inputs">
+        <div class="col-md-12">
+          <div class="transferencias__modal__input">
+            <input
+              type="text"
+              name="rejectionReason"
+              #rejectionReason="ngModel"
+              class="input-simple"
+              [(ngModel)]="rejectionCause"
+              required
+              maxlength="30"
+            />
+            <app-show-errors [control]="rejectionReason"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-4 col-md-4 col-xs-12">
+        <button
+          class="button__principal modal__button"
+          (click)="handleRejectBatch()"
+        >
+          RECHAZAR
+        </button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="showRejectBatchForm = false" class="link-cancel-modal"
+          >CANCELAR</a
+        >
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [visible]="showFunds" (onClose)="showFunds = false" [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">
+    ORIGEN Y DESTINO DE FONDOS
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <form name="fundsForm" #fundsForm="ngForm" novalidate>
+      <div class="row haberes__modal__inputs">
+        <div class="col-md-12 inputs">
+          <div class="input-numero">
+            <label>Origen de fondos</label>
+            <input
+              type="text"
+              name="originFunds"
+              #originFunds="ngModel"
+              class="input-simple"
+              [(ngModel)]="originDestinationFunds.originFunds"
+              required
+              minlength="15"
+              maxlength="400"
+            />
+            <app-show-errors [control]="originFunds"></app-show-errors>
+          </div>
+        </div>
+        <div class="col-md-12 inputs">
+          <div class="input-numero">
+            <label>Destino de fondos</label>
+            <input
+              type="text"
+              name="destinationFunds"
+              #destinationFunds="ngModel"
+              class="input-simple"
+              [(ngModel)]="originDestinationFunds.destinationFunds"
+              required
+              minlength="15"
+              maxlength="400"
+            />
+            <app-show-errors [control]="destinationFunds"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-4 col-md-4 col-xs-12">
+        <button
+          class="button__principal modal__button"
+          (click)="handleSaveFunds()"
+        >
+          GUARDAR
+        </button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="showFunds = false" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal
+  [visible]="transactionFxModal"
+  (onClose)="transactionFxModal = false"
+  [size]="'lg'"
+  [manualCloseModal]="true"
+>
+  <div class="app-modal-header col-md-12 col-sm-12">
+    Fx COMPRA Y VENTA DE DOLARES
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <app-detaild [transactionFx]="transactionFx"></app-detaild>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="transactionFxModal = false" class="link-cancel-modal"
+          >CERRAR</a
+        >
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-company-limits
+  [isVisibleLimit]="showAuthorizerLimit"
+  (onClose)="showAuthorizerLimit = false"
+></app-company-limits>

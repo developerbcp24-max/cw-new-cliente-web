@@ -1,0 +1,27 @@
+<form class="form-horizontal" name="DatePickerForm" novalidate #DatePickerForm="ngForm" novalidate>
+  <fieldset [disabled]="false"><legend></legend><br>
+    <div class="form-group">
+      <div class="form-group col-sm-12" no-padding>
+        <label for="currency" class="col-sm-2">Fecha Inicial</label>
+        <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+          <mat-label>Ingrese fecha inicial. </mat-label>
+          <input name="mydateIni" locale="es" [(ngModel)]="dateInit.dateValue" locale="es" required matInput
+            [matDatepicker]="mydateIni"
+            (dateChanged)="handleChangeDPIni($event)">
+          <mat-datepicker-toggle matSuffix [for]="mydateIni"></mat-datepicker-toggle>
+          <mat-datepicker #mydateIni></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-sm-12" no-padding>
+        <label for="currency" class="col-sm-2">Fecha Final</label>
+        <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+          <mat-label>Ingrese fecha final. </mat-label>
+          <input name="mydateEnd" locale="es" [(ngModel)]="dateEnd.dateValue" locale="es" required matInput
+            [matDatepicker]="mydateEnd" (dateChanged)="handleChangeDPEnd($event)">
+          <mat-datepicker-toggle matSuffix [for]="mydateEnd"></mat-datepicker-toggle>
+          <mat-datepicker #mydateEnd></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </fieldset>
+</form>

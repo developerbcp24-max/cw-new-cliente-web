@@ -1,0 +1,137 @@
+<app-source-accounts [accountRequest]="accountDto" [defaultAccount]="batchInformation.sourceAccountId"
+  [disabled]="disabled" (onChange)="handleAccountChanged($event)" #sourceAccount></app-source-accounts>
+<div class="row transferencia-ext__amount">
+  <div class="col-md-12">
+    <app-bar-route></app-bar-route>
+    <div class="row">
+      <div class="col-md-6">
+        <h4 class="historical__h4">Ingresa los detalles</h4>
+        <p class="historical__p--cancel transferencia-ext__p-link" (click)="showCompanyLimits=true"><a>Ver
+            límite diario</a></p><br>
+        <div class="historical__box">
+          <form name="currencyForm" novalidate #currencyForm="ngForm" autocomplete="off">
+            <fieldset [disabled]="disabled"><legend></legend><br>
+              <div class="all-width">
+                <label class="transferencias__label">Moneda</label>
+                <div class="account-flag">
+                  <div class="account-flag d-flex align-items-center" *ngIf="sameCurrency || isCashOnline" #currencySelectDiv>
+                    <input class="input-account-qr input-simple input-simple-dos"
+                      [(ngModel)]="currenDesc" name="currency" required [disabled]="true"
+                      value='{{currenDesc}}' #currency="ngModel">
+                    <app-show-errors [control]="currency"></app-show-errors>
+                    <div class="ms-2">
+                      <app-currency-flag [flag]="currenDesc" [visible]="true"></app-currency-flag>
+                    </div>
+                  </div>
+                  <div *ngIf="!sameCurrency">
+                    <select class="select-account input-simple" #currencySelectDiv
+                      [(ngModel)]="batchInformation.currency" name="currency" required
+                      (change)="showOriginAndDestinationFundsForm(); changeEventLogCurrency()" #currency="ngModel">
+                      <option value="" disabled>Seleccione una moneda</option>
+                      <option *ngFor="let item of currencies" value='{{item.value}}'>{{item.description}}</option>
+                    </select>
+                    <app-show-errors [control]="currency"></app-show-errors>
+                    <app-currency-flag [flag]="batchInformation.currency" [visible]="true"></app-currency-flag>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="(isDepositCheck || showFundsForm || isShowOriginAndDestinationFundsForm && amount)">
+                <div *ngIf="!noFunds">
+                  <div class="transferencias__container-x2 all-width">
+                    <label for="fundSource">Orígen de los fondos:</label>
+                    <textarea class="transferencias__input--text" type="text" [(ngModel)]="batchInformation.fundSource"
+                      name="fundSource" required appValidate="repeatedCharacters" #fundSource="ngModel"
+                      appOnlyType="alphanumericBasicSymbols" minlength="15" maxlength="500" [disabled]="disabled"
+                      (blur)="blurEventLogACH(1, $event)" #fundSourceDiv></textarea>
+                    <app-show-errors [control]="fundSource"></app-show-errors>
+                  </div>
+                  <div class="transferencias__container-x2 all-width">
+                    <label for="fundDestination">Destino de los fondos:</label>
+                    <textarea class="transferencias__input--text" type="text"
+                      [(ngModel)]="batchInformation.fundDestination" name="fundDestination" required
+                      appValidate="repeatedCharacters" appOnlyType="alphanumericBasicSymbols" #fundDestination="ngModel"
+                      minlength="15" maxlength="500" (blur)="blurEventLogACH(2, $event)"
+                      [disabled]="disabled"></textarea>
+                    <app-show-errors [control]="fundDestination"></app-show-errors>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="!isManualPayment">
+        <div *ngIf="!isCashOnline">
+          <app-ticket [disabled]="disabled" [batchInformation]="batchInformation" [amount]="batchInformation.amount"
+            #ticket></app-ticket>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="bar-route"></div>
+        <div class="historical__box">
+          <form name="descriptionForm" novalidate #descriptionForm="ngForm" autocomplete="off">
+            <fieldset [disabled]="disabled"><legend></legend><br>
+              <label class="historical__label">Descripción</label>
+              <input type="text" class="input-simple" name="description" [(ngModel)]="batchInformation.description"
+                #description="ngModel" required appOnlyType="alphanumericBasicSymbols"
+                appValidate="alphanumericBasicSymbols" minlength="3" maxlength="50" (blur)="blurEventLogACH(3, $event)">
+              <app-show-errors [control]="description"></app-show-errors>
+              <div *ngIf="showGlossField">
+                <label class="historical__label">Glosa</label>
+                <input type="text" class="input-simple" name="gloss" [(ngModel)]="batchInformation.gloss"
+                  #gloss="ngModel" required appOnlyType="alphanumericBasicSymbols"
+                  appValidate="alphanumericBasicSymbols" minlength="3" maxlength="50"
+                  (blur)="blurEventLogACH(4, $event)">
+                <app-show-errors [control]="gloss"></app-show-errors>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="!isManualPayment && !isDebitVisible">
+        <div class="historical__box" *ngIf="!isCashOnline">
+          <label class="historical__label">Débito por operación</label>
+          <div class="haberes__debit">
+            <label class="radio">
+              <input type="radio" name="uniqueDebit" [(ngModel)]="batchInformation.isMultipleDebits" [value]="false"
+                (change)="changeEventLog($event)">
+              <span class="check-radio"></span>
+            </label>
+            <p>Un sólo débito</p>
+            <label class="radio">
+              <input type="radio" name="multipleDebit" [(ngModel)]="batchInformation.isMultipleDebits" [value]="true"
+                (change)="changeEventLog($event)">
+              <span class="check-radio"></span>
+            </label>
+            <p>Débito múltiple</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="bar-route"></div>
+        <div class="alert alert-information">
+          <div class="row">
+            <div class="col-md-6">
+              <p>
+                1. El banco no asume la responsabilidad por los eventuales errores o demoras
+                en la tramitación e interpretación de la transferencia que se deriven de la información consignada por
+                el cliente.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p>
+                2. Queda establecido que si el pago no llegara a realizarse por causas externas al banco,
+                la comisión y gastos cobrados no serán devueltos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-company-limits [isVisible]="showCompanyLimits" (onClose)="showCompanyLimits=false"></app-company-limits>

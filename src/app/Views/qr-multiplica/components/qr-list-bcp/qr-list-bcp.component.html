@@ -1,0 +1,39 @@
+<div *ngIf="isVisibleList" class="row">
+    <div class="col-md-12 col-sm-12">
+        <table class="cw-table table-striped"><caption></caption>
+            <thead>
+                <tr>
+                    <th scope="col" *ngIf="headers.Col01">Fecha</th>
+                    <th scope="col" *ngIf="headers.Col02">Hora</th>
+                    <th scope="col" *ngIf="headers.Col03">Importe</th>
+                    <th scope="col" *ngIf="headers.Col04">Glosa</th>
+                    <th scope="col" *ngIf="headers.Col05">Sucursal</th>
+                    <th scope="col" *ngIf="headers.Col06">Caja</th>
+                    <th scope="col" *ngIf="headers.Col07">Titular</th>
+                    <th scope="col" *ngIf="headers.Col08">Documento Titular</th>
+                    <th scope="col" *ngIf="headers.Col09">Cuenta Titular</th>
+                    <th scope="col" *ngIf="headers.Col10">Banco Titular</th>
+                    <th scope="col" *ngIf="headers.Col11">Operacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let list of listResponseData">
+                    <td *ngIf="headers.Col01">{{list.transaccionDate | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="headers.Col02">{{list.transaccionDate | date:'HH:mm:ss a'}}</td>
+                    <td *ngIf="headers.Col03">{{list.amount| number: '1.2-2'}}</td>
+                    <td *ngIf="headers.Col04">{{list.gloss}}</td>
+                    <td *ngIf="headers.Col05">{{list.branchOffice}}</td>
+                    <td *ngIf="headers.Col06">{{list.atm}}</td>
+                    <td *ngIf="headers.Col07">{{list.receiverName}}</td>
+                    <td *ngIf="headers.Col08">{{list.receiverDocument}}</td>
+                    <td *ngIf="headers.Col09">{{list.originAccount}}</td>
+                    <td *ngIf="headers.Col10">{{list.receiverBank}}</td>
+                    <td *ngIf="headers.Col11">{{list.operationNumber}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [totalItems]="responseData.length" [maxSize]="pageSize" [isCenter]="true"
+            (onChange)="handlePageChanged($event)" [rowsPerPage]="rowsPerPage"
+            (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+</div>

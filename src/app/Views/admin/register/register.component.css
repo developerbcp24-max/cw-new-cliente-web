@@ -1,0 +1,62 @@
+.background {
+  background-color: #f6f7f9;
+  margin: 0px -12px;
+  height: calc(100vh - 90px - 62px);
+}
+
+.sidebar {
+  width: 353px;
+}
+
+@media only screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.welcome-container {
+  width: 294px;
+  margin: 25px 0px 0px 32px;
+}
+
+.text-welcome-title {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.text-welcome-description {
+  font-size: 16px;
+  margin-top: 14px;
+}
+
+.logo-img {
+  width: 220px;
+}
+
+.register-container {
+  width: calc(100vw - 353px);
+}
+
+@media only screen and (max-width: 768px) {
+  .register-container {
+    width: 100%;
+  }
+}
+
+/* Añadir a tu archivo CSS global o del componente */
+.content-max-height {
+  max-height: calc(100vh - 200px);
+}
+
+/* Para diferentes tamaños de pantalla */
+@media (max-width: 768px) {
+  .content-max-height {
+    max-height: calc(100vh - 150px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-max-height {
+    max-height: calc(100vh - 220px);
+  }
+}

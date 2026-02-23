@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="table-responsive">
+      <table class="cw-table table-striped">
+        <caption></caption>
+        <thead>
+          <tr>
+            <th>Lote</th>
+            <th *ngIf="isVisibleEBS">Numero EBS</th>
+            <th>Tipo de Operación</th>
+            <th>Cuenta Origen</th>
+            <th>Moneda Oper.</th>
+            <th>Monto Oper.</th>
+            <th>Fecha Operación</th>
+            <th>Gral.</th>
+            <th>Det.</th>
+            <th>Frac.</th>
+            <th>Factura</th>
+            <th>Txt.</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="listDetailVoucher">
+          <tr *ngFor="let detail of listDetailVoucher; let i = index">
+            <td>{{ detail.id }}</td>
+            <td class="text-center" *ngIf="isVisibleEBS">
+              {{ detail.ebsTransactionNumber }}
+            </td>
+            <td style="align-items: left">{{ detail.nameOperation }}</td>
+            <td>{{ detail.formattedAccount }}</td>
+            <td style="align-items: left">{{ detail.currency }}</td>
+            <td style="align-items: right">
+              {{ detail.amount | number : "1.2-2" }}
+            </td>
+            <td>{{ detail.dateCreation | date : "dd-MM-yyyy h:mm:ss a" }}</td>
+            <td class="text-center">
+              <div
+                *ngIf="
+                  [
+                    7, 8, 9, 10, 13, 14, 16, 18, 20, 21, 23, 24, 25, 26, 27, 28,
+                    29, 15, 32, 33, 17, 37, 38, 40, 41, 45, 46, 48, 49, 51
+                  ].includes(detail.operationTypeId)
+                "
+              >
+                <a (click)="verificationUser(detail, 1)"
+                  ><em class="fa fa-file-pdf button__size"></em
+                ></a>
+                <ng-container *ngIf="![51].includes(detail.operationTypeId)">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      (change)="getChecking($event, detail, 1)"
+                      [(ngModel)]="vouchersCheckeds[i]"
+                    />
+                    <span class="check"></span>
+                  </label>
+                </ng-container>
+              </div>
+            </td>
+            <td class="text-center">
+              <div *ngIf="!detail.isVisibleButton">
+                <div
+                  *ngIf="
+                    [
+                      7, 8, 16, 20, 23, 24, 25, 26, 27, 28, 29, 15, 40, 41, 45,
+                      46
+                    ].includes(detail.operationTypeId)
+                  "
+                >
+                  <a (click)="verificationUser(detail, 2)"
+                    ><em class="fas fa-file-pdf button__size"></em
+                  ></a>
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      (change)="getChecking($event, detail, 2)"
+                      [(ngModel)]="vouchersDetailCheckeds[i]"
+                    />
+                    <span class="check"></span>
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <div
+                *ngIf="
+                  [
+                    8, 16, 20, 23, 24, 25, 26, 27, 28, 29, 15, 41, 45, 46
+                  ].includes(detail.operationTypeId)
+                "
+              >
+                <a (click)="verificationUser(detail, 3)"
+                  ><em class="fas fa-file-pdf button__size"></em
+                ></a>
+                <label class="checkbox">
+                  <input
+                    type="checkbox"
+                    (change)="getChecking($event, detail, 3)"
+                    [(ngModel)]="vouchersFractionatedCheckeds[i]"
+                  />
+                  <span class="check"></span>
+                </label>
+              </div>
+            </td>
+            <td>
+              <a
+                *ngIf="
+                  (detail.operationTypeId == 32 && detail.isBill) ||
+                  detail.nameOperation == 'PAGO DE SERVICIO SEMAPA'
+                "
+                (click)="handleGetBill(detail)"
+                ><em class="fas fa-file-pdf button__size"></em
+              ></a>
+            </td>
+            <td class="text-center">
+              <div
+                *ngIf="
+                  [8, 16, 20, 23, 24, 25, 26, 27, 28, 29, 15, 41, 46].includes(
+                    detail.operationTypeId
+                  )
+                "
+              >
+                <a (click)="verificationUser(detail, 4)"
+                  ><em class="fas fa-list button__size"></em
+                ></a>
+                <label class="checkbox">
+                  <input
+                    type="checkbox"
+                    (change)="getChecking($event, detail, 4)"
+                    [(ngModel)]="vouchersTextCheckeds[i]"
+                  />
+                  <span class="check"></span>
+                </label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

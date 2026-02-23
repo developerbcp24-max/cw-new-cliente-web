@@ -1,0 +1,37 @@
+.whatsapp-icon {
+  position: fixed;
+  left: 2px;
+  bottom: 20vh;  /* Reducido de 30vh a 20vh para bajarlo más */
+  font-size: 2em;
+  color: #02a03c;
+  z-index: 1000;
+  transition: transform 0.3s;
+  font-weight: bold;
+}
+
+/* Para pantallas de tamaño medio (md) */
+@media (max-width: 768px) {
+  .whatsapp-icon {
+    bottom: 18vh;  /* Ajustado proporcionalmente */
+  }
+}
+
+/* Para teléfonos móviles */
+@media (max-width: 480px) {
+  .whatsapp-icon {
+    bottom: 15vh;  /* Ajustado proporcionalmente */
+  }
+}
+
+.whatsapp-icon:hover {
+  color: #075e54;
+  transform: scale(1.1);
+}
+
+.whatsapp-icon img {
+  width: 90px;   /* Aumentado de 68px a 80px */
+  height: 90px;  /* Aumentado de 68px a 80px */
+  border-radius: 0%;
+  margin-right: 10px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+}

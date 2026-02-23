@@ -1,0 +1,9 @@
+{
+  "server": "192.168.207.51",
+  "port": "443",
+  "runner": "runner_production_group1",
+  "appName": "Default Web Site",
+  "projectName": "cw-new-cliente-web",
+  "virtualPath": "/",
+  "env_suffix": "prod"
+}

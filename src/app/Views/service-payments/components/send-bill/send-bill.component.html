@@ -1,0 +1,104 @@
+<div class="row" *ngIf="visible">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Ingresa información de la factura</h4>
+      <div class="historical__box ">
+        <form name="sendBillForm" novalidate #sendBillForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="disabled"><legend></legend><br>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6 box-input">
+                    <label class="transferencias__label">Tipo</label>
+                    <select name="streetType" class="input-simple" [(ngModel)]="data.streetType">
+                      <option *ngFor="let type of constants.streetTypes" [ngValue]="type">{{type}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 box-input">
+                    <label class="transferencias__label">Nombre Av./Calle</label>
+                    <input class="input-simple" type="text" name="streetName" [(ngModel)]="data.streetName" #streetName="ngModel" maxlength="50" required>
+                    <app-show-errors [control]="streetName"></app-show-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 box-input">
+                    <label class="transferencias__label">Número</label>
+                    <input class="input-simple" type="text" name="doorNumber" [(ngModel)]="data.doorNumber" #doorNumber="ngModel" maxlength="8" required>
+                    <app-show-errors [control]="doorNumber"></app-show-errors>
+                  </div>
+                  <div class="col-md-6 box-input">
+                    <label class="transferencias__label">Departamento/Piso</label>
+                    <input class="input-simple" type="text" name="floor" [(ngModel)]="data.floor" maxlength="45" #floor="ngModel">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 box-input" *ngIf="!isEntel">
+                    <label class="transferencias__label">Manzano</label>
+                    <input class="input-simple" type="text" name="block" [(ngModel)]="data.block" maxlength="45" #block="ngModel">
+                  </div>
+                  <div class="col-md-6 box-input">
+                    <label class="transferencias__label">Lote</label>
+                    <input class="input-simple" type="text" name="lot" [(ngModel)]="data.lot" maxlength="50" #lot="ngModel">
+                  </div>
+                    <div class="col-md-6 box-input" *ngIf="isEntel">
+                      <label class="transferencias__label">Localidad</label>
+                      <input class="input-simple" type="text" name="location" [(ngModel)]="data.location" maxlength="100" #location="ngModel" required>
+                      <app-show-errors [control]="location"></app-show-errors>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 box-input" *ngIf="!isEntel">
+                    <label class="transferencias__label">Urbanización/Condominio</label>
+                    <input class="input-simple" type="text" name="urbanization" [(ngModel)]="data.urbanization" maxlength="100" #urbanization="ngModel" required>
+                    <app-show-errors [control]="urbanization"></app-show-errors>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12 box-input">
+                    <label class="transferencias__label">Zona/Barrio</label>
+                    <input class="input-simple" type="text" name="neighborhood" [(ngModel)]="data.neighborhood" maxlength="100" #neighborhood="ngModel" required>
+                    <app-show-errors [control]="neighborhood"></app-show-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 box-input">
+                    <label class="transferencias__label">Departamento</label>
+                    <select name="state" class="input-simple" [(ngModel)]="data.city">
+                      <option *ngFor="let city of constants.cities" [ngValue]="city">{{ city }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 box-input">
+                    <label class="transferencias__label">Provincia</label>
+                    <input class="input-simple" type="text" name="province" [(ngModel)]="data.province" maxlength="100" #province="ngModel" required>
+                    <app-show-errors [control]="province"></app-show-errors>
+                  </div>
+                </div>
+                <div class="row" *ngIf="!isEntel">
+                  <div class="col-md-12 box-input">
+                    <label class="transferencias__label">Localidad</label>
+                    <input class="input-simple" type="text" name="location" [(ngModel)]="data.location" maxlength="100" #location="ngModel" required>
+                    <app-show-errors [control]="location"></app-show-errors>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+        <div class="row">
+          <div class="col-md-12 mt-4">
+            <app-information-panel [message]="'Estimado cliente, de la exactitud de la información proporcionada depende el correcto envío de sus facturas.'"></app-information-panel>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <button type="button" class="button__secondary" (click)="cleanForm()">Limpiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

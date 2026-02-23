@@ -1,0 +1,87 @@
+<div class="bcp-layout-container">
+  <!-- Headers -->
+  <app-header class="bcp-header-desktop"></app-header>
+  <app-header class="bcp-header-mobile"></app-header>
+
+
+    <div class="bcp-content-container font-flexo">
+		<div class="flex flex-col lg:flex-row bg-gray-100  flex-1 w-full rounded-none sm:rounded-xl">
+			<div class="bg-[#f2f6fa] flex w-full min-h-[500px] overflow-hidden">
+
+				<!-- Sidebar Izquierdo - Más compacto y limitado en altura -->
+				<aside class="hidden lg:flex w-[280px] xl:w-[300px] bg-[#002B76] text-white flex-col justify-start py-6 px-4 xl:px-5 rounded-xl flex-shrink-0">
+					<p class="font-flexo text-lg xl:text-lg mb-2 text-left leading-tight">Bienvenido a</p>
+					<img
+						class="w-3/4 max-w-[130px] xl:max-w-[150px] mb-3"
+						src="assets/svgs/credinetweb.svg"
+						alt="cw-logo"
+					/>
+					<p class="!text-xs xl:!text-sm !text-left !leading-relaxed !px-1 ">
+						Credinet es la plataforma empresarial exclusiva para nuestros clientes, en la cual podrá realizar variedad de consultas y operaciones de forma individual o masiva.
+					</p>
+				</aside>
+				<!-- Contenido Principal -->
+				<main class="flex-1 flex justify-center items-start py-0 px-0 min-w-0 overflow-hidden">
+					<div class="w-full bg-[#f2f6fa] rounded-none lg:rounded-r-xl shadow-sm p-4 sm:p-6 md:p-8 lg:p-6 xl:p-8">
+						<!-- Título móvil (visible solo en móvil) -->
+						<div class="lg:hidden text-center mb-6 pb-4 border-b border-gray-200">
+							<h1 class="text-xl sm:text-2xl font-semibold text-[#002b7f] mb-2">Credinet Web</h1>
+							<p class="text-sm text-gray-600">Registro empresarial</p>
+						</div>
+						<app-new-stepper [currentStep]="currentStep">
+							<!-- Paso 1 -->
+							<app-step-register title="Datos Generales">
+								<app-personal-information
+									(setAffCompanyIdEvent)="setAffCompanyId($event)"
+									(setConsultClientResponseEvent)="setConsultClientResponse($event)"
+									(setConsultClientRequestEvent)="setConsultClientRequest($event)"
+									(changeStepEvent)="onStepChange($event)"
+								></app-personal-information>
+							</app-step-register>
+							<!-- Paso 2 -->
+							<app-step-register title="Condiciones de la Empresa">
+								<app-company-conditions
+									[affCompanyId]="affCompanyId"
+									[accountNumber]="clientRequest.nroCuenta"
+									[Nit]="clientRequest.nit"
+									[idc]="clientRequest.idc"
+									[extensionIdc]="clientRequest.extensionIdc"
+									[complementIdc]="clientRequest.complement"
+
+									[typeIdc]="clientRequest.typeIdc"
+									(setSignaturesEvent)="setSignatures($event)"
+									(setSelectedAccountsEvent)="setSelectedAccounts($event)"
+									(changeStepEvent)="onStepChange($event)"
+								></app-company-conditions>
+							</app-step-register>
+							<!-- Paso 3 -->
+							<app-step-register title="Adición de usuarios/roles">
+								<app-adding-users
+									[affCompanyId]="affCompanyId"
+									[selectedAccounts]="selectedAccounts"
+									[setSignatures]="signatures"
+									[client]="{ request: clientRequest, response: clientResponse }"
+									(documentDataStringEvent)="setDocumentDataString($event)"
+									(changeStepEvent)="onStepChange($event)"
+								></app-adding-users>
+							</app-step-register>
+							<!-- Paso 4 -->
+							<app-step-register title="Autorice y finalice el registro">
+								<app-finalize-registration
+									[affCompanyId]="affCompanyId"
+									[documentDataString]="documentDataString"
+									[client]="{ request: clientRequest, response: clientResponse }"
+									(changeStepEvent)="onStepChange($event)"
+								></app-finalize-registration>
+							</app-step-register>
+						</app-new-stepper>
+					</div>
+				</main>
+			</div>
+		</div>
+
+	</div>
+	<div class="flex-shrink-0 p-6 pt-0">
+		<app-footer></app-footer>
+	</div>
+</div>

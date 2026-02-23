@@ -1,0 +1,75 @@
+<div class="row"><br>
+  <div class="col-md-12">
+    <div class="alert alert-information">
+      <div class="row">
+        <p>Seleccione número de cuenta, fecha y presione el botón para buscar
+          los cheques emitidos. </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-12">
+  <app-source-accounts [accountRequest]="sourceAccountRequest" (onChange)="handleAccountChanged($event)"
+    [loadFirstAccount]="true" [showBalances]="false" #sourceAccount></app-source-accounts>
+</div>
+
+<div class="col-sm-6">
+  <app-bar-route [isLast]="true"></app-bar-route>
+  <h4 class="historical__h4">Seleccione fecha</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="row historical__box">
+          <div class="col-md-12">
+            <label class="historical__label">Fecha de Cheque:</label>
+            <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+              <input name="DateCheck" locale="es" [(ngModel)]="DateCheck" locale="es" required matInput
+                [matDatepicker]="futureDate" (ngModelChange)="handleChangeDP($event)">
+              <mat-datepicker-toggle matSuffix [for]="futureDate"></mat-datepicker-toggle>
+              <mat-datepicker #futureDate></mat-datepicker>
+            </mat-form-field>
+
+            <app-show-errors [control]="DateCheck"></app-show-errors>
+            <ng-container *ngIf="showError">
+              <p class="list__error"><em class="fas fa-times-circle"></em> {{errorMessage}}</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12"><br>
+  <div class="col-md-3">
+    <button class="button__secondary" (click)="handleSearch()"><em class="icon-Lupa"></em> VER CHEQUES</button>
+  </div>
+</div><br>
+
+
+<div class="col-md-12"><br>
+  <ng-container *ngIf="isVisibleError">
+    <app-information-panel [message]="message" [type]="'attention'" *ngIf="isVisibleError"></app-information-panel>
+  </ng-container>
+</div>
+
+<div class="row" *ngIf="swTable">
+  <div class="col-md-12">
+    <app-list-check-sent [checks]="checks.checkList" (onSubmit)="handleImg($event)"></app-list-check-sent>
+  </div>
+</div>
+
+
+<app-modal [visible]="existsImage" (onClose)="existsImage=false" [size]="'md'" [onlyImage]="true">
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <img [src]="handleBase64Url()" [alt]="aux.idCheck">
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row">
+      <div class="col-md-3 offset-md-9">
+        <button type="button" class="btn btn-primary" (click)="existsImage=false">Continuar</button>
+      </div>
+    </div>
+  </div>
+</app-modal>

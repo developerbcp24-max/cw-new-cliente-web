@@ -1,0 +1,146 @@
+.login__h7 {
+  color: #004B8E;
+  font-size: 16px;
+  font-weight: normal;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  width: 300px;
+  font-family: Lato, sans-serif;
+}
+
+.login__P3-a {
+  color: #FF0000;
+  font-size: 13px;
+  font-weight: normal;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: 300px;
+  font-family: Lato,bold, sans-serif;
+}
+
+.login__separator-pin {
+  height: 1px;
+  width: 214px;
+  background-color: #b3b2b2;
+  margin: 1px auto
+}
+
+
+/* Estilos para centrar el modal */
+.centered-modal {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1050 !important;
+}
+
+/* Si el modal tiene un contenedor interno, también centrarlo */
+.centered-modal .modal-dialog,
+.centered-modal .app-modal-dialog {
+  margin: 0 auto !important;
+  position: relative !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+/* Asegurar que el backdrop del modal cubra toda la pantalla */
+.centered-modal::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* Estilos específicos para el contenido del modal */
+.centered-modal .app-modal-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Si necesitas ajustar el tamaño específico según la imagen */
+.centered-modal[size="md"] .app-modal-content {
+  max-width: 600px;
+}
+
+.text-key-1 {
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0;
+  color: #32335C;
+  font-feature-settings: "kern" 1;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -ms-font-feature-settings: "kern" 1;
+  padding: 4px;
+}
+
+
+.btn-new-primary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px; /* Ancho del botón */
+    height: 37px; /* Altura del botón */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #153f7b; /* Color de fondo */
+    font-family: "Flexo", sans-serif; /* Fuente personalizada */
+    font-weight: 400; /* Peso de la fuente */
+    font-size: 14px; /* Tamaño de la fuente */
+    line-height: 100%; /* Altura de línea */
+    letter-spacing: 0%; /* Espaciado entre letras */
+    color: #ffffff; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Transición suave */
+  }
+
+  /* Efecto hover */
+  .btn-new-primary:hover {
+    background-color: #153f7b; /* Color más claro al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  }
+
+  /* Efecto active */
+  .btn-new-primary:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño al hacer clic */
+  }
+/* Botón secundario */
+  .btn-new-secondary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px;
+    height: 37px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-family: "Flexo", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #32335c;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  /* Efecto hover */
+  .btn-new-secondary:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+  }
+
+  /* Efecto active */
+  .btn-new-secondary:active {
+    transform: scale(0.95);
+  }

@@ -1,0 +1,9 @@
+<form class="form-horizontal" name="formComponent" #formComponent="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <label for="exampleInputFile">1. Selecione el documento ROE:</label>
+        <input type="file" accept="application/pdf" (change)="changeFile($event)">
+        <p class="help-block">El archivo debe ser un pdf válido.</p>
+      </div>
+    </fieldset>
+  </form>

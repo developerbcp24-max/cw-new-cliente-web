@@ -1,0 +1,164 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="row transferencia-ext__card">
+            <div class="col-md-12">
+                <h4 class="historical__h4">Cuenta origen</h4>
+                <app-source-accounts [disabled]="true" [accountRequest]="sourceAccountRequest"
+                    [defaultAccount]="transfer.accountId!" [isAwait]="true" #source [isOnlyRead]="true">
+                </app-source-accounts>
+            </div>
+        </div>
+        <div class="row transferencia-ext__card">
+            <div class="col-md-12">
+                <h4 class="historical__h4">Importe</h4>
+                <div class="transferencias__box transferencia-ext__box">
+                    <div class="transferencias__card">
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Monto</p>
+                            <p class="home__card__item__small-value">{{transfer.amount|number}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Moneda</p>
+                            <p class="home__card__item__small-value">{{transfer.currency}}
+                            </p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Descripción</p>
+                            <p class="home__card__item__small-value">{{transfer.description}}</p>
+                        </div>
+                        <div class="home__card__item" *ngIf="resultFunds.isValidUif">
+                            <p class="home__card__item__small-title">Orígen de Fondos</p>
+                            <p class="home__card__item__small-value aling-justify">
+                                {{resultFunds.uif[0].sourceFunds}}</p>
+                        </div>
+                        <div class="home__card__item" *ngIf="resultFunds.isValidUif">
+                            <p class="home__card__item__small-title">Destino de Fondos</p>
+                            <p class="home__card__item__small-value aling-justify">
+                                {{resultFunds.uif[0].destinationFunds}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="show-mobile">
+            <app-detail-change-data [transfer]="transfer" [detail]="detail"></app-detail-change-data>
+        </div>
+        <div class="show-mobile">
+            <app-detail-destiny-account [detail]="detail"></app-detail-destiny-account>
+        </div>
+        <div class="row  transferencia-ext__card">
+            <div class="col-md-12">
+                <h4 class="historical__h4">Categoría ASFI</h4>
+                <div class="transferencias__box transferencia-ext__box">
+                    <div class="transferencias__card card--padding-fix">
+                        <div class="home__card__item">
+                            <p class="transferencia-ext__card__title" style="color:black">{{detail.transferCategory}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hidden-mobile">
+            <app-detail-authorizers [namesApprovers]="namesApprovers"></app-detail-authorizers>
+        </div>
+        <div class="row transferencia-ext__card">
+            <div class="col-md-12">
+                <h4 class="historical__h4">Banco Pagador</h4>
+                <div class="transferencias__box transferencia-ext__box">
+                    <div class="transferencias__card">
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Nombre del banco</p>
+                            <p class="home__card__item__small-value">{{detail.payerBankName}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">SWIFT/ ABA</p>
+                            <p class="home__card__item__small-value">{{detail.payerBankCodeSwift}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Dirección</p>
+                            <p class="home__card__item__small-value">{{detail.payerBankAddress}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Ciudad</p>
+                            <p class="home__card__item__small-value">{{detail.payerBankCity}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">País</p>
+                            <p class="home__card__item__small-value">{{detail.payerBankCountry}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="hidden-mobile">
+            <app-detail-change-data [transfer]="transfer" [detail]="detail"></app-detail-change-data>
+        </div>
+        <div class="hidden-mobile">
+            <app-detail-destiny-account [detail]="detail"></app-detail-destiny-account>
+        </div>
+        <div class="row transferencia-ext__card" *ngIf="detail.intermediaryBankCodeSwift">
+            <div class="col-md-12">
+                <h4 class="historical__h4">Banco Intermediario</h4>
+                <div class="transferencias__box transferencia-ext__box">
+                    <div class="transferencias__card">
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Nombre del banco</p>
+                            <p class="home__card__item__small-value">{{detail.intermediaryBankName}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">SWIFT/ ABA</p>
+                            <p class="home__card__item__small-value">{{detail.intermediaryBankCodeSwift}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Dirección</p>
+                            <p class="home__card__item__small-value">{{detail.intermediaryBankName}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">Ciudad</p>
+                            <p class="home__card__item__small-value">{{detail.intermediaryBankCity}}</p>
+                        </div>
+                        <div class="home__card__item">
+                            <p class="home__card__item__small-title">País</p>
+                            <p class="home__card__item__small-value">{{detail.intermediaryBankCountry}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="show-mobile">
+            <app-detail-authorizers [namesApprovers]="namesApprovers"></app-detail-authorizers>
+        </div>
+    </div>
+</div>
+
+<app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isTransferSuccessful"
+    [isTransfer]="isTransferSuccessful" [operationTypeId]="transfer.operationTypeId">
+</app-successful-operation-modal>
+
+<div class="row transferencia-ext__submit-confirmation">
+    <div class="col-md-3 col-sm-12 visible-xs" *ngIf="!isTransferSuccessful">
+        <button type="button" class="button__secondary button-next" (click)="handleForm()">FORMULARIO</button>
+    </div>
+    <div class="col-md-3 col-sm-12">
+        <button type="button" class="button__principal button-next" (click)="handleShowToken(false)"
+            *ngIf="!isTransferSuccessful">PREPARAR
+            TRANSACCIÓN</button>
+        <button type="button" class="button__principal button-next" [routerLink]="['/transfers/transfer-abroad']"
+            *ngIf="isTransferSuccessful">NUEVO</button>
+    </div>
+    <div class="col-md-3 col-sm-12" *ngIf="is_validbatchtoken">
+        <button type="button" class="historical__btn-submit button__pre_save" (click)="handleShowToken(true)"
+            *ngIf="!isTransferSuccessful">ENVIAR A PREPARACIÓN MASIVA</button>
+    </div>
+    <div class="col-md-2 col-sm-12">
+        <p class="historical__p--cancel"><a [routerLink]="['/transfers/transfer-abroad']"
+                *ngIf="!isTransferSuccessful">CANCELAR</a></p>
+    </div>
+</div>
+<app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)"
+    (onClose)="isVisibleToken=false"></app-token-modal>
+
+<app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>

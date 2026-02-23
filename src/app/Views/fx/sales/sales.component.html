@@ -1,0 +1,214 @@
+<figure class="text-center" *ngIf="!permissionActions">
+  <blockquote class="blockquote">
+    <h3>Alerta</h3>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    Esta opción no está habilitada. Por favor, comuníquese con el administrador para solicitarlo.
+  </figcaption>
+</figure>
+<div *ngIf="permissionActions">
+  <figure class="text-left">
+    <blockquote class="blockquote">
+      <h3 style="font-weight: bold; color: #34B1CF">Crea tu oferta de dólares</h3>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      Banco de Crédito de Bolivia S.A.
+    </figcaption>
+  </figure>
+  <app-source-accounts [accountType]="'BOL'" [accountRequest]="sourceAccountDto" [disabled]="isDisabledForm"
+                       [accountDropLabel]="'Cuenta donde se depositarán los fondos de la venta de dólares'"
+                       (onChange)="handleSourceAccountChanged($event)"
+                       [defaultAccount]="batchInformation.sourceAccountId"
+                       #sourceAccount>
+  </app-source-accounts>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Agregar nueva venta en Usd.</h4>
+      <div class="card shadow p-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <label for="inputRegUsd" class="text-center text-font-size">Monto a la venta Usd</label>
+              <input maxlength="18" autocomplete="off" [(ngModel)]="amount" (input)="changeAmount()"
+                     pattern="^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$" type="text" #montoVentaUSD
+                     mask-money class="input-simple typing-placeholder" id="inputRegUsd" placeholder="90000">
+            </div>
+            <div class="col-12 col-sm-6">
+              <label for="inputRegTypeChange" class="text-center text-font-size">Tipo de cambio Bs.</label>
+              <input maxlength="10" autocomplete="off" [(ngModel)]="amountTypeChange" (input)="changeAmount()"
+                     pattern="^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$" type="text"
+                     mask-money class="input-simple" id="inputRegTypeChange" placeholder="6.97">
+            </div>
+          </div>
+          <br/>
+          <div class="form-group">
+            <label class="control-label text-font-size">Orígen de los fondos:</label>
+            <textarea class="form-control" type="text" [(ngModel)]="fundSource" name="fundSourceControl" required
+                      appValidate="alphanumericBasicSymbols" #fundSourceControl="ngModel" minlength="20"
+                      maxlength="200"></textarea>
+            <app-show-errors [control]="fundSourceControl"></app-show-errors>
+          </div>
+          <div class="form-group">
+            <label class="control-label text-font-size">Destino de los fondos:</label>
+            <textarea class="form-control" type="text" [(ngModel)]="fundDestination" name="fundDestinationControl"
+                      required appValidate="alphanumericBasicSymbols" #fundDestinationControl="ngModel" minlength="20"
+                      maxlength="200"></textarea>
+            <app-show-errors [control]="fundDestinationControl"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Rango de fechas de vigencia de la venta</h4>
+      <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange" [DateMin]="DateMin"></app-date-range>
+    </div>
+  </div>
+
+  <app-approvers-and-controllers [approversRequest]="approversDto" [currency]="batchInformation.currency"
+                                 [amount]="batchInformation.amount" [disabled]="isDisabledForm"
+                                 (onChange)="handleApproversOrControllersChanged($event)"
+                                 #approversAndControllers></app-approvers-and-controllers>
+  <app-emails-input [disabled]="isDisabledForm" [batchInformation]="batchInformation" #emailInput></app-emails-input>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-warning" role="alert">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="isChecked" (change)="onCheckboxChange($event)"
+                 id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            Confirmo que he leído y acepto los términos y condiciones.
+          </label>
+          <strong (click)="viewTerminos()" style="cursor: pointer; margin-left: 15px;"> Visualizar términos</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row transferencia-ext__submit">
+    <div class="col-md-3 col-sm-4">
+      <button class="button__principal historical__button-secondary"
+              (click)="handleValidate(true, approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(), emailInput.handleValidate()!, true,false)">
+        PREPARAR TRANSACCIÓN
+      </button>
+    </div>
+    <div class="col-md-3 col-sm-4">
+      <p class="historical__p--cancel" *ngIf="!isTransferSuccessful"><a [routerLink]="['']">CANCELAR</a></p>
+    </div>
+  </div>
+  <h4 class="historical__h4">Ventas registradas.</h4>
+  <div class="row historical__authorizers helpers--margin-bottom-A">
+    <div class="row">
+      <div class="col col-sm-12 col-md-6" *ngFor="let item of Sales; let i = index">
+        <div class="card  mb-3 shadow p-3 mb-5 bg-body-tertiary rounded" style="margin-top: 5px !important;">
+          <div class="card-body card-back">
+            <div class="row">
+              <div class="col col-sm-12 col-md-12">
+                <p class="text-font-detail"><strong>Numero de cuenta:</strong>
+                  <span class="dotted-line">{{ item.sourceAccountSus }}. <strong>Usd.</strong> </span></p>
+              </div>
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col col-sm-6 col-md-6">
+                    <p class="text-font-detail"><strong>Tipo de cambio:</strong> <span
+                      class="dotted-line"><strong
+                      style="font-size: 18px">{{ item.exchange | currency:'USD':'':'1.2-2' }}</strong></span></p>
+                    <p class="text-font-detail"><strong>Monto a la venta:</strong> <span
+                      class="dotted-line"><strong>{{ item.amount | currency:'USD':'':'1.2-2' }}</strong></span></p>
+                  </div>
+                  <div class="col col-sm-6 col-md-6">
+                    <p class="text-font-detail"><strong>Operaciónes:</strong> <span
+                      class="dotted-line">{{ (item.amount - item.balance) | currency:'USD':'':'1.2-2' }}</span></p>
+                    <p class="text-font-detail"><strong>Saldo:</strong> <span
+                      class="dotted-line"> {{ item.balance  | currency:'USD':'':'1.2-2' }}</span></p>
+                  </div>
+                  <div class="col col-sm-12 col-md-12">
+                    <p class="text-font-detail"><strong>Vigente:</strong>
+                      <span
+                        class="dotted-line">
+                      {{ item.startDate | date:'dd/MM/yyyy' }}
+                        - <strong> {{ item.endDate | date:'dd/MM/yyyy' }}</strong>
+                    </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-date-future [visible]="scheduleOperation" (onClose)="scheduleOperation=false"
+                   (onChange)="handleDateFuture($event)"></app-date-future>
+  <app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken"
+                   (onSubmit)="handleTokenSubmit($event)"
+                   (onClose)="isVisibleToken=false"
+                   [message]="'Necesitamos que ingrese su número Token para confirmar la transferencia.'"></app-token-modal>
+  <app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente</div>
+    <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con
+      fondos suficientes al momento de realizar la autorización.
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="excedeedAmount=false; validationCismart()">Aceptar
+        </button>
+      </div>
+    </div>
+  </app-modal>
+  <div *ngIf="!showMessageIsBlock">
+    <app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isTransferSuccessful"
+                                    [visible]="false" (Accept)="handleAccept($event)"
+                                    [isTransferType]="isTransferSuccessful" [operationTypeId]="venta.operationTypeId">
+    </app-successful-operation-modal>
+  </div>
+  <app-modal-is-block [showMessageIsBlock]="showMessageIsBlock" (onClose)="onClose($event);"></app-modal-is-block>
+  <app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>
+</div>
+
+<div class="modal fade" id="terminos" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="border-radius: 0px !important;">
+      <h3 class="modal-title text-center" style="padding: 15px">TÉRMINOS Y CONDICIONES</h3>
+      <div class="container" style=" background-color: #bdbdbd">
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10  shadow-lg p-3 mb-5" style="background-color: #FFFFFF">
+            <br *ngFor="let i of [1,1]"/>
+            <p class="text-condicones"> Con el llenado del formulario digital precedente, se formaliza la solicitud al
+              Banco de Crédito de Bolivia S.A. para que, mediante su Plataforma FX, gestione la venta de dólares por el
+              importe, precio mínimo, fecha límite y cuenta de destino indicados en esta solicitud, en mérito a lo
+              establecido en el Artículo 119, Inciso m) de la Ley N° 393 de Servicios Financieros.</p>
+            <p class="text-condicones">Una vez realizada la transferencia del exterior, el solicitante autoriza que los
+              fondos en dólares sean abonados de acuerdo a las instrucciones de la contraparte (comprador) dentro del
+              servicio de Plataforma FX.</p>
+            <p class="text-condicones"> En caso de no poder realizarse la transacción en las condiciones señaladas en la
+              solicitud hasta la fecha límite, esta solicitud quedará sin efecto.</p>
+            <p class="text-condicones">El solicitante da fe en calidad de declaración jurada del origen y destino de los
+              fondos correspondientes a esta solicitud.</p>
+            <p class="text-condicones"> El solicitante manifiesta su consentimiento y conformidad con las condiciones de
+              esta solicitud electrónica,
+              declarando conocer y aceptar los alcances del uso de la firma electrónica (usuario, clave, OTP, PIN,
+              token, botones de aceptación y otros), la que, una vez inserta, tendrá plena validez legal, obligando al
+              solicitante de la misma forma que lo hiciera mediante la suscripción con fu firma autógrafa.</p>
+            <br *ngFor="let i of [1,1]"/>
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <strong>¿Está de acuerdo con los términos y condiciones? </strong>
+        <button style="width: 150px" type="button" class="button__principal" data-bs-dismiss="modal"
+                (click)="isChecked = true">ACEPTAR
+        </button>
+        <button style="width: 150px" type="button" class="button__principal" data-bs-dismiss="modal"
+                (click)="isChecked = false">CERRAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

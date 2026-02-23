@@ -1,0 +1,398 @@
+.manuales-title {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 700;       /* Bold */
+  font-style: normal;     /* "Bold" se controla con font-weight */
+  font-size: 48.83px;
+  line-height: 120%;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: #4B5563;         /* equivalente a text-gray-600 de Tailwind */
+  margin-bottom: 0.5rem;  /* equivalente a mb-2 */
+}
+
+.manuales-title span {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;       /* Regular */
+  font-style: normal;
+  font-size: 48.83px;
+  line-height: 120%;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+.manuales-texto {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+.manuales-texto-3 {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;      /* Regular */
+  font-style: normal;    /* "Regular" en CSS es normal */
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+.image-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* En tu CSS global o component.scss */
+.zoom-safe-rounded {
+  border-radius: min(3rem, 6vw, 8%);
+  /* Toma el menor valor entre:
+     - 3rem (48px)
+     - 6% del viewport width
+     - 8% del contenedor
+  */
+}
+
+/* Agrega esta clase a tu CSS */
+/* .perfect-rounded {
+  border-radius: 2rem;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+} */
+/*
+.perfect-rounded::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: inherit;
+  background-size: 105%;
+  background-position: center;
+}*/
+/* SOLUCIÓN 1: Usando clip-path (Recomendada) */
+.perfect-rounded-v1 {
+  border-radius: 24px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  /* Clip-path que coincide exactamente con border-radius */
+  clip-path: inset(0 round 24px);
+  /* Mejora la calidad del rendering */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* SOLUCIÓN 2: Usando box-shadow interno para "recortar" */
+.perfect-rounded-v2 {
+  border-radius: 24px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  position: relative;
+}
+
+.perfect-rounded-v2::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  box-shadow: inset 0 0 0 2px transparent;
+  pointer-events: none;
+}
+
+/* SOLUCIÓN 3: Usando mask (Para navegadores modernos) */
+.perfect-rounded-v3 {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-mask: radial-gradient(circle at center, white 100%, transparent 100%);
+  mask: radial-gradient(circle at center, white 100%, transparent 100%);
+  -webkit-mask-image:
+    radial-gradient(circle at 24px 24px, transparent 24px, white 24px),
+    radial-gradient(circle at calc(100% - 24px) 24px, transparent 24px, white 24px),
+    radial-gradient(circle at 24px calc(100% - 24px), transparent 24px, white 24px),
+    radial-gradient(circle at calc(100% - 24px) calc(100% - 24px), transparent 24px, white 24px);
+  -webkit-mask-size: 48px 48px, 48px 48px, 48px 48px, 48px 48px;
+  -webkit-mask-position: top left, top right, bottom left, bottom right;
+  -webkit-mask-repeat: no-repeat;
+}
+
+/* SOLUCIÓN 4: La más compatible - doble contenedor */
+.perfect-rounded-container {
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 0;
+  /* Fuerza el contexto de apilamiento */
+  position: relative;
+  z-index: 1;
+}
+
+.perfect-rounded-inner {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* Ligero zoom para evitar gaps en los bordes */
+  transform: scale(1.001);
+  transform-origin: center;
+}
+
+/* SOLUCIÓN 5: Usando filter y backdrop-filter */
+.perfect-rounded-v5 {
+  border-radius: 24px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  position: relative;
+  /* Fuerza el layer de composición */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.perfect-rounded-v5::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: inherit;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 24px;
+  z-index: -1;
+}
+
+/* Para Tailwind - clases utilitarias personalizadas */
+@layer utilities {
+  .rounded-24 {
+    border-radius: 24px;
+  }
+
+  .perfect-cover {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    clip-path: inset(0 round 24px);
+  }
+}
+
+
+/* CLASES PERSONALIZADAS PARA ESQUINAS ESPECÍFICAS */
+
+/* Solo esquinas izquierdas */
+.rounded-left-24 {
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Solo esquinas derechas */
+.rounded-right-24 {
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Solo esquinas superiores */
+.rounded-top-24 {
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Solo esquinas inferiores */
+.rounded-bottom-24 {
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Esquinas individuales */
+.rounded-top-left-24 {
+  border-top-left-radius: 24px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rounded-top-right-24 {
+  border-top-right-radius: 24px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rounded-bottom-left-24 {
+  border-bottom-left-radius: 24px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rounded-bottom-right-24 {
+  border-bottom-right-radius: 24px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* COMBINACIONES COMUNES CON DIFERENTES TAMAÑOS */
+
+/* Solo izquierda con diferentes valores */
+.rounded-left-none {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rounded-left-sm {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.rounded-left-md {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.rounded-left-lg {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.rounded-left-xl {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.rounded-left-2xl {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.rounded-left-3xl {
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+}
+
+/* Solo derecha con diferentes valores */
+.rounded-right-none {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rounded-right-sm {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.rounded-right-md {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.rounded-right-lg {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.rounded-right-xl {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.rounded-right-2xl {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.rounded-right-3xl {
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+
+/* MEJORAS PARA TUS CLASES PERFECT ROUNDED */
+.perfect-rounded-left-only {
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.perfect-rounded-right-only {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* VERSIÓN MEJORADA CON CLIP-PATH PARA ESQUINAS ESPECÍFICAS */
+.rounded-left-perfect {
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0 round 24px 0 0 24px);
+}
+
+.rounded-right-perfect {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0 round 0 24px 24px 0);
+}
+
+/* CLASE PERFECTA PARA TU CASO - 24px EXACTOS */
+.perfect-rounded-24 {
+  border-radius: 24px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  /* Fuerza el contexto de apilamiento para mejor rendering */
+  position: relative;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* PARA CASOS ESPECIALES - ASIMÉTRICOS */
+.rounded-custom-left-strong {
+  border-top-left-radius: 32px;
+  border-bottom-left-radius: 16px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}

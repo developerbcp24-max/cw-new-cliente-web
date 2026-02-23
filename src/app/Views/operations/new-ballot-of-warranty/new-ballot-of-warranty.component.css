@@ -1,0 +1,16 @@
+.containheaders {
+    background: linear-gradient(270deg, #09327F 0%, #0063BD 49.63%, #09327F 100%);
+    display: block;
+    line-height:40px;
+    margin-bottom: 5px;
+}
+.textheaders {
+    font-size: 22px;
+    color: #eee;
+    margin-left: 5px;
+}
+.title {
+    font-size: 30px;
+    color :rgb(14, 82, 186);
+    text-align: center
+}

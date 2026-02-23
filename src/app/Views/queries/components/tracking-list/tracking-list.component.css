@@ -1,0 +1,42 @@
+td a svg {
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+  color: #34B1CF;
+}
+
+.top-space {
+  padding-top: 15px;
+}
+
+.text-font-detail {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+.dotted-line {
+  flex-grow: 1;
+  border-bottom: 1px dotted #e9e9e9;
+  text-align: right;
+  padding-bottom: 2px;
+}
+
+.header-modal {
+  background-color: #153F7B !important;
+  color: #FFFFFF;
+}
+
+.text-view {
+  font-size: 14px;
+}
+
+.text-oragen {
+  color: #153F7B;
+}

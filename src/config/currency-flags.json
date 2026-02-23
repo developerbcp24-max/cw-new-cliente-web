@@ -1,0 +1,50 @@
+[
+  {
+    "currency": "BOL",
+    "flag": "flag-bol"
+  },
+  {
+    "currency": "BOB",
+    "flag": "flag-bol"
+  },
+  {
+    "currency": "BOLIVIANOS",
+    "flag": "flag-bol"
+  },
+  {
+    "currency": "USD",
+    "flag": "flag-us"
+  },
+  {
+    "currency": "DOLARES",
+    "flag": "flag-us"
+  },
+  {
+    "currency": "CHF",
+    "flag": "flag-chf"
+  },
+  {
+    "currency": "CNY",
+    "flag": "flag-cny"
+  },
+  {
+    "currency": "EUR",
+    "flag": "flag-eur"
+  },
+  {
+    "currency": "GBP",
+    "flag": "flag-gbp"
+  },
+  {
+    "currency": "PEN",
+    "flag": "flag-blank"
+  },
+  {
+    "currency": "SEK",
+    "flag": "flag-sek"
+  },
+  {
+    "currency": "",
+    "flag": "flag-blank"
+  }
+]

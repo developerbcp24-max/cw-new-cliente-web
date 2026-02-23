@@ -1,0 +1,32 @@
+|<form class="form-horizontal" name="dateRangeForm" novalidate #dateRangeForm="ngForm">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <label for="amount" class="col-sm-{{options.isHorizontal?optionsGrid[0]:6}} control-label ">Fecha Inicial:</label>
+        <div class="col-sm-{{options.isHorizontal?optionsGrid[1]:6}}">
+          <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+            <mat-label>Ingrese fecha inicio. </mat-label>
+            <input name="mydateInit" locale="es" [(ngModel)]="dateInit"  locale="es" required
+                matInput [matDatepicker]="mydateInit"
+                (dateChanged)="onDateInitChanged($event)">
+            <mat-datepicker-toggle matSuffix [for]="mydateInit"></mat-datepicker-toggle>
+            <mat-datepicker #mydateInit></mat-datepicker>
+        </mat-form-field>
+          <app-show-errors [control]="mydateInit"></app-show-errors>
+        </div>
+        <label for="amount" class="col-sm-{{options.isHorizontal?optionsGrid[2]:6}} control-label ">Fecha Final:</label>
+        <div class="col-sm-{{options.isHorizontal?optionsGrid[3]:6}}">
+          <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+            <mat-label>Ingrese fecha final. </mat-label>
+            <input name="mydateEnd" locale="es" [(ngModel)]="dateEnd"  locale="es" required
+                matInput [matDatepicker]="mydateEnd"
+                (dateChanged)="onDateEndChanged($event)">
+            <mat-datepicker-toggle matSuffix [for]="mydateEnd"></mat-datepicker-toggle>
+            <mat-datepicker #mydateEnd></mat-datepicker>
+        </mat-form-field>
+          <app-show-errors [control]="mydateEnd"></app-show-errors>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  
+  

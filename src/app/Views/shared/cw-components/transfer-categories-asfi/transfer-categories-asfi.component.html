@@ -1,0 +1,41 @@
+<form class="form-horizontal" name="formCategoryAsfi" #formCategoryAsfi="ngForm" novalidate>
+  <fieldset [disabled]="disabled"><legend></legend><br>
+    <div class="row transferencia-ext__bank">
+      <div class="col-md-6">
+        <div class="historical__box">
+          <label class="transferencias__label">Listado de categorías</label>
+          <select class="transferencias__select-account input-simple" [(ngModel)]="parametersASFISelected" (change)="handleChangeCategory()"
+            name="categoryASFI" required #categoryASFI="ngModel">
+            <option [ngValue]=null disabled>Seleccione una opción</option>
+            <option *ngFor="let item of parametersASFI" [ngValue]="item">{{item.description}}</option>
+          </select>
+          <app-show-errors [control]="categoryASFI"></app-show-errors>
+        </div>
+      </div>
+      <div class="col-md-6 transferencia-ext__text-info helpers__hidden-small">
+        <div class="bar"></div>
+        <p>El cliente declara conocer que conforme al Anexo 4.29
+          Capítulo III Título II del Libro 5° de la Recopilación de Normas para Bancos y Entidades Financieras emitido
+          por la Autoridad de Supervisión del Sistema Financiero ASFI,
+          se clasifica como “Remesa familiar” a los giros que cumpliendo las características respectivas, no sobrepasen
+          el monto de $us 2500. bajo este entendido el cliente acepta que los montos que superen el límite establecido,
+          serán catalogados bajo la categoría “otros”.</p>
+        <p class="historical__p--cancel"><a (click)="handleShowGlosary()">Ver Glosario de Términos</a></p>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<app-modal [visible]="isVisibleGloss" (onClose)="isVisibleGloss=false" [size]="'lg'">
+  <div class="app-modal-header col-md-12 col-xs-12">
+    Comunicado Transferencia al Exterior
+  </div>
+  <div class="app-modal-body col-md-12 col-xs-12">
+    <app-depecrated-glossary-terms></app-depecrated-glossary-terms>
+  </div>
+  <div class="app-modal-footer col-md-12 col-xs-12">
+    <div _ngcontent-c34="" class="offset-md-2 col-md-8 col-xs-12">
+      <button type="button" class="button__secondary" (click)="isVisibleGloss=false">Cerrar</button>
+    </div>
+  </div>
+</app-modal>

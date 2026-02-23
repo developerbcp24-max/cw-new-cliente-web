@@ -1,0 +1,155 @@
+.affiliation-container {
+  width: 700px;
+  margin-top: 25px;
+  margin-bottom: 139px;
+}
+
+@media only screen and (max-height: 800px) {
+  .affiliation-document-container {
+    margin-bottom: 125px;
+  }
+}
+
+.affiliation-document-container {
+  border-radius: 14px;
+  background-color: #f6f7f9;
+  height: 447px;
+}
+
+.affiliation-document-iframe {
+  height: 390px;
+  width: 100%;
+}
+
+.affiliation-document-buttons-container {
+  height: 57px;
+}
+
+.document-icon {
+  width: 15px;
+  height: 20px;
+}
+
+.affiliation-document-see-button {
+  height: 29px;
+  width: 163px;
+}
+
+.affiliation-document-see-text {
+  margin-top: 2px;
+}
+
+.affiliation-document-see-items {
+  margin-top: -5px;
+}
+
+.download-icon {
+  width: 15px;
+  height: 15px;
+  margin-top: -10px;
+}
+
+.otp-container {
+  width: 615px;
+  margin-top: 45px;
+  margin-bottom: 370px;
+}
+
+@media only screen and (max-height: 800px) {
+  .otp-container {
+    margin-bottom: 70px;
+  }
+}
+
+.final-background-container {
+  width: 100%;
+  height: calc(100vh - 90px - 62px - 107px);
+  background-color: #f3f6fb;
+}
+
+@media only screen and (max-height: 800px) {
+  .final-background-container {
+    height: 100%;
+  }
+}
+
+.final-container {
+  width: 712px;
+  height: 510px;
+  margin: 65px;
+  background-color: white;
+}
+
+.final-title-icon {
+  margin-top: -40px;
+  margin-bottom: 40px;
+  width: 80px;
+  height: 80px;
+}
+
+.final-description-container {
+  width: 630px;
+  margin: 20px 0px;
+}
+
+.final-description-text {
+  font-size: 14px;
+}
+
+.final-description-icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 16px;
+}
+
+.final-download-container {
+  width: 645px;
+  height: 151px;
+  border-radius: 12px;
+  background-color: #f3f6fb;
+}
+
+.credinet-web {
+  width: 77px;
+  height: 77px;
+  border-radius: 16px;
+  margin-right: 12px;
+}
+
+.final-download-text-title {
+  font-size: 18px;
+}
+
+.final-download-text-description {
+  font-size: 12px;
+  width: 328px;
+}
+
+.final-download-button-container {
+  width: 150px;
+  height: 30px;
+  background-color: #1d49bb;
+  margin: 8px;
+  border-radius: 15px;
+  text-decoration: none;
+}
+
+.final-download-button-icon {
+  margin-top: 3px;
+  margin-right: 5px;
+  width: 15px;
+  height: 15px;
+}
+
+.final-download-button-text {
+  margin-top: 5px;
+  font-size: 13px;
+  color: white;
+}
+
+.register-final-button {
+  width: 300px;
+  height: 40px;
+  margin: 25px;
+  font-size: 18px;
+}

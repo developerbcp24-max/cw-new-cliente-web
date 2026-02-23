@@ -1,0 +1,206 @@
+<app-modal [visible]="showDetailForm" (onClose)="handleCancel()" [size]="'lg'" [manualCloseModal]="true">
+    <div class="app-modal-header col-md-12">Agregar Pago</div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <form name="detailForm" #detailForm="ngForm" novalidate autocomplete="off">
+        <div class="row haberes__modal__inputs">
+          <div class="col-md-6 inputs" *ngIf="getServicesResult.length > 0">
+            <div class="input-numero">
+                <label>Tipo de Pago</label>
+                <select name="getDebtsDto.serviceCode"
+                  class="historical__select-account input-simple helpers__select-modal"
+                  [(ngModel)]="getDebtsDto.serviceCode" (ngModelChange)="handleChangeServiceType()" required>
+                  <option value="undefined" disabled>Seleccione un tipo de Pago</option>
+                  <option *ngFor="let item of getServicesResult" [ngValue]="item.serviceCode">
+                    {{ item.descriptionCode }}
+                  </option>
+                </select>
+            </div>
+          </div>
+          <div class="col-md-6 inputs"><br><br>
+            <div class="input-numero">
+              <button class="button__secondary historical__button-secondary button-program"
+                (click)="handleSearchDebts()"><em class="fas fa-search"></em> BUSCAR
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row haberes__modal__inputs" *ngIf="totalParameters > 0">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <p class="historical__label" *ngIf="newPaseDto.companyCode == '673'">Ejemplo: Cuenta - Dav -> XXXXXX - X</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 inputs" *ngFor="let item of resultParameters.parameters; let i=index">
+                <div class="input-numero" *ngIf="item.parameterType=='alfanumerico' || item.parameterType=='Alfanumerico'">
+                  <label> {{item.name}}</label>
+                  <input class="input_modal_1" type="text" name="phoneNumber{{i}}" [(ngModel)]="telephoneNumber[i]" [appMaxLength]="14"
+                    appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" #phoneNumber="ngModel"
+                    required>
+                  <app-show-errors [control]="phoneNumber"> </app-show-errors>
+                </div>
+                <div class="input-numero" *ngIf="item.parameterType=='numerico'||item.parameterType=='Numerico'">
+                  <label> {{item.name}}</label>
+                  <input type="number" name="phoneNumber{{i}}" [(ngModel)]="telephoneNumber[i]" [appMaxLength]="14"
+                    appOnlyType="number" appValidate="alphanumericBasicSymbols" #phoneNumber="ngModel"
+                    required>
+                  <app-show-errors [control]="phoneNumber"> </app-show-errors>
+                </div>
+                <div class="input-numero" *ngIf="item.parameterType=='texto'||item.parameterType=='Texto'">
+                  <label> {{item.name}}</label>
+                  <input class="input_modal_1" type="text" name="phoneNumber{{i}}" [(ngModel)]="telephoneNumber[i]" [appMaxLength]="14"
+                    appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" #phoneNumber="ngModel"
+                    required>
+                  <app-show-errors [control]="phoneNumber"> </app-show-errors>
+                </div>
+                <div class="form-group" *ngIf="item.parameterType=='combo'">
+                  <label class="transferencias__label">{{item.description}}</label>
+                  <select name="phoneNumber{{i}}" class="input-simple" [(ngModel)]="telephoneNumber[i]" required>
+                    <option [value]="undefined" disabled>Seleccione una opción</option>
+                    <option *ngFor="let det of item.arraySelect" [ngValue]="det.value">
+                      {{ det.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <div class="row" *ngIf="showTab1">
+        <div class="col-md-12" *ngIf="getDebtsResult.length > 0">
+          <div class="table-responsive">
+            <table class="cw-table table-striped"><caption></caption>
+              <thead>
+                <tr>
+                  <th style="align-items: center;" *ngIf="!configurationHead.quotaNumber">N°</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.quotaNumber">N° de Cuota</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.paymentDescription">Servicio</th>
+                  <th style="align-items: center;">Código de Cliente</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.clientName">Datos Cliente</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.currency">Moneda</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.totalAmount">Monto Total</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.amount">Monto</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.punishAmount">Importe Mora</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.endDate">Fecha de Vencimiento</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.isPeriod">Periodo</th>
+                  <th style="align-items: center;" *ngIf="configurationHead.debtSelected">Seleccionar</th>
+                  <th style="align-items: center;" *ngIf="isDetail">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of getDebtsResult; let i=index">
+                  <td style="align-items: center;" *ngIf="!configurationHead.quotaNumber">{{i+1}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.quotaNumber">{{detail.quotaNumber}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.paymentDescription">{{detail.paymentDescription}}</td>
+                  <td style="align-items: center;">{{getDebtsDto.parameters}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.clientName">{{detail.clientName}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.currency">{{detail.currency}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.totalAmount">{{detail.totalAmount | number: '1.2-2'}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.amount">{{detail.amount | number: '1.2-2'}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.punishAmount">{{detail.punishAmount | number: '1.2-2'}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.endDate">{{detail.endDate}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.isPeriod">{{detail.period}}</td>
+                  <td style="align-items: center;" *ngIf="configurationHead.debtSelected">
+                    <div>
+                      <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="detail.isSelected" [ngModelOptions]="{standalone: true}">
+                        <span class="check"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td style="align-items: center;" *ngIf="isDetail">
+                    <a (click)="handleShowDetailDebts(detail)"><em class="fa fa-eye button__size"></em></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showTab2">
+        <div class="col-md-12" *ngIf="showDetailDebts">
+          <hr>
+          <div class="row" *ngIf="getDebtsResult.length > 0">
+            <div class="col-md-3">
+              <label class="historical__label">Cuotas disponibles</label>
+            </div>
+              <div class="col-md-8" style="display: flex;align-items: center;justify-content: center">
+                <select name="cuotaDescription" class="historical__select-account input-simple"
+                  [(ngModel)]="cuotaDescription" (ngModelChange)="handleChangeCuota($event)" required>
+                  <option *ngFor="let item of getDebtsResult" [ngValue]="item">
+                    {{ item.paymentDescription}}
+                  </option>
+                </select>
+            </div>
+          </div><br>
+          <div class="alert alert-info">Seleccione la deuda más antigua por favor.</div>
+          <div class="table-responsive">
+            <table class="cw-table table-striped"><caption></caption>
+              <thead>
+                <tr>
+                  <th style="align-items: center;" *ngIf="configurationDetail.quotaNumber">N° de Cuota</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.paymentDescription">Servicio</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.clientName">Información</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.currency">Moneda</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.totalAmount">Monto Total</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.amount">Monto</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.punishAmount">Importe Mora</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.isPeriod">Periodo</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.endDate">Fecha de Vencimiento</th>
+                  <th style="align-items: center;" *ngIf="configurationDetail.debtSelected">Seleccionar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of debtsDetailNewPase.debts; let i=index" data-toggle="tooltip"
+                  data-placement="top" data-html="true">
+                  <td style="align-items: center;" *ngIf="configurationDetail.quotaNumber">{{detail.quotaNumber}}</td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.paymentDescription">{{detail.paymentDescription}}</td>
+                  <td style="align-items:left" *ngIf="configurationDetail.clientName" [innerHTML]="detail.information">{{detail.information}}</td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.currency">{{detail.currency}}</td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.totalAmount">{{detail.totalAmount | number: '1.2-2'}}</td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.amount && !isInput">{{detail.amount | number: '1.2-2'}}
+                  </td>
+                  <td *ngIf="configurationDetail.amount && isInput">
+                      <input class="input_modal_1" type="text" style="width: 80px;" name="amount" class="input-simple" [(ngModel)]="detail.amount" autocomplete="off"
+                      required mask-money [appMaxLength]="7" appValidate="majorZero" #amount="ngModel"/>
+                      <app-show-errors [control]="amount"></app-show-errors>
+                  </td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.punishAmount">{{detail.punishAmount | number: '1.2-2'}}
+                  </td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.isPeriod">{{detail.period}}</td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.endDate">{{detail.endDate}}</td>
+                  <td style="align-items: center;" *ngIf="configurationDetail.debtSelected">
+                    <div *ngIf="validateDebts(detail)">
+                      <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="detail.isSelected" [ngModelOptions]="{standalone: true}"
+                          [disabled]="configurationHead.isSelectedAll" (ngModelChange)="disabledCheck(detail, detail.isSelected);">
+                        <span class="check"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__container-button" style="justify-content: center; display: flex;">
+        <div class="col-md-4 col-xs-12" style="text-align: center;">
+          <button class="button__principal modal__button" (click)="handleAddDebts()"
+        [disabled]="debtsDetailNewPase.debts.length == 0">AGREGAR</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar" style="justify-content: center; display: flex;">
+        <div class="col-md-12 col-xs-12" style="text-align: center;">
+          <a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

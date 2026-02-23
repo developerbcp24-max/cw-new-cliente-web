@@ -1,0 +1,19 @@
+<div class="row ">
+    <div class="col-md-6 historical__authorizers">
+      <app-bar-route [isLast]="true"></app-bar-route>
+      <h4 class="historical__h4">Envia comprobante al procesarse la operación (opcional)</h4>
+      <div class="historical__box historical__account-box">
+        <div class="transferencias__container-title-detail">
+          <label class="historical__label">Ingresa dirección de correo </label>
+          <p class="transferencias__p-text-alert">Los correos deben estar separados por ";"</p>
+        </div>
+        <form name="emailForm" #emailForm="ngForm" novalidate autocomplete="off">
+          <textarea class="historical__select-account input-simple" type="text" [disabled]="disabled" 
+          [(ngModel)]="batchInformation.sendVouchers" name="emails" aria-describedby="sendVoucherHelpBlock" 
+          appValidate="manyEmails" #emails="ngModel" maxlength="500" (blur)="blurEventLogEmails()"></textarea>
+          <app-show-errors [control]="emails"></app-show-errors>
+        </form>
+      </div>
+    </div>
+  </div>
+  

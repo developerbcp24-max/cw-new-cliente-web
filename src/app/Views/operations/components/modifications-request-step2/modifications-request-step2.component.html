@@ -1,0 +1,413 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">Usuarios</h4>
+    <div class="alert alert-information">
+      <div class="row col-md-6">
+        <p>Acción del Anexo: {{modificationData.isModification ? 'MODIFICAR' : 'ADICIONAR'}} </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10  col-sm-10">
+        <table class="cw-table table-striped">
+          <caption></caption>
+          <thead>
+            <tr>
+              <th>Nombre Completo</th>
+              <th *ngIf="modificationData.newEmailLimit">Nuevo E-mail</th>
+              <th *ngIf="modificationData.newEmailLimit">Nuevo Límite</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of listUsers" data-toggle="tooltip" data-placement="top" data-html="true">
+              <td>{{row.fullName}}</td>
+              <td *ngIf="modificationData.newEmailLimit">{{row.newEmail}}</td>
+              <td *ngIf="modificationData.newEmailLimit">{{row.newLimit}}</td>
+              <td title="Acciones" class="actions" colspan="3">
+                <a (click)="handleShowUserDetail(row.id);"><em class="fas fa-edit"></em></a>
+                <a *ngIf="modificationData.isModification" (click)="handleShowDeleteUser(row.id)"><em
+                    class="fas fa-trash"></em></a>
+                <a (click)="handleShowRoles(row)"><em class="fas fa-user"></em></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-pagination [totalItems]="totalItemsUsers" [maxSize]="pageItemsUsers"
+          (onChange)="handlePageChangedUsers($event)" [rowsPerPage]="rowsPerPageUsers"
+          (onChangeRowsPerPage)="handleViewRowsUsers($event)"></app-pagination>
+      </div>
+    </div>
+    <div class="col-md-3 bottom-space" *ngIf="!modificationData.isModification"><br>
+      <button class="button__secondary" (click)="handleNewUser()">Agregar Nuevo Usuario</button>
+    </div>
+    <div class="col-md-3 bottom-space" *ngIf="!modificationData.isModification"><br>
+      <button class="button__secondary" (click)="handleNewAccount()">Agregar Cuenta</button>
+    </div>
+  </div>
+</div>
+
+<app-modal [visible]="isVisbleDelete" (onClose)="isVisbleDelete=false"  [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">ELIMINAR USUARIO</div>
+  <div class="app-modal-body col-md-12 col-sm-12">¿ Esta seguro de eliminar el usuario seleccionado. ?</div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handleDeleteUser()">ELIMINAR</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12">
+        <a (click)="isVisbleDelete=false" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [visible]="isVisibleUserDetail" (onClose)="isVisibleUserDetail=false" [manualCloseModal]="true"
+  [size]="'lg'">
+  <div class="app-modal-header col-md-12 col-sm-12">INFORMACIÓN DEL USUARIO</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <div class="col-md-12" *ngIf="!isNewUser">
+      <div class="transferencias__card">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Usuario</p>
+          <p class="home__card__item__small-value">{{selectedUser.fullName}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">N° Documento</p>
+          <p class="home__card__item__small-value">{{selectedUser.documentNumber}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Compl.</p>
+          <p class="home__card__item__small-value">{{selectedUser.idcComplement}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Tipo</p>
+          <p class="home__card__item__small-value">{{idcTypeDes}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Extension</p>
+          <p class="home__card__item__small-value">{{selectedUser.idcExtension}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">E-mail</p>
+          <p class="home__card__item__small-value">{{selectedUser.id == -1 ? selectedUser.newEmail :
+            selectedUser.email}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Límite Diario Actual (USD)</p>
+          <p class="home__card__item__small-value">{{selectedUser.id == -1 ? selectedUser.newLimit :
+            selectedUser.limit}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="haberes__modal__inputs">
+      <div *ngIf="isNewUser">
+        <form class="row form-horizontal" name="userForm" novalidate #userForm="ngForm" autocomplete="off">
+          <div class="col-md-12 inputs">
+            <div class="input-numero">
+              <label>Usuario</label>
+              <input class="input_modal_1" type="text" name="fullName" [(ngModel)]="selectedUser.fullName"
+                #fullName="ngModel" appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols"
+                maxlength="60">
+              <app-show-errors [control]="fullName"> </app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6 inputs">
+            <div class="input-numero">
+              <label>N° Documento</label>
+              <input class="input_modal_1" type="text" name="documentNumber" [(ngModel)]="selectedUser.documentNumber"
+                #documentNumber="ngModel" appOnlyType="integer" appValidate="integer" maxlength="15">
+              <app-show-errors [control]="documentNumber"> </app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6 inputs">
+            <div class="input-numero">
+              <label>Compl.</label>
+              <input type="text" name="idcComplement" [(ngModel)]="selectedUser.idcComplement" #idcComplement="ngModel"
+                appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" maxlength="3">
+              <app-show-errors [control]="idcComplement"> </app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6 inputs">
+            <div class="input-numero">
+              <label>Tipo</label>
+              <select class=" input_modal_1 select-account input-simple" [(ngModel)]="selectedUser.idcType"
+                name="idcType" required #idcType="ngModel" (change)="handleTypeExtension()">
+                <option *ngFor="let documentType of documentTypes" [ngValue]="documentType.code">
+                  {{documentType.description}}</option>
+              </select>
+              <app-show-errors [control]="idcType"> </app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6 inputs">
+            <div class="input-numero">
+              <label>Extensión</label>
+              <div *ngIf="!isPasaport">
+                <input class="input_modal_1" type="text" name="idcExtension" [(ngModel)]="selectedUser.idcExtension"
+                  #idcExtension="ngModel" appOnlyType="email" appValidate="email" maxlength="40">
+              </div>
+              <div *ngIf="isPasaport">
+                <select class=" input_modal_1 select-account input-simple" [(ngModel)]="selectedUser.idcExtension"
+                  name="idcExtension" required #idcExtension="ngModel">
+                  <option *ngFor="let item of idcExtensions" [ngValue]="item.code">{{item.description}}</option>
+                </select>
+              </div>
+              <app-show-errors [control]="idcExtensions"> </app-show-errors>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="modificationData.isModification || isNewUser">
+        <form class="form-horizontal row" name="emailForm" novalidate #emailForm="ngForm" autocomplete="off">
+          <div class="col-md-6 inputs">
+            <div class="input-numero">
+              <label>Nuevo E-mail</label>
+              <input class="input_modal_1" type="text" name="newMail" [(ngModel)]="selectedUser.newEmail"
+                #newMail="ngModel" appValidate="email" maxlength="40">
+              <app-show-errors [control]="newMail"> </app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6 inputs ">
+            <div class="input-numero">
+              <label>Límite Diario (USD)</label>
+              <input class="input_modal_1" type="text" name="newLimit" [(ngModel)]="selectedUser.newLimit"
+                #newLimit="ngModel" appValidate="majorZero" mask-money maxlength="10">
+              <app-show-errors [control]="newLimit"></app-show-errors>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handleSaveUserInformation()">{{isNewUser ? 'GUARDAR' :
+          'ACEPTAR'}}</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar flex justify-center">
+      <div class="col-md-12 col-xs-12 flex justify-center">
+        <a (click)="isVisibleUserDetail=false" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [visible]="isNewAccount" (onClose)="isNewAccount=false" [manualCloseModal]="true"  [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">ADICIONAR CUENTA</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <form name="accountForm" novalidate #accountForm="ngForm" autocomplete="off">
+      <div class="row haberes__modal__inputs">
+        <div class="col-md-12">
+          <div class="transferencias__modal__input">
+            <input type="text" name="newAcc" [(ngModel)]="newAccount" #newAcc="ngModel" appOnlyType="integer"
+              appValidate="integer" maxlength="14" class="input-simple">
+            <app-show-errors [control]="newAcc"> </app-show-errors>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12 flex justify-center">
+        <button class="button__principal modal__button" (click)="handleSaveAccountInformation()">GUARDAR</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12 flex justify-center">
+        <a (click)="isNewAccount=false" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [visible]="isVisibleRol" (onClose)="isVisibleRol=false" [manualCloseModal]="true"  [size]="'xl'">
+  <div class="app-modal-header col-md-12 col-sm-12">ADICIONAR ROLES DE USUARIO</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+
+    <div class="row haberes__modal__inputs">
+      <div class="col-md-6 inputs ">
+        <div class="input-numero">
+          <label>Rol de Consulta</label>
+          <select class="historical__select-account input-simple helpers__select-modal" name="operationQuery"
+            [(ngModel)]="operationTypeId" [disabled]="true">
+            <option [ngValue]="12">{{'CONSULTAR CUENTAS'}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6 inputs ">
+        <div class="input-numero">
+          <label>Tipo de Operación</label>
+          <select class="historical__select-account input-simple helpers__select-modal" name="operation"
+            [(ngModel)]="selectedOperation" (change)="handleSetRolesByOperation();" required>
+            <option *ngFor="let operationType of operationTypes" [ngValue]="operationType">
+              {{operationType.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12  col-sm-12">
+            <table class="cw-table table-striped">
+              <caption></caption>
+              <thead>
+                <tr>
+                  <th>Cuenta</th>
+                  <th>Consultas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of rolesByOperationPerPageQuery?.account" data-toggle="tooltip"
+                  data-placement="top" data-html="true">
+                  <td>{{item.formattedNumber}}</td>
+                  <td *ngFor="let role of item.role" class="text-center">
+                    <div class="text-center" *ngIf="role.id===2">
+                      <label class="checkbox checkbox--margin">
+                        <input class="input_modal_1" type="checkbox"
+                          [disabled]="(!role.isSelected && modificationData.isModification && !role.isEditable) || (role.isSelected && !modificationData.isModification && role.isEditable)"
+                          *ngIf="(rolesByOperation?.operationTypeId!==12 || role.id===2) && (role.id===2 || item.accountUse==='D') && (rolesByOperation?.operationTypeId!==12 || role.id!==2)"
+                          [(ngModel)]="role.isSelected" (click)="handleCheckedQuery(role,item.id)">
+                        <span
+                          class="{{(!role.isSelected && modificationData.isModification && !role.isEditable) || (role.isSelected && !modificationData.isModification && role.isEditable) ? 'check disabled' : 'check'}}"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12  col-sm-12">
+            <table class="cw-table table-striped">
+              <caption></caption>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Preparador</th>
+                  <th>Controllers</th>
+                  <th>Autorizador</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of rolesByOperationPerPage?.account" data-toggle="tooltip" data-placement="top"
+                  data-html="true">
+                  <td *ngFor="let role of row.role" class="text-center">
+                    <div class="text-center" *ngIf="role.id!=2">
+                      <label class="checkbox checkbox--margin">
+                        <input type="checkbox"
+                          [disabled]="(!role.isSelected && modificationData.isModification && !role.isEditable) || (role.isSelected && !modificationData.isModification && role.isEditable)"
+                          *ngIf="(rolesByOperation?.operationTypeId!==12 || role.id===2) && (role.id===2 || row.accountUse==='D') && (rolesByOperation?.operationTypeId!==12 || role.id!==2)"
+                          [(ngModel)]="role.isSelected" (click)="handleChecked(role,row.id)">
+                        <span
+                          class="{{(!role.isSelected && modificationData.isModification && !role.isEditable) || (role.isSelected && !modificationData.isModification && role.isEditable) ? 'check disabled' : 'check'}}"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <app-pagination [totalItems]="totalItems" [maxSize]="pageItems" [isCenter]="true"
+              (onChange)="handlePageChanged($event)" [rowsPerPage]="rowsPerPage"
+              (onChangeRowsPerPage)="handleViewRows($event)" #pagination></app-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="row modal__container-button">
+      <div class="offset-md-3 col-md-6 col-xs-12">
+        <button class="button__principal modal__button" (click)="handlePresSaveRolesByUser();">GUARDAR</button>
+      </div>
+    </div>
+    <div class="row modal__cancelar">
+      <div class="col-md-12 col-xs-12 flex justify-center">
+        <a (click)="handleCancelRol();" class="link-cancel-modal">CANCELAR</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<div class="row" *ngIf="changesInformation.length > 0">
+  <div class="col-md-10  col-sm-10">
+    <div class="bar-route"></div>
+    <table class="cw-table table-striped">
+      <caption></caption>
+      <thead>
+        <tr>
+          <th>Número de Cuenta</th>
+          <th>Consultor</th>
+          <th>Preparador</th>
+          <th>Controller</th>
+          <th>Autorizador</th>
+          <th>Operación</th>
+          <th>Nombre Usuario</th>
+          <th>Acción</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of changesInformationPerPage; let i = index" data-html="true" data-toggle="tooltip"
+          data-placement="top">
+          <td>{{row.account}}</td>
+          <td *ngFor="let role of row.roles" class="text-center">
+            <label class="checkbox">
+              <!-- <input type="checkbox" [disabled]="true" *ngIf="!role.isSelected" [(ngModel)]="role.status === 2 && !role.isSelected">
+                <input type="checkbox" [disabled]="true" *ngIf="role.isSelected" [(ngModel)]="role.status === 2 && role.isSelected"> -->
+              <!-- Para el primer checkbox -->
+              <input type="checkbox" [disabled]="true" *ngIf="!role.isSelected"
+                [checked]="role.status === 2 && !role.isSelected">
+
+              <!-- Para el segundo checkbox -->
+              <input type="checkbox" [disabled]="true" *ngIf="role.isSelected"
+                [checked]="role.status === 2 && role.isSelected">
+              <span class="check disabled"></span>
+            </label>
+          </td>
+          <td>{{row.operationType}}</td>
+          <td>{{row.user}}</td>
+          <td>{{modificationData.isModification ? 'ELIMINAR' : 'ADICIONAR'}}</td>
+          <td><a (click)="handleDeleteRol(i);"><em class="fa fa-trash"></em></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <app-pagination [totalItems]="totalItemsRoles" [maxSize]="pageItemsRoles"
+      (onChange)="handlePageChangedRoles($event)" [rowsPerPage]="rowsPerPageRoles"
+      (onChangeRowsPerPage)="handleViewRowsRoles($event)"></app-pagination>
+  </div>
+</div>
+
+<app-approvers-and-controllers [disabled]="false" [approversRequest]="authorizersDto" [isAdministrative]="true"
+  (onChangeNamesApprovers)="handleNamesApprovers($event)" (onChange)="handleApproversOrControllersChanged($event)"
+  #approversAndControllers></app-approvers-and-controllers>
+
+<div class="row transferencia-ext__submit"><br>
+  <div class="col-md-2 col-sm-12">
+    <input type="button" class="button__principal button-next" *ngIf="!isOperationSuccessful"
+      [disabled]="!((changesInformation.length > 0) || +modificationData.companyInformations.newAuthorizerNumber > 0 || +modificationData.companyInformations.newControllerNumber > 0 ||
+      +modificationData.companyInformations.newLimit > 0 || handleIsThereDeletedUsers() || selectedUser.newEmail !=null || selectedUser.newLimit >0)"
+      (click)="handleValidate(approversAndControllers.handleValidate())" value="SIGUIENTE">
+  </div>
+</div>

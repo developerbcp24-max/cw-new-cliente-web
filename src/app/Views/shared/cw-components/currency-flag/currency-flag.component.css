@@ -1,0 +1,47 @@
+.content-flag {
+    display: inline-block;
+    align-items: center;
+    height: 100%;
+}
+
+.flag {
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 16px;
+    margin-left: 10px;
+    background-size: contain;
+    padding: 0;
+    display: block;
+}
+
+.flag-bol {
+    background-image: url("../../../../../assets/img/cw/flag-bol.gif");
+}
+
+.flag-us {
+    background-image: url("../../../../../assets/img/cw/flag-us.gif");
+}
+
+.flag-chf {
+    background-image: url("../../../../../assets/img/cw/flag-chf.gif");
+}
+
+.flag-cny {
+    background-image: url("../../../../../assets/img/cw/flag-cny.gif");
+}
+
+.flag-eur {
+    background-image: url("../../../../../assets/img/cw/flag-eur.gif");
+}
+
+.flag-gbp {
+    background-image: url("../../../../../assets/img/cw/flag-gbp.gif");
+}
+
+.flag-sek {
+    background-image: url("../../../../../assets/img/cw/flag-sek.gif");
+}
+
+.flag-blank {
+    background: transparent;
+}

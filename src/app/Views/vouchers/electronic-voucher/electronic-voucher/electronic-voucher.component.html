@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-information">
+        <div class="row">
+          <p>Seleccione fecha inicial, fecha final, escoja transferencias enviadas o recibidas y presione el botón Buscar
+            para buscar las operaciones realizadas. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-source-accounts [accountRequest]="sourceAccountRequest" [disabled]="false" (onChange)="handleSourceAccountChanged($event)"
+        [loadFirstAccount]="true" [showBalances]="false" #sourceAccount></app-source-accounts>
+    </div>
+    <div class="col-sm-6">
+      <app-bar-route [isLast]="true"></app-bar-route>
+      <h4 class="historical__h4">Seleccione rango de fechas</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange"></app-date-range>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-3">
+        <button class="button__secondary" (click)="handleGenerate()"><em class="icon-Lupa"></em> GENERAR REPORTE</button>
+      </div>
+    </div>
+  </div><br>
+  
+  <ng-container *ngIf="isVisibleError">
+  <app-information-panel [message]="message" [type]="'attention'" *ngIf="isVisibleError"></app-information-panel>
+  </ng-container>
+  
+  <div class="row">
+    <div class="col-sm-12" *ngIf="swTable">
+      <app-table-electronic-voucher [listElectronicVoucher]="listElectronicVoucher"></app-table-electronic-voucher>
+  
+      <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="totalItems" [maxSize]="pageItems"
+        (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+  </div>

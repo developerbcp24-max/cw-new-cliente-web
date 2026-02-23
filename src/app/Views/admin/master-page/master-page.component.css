@@ -1,0 +1,107 @@
+.row-section {
+    min-height: 46vh;
+}
+
+.section-main {
+    margin: 30px 20px 50px 0
+}
+
+@media only screen and (max-width: 768px) {
+    .section-main {
+        padding-left: 25px;
+        margin-top: 0;
+        margin-right: 0
+    }
+}
+
+
+/* .position-claim {
+    position: fixed;
+    width: 75px;
+    right: 10px;
+    bottom: 0vh;
+    z-index: 1000;
+    transition: transform 0.3s;
+} */
+
+@media (max-width: 768px) {
+    .position-claim {
+      bottom: 0vh;
+    }
+  }
+  /* Para teléfonos móviles */
+  @media (max-width: 480px) {
+    .position-claim {
+      bottom: 28vh;
+    }
+  }
+  .position-claim:hover {
+    color: #075e54;
+    transform: scale(1.1);
+  }
+
+/*   .position-claim img {
+  width: 68px;
+  height: 68px;
+  border-radius: 0%;
+  margin-right: 15px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+  } */
+
+ /*  .pr_container {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    right: 185px;
+    cursor: pointer;
+} */
+
+
+.position-claim {
+    /* Elimina width de aquí si lo pones en el HTML */
+    position: fixed;
+    right: 10px;
+    bottom: 0vh;
+    z-index: 1000;
+    transition: transform 0.3s;
+    /* Agrega esto: */
+    width: 68px !important;
+    height: 68px !important;
+    object-fit: contain; /* Esto mantiene la proporción */
+}
+
+/* Elimina o comenta estas reglas porque ahora están en la clase principal */
+/*
+.position-claim img {
+  width: 68px;
+  height: 68px;
+  border-radius: 0%;
+  margin-right: 15px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+*/
+
+.pr_container {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    right: 185px;
+    cursor: pointer;
+}
+
+.position-claim:hover {
+    color: #075e54;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .position-claim {
+      bottom: 0vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .position-claim {
+      bottom: 28vh;
+    }
+}

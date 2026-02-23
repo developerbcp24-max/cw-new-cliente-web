@@ -1,0 +1,210 @@
+<app-source-accounts [accountRequest]="accountRequest" [disabled]="isDisabledForm"
+  (onChange)="handleSourceAccountChanged($event)" #sourceAccount></app-source-accounts>
+<div class="row  historical__period">
+  <div class="col-md-12">
+    <app-bar-route></app-bar-route>
+    <div class="transferencias__container-title-detail">
+      <p class="historical__p--cancel transferencia-ext__p-link helpers__hidden-small" (click)="showCompanyLimits=true">
+        <a>Ver
+          límite diario</a></p>
+    </div>
+    <h4 class="historical__h4">Selecciona tipo de servicio</h4>
+    <div class="row historical__period-options">
+      <div class="col-md-12">
+        <app-button-group (onChange)="handleGroupChanged($event)">
+          <app-button-group-content [disabled]="isDisabledForm" [contentTitle]="'ENTEL'" *ngIf="swServicePase[4]">
+            <app-payment-type [disabled]="isDisabledForm" [isEntel]="isEntel"
+              [listCriteria]="servicesResult.searchCodeEntel" (onChangePaymentType)="changePaymentType($event)"
+              (onChange)="handleGetDebtChanged($event)" (onChangeDebts)=handleGetDebtsDto($event);
+              (onFavoriteChanged)="handleSaveFavoriteChanged($event)" #paymentType></app-payment-type>
+          </app-button-group-content>
+          <app-button-group-content [disabled]="isDisabledForm" [contentTitle]="'TIGO'" *ngIf="swServicePase[5]">
+            <app-payment-type [disabled]="isDisabledForm" [isTigo]="isTigo"
+              [listCriteria]="servicesResult.searchCodeTigo" (onChangePaymentType)="changePaymentType($event)"
+              (onChange)="handleGetDebtChanged($event)" (onChangeDebts)=handleGetDebtsDto($event);
+              (onFavoriteChanged)="handleSaveFavoriteChanged($event)" #paymentType></app-payment-type>
+          </app-button-group-content>
+          <app-button-group-content [disabled]="isDisabledForm" [contentTitle]="'COTAS'" *ngIf="swServicePase[6]">
+          </app-button-group-content>
+          <div class="row" *ngIf="isCotas||isAxs||isComteco">
+            <div class="col-md-12">
+              <app-bar-route></app-bar-route>
+              <h4 class="historical__h4">Ingrese los destinatarios</h4>
+              <app-button-group (onChange)="handleGroupChangedCotas($event)" #buttonGroup>
+                <app-button-group-content [active]="true" [contentTitle]="'Cargar planilla manual'">
+                </app-button-group-content>
+                <app-button-group-content [disabled]="isDisabledForm" [contentTitle]="'Cargar planilla favorito'">
+                  <div class="col-md-6" *ngIf="isValidServiceCotas">
+                    <div class="historical__box haberes__previous-form">
+                      <label class="historical__label">Selecciona un pago guardado</label>
+                      <form name="favoriteForm" #favoriteForm="ngForm" novalidate autocomplete="off">
+                        <div class="form-group">
+                          <select class="historical__select-account input-simple" name="favoriteTransaction"
+                             [(ngModel)]="favoriteItem" (change)="handleChangeFavorite()">
+                            <option [value]="undefined" disabled>Seleccione una opción</option>
+                            <option *ngFor="let favorite of favoriteNewPaseResult" [ngValue]="favorite">
+                              {{favorite.name}}</option>
+                          </select>
+                        </div>
+                      </form>
+                      <div *ngIf="favoriteItem">
+                        <button class="button__secondary transferencia-ext__button-secondary"
+                          (click)="handleSearchFavorite()" [disabled]="isDisabledForm"><em class="fas fa-search"></em>
+                          CARGAR FAVORITO</button>
+                        <button class="button__secondary transferencia-ext__button-secondary"
+                          (click)="handleRemoveFavorite()"><em class="fas fa-trash"></em>
+                          ELIMINAR</button>
+                      </div>
+                    </div>
+                  </div>
+                </app-button-group-content>
+              </app-button-group>
+            </div>
+          </div><br>
+
+          <div class="row" *ngIf="(isCotas||isAxs||isComteco) && favoritePaymentDto.length > 0">
+            <div class="col-md-6">
+              <div class="table-responsive">
+                <table class="cw-table table-striped"><caption></caption>
+                  <thead>
+                    <tr>
+                      <th style="align-items: center;">Línea</th>
+                      <th style="align-items: center;">Pago Favorito</th>
+                      <th style="align-items: center;">Código</th>
+                      <th style="align-items: center;">Ver</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detail of favoritePaymentDto">
+                      <td style="align-items: center;">{{detail.line}}</td>
+                      <td style="align-items: center;">{{favoriteItem.name}}</td>
+                      <td style="align-items: center;">{{detail.parameters}}</td>
+                      <td style="align-items: center;" title="Buscar Favorito">
+                        <a (click)="handleSearchFavoriteById(detail)"><em class="fas fa-search"></em></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><br>
+
+          <app-information-panel [visible]="!isValidServiceCotas" [message]="'Nota.- El servicio no esta disponible.'"
+            [type]="'attention'">
+          </app-information-panel>
+
+          <div class="row card-info" *ngIf="(isCotas||isAxs||isComteco) isValidServiceCotas">
+            <div class="col-md-3">
+              <button class="button__secondary" (click)="handleAddRow()" [disabled]="isDisabledForm"><em
+                  class="fas fa-plus-circle"></em> AGREGAR
+                FILA</button>
+            </div>
+            <div class="col-md-3" *ngIf="!newPaseDto.isFavorite">
+              <button class="button__secondary" (click)="handleShowFavorite()" [disabled]="isDisabledForm">GUARDAR COMO
+                FAVORITO</button>
+            </div>
+            <div class="col-md-3" *ngIf="newPaseDto.isFavorite">
+              <button class="button__secondary" (click)="handleCancelFavorite()" [disabled]="isDisabledForm">CANCELAR FAVORITO</button>
+          </div>
+          </div>
+          <br>
+          <span *ngIf="(isCotas||isAxs||isComteco) && newPaseDto.isFavorite"><strong>Pago favorito: </strong>
+            {{newPaseDto.favoriteName}}</span>
+
+          <div class="row" *ngIf="(isCotas||isAxs||isComteco) && totalDebts > 0">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="cw-table table-striped"><caption></caption>
+                  <thead>
+                    <tr>
+                      <th style="align-items: center;">Línea</th>
+                      <th style="align-items: center;">Código</th>
+                      <th style="align-items: center;">Cliente</th>
+                      <th style="align-items: center;">Servicio</th>
+                      <th style="align-items: center;">Periodo</th>
+                      <th style="align-items: center;">Monto</th>
+                      <th style="align-items: center;">Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detail of newPasePaymentDto">
+                      <td style="align-items: center;">{{detail.line}}</td>
+                      <td style="align-items: center;">{{detail.parameters}}</td>
+                      <td style="align-items: center;">{{detail.clientName}}</td>
+                      <td style="align-items: center;">{{detail.descriptionPayment}}</td>
+                      <td style="align-items: center;">{{detail.period}}</td>
+                      <td style="align-items: center;">{{detail.amount | number: '1.2-2'}}</td>
+                      <td style="align-items: center;">
+                        <a (click)="validateRemoveDebts(detail)" *ngIf="!isDisabledForm"><em
+                            class="fas fa-trash"></em></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </app-button-group>
+      </div>
+    </div>
+    <app-debt-detail-comunication [totalDebts]="totalDebts" [amountDebts]="amountDebts" [showDataBillint]="showDataBillint"
+      [debtsDetail]="getDebtsDetail" [tigoDebtsDetail]="getTigoDebtsDetail.debts" [disabled]="isDisabledForm"
+      [debtsByDetail]="debtsByDetail" (onCheckedChange)="handleBillingType($event)"
+      (onChangeDetailBilling)="changeDetailBilling($event)" (onChangeDetail)="changeDetail($event)"
+      (onChangeParameters)="updateParameters($event)" #debtDetail></app-debt-detail-comunication>
+  </div>
+</div>
+
+<app-send-bill [disabled]="isDisabledForm" [visible]="billintType" [isEntel]="true" *ngIf="billintType"
+  (onChange)="handleSendBillChanged($event)" #sendBill></app-send-bill>
+
+<app-approvers-and-controllers [approversRequest]="approversDto" [currency]="entelDto.currency"
+  [amount]="entelDto.amount" [disabled]="isDisabledForm" (onChange)="handleApproversAndControllersChanged($event)"
+  #approversAndControllers></app-approvers-and-controllers>
+<app-emails-input [disabled]="isDisabledForm" [batchInformation]="entelDto" #emailInput></app-emails-input>
+
+<app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isDisabledForm"
+  [operationTypeId]="paymentInformation.operationTypeId" [isTransfer]="isVoucherDetail"
+  [operationTypeName]="paymentInformation.operationTypeName">
+</app-successful-operation-modal>
+
+<div class="row transferencia-ext__submit">
+  <div class="col-md-3 col-sm-4">
+    <button class="button__principal historical__button-secondary" [disabled]="isPaymentSuccessful"
+      (click)="handleValidate(debtDetail.handleValidateForm()!, approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(),sourceAccount.handleValidate()!)">
+      PREPARAR TRANSACCIÓN
+    </button>
+  </div>
+  <div class="col-md-3" *ngIf="is_validbatchtoken">
+    <button class="button__pre_save historical__button-secondary" [disabled]="isPaymentSuccessful"
+      (click)="handleValidateNoToken(debtDetail.handleValidateForm()!, approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(),sourceAccount.handleValidate()!)">
+      ENVIAR A PREPARACIÓN MASIVA
+    </button>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <p class="historical__p--cancel" *ngIf="!isPaymentSuccessful"><a [routerLink]="['']">CANCELAR</a></p>
+    <p class="historical__p--cancel" *ngIf="isPaymentSuccessful"><a
+        [routerLink]="['/service-payments/comunication']">NUEVO</a></p>
+  </div>
+</div>
+
+<app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)"
+  (onClose)="isVisibleToken=false"></app-token-modal>
+<app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente </div>
+  <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con fondos suficientes al
+    momento de realizar la autorización.</div>
+  <div class="app-modal-footer col-md-12 col-sm-12"><button type="button" class="button__principal modal__button"
+      (click)="excedeedAmount=false; showToken();">Aceptar</button></div>
+</app-modal>
+<app-company-limits [isVisible]="showCompanyLimits" (onClose)="showCompanyLimits=false"></app-company-limits>
+
+<app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>
+
+<app-add-payment-modal [newPaseDto]="newPaseDto" [amountDebts]="amountDebts" [totalDebts]="totalDebts"
+  [showDetailForm]="showDetailForm" [getServicesResult]="getServicesResult" (onChangeAmount)="changeAmount($event)"
+  (onChangeDebts)="changeDebts($event)" [serviceCode]="getDebtsDto.serviceCode"
+  [newPasePaymentDto]="newPasePaymentDto" [telephoneNumber]="telephoneNumber" [resultParameters]="resultParameters">
+</app-add-payment-modal>
+<app-favorite-payment-modal [favoriteName]="newPaseDto.favoriteName" [showSaveFavoriteForm]="showSaveFavoriteForm"
+  (onChangeFavorite)="handleSaveFavorite($event)"></app-favorite-payment-modal>

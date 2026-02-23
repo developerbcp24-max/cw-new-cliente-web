@@ -1,0 +1,28 @@
+<div class="row  transferencia-ext__card">
+    <div class="col-md-12">
+      <h4 class="historical__h4">Autorizadores</h4>
+      <div class="transferencias__box transferencia-ext__box">
+        <div class="transferencias__card card--padding-fix">
+          <div *ngFor="let authorizer of namesApprovers" class="home__card__item">
+            <p class="transferencia-ext__card__title" *ngIf="!is_asingature">
+              {{authorizer.firstLastName}} {{authorizer.secondLastName}}, {{authorizer.names}}
+            </p>
+            <div *ngIf="is_asingature">
+              <p class="transferencia-ext__card__title">
+                {{authorizer.fullName}}
+              </p>
+              <p class="transferencia-ext__card__value">
+                {{authorizer.type}}
+              </p>
+            </div>
+            <p class="transferencia-ext__card__value" *ngIf="authorizer.limit">
+              Limite disponible: {{
+              authorizer.limit
+              | number: '1.1-2'
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

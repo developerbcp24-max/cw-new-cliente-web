@@ -1,0 +1,11 @@
+.check {
+    height: 14px;
+    width: 14px;
+    border-radius: 20%;
+}
+
+.button__size {
+    width: 20px;
+    height: 18px;
+    color: #34B1CF;
+}

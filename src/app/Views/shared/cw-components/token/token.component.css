@@ -1,0 +1,23 @@
+.alert {
+    position: relative !important;
+    padding: .75rem 1.25rem !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid transparent;
+    border-radius: .25rem !important;
+}
+
+.alert-dismissible {
+    padding-right: 4rem !important;
+}
+
+.alert-dismissible .close {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    padding: .75rem 1.25rem;
+    color: inherit !important;
+}
+
+._div_center{
+    padding-left: 120px;
+}

@@ -1,0 +1,29 @@
+
+<div class="ticket-padding">
+  <div class="bar-route helpers__show-small"></div>
+  <form name="formTicket" #formTicket="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6" *ngIf="validateTicket && transferAbroadTick">
+            <button *ngIf="verifyTicket() " class="button__secondary" (click)="getTicket(); changeEventPreferencialTicket(1)"
+             [disabled]="batchInformation.currency===''||!batchInformation.amount||batchInformation.currency===batchInformation.sourceCurrency"><em
+                class="fas fa-clipboard-list"></em> OBTENER TICKET PREFERENCIAL</button>
+            <button *ngIf="wasTicketObtained" class="button__principal" (click)="modifyTicket(); changeEventPreferencialTicket(2)">Modificar
+              ticket</button>
+          </div>
+          <div class="col-sm-6">
+             <!--*ngIf="!(batchInformation.currency===''||batchInformation.currency===batchInformation.sourceCurrency)"	-- dentro del input  *ngIf="(isExteriorTransfer)-->
+            <input *ngIf="!(batchInformation.currency===''||batchInformation.currency===batchInformation.sourceCurrency)"
+              class="input-simple" type="text" name="preferentialTicket" #preferentialTicket="ngModel" [(ngModel)]="batchInformation.numberTicket"
+              [disabled]="wasTicketObtained" (ngModelChange)="handleTextTicketChanged()" (blur)="changeEventPreferencialTicket(3)" required appOnlyInteger>
+            <app-show-errors *ngIf="!(batchInformation.currency===''||batchInformation.currency===batchInformation.sourceCurrency)"
+              [control]=""></app-show-errors>
+          </div>
+        </div>
+      </div>
+      <app-information-panel [visible]="isTicketRequired()&&!batchInformation.isTicket" [type]="'attention'" [message]="'El numero de ticket es un campo requerido para cualquier tipo de transferencia'"></app-information-panel><!-- [message]="'Para montos mayores a '+amountLimitTicket+ ' dólares se debe generar un ticket.'" -->
+
+    </fieldset>
+  </form>
+</div>

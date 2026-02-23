@@ -1,0 +1,37 @@
+<div class="flex flex-col items-center">
+  <h3 class="typography-register-mobile-title mb-[11px]">
+    ¡Tu anexo fue validado exitosamente!
+  </h3>
+  <p class="typography-register-mobile-description mb-[16px]">
+    Antes de continuar, por favor lea nuevamente el documento para proceder a la
+    firma electronica.
+  </p>
+  <p class="typography-register-mobile-description text-center mb-[16px]">
+    Documento de afiliación a Credinet:
+  </p>
+  
+  <iframe
+    title="Affiliation document"
+    class="affiliation-document-iframe"
+    allowfullscreen
+    id="iframeDocument"
+  >
+  </iframe>
+
+  <button
+    mat-stroked-button
+    class="mb-[16px] mt-[16px]"
+    (click)="openDocumentDialog()"
+  >
+    Ver documento
+  </button>
+  <div class="mb-[16px]">
+    <a class="flex" (click)="downloadDocument()">
+      <p class="typography-register-mobile-link mr-[8px] underline">
+        Descargar Anexo
+      </p>
+      <mat-icon svgIcon="register-mobile-download"></mat-icon>
+    </a>
+  </div>
+  <button mat-flat-button (click)="changeStepEvent.emit()">Siguiente</button>
+</div>

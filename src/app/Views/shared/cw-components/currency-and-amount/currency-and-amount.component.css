@@ -1,0 +1,17 @@
+.all-width {
+    width: 100% !important;
+}
+
+.all-width textarea {
+    width: 100% !important;
+}
+
+.account-flag {
+    display: table;
+    align-content: center;
+}
+
+.transferencias__select-account {
+    width: 85% !important;
+    display: inline-block !important;
+}

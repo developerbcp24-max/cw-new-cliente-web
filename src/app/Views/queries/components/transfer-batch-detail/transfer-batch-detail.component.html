@@ -1,0 +1,65 @@
+<div class="col-md-12">
+    <div class="transferencias__card">
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Cuenta origen</p>
+            <p class="home__card__item__small-value">{{detail.sourceAccount}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Cuenta destino</p>
+            <p class="home__card__item__small-value">{{detail.destinationAccount}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.beneficiary !== ''">
+            <p class="home__card__item__small-title">Beneficiario</p>
+            <p class="home__card__item__small-value">{{detail.beneficiary}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.bank !== ''">
+            <p class="home__card__item__small-title">Banco</p>
+            <p class="home__card__item__small-value">{{detail.bank}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.branchOffice !== ''">
+            <p class="home__card__item__small-title">Sucursal</p>
+            <p class="home__card__item__small-value">{{detail.branchOffice}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Monto</p>
+            <p class="home__card__item__small-value">{{detail.amount | number: '1.2-2'}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Moneda</p>
+            <p class="home__card__item__small-value">{{detail.currency}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.ticketNumber !== 0">
+            <p class="home__card__item__small-title">Número de ticket</p>
+            <p class="home__card__item__small-value">{{detail.ticketNumber}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.ticketNumber !== 0">
+            <p class="home__card__item__small-title">Cambio preferencial</p>
+            <p class="home__card__item__small-value">{{detail.preferentialExchange}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.isScheduledProcess">
+            <p class="home__card__item__small-title">Fecha futura</p>
+            <p class="home__card__item__small-value">{{detail.scheduledProcessDate | date: 'dd/MM/yyyy'}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Usuario</p>
+            <p class="home__card__item__small-value">{{detail.user}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Estado del lote</p>
+            <p class="home__card__item__small-value">{{detail.batchStatus}}</p>
+        </div>
+    </div>
+</div>
+<div class="col-md-12" *ngIf="detail.fundSource != ''">
+    <div class="transferencias__card">
+        <div class="home__card__item" >
+            <p class="home__card__item__small-title">Orígen de los Fondos</p>
+            <p class="home__card__item__small-value aling-justify">{{detail.fundSource}}</p>
+        </div>
+        <div class="home__card__item">
+            <p class="home__card__item__small-title">Destino de los Fondos</p>
+            <p class="home__card__item__small-value aling-justify">{{detail.fundDestination}}</p>
+        </div>
+    </div>
+</div>
+<app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>

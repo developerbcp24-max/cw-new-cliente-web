@@ -1,0 +1,44 @@
+<div class="col-md-12">
+    <div class="transferencias__card">
+      <div class="home__card__item pull-left">
+        <p class="home__card__item__small-title">Número de Lote : </p>
+        <p class="home__card__item__small-value">{{detail.processBatchId}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Cuenta de Origen : </p>
+        <p class="home__card__item__small-value">{{detail.accountNumber}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Monto : </p>
+        <p class="home__card__item__small-value">{{detail.amount | number: '1.2-2'}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Moneda : </p>
+        <p class="home__card__item__small-value">{{detail.currency}}</p>
+      </div>
+      <div class="home__card__item">
+        <p class="home__card__item__small-title">Tipo de Servicio : </p>
+        <p class="home__card__item__small-value">{{detail.serviceType}}</p>
+      </div>
+    </div>
+  </div>
+  <app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>
+  
+  <table class="cw-table table-striped"><caption></caption>
+    <thead>
+      <tr>
+        <th *ngIf="!isDelapaz">Forma de Pago</th>
+        <th>Código de servicio</th>
+        <th>Monto deuda</th>
+        <th *ngIf="!isSemapa">Cliente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of detail.detail">
+        <td *ngIf="!isDelapaz">{{data.serviceCodeDescription}}</td>
+        <td>{{data.parameters}}</td>
+        <td>{{data.amount | number: '1.1-2'}}</td>
+        <td *ngIf="!isSemapa">{{data.clientName}}</td>
+      </tr>
+    </tbody>
+  </table>

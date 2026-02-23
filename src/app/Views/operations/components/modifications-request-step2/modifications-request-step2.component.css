@@ -1,0 +1,21 @@
+.check {
+    height: 14px;
+    width: 14px;
+    border-radius: 20%;
+}
+
+.check-disabled {
+    height: 14px;
+    width: 14px;
+    border-radius: 20%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid #FF9800;
+}
+
+.disabled {
+    border: 1px solid #FF9800;
+    cursor: not-allowed;
+}

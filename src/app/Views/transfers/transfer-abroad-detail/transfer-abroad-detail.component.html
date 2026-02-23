@@ -1,0 +1,60 @@
+<p class="tituloGeneral h_no-MarginBottom">DETALLE DE TRANSFERENCIAS AL EXTERIOR</p>
+<p class="tituloGeneral h_no-MarginBottom">Datos del Solicitante</p>
+<app-requester-form-abroad [charges]="parameters.chargesType" [(ngModel)]="requester" #requesterForm>
+</app-requester-form-abroad>
+<div class="separator"></div>
+<app-frecuent-transfers-abroad (onChange)="handleChangeFrecuentTransfer($event)" (onUpdateFrecuent)="
+validateForms(requesterForm.handleValidate()
+, beneficiaryForm.handleValidate()
+, categoryAsfiForm.handleValidate()
+, payerBankForm.handleValidate()
+, intermediaryBankForm.handleValidate())&&handleUpdateFrecuent($event)"></app-frecuent-transfers-abroad>
+<div class="separator"></div>
+<p class="tituloGeneral h_no-MarginBottom">Datos del Beneficiario</p>
+<app-depecrated-beneficiary-form-abroad [(ngModel)]="beneficiary" [documentTypes]="parameters.documentsType"
+    #beneficiaryForm></app-depecrated-beneficiary-form-abroad>
+<div class="separator"></div>
+<p class="tituloGeneral h_no-MarginBottom">Categoría transferencia ASFI</p>
+<app-transfer-categories-asfi [parametersASFI]="parametersASFIResult" (onChange)="handleChangeCategory($event)"
+    [categoryAsfiData]="categoryAsfi" #categoryAsfiForm></app-transfer-categories-asfi>
+<div class="separator"></div>
+<p class="tituloGeneral h_no-MarginBottom">Datos del Banco Pagador</p>
+<app-banks-searcher (onChange)="handlePayerBank($event)" [bankSelectedDetail]="payerBank" #payerBankForm>
+</app-banks-searcher>
+<div class="separator"></div>
+<p class="tituloGeneral h_no-MarginBottom">Datos del Banco Intermediario</p>
+<app-intermediary-bank-form-abroad (onChange)="handleIntermediaryBank($event)" [bankIntermediary]="intermediaryBank"
+    #intermediaryBankForm></app-intermediary-bank-form-abroad>
+<div class="separator"></div>
+<app-frecuent-transfer-abroad-add [(ngModel)]="transferAbroadFrecuent" [disabled]="disabledAddFrecuentTransfer">
+</app-frecuent-transfer-abroad-add>
+<div class="separator"></div>
+<app-terms-transfers-abroad></app-terms-transfers-abroad>
+<button type="button" class="btn btn-primary" (click)="
+validateForms(requesterForm.handleValidate()
+, beneficiaryForm.handleValidate()
+, categoryAsfiForm.handleValidate()
+, payerBankForm.handleValidate()
+, intermediaryBankForm.handleValidate())
+&& handleSubmitDetail()">Aceptar</button>
+<button type="button" class="btn btn-default" routerLink="/transfers/transfer-abroad">Cancelar</button>
+<app-modal [visible]="isVisibleInfoModal" (onClose)="isVisibleInfoModal=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-xs-12">
+        Comunicado Transferencia al Exterior
+    </div>
+    <div class="app-modal-body col-md-12 col-xs-12">
+        <ol>
+            <li *ngIf="!requester.isTicket && this.requester.isDiferentCurrency">Como la cuenta de debito es en
+                bolivianos
+                y no cuenta con un ticket de cambio boliviano - dólar, se le cobrara al tipo de cambio actual.
+            </li>
+            <li *ngIf="!requester.isTicketCommission">Como su transacción no cuenta con un ticket de comisión, se le
+                cobrara
+                el tarifario normal.
+            </li>
+        </ol>
+    </div>
+    <div class="app-modal-footer col-md-12 col-xs-12">
+        <button type="button" class="btn btn-primary" (click)="handleCloseAlert()">Aceptar</button>
+    </div>
+</app-modal>

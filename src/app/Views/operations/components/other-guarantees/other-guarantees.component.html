@@ -1,0 +1,512 @@
+<div class="row">
+  <div class="col-md-6">
+    <app-bar-route></app-bar-route>
+    <h4 class="historical__h4">{{ballot.showRoe ? 'D.' : 'C.'}} Otros</h4>
+    <div class="alert alert-information">
+      <div class="row">
+        <p>Monto: {{ballot.amount}} {{ballot.currency == 'BOL' ? 'BOLIVIANOS' : 'DÓLARES'}}</p>
+      </div>
+    </div>
+    <div class="historical__box">
+      <form name="warrantyForm" novalidate #warrantyForm="ngForm" autocomplete="off">
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">Garantías</label>
+            <select class="input-simple" name="warranty" [(ngModel)]="typeWarranty"
+              (ngModelChange)="handleChangeWarranty(typeWarranty)" #warranty>
+              <option value='' disabled>Seleccione una opción</option>
+              <option *ngFor="let item of otherWaranties.otherWarranties" [ngValue]="item">{{item.description}}</option>
+            </select>
+            <app-show-errors [control]="warranty"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2" *ngIf="showFunds">
+            <label class="historical__label">Monto</label>
+            <input type="text" class="input-simple" name="amountWarranty" [(ngModel)]="ballot.amountWarranty"
+              #amountWarranty="ngModel" readonly>
+            <app-show-errors [control]="amountWarranty"></app-show-errors>
+          </div>
+        </div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2" *ngIf="!showCom && showCupRate">
+            <label class="warranty__label">Tasa acordada con su funcionario de negocios</label>
+            <div class="form-group">
+              <div class=" account-flag">
+                <input type="text" class="input-simple align-account size-input" name="cupRate"
+                  [(ngModel)]="ballot.cupRate" #cupRate="ngModel" [disabled]="!isEditable" required
+                  appValidate="majorZeroTasa" [maxLength]="5"
+                  (ngModelChange)="handleInputRate($event)"><span>{{percentage}}</span>
+                <app-show-errors [control]="cupRate"></app-show-errors>
+              </div>
+            </div>
+          </div>
+          <div class="transferencias__container-x2" *ngIf="showCom">
+            <label class="warranty__label">Comisión Tarifario</label>
+            <div class="form-group">
+              <div class=" account-flag">
+                <input type="text" class="input-simple align-account size-input" name="cupRate"
+                  [(ngModel)]="ballot.cupRate" #cupRate="ngModel" [disabled]="!isEditable"
+                  (ngModelChange)="handleInputRate($event)" required appValidate="majorZeroTasa" [maxLength]="3"
+                  readonly><span>%</span>
+                <app-show-errors [control]="cupRate"></app-show-errors>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="showFunds">
+  <div class="col-md-12">
+    <div class="bar-route"></div><br>
+    <app-source-accounts [accountRequest]="accountDto" [disabled]="disabled" [showBarRoute]="false"
+      [showDetails]="false" (onChange)="handleAccountChanged($event)" #sourceAccount>
+    </app-source-accounts>
+  </div>
+</div>
+<div class="row" *ngIf="showDeposit">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+
+    <div class="historical__box">
+      <form name="dpfForm" novalidate #dpfForm="ngForm" autocomplete="off">
+        <label class="historical__label">DPF's</label>
+        <select class="input-simple" name="warranty" [(ngModel)]="longDescription"
+          (ngModelChange)="handleTimeDepositChange(longDescription)" #warranty>
+          <option *ngFor="let item of timeDepositResult" [ngValue]="item.code">{{item.longDescription}}</option>
+        </select>
+        <p>Debidamente endosado a favor del BANCO de acuerdo al siguiente detalle: </p>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">Monto</label>
+            <input type="text" class="input-simple" name="amountWarranty" [(ngModel)]="ballot.amountWarranty"
+              #amountWarranty="ngModel" required mask-money appValidate="majorZero">
+            <app-show-errors [control]="amountWarranty" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">Número</label>
+            <input type="text" class="input-simple" name="numberDPF" [(ngModel)]="ballot.numberDPF" #numberDPF="ngModel"
+              required appValidate="integer" appOnlyType="integer" [maxLength]="17">
+            <app-show-errors [control]="numberDPF" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <label class="historical__label">Banco</label>
+        <input type="text" class="input-simple" name="bank" [(ngModel)]="ballot.bank" #bank="ngModel" required
+          appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="50">
+        <app-show-errors [control]="bank" autocomplete="off"></app-show-errors>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">1.- Titular</label>
+            <input type="text" class="input-simple" name="titular1" [(ngModel)]="ballot.firstTitular"
+              #titular1="ngModel" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" required
+              [maxLength]="75">
+            <app-show-errors [control]="titular1" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI</label>
+            <input type="text" class="input-simple" name="documentCI1" [(ngModel)]="ballot.firstDocumentCI"
+              #documentCI1="ngModel" appValidate="integer" appOnlyType="integer" [maxLength]="12" required>
+            <app-show-errors [control]="documentCI1" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">2.- Titular</label>
+            <input type="text" class="input-simple" name="titular2" [(ngModel)]="ballot.secondTitular" [maxLength]="75"
+              #titular2="ngModel" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols">
+            <app-show-errors [control]="titular2" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI</label>
+            <input type="text" class="input-simple" name="documentCI2" [(ngModel)]="ballot.secondDocumentCI"
+              #documentCI2="ngModel" appValidate="alphanumericNotSymbols" appOnlyType="alphanumericNotSymbols"
+              [maxLength]="12">
+            <app-show-errors [control]="documentCI2" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">3.- Titular</label>
+            <input type="text" class="input-simple" name="titular3" [(ngModel)]="ballot.thirdTitular" [maxLength]="75"
+              #titular3="ngModel" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols">
+            <app-show-errors [control]="titular3" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI</label>
+            <input type="text" class="input-simple" name="documentCI3" [(ngModel)]="ballot.thirdDocumentCI"
+              #documentCI3="ngModel" appValidate="alphanumericNotSymbols" appOnlyType="alphanumericNotSymbols"
+              [maxLength]="12">
+            <app-show-errors [control]="documentCI3" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="historical__box">
+      <form name="dpfForm" novalidate #dpfForm="ngForm" autocomplete="off">
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="ballot.typeWarranty == 'LRC' && otherWaranties.listPublicWriting.length > 0">
+  <div class="col-md-10">
+    <div class="bar-route"></div><br>
+    <br> Mensaje de Notificación Linea de Credito
+    <table class="cw-table table-striped">
+      <caption></caption>
+      <thead>
+        <tr>
+          <th>Nro Escritura</th>
+          <th>Fecha</th>
+          <th>Notaria de Fe Pública</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of otherWaranties.listPublicWriting">
+          <td>{{data.publicWritingNumber}}</td>
+          <td>{{data.datePublicWriting | date:'dd-MM-yyyy' }}</td>
+          <td>{{data.nameOfNotaryPublicFaith}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row" *ngIf="!validComision">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+    <div class="alert alert-danger">
+      <p>{{mesageCommission}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="ballot.typeWarranty == 'LRC' && otherWaranties.listPublicWriting.length == 0">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+    <div class="alert alert-danger">
+      <div class="row">
+        <p>La empresa no cuenta con datos de escritura pública para línea de crédito, Por favor comuníquese con su
+          funcionario de negocios.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="ballot.typeWarranty == 'DPF' && timeDepositResult.length == 0">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+    <div class="alert alert-danger">
+      <div class="row">
+        <p>La empresa no cuenta con Depósitos de plazo fijos Disponibles.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="viewWarrant">
+  <div class="col-md-12">
+    <div class="bar-route"></div><br>
+    <label class="historical__label">Warrant</label><br />
+    <div class="historical__box">
+      <label class="historical__label">De:</label>
+      <input type="text" class="input-simple" name="warrant" [(ngModel)]="ballot.warrant" [value]="ballot.warrant" [maxLength]="150"
+        #warrant="ngModel" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols"
+        >
+      <app-show-errors [control]="warrant" autocomplete="off"></app-show-errors>
+      <label class="historical__label">Bono de prenda No.:</label>
+      <input type="text" class="input-simple" name="WarrantPrenda" [(ngModel)]="ballot.WarrantPrenda" [value]="ballot.WarrantPrenda" [maxLength]="150"
+        #WarrantPrenda="ngModel" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols"
+        >
+      <app-show-errors [control]="WarrantPrenda" autocomplete="off"></app-show-errors>
+      <label class="historical__label">Almacén General de Depósito:</label>
+      <input type="text" class="input-simple" name="WarrantAlmacen" [(ngModel)]="ballot.WarrantAlmacen" [value]="ballot.WarrantAlmacen" [maxLength]="150"
+        #WarrantAlmacen="ngModel" appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols"
+        >
+      <app-show-errors [control]="WarrantAlmacen" autocomplete="off"></app-show-errors>
+      <label class="historical__label">Valor de Giro:</label>
+      <input type="text" class="input-simple" name="WarrantGiro" [(ngModel)]="ballot.WarrantGiro" [value]="ballot.WarrantGiro" [maxLength]="150"
+        #WarrantGiro="ngModel" appValidate="integer" appOnlyType="integer">
+      <app-show-errors [control]="WarrantGiro" autocomplete="off"></app-show-errors>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="bar-route"></div><br>
+    <label class="historical__label">Forma de Pago de las Comisiones</label>
+    <app-source-accounts [accountDropLabel]="'Débito en Cuenta'" [accountRequest]="accountDto" [disabled]="disabled"
+      [showBarRoute]="false" [showDetails]="false" (onChange)="handleAccountDebitChanged($event)" #sourceAccount>
+    </app-source-accounts>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="bar-route"></div><br>
+    <label class="historical__label">FIANZA</label>
+    <br>
+    <div class="historical__box">
+      <div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">1.- Nombre:</label>
+            <input type="text" class="input-simple" name="nombre1" [(ngModel)]="ballot.FirstNamef" [value]="ballot.FirstNamef" #nombre1="ngModel"
+              appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols"  [maxLength]="175"
+              >
+            <app-show-errors [control]="nombre1" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI:</label>
+            <input type="text" class="input-simple" name="documentCI1" [(ngModel)]="ballot.FirstCiFianzaf" [value]="ballot.FirstCiFianzaf"
+              #documentCI1="ngModel" appValidate="integer" appOnlyType="integer" [maxLength]="12"
+              >
+            <app-show-errors [control]="documentCI1" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <label class="historical__label">Dirección:</label>
+        <input type="text" class="input-simple" name="domicilio1" [(ngModel)]="ballot.FirstDomiciliof" [value]="ballot.FirstDomiciliof" #bank="ngModel"
+          required appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="150"
+          >
+        <app-show-errors [control]="bank" autocomplete="off"></app-show-errors>
+      </div>
+      <br>
+      <div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">2.- Nombre:</label>
+            <input type="text" class="input-simple" name="nombre2" [(ngModel)]="ballot.SecondNamef" [value]="ballot.SecondNamef" #titular1="ngModel"
+              appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="75"
+              >
+            <app-show-errors [control]="titular1" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI:</label>
+            <input type="text" class="input-simple" name="documentCI2" [(ngModel)]="ballot.SecondCiFianzaf" [value]="ballot.SecondCiFianzaf"
+              #documentCI1="ngModel" appValidate="integer" appOnlyType="integer" [maxLength]="12"
+              >
+            <app-show-errors [control]="documentCI1" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <label class="historical__label">Dirección:</label>
+        <input type="text" class="input-simple" name="domicilio2" [(ngModel)]="ballot.SecondDomiciliof" [value]="ballot.SecondDomiciliof" #bank="ngModel"
+          required appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="150"
+          >
+        <app-show-errors [control]="bank" autocomplete="off"></app-show-errors>
+      </div>
+      <br>
+      <div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">3.- Nombre:</label>
+            <input type="text" class="input-simple" name="nombre3" [(ngModel)]="ballot.ThirdNamef" [value]="ballot.ThirdNamef" #titular1="ngModel"
+              appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="75"
+              >
+            <app-show-errors [control]="titular1" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI:</label>
+            <input type="text" class="input-simple" name="documentCI3" [(ngModel)]="ballot.ThirdCiFianzaf" [value]="ballot.ThirdCiFianzaf"
+              #documentCI1="ngModel" appValidate="integer" appOnlyType="integer" [maxLength]="12"
+              >
+            <app-show-errors [control]="documentCI1" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <label class="historical__label">Dirección:</label>
+        <input type="text" class="input-simple" name="domicilio3" [(ngModel)]="ballot.ThirdDomiciliof" [value]="ballot.ThirdDomiciliof" #bank="ngModel"
+          required appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="150"
+          >
+        <app-show-errors [control]="bank" autocomplete="off"></app-show-errors>
+      </div>
+      <br>
+      <div>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">4.- Nombre:</label>
+            <input type="text" class="input-simple" name="nombre4" [(ngModel)]="ballot.FourthNamef" [value]="ballot.FourthNamef" #titular1="ngModel"
+              appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="175"
+              >
+            <app-show-errors [control]="titular1" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI:</label>
+            <input type="text" class="input-simple" name="documentCI4" [(ngModel)]="ballot.FourthCiFianzaf" [value]="ballot.FourthCiFianzaf"
+              #documentCI1="ngModel" appValidate="integer" appOnlyType="integer" [value]="ballot.FourthCiFianzaf" [maxLength]="12"
+              >
+            <app-show-errors [control]="documentCI1" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+        <label class="historical__label">Dirección:</label>
+        <input type="text" class="input-simple" name="domicilio4" [(ngModel)]="ballot.FourthDomiciliof" [value]="ballot.FourthDomiciliof" #bank="ngModel"
+          required appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="150"
+          >
+        <app-show-errors [control]="bank" autocomplete="off"></app-show-errors>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="!ballot.typeBallot">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+    <div class="historical__box">
+      <label class="historical__label">Modalidad</label>
+      <div class="haberes__debit">
+        <label class="radio">
+          <input type="radio" name="modality1" [(ngModel)]="ballot.isMAU" [value]="true"
+            (change)="handleModality('MAU')">
+          <span class="check-radio"></span>
+        </label>
+        <p>Amortización única</p>
+        <label class="radio">
+          <input type="radio" name="modality2" [(ngModel)]="ballot.isMAU" [value]="false"
+            (change)="handleModality('SMO')">
+          <span class="check-radio"></span>
+        </label>
+        <p>Amortización gradual o progresiva</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="ballot.modality == 'SMO'">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+    <div class="historical__box">
+      <label class="historical__label">Forma de amortización Gradual o Progresiva</label>
+      <input type="button" class="button__principal" (click)="handleModal()" value="Agergar Fila">
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="historical__box">
+  <label class="historical__label">Otros</label>
+  <br>
+  <label class="historical__label"></label>
+  <input type="text" class="input-simple" name="Otros" [(ngModel)]="ballot.Otros" [value]="ballot.Otros" #Otros="ngModel"
+    appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="150"
+    >
+</div>
+
+<div class="historical__box">
+  <label class="historical__label">Cláusula adicional</label>
+  <br>
+  <label class="historical__label"></label>
+  <input type="text" class="input-simple" name="TerceraConformidad" [(ngModel)]="ballot.TerceraConformidad" [value]="ballot.TerceraConformidad" #TerceraConformidad="ngModel"
+    appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" [maxLength]="250"
+    >
+</div>
+
+<div class="row" *ngIf="!ballot.isMAU && ballot.amortizations.length > 0">
+  <div class="col-md-6">
+    <div class="bar-route"></div>
+    <table class="cw-table table-striped" data-html="true" data-toggle="tooltip" data-placement="top">
+      <caption></caption>
+      <thead>
+        <tr>
+          <th>Al</th>
+          <th>US$</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of ballot.amortizations; let i = index">
+          <td>{{data.toThe | date:'dd-MM-yyyy'}}</td>
+          <td>{{data.amount | number: '1.2-2'}}</td>
+          <td><a (click)="handleDeleteAmortizationModal(data)"><em class="fa fa-trash"></em></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row" *ngIf="isMaxRow">
+  <div class="col-md-6">
+    <div class="bar-route"></div><br>
+    <div class="alert alert-danger">
+      <p>{{mesageAmortization}}</p>
+    </div>
+  </div>
+</div>
+
+<app-modal [visible]="showAmortization" (onClose)="showAmortization=false" [size]="'sm'">
+  <div class="app-modal-header col-md-12 col-sm-12">Amortización Gradual/Progresiva</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <div class="col-md-12">
+      <div class="col-md-18" aling="rigth">
+        <app-date-range [(ngModel)]="dateRange" [isVisibleStartDate]="false" [endDateName]="'Al'"
+          [optionsGrid]="optionsGrid" [options]="optionsDateRange" [historical__box]="historicalBox"
+          (ngModelChange)="handleChangePickerRange()">
+        </app-date-range>
+      </div>
+    </div>
+    <form name="amortizationForm" novalidate #amortizationForm="ngForm" autocomplete="off">
+      <input type="hidden" value="" name="edit" [(ngModel)]="addOrEdit">
+      <label class="historical__label">US$</label>
+      <input type="text" class="input-simple" name="amounts" [(ngModel)]="amountAmortization" #amounts="ngModel"
+        required mask-money appValidate="majorZero" required maxlength="10">
+      <app-show-errors [control]="amounts" autocomplete="off"></app-show-errors>
+    </form>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="offset-md-3 col-md-6 col-xs-12">
+      <button class="button__principal modal__button" (click)="handlePushAmortization(addOrEdit)">Aceptar</button>
+      <a (click)="showAmortization=false" class="link-cancel-modal">Cancelar</a>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [visible]="deleteAmortization" (onClose)="deleteAmortization=false" [size]="'sm'">
+  <div class="app-modal-header col-md-12 col-sm-12">Amortización Gradual/Prograsiva</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <p> ¿ Esta seguro de eliminar el registro. ?</p>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <div class="offset-md-3 col-md-6 col-xs-12">
+      <button class="button__principal modal__button" (click)="handleDeleteAmortization()">Aceptar</button>
+      <a (click)="deleteAmortization=false" class="link-cancel-modal">Cancelar</a>
+    </div>
+  </div>
+</app-modal>
+<div class="row">
+  <div class="col-md-6">
+    <app-bar-route [isLast]="true"></app-bar-route>
+    <h4 class="historical__h4">{{ballot.showRoe ? 'E.' : 'D.'}} Instrucciones de entrega de la boleta</h4>
+    <div class="historical__box">
+      <form name="entityNameForm" novalidate #entityNameForm="ngForm" autocomplete="off">
+        <label class="historical__label">Nombre</label>
+        <input type="text" class="input-simple" name="entityName" [(ngModel)]="ballot.entityName" #entityName="ngModel"
+          required appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols">
+        <app-show-errors [control]="entityName" autocomplete="off"></app-show-errors>
+        <div class="transferencias__flex">
+          <div class="transferencias__container-x2">
+            <label class="historical__label">Lugar de entrega</label>
+            <select class="input-simple" name="placeOfDelivery" [(ngModel)]="ballot.placeOfDelivery" #placeOfDelivery>
+              <option value='' disabled>Seleccione una Ciudad</option>
+              <option *ngFor="let item of branchOfficesBallotOfWarranty" [ngValue]="item.name">{{item.name}}</option>
+            </select>
+            <app-show-errors [control]="entityName" autocomplete="off"></app-show-errors>
+          </div>
+          <div class="transferencias__container-x2">
+            <label class="historical__label">CI</label>
+            <input type="text" class="input-simple" name="entityDocumentCI" [(ngModel)]="ballot.entityDocumentCI"
+              #entityDocumentCI="ngModel" required appValidate="alphanumericBasicSymbols" [maxLength]="12"
+              appOnlyType="alphanumericBasicSymbols">
+            <app-show-errors [control]="entityDocumentCI" autocomplete="off"></app-show-errors>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row transferencia-ext__submit">
+  <div class="col-md-2 col-sm-12"><br>
+    <input type="button" class="button__principal button-next" (click)="validateForms()" value="CONFIRMAR">
+  </div>
+  <div class="col-md-2 col-sm-12">
+    <p class="historical__p--cancel"><a [routerLink]="['/operations/ballotOfWarranty']">CANCELAR</a></p>
+  </div>
+</div>

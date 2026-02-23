@@ -1,0 +1,16 @@
+<app-stepper [currentStep]="currentStep" [showPreviusStep]="true" (onPreviusStep)="handlePreviusStep()">
+    <app-step title="Origen">
+        <app-transfer-abroad-step1 *ngIf="currentStep===1" (onChange)="handleChangeStep1($event)"
+            (onChangeNamesApprovers)="handleNamesApprovers($event)" (onChangeFunds)="handleFunds($event)">
+        </app-transfer-abroad-step1>
+    </app-step>
+    <app-step title="Destinatario">
+        <app-transfer-abroad-step2 *ngIf="currentStep===2" [batch]="batch" [resultFunds]="resultFunds"
+            (onSaveFavorite)="handleSaveFavorite()" (onSaveTransfer)="handleSaveTransfer($event)">
+        </app-transfer-abroad-step2>
+    </app-step>
+    <app-step title="Confirmación">
+        <app-transfer-abroad-step3 *ngIf="currentStep===3" [detail]="detail" [resultFunds]="resultFundsUif"
+            [namesApprovers]="namesApprovers" (onPreviusForm)="handlePreviusForm()"></app-transfer-abroad-step3>
+    </app-step>
+</app-stepper>

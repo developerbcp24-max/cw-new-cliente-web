@@ -1,0 +1,126 @@
+<form class="login__form" name="form" (ngSubmit)="formAcces.valid && handleSubmit()" #formAcces="ngForm" novalidate
+	autocomplete="off">
+	<div class="flex items-start p-2 mb-1 bg-blue-50 border border-l-8 border-blue-400 rounded-md">
+		<div class="flex-shrink-0 mr-2">
+			<div class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center mt-4">
+				<span class="text-sm font-bold">i</span>
+			</div>
+		</div>
+		<p class="text-key-1">
+			Por seguridad, nunca comparta este código con ninguna persona.
+			Credinet nunca solicita esta información a nuestros usuarios por
+			ninguna vía (Teléfono o correo)
+		</p>
+	</div>
+
+	<div class="mb-6">
+		<label class="block text-sm font-medium text-gray-700 mb-1">Número de acceso:</label>
+		<div class="relative">
+			<input type="text" name="numberAccess" #numberAccount="ngModel" [(ngModel)]="validatePin.card"
+				[readOnly]="readOnlyAccessNumber" (ngModelChange)=handleCountCard(); required [appMaxLength]="16"
+				appOnlyNumber autofocus
+				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#153F7B]" />
+		</div>
+		<div class="text-xs text-gray-500 mt-1">Ej: 900001001234560</div>
+	</div>
+  <div class="flex justify-end w-full">
+    <button type="button" class="w-full py-2 rounded-lg mb-6 text-white transition-colors"
+      [disabled]="disabledCode || !formAcces.valid || (validatePin.card.length !== 16)" [ngClass]="{
+      'bg-[#153F7B] hover:bg-[#153F7B] cursor-pointer rounded-lg': !(disabledCode || !formAcces.valid || (validatePin.card.length !== 16)),
+      'bg-[#DDDFE5] cursor-not-allowed rounded-lg mb-2': disabledCode || !formAcces.valid || (validatePin.card.length !== 16)
+    }" (click)="handleGenerateCode()">
+      Generar Código
+    </button>
+  </div>
+
+
+
+	<app-number-pad (onChangeText)="handleKeyPad($event)" [maxLength]="digitsPin" [disabled]="disabled" [isPin]="true"
+		#pin>
+	</app-number-pad>
+
+	<!-- Botones de acción -->
+	<div class="mt-2">
+		<button class="w-full py-2 rounded-md mb-1 text-white transition-colors"
+			[disabled]="!formAcces.valid || !pin.isValid()" [ngClass]="{
+      'bg-[#153F7B] hover:bg-[#153F7B] cursor-pointer rounded-lg': formAcces.valid && pin.isValid(),
+      'bg-[#DDDFE5] cursor-not-allowed rounded-lg mb-2': !formAcces.valid || !pin.isValid()
+    }">
+			Aceptar
+		</button>
+	</div>
+
+</form>
+<div class="text-center mt-2">
+	<a href="#" class="text-cancel-target">Cancelar</a>
+</div>
+
+
+<app-modal [visible]="sendCodeOTP" (onClose)="sendCodeOTP=false" [size]="'sm'" data-backdrop="static"
+	[manualCloseModal]="true">
+
+	<div class="app-modal-header text-xl font-semibold text-gray-800 text-center">Código de seguridad</div>
+
+	<div class="app-modal-body space-y-6 text-left">
+		<div class="text-center">
+			<p class="text-sm text-gray-600 mb-1">Número de acceso:</p>
+			<p class="text-lg font-semibold text-gray-800">{{validatePin.card}}</p>
+		</div>
+
+		<div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg text-sm"
+			*ngIf="!getDatesResult.isValidCellPhone">
+			<p>Usted no cuenta con N° de Celular, para agregar comuniquese con la Linea: 800-10-2244.</p>
+		</div>
+
+		<div class="space-y-4">
+			<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer"
+				*ngIf="getDatesResult.isValidCellPhone" (click)="setradio(1)">
+				<label class="relative flex items-center cursor-pointer">
+					<input name="RadioAbonoRetiro" type="radio" (click)="setradio(1)" class="sr-only peer">
+					<div class="w-5 h-5 border-2 border-[#34B1CF] rounded-full peer-checked:bg-[#34B1CF]
+                      flex items-center justify-center transition-colors">
+						<div
+							class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity">
+						</div>
+					</div>
+				</label>
+				<div class="flex-1">
+					<p class="text-sm font-medium text-gray-800">Enviar código al número de celular:</p>
+					<p class="text-sm text-gray-600">{{getDatesResult.cellPhone}}</p>
+				</div>
+			</div>
+
+			<div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer"
+				*ngIf="getDatesResult.isValidEmail" (click)="setradio(2)">
+				<label class="relative flex items-center cursor-pointer">
+					<input name="RadioAbonoRetiro" type="radio" (click)="setradio(2)" class="sr-only peer">
+					<div class="w-5 h-5 border-2 border-[#34B1CF] rounded-full peer-checked:bg-[#34B1CF]
+                      flex items-center justify-center transition-colors">
+						<div
+							class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity">
+						</div>
+					</div>
+				</label>
+				<div class="flex-1">
+					<p class="text-sm font-medium text-gray-800">Enviar código al E-mail:</p>
+					<p class="text-sm text-gray-600">{{getDatesResult.email}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="app-modal-footer space-y-2">
+		<button type="button" class="w-full bg-[#153F7B] hover:bg-[#153f7bee] disabled:bg-gray-400 disabled:cursor-not-allowed
+                   text-white font-medium py-2 px-6 rounded-lg transition-colors text-base"
+			[disabled]="disabledButtonOk" (click)="SaveOTPCode();">
+			Continuar
+		</button>
+
+		<div class="text-center">
+			<button type="button" (click)="sendCodeOTP=false"
+				class="text-[#1e66ca] hover:text-[#153F7B] text-sm font-medium cursor-pointer transition-colors bg-transparent border-none">
+				Cancelar
+			</button>
+		</div>
+	</div>
+</app-modal>

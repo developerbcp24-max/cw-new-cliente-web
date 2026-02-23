@@ -1,0 +1,20 @@
+.account-flag {
+    display: block;
+    align-content: center;
+}
+
+.align-account {
+    display: inline-block
+}
+
+.alert-information {
+    margin-top: 10px;
+}
+
+.transferencias__select-account {
+    width: 50%;
+}
+
+.select-account {
+    width: 85%;
+}

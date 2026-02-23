@@ -1,0 +1,37 @@
+<form class="form-horizontal" name="sourceAccountForm" #sourceAccountForm="ngForm" novalidate autocomplete="off">
+    <app-depecrated-information-panel *ngIf="accountSelected.balanceErrorMessage" [message]="accountSelected.balanceErrorMessage"></app-depecrated-information-panel>
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-2 control-label">Cuenta:</label>
+        <div class="col-xs-12 col-sm-3">
+          <app-depecrated-my-accounts [loadFirstAccount]="loadFirstAccount" [accountRequest]="accountRequest" [returnBalances]="showBalances" [selectedAccount]="selectedAccountId" [isAwait]="isAwait" (onChange)="handleAccountChanged($event)" [defaultAccount]="defaultAccount"></app-depecrated-my-accounts>
+        </div>
+        <label for="currency" class="col-xs-12 col-sm-2 control-label">Moneda:</label>
+        <div class="col-xs-10 col-sm-2">
+          <input type="text" class="form-control" [value]="accountSelected.currencyDescription" disabled>
+        </div>
+        <div class="col-xs-2">
+          <app-depecrated-currency-flag [flag]="accountSelected.currency" [visible]="showFlag"></app-depecrated-currency-flag>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showBalances">
+        <label for="availableBalance" class="col-sm-2 control-label">Saldo Disponible:</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" name="availableBalance" [(ngModel)]="accountSelected.availableBalance" #availableBalance="ngModel" readonly mask-money appValidate="decimal">
+          <app-show-errors [control]="availableBalance"></app-show-errors>
+        </div>
+        <div *ngIf="isOverdraftBalance">
+          <label for="overdraftAmount" class="col-sm-2 control-label">Sobregiro:</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="accountSelected.overdraftAmount" disabled mask-money>
+          </div>
+          <div class="form-group"></div>
+          <label for="overdraftBalance" class="col-sm-2 control-label">Linea de sobregiro:</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="accountSelected.overdraftBalance" disabled mask-money>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  

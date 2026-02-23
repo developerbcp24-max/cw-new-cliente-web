@@ -1,0 +1,49 @@
+<form name="form" class="login__form" (ngSubmit)="f.valid && register()" #f="ngForm" novalidate autocomplete="off">
+  <div class="flex items-start p-2 mb-1 bg-blue-50 border border-l-8 border-blue-400 rounded-md mt-4">
+			<div class="flex-shrink-0 mr-2">
+				<div class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center mt-4">
+					<span class="text-sm font-bold">i</span>
+				</div>
+			</div>
+      <p class="text-sm text-blue-800">
+        Por motivos de seguridad, por favor confirme su contraseña actual asociada al número de acceso.
+        Si no ingresa la contraseña correcta, no podrá generar su alias.
+      </p>
+		</div>
+<hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+  <div class="relative">
+    <label class="block text-sm font-medium text-gray-700 mb-1" for="numberAccess">
+      Número de Acceso:
+    </label>
+    <input name="numberAccess" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" [(ngModel)]="newUserAlias.accessNumber"
+      [readOnly]="readOnlyAccessNumber" appOnlyNumber [appMaxLength]="16" required autofocus />
+  </div>
+  <div class="form-group">
+    <label class="login__label">Tu Contraseña:</label>
+    <div class="flex flex-1 relative mt-1">
+      <label class="radio">
+        <input class="form-check-input mt-3 mx-2" type="radio" name="radioText" [checked]="radioSelected==='confirmPass'"
+          (click)="handleRadio('confirmPass')">
+        <span class="check-radio"></span>
+      </label>
+      <input name="passwordAccess" class="w-full border border-gray-300 rounded-md shadow-sm p-2 pr-10 focus:ring-blue-500 focus:border-blue-500" required type="{{visiblePass?'text':'password'}}"
+        [(ngModel)]="newUserAlias.passwordAccess" validateEqual="password" (click)="handleRadio('confirmPass')"
+        reverse="true" #passwordAccess="ngModel" #txtPassword appValidate="password" minlength="7" maxlength="20"
+        appOnlyType="alphanumericBasicSymbolsLogin" />
+
+      <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" (click)="showHidePassword()">
+				<svg width="25" height="15" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M22.0833 11.4L18.9208 6.9852M12.5 13.35V8.8M2.91667 11.4L6.0715 6.9956M1 1C5.6 11.4 19.4 11.4 24 1" stroke="#53607E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</div>
+    </div>
+  </div>
+
+  <div class="flex justify-center mt-4">
+    <button type="submit" class="btn-primary cursor-pointer" [disabled]="!f.valid">Aceptar</button>
+  </div>
+</form>
+
+<div class="login--container-a login--container-a flex justify-center">
+    <p class="login__p--password"><a class="text-blue-600 underline" routerLink="/login">CANCELAR</a></p>
+  </div>

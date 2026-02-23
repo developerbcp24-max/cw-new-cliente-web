@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-12">
+    <app-bar-route [isLast]="false"></app-bar-route>
+    <div class="col-md-12">
+      <h3 class="mb-4">Bienvenido/a a la administración de QR</h3>
+    </div>
+    <div class="historical__box historical__account-box">
+      <form name="Informationform" novalidate #Informationform="ngForm" autocomplete="off">
+        <fieldset [disabled]="false"><legend></legend><br>
+          <div class="form-group">
+            <div class="account-flag">
+              <h4>Los invitamos a llenar el formulario en línea para crear a sus sucursales, jefes de agencia y cajeros.
+              </h4>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <app-bar-route [isLast]='true'></app-bar-route>
+    <div class="col-md-12">
+      <h3 class="mb-4">¿Por qué tengo que llenar este formulario?</h3>
+    </div>
+  </div>
+  <div class="row transferencia-ext__submit">
+    <div class="col-md-6">
+      <div class="historical__box historical__account-box">
+        <form name="currencyForm" novalidate #currencyForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="false"><legend></legend><br>
+            <div class="form-group">
+              <div class="account-flag">
+                <img class="w-100 custom-height" src="assets/img/qr/company.jpg" alt="img">
+                <div class="fondo-azul">
+                  <h3 class="div-h3">LA EMPRESA</h3>
+                </div>
+                <div class="">
+                  <h4>Desde Credinet Web podrá:</h4>
+                  <ul>
+                    <li>Generar QRs físicos</li>
+                    <li>Generar reportes de conciliación de todas sus sucursales a nivel nacional.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="col-md-6">
+      <div class="historical__box historical__account-box">
+        <form name="currencyForm" novalidate #currencyForm="ngForm" autocomplete="off">
+          <fieldset [disabled]="false"><legend></legend><br>
+            <div class="form-group">
+              <div class="account-flag">
+                <img class="w-100 custom-height" src="assets/img/qr/qr_payment.jpeg" alt="img">
+                <div class="fondo-azul">
+                  <h3 class="div-h3">LAS SUCURSALES</h3>
+                </div>
+                <div class="">
+                  <h4>Desde la plataforma <a href="https://apppro.bcp.com.bo/Multiplica/"> BackOffice QR</a> sus Jefes de Agencia y Cajeros podrán:</h4>
+                  <ul>
+                    <li>Visualizar los abonos QR en línea </li>
+                    <li>Generar reportes de conciliación.</li>
+                    <li>Generar QRs físicos.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 offset-md-8">
+    <div class="row transferencia-ext__submit">
+      <div class="col-md-2 col-sm-12">
+        <input type="button" class="button__principal button-next" (click)="validateForms()" value="EMPEZAR">
+      </div>
+    </div>
+  </div>
+</div>

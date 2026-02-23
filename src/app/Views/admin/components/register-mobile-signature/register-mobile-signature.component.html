@@ -1,0 +1,43 @@
+<div class="flex flex-col items-center">
+  <h3 class="typography-register-mobile-title mb-[16px]">Validador de firma</h3>
+  <p class="typography-register-mobile-description mb-[16px]">
+    Le enviamos un código al correo registrado
+    {{ getOnboardingMobileDataResponse.affiliateUserEmail }}.
+  </p>
+  <p class="typography-register-mobile-description mb-[16px]">
+    Ingrese el código que recibió en su correo para firmar electrónicamente el
+    documento de afiliación
+    <br />
+    a Credinet.
+  </p>
+
+  <ng-otp-input
+    [formControl]="otpFormControl"
+    [config]="{
+      length: 6,
+      allowNumbersOnly: true,
+      containerClass: 'onboarding-otp'
+    }"
+    class="mb-[16px]"
+  ></ng-otp-input>
+
+  <p class="typography-register-mobile-counter mb-[16px]">
+    00:{{ timeLeft | number : "2.0-0" }}
+  </p>
+
+  <p
+    class="typography-register-mobile-link mb-[148.59px]"
+    [class.disabled]="!canResend"
+    (click)="resendOtp()"
+  >
+    Reenviar código
+  </p>
+
+  <button
+    mat-flat-button
+    [disabled]="otpFormControl.invalid"
+    (click)="validateOtp()"
+  >
+    Siguiente
+  </button>
+</div>

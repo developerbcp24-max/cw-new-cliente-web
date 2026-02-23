@@ -1,0 +1,49 @@
+<form class="form-horizontal" name="dateRangeForm" novalidate #dateRangeForm="ngForm">
+    <div class="{{historical__box}}">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group container">
+            <div class="row row-cols-12">
+              <div class="col-md-{{options.isHorizontal?optionsGrid[0]:6}}">
+                <div class="date-hidden" *ngIf="isVisibleStartDate">
+                  <label class="historical__label">{{startDateName}} </label>
+                  <br>
+                  <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+                    <mat-label>Ingrese fecha inicial </mat-label>
+                    <input name="mydateInit"
+                           matInput [matDatepicker]="mydateInit"
+                           [value]="dateRange.dateInit || today"
+                           (dateInput)="onDateInitChanged('input', $event)"
+                           (dateChange)="onDateInitChanged('change', $event)">
+                    <mat-datepicker-toggle matSuffix [for]="mydateInit"></mat-datepicker-toggle>
+                    <mat-datepicker #mydateInit></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-md-{{options.isHorizontal?optionsGrid[1]:6}}">
+                <div class="date-hidden" *ngIf="isVisibleEndDate">
+
+                  <label class="historical__label">{{endDateName}}</label>
+                  <br>
+                  <mat-form-field class="historical__input-calendar box--margin-right" appearance="fill">
+                    <mat-label>Ingrese fecha final </mat-label>
+                    <input  name="mydateEnd" [value]="this.dateRange.dateEnd" locale="es"
+                     matInput [matDatepicker]="mydateEnd"
+                     [value]="dateRange.dateEnd || today"
+                           (dateInput)="onDateEndChanged('input', $event)" (dateChange)="onDateEndChanged('change', $event)">
+                    <mat-datepicker-toggle matSuffix [for]="mydateEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #mydateEnd></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="showError">
+              <p class="list__error"><em class="fas fa-times-circle"></em> {{errorMessage}}</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div><br>
+  </form>
+

@@ -1,0 +1,28 @@
+.home__item__small-title {
+    color: #153F7B;
+    margin: 0;
+    font-weight: bold;
+    font-size: 12px
+}
+
+.home__item__small-value {
+    color: #000;
+    font-weight: bold;
+    font-size: 12px
+}
+
+.home__item__small {
+    display: block;
+}
+
+.check {
+    height: 14px;
+    width: 14px;
+    border-radius: 20%;
+}
+
+.button__size {
+    width: 20px;
+    height: 20px;
+    color: #34B1CF;
+}

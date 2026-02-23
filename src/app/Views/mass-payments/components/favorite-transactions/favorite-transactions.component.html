@@ -1,0 +1,44 @@
+<fieldset [disabled]="disabled"><legend></legend><br>
+    <div class="col-md-6">
+      <div class="historical__box haberes__previous-form">
+        <label class="historical__label">Selecciona un pago guardado</label>
+        <form name="favoriteTransactionForm" #favoriteTransactionForm="ngForm" novalidate autocomplete="off">
+            <div class="form-group">
+              <select class="historical__select-account input-simple" name="favoriteTransaction" [(ngModel)]="selectedFavorite"
+                #favoriteTransaction="ngModel" required (change)="changeEventLogFavorito(3)">
+                <option [value]="undefined" disabled>Seleccione una opción</option>
+                <option *ngFor="let favorite of favoriteTransactions" [ngValue]="favorite">{{favorite.name}}</option>
+              </select>
+              <app-show-errors [control]="favoriteTransaction"></app-show-errors>
+            </div>
+        </form>
+        <div *ngIf="selectedFavorite">
+          <button class="button__principal" (click)="handleLoad(); changeEventLogFavorito(1)">CARGAR</button>
+          <button class="button__secondary transferencia-ext__button-secondary" (click)="handleRemove(); changeEventLogFavorito(2)"><em class="fas fa-trash"></em>
+            ELIMINAR</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="selectedFavorite">
+      <div class="transferencias__card">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Nombre</p>
+          <p class="home__card__item__small-value">{{selectedFavorite.name}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Descripción</p>
+          <p class="home__card__item__small-value">{{selectedFavorite.description}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Monto</p>
+          <p class="home__card__item__small-value">{{selectedFavorite.amount | number: '1.2-2'}}
+            {{selectedFavorite.currency}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Débito por operación</p>
+          <p class="home__card__item__small-value">{{selectedFavorite.operationDebit}}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  

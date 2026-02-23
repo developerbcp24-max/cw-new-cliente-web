@@ -1,0 +1,23 @@
+<app-modal [visible]="showSaveFavoriteForm" (onClose)="showSaveFavoriteForm=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">
+      Guardar operación como favorito
+    </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+        <input type="text" name="favoriteName" [(ngModel)]="favoriteName" class="transferencias__select-account-large input-simple"
+          placeholder="Nombre del favorito" required/>
+      </form>
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <div class="row modal__container-button justify-content-center">
+        <div class="col-md-6 col-xs-12 text-center">
+          <button class="button__principal modal__button" (click)="handleSaveFavorite()">ACEPTAR</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar justify-content-center">
+        <div class="col-md-12 col-xs-12 text-center">
+          <a (click)="handleCancel()" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

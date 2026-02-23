@@ -1,0 +1,29 @@
+<app-source-accounts [accountRequest]="sourceAccountDto" [disabled]="isDisabledForm" [companyAccounts]="true"
+  (onChange)="handleAccounts($event)" [showBalances]="false" #source>
+</app-source-accounts>
+<app-bar-route [isLast]="true"></app-bar-route>
+<h4 class="historical__h4" *ngIf="emptyData">Ver o Exportar Datos</h4>
+
+<ng-container class="row" *ngIf="emptyData">
+  <div class="col-md-3">
+    <button class="historical__btn-submit button__principal" (click)="donwloadReport()">EXPORTAR</button>
+  </div>
+  <div class="col-md-3">
+    <button class="button__secondary" (click)="previewVist()">VISTA PREVIA</button>
+  </div>
+</ng-container><br>
+<ng-container class="row" *ngIf="!emptyData">
+  <app-information-panel [message]="message" [type]="'attention'"></app-information-panel>
+</ng-container>
+<app-modal [visible]="isVisibleModal" (onClose)="isVisibleModal=false" [size]="'lg'">
+  <div class="app-modal-header col-md-12 col-sm-12">
+    <strong>Vista previa del comprobante</strong>
+  </div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <iframe src="" width="100%" height="400px" style="border:0;" transparency="transparency" title=""></iframe>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12">
+    <button type="button" class="btn btn-primary" (click)="donwloadReport()">Exportar</button>
+    <button type="button" class="btn btn-default" (click)="isVisibleModal=false">Cancelar</button>
+  </div>
+</app-modal>

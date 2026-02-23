@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-10">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Seleccione un periodo de consultas</h4>
+      <div class="row historical__period-options">
+        <div class="col-md-10">
+          <app-button-group (onChange)="handleGroupChanged($event)">
+            <app-button-group-content [contentTitle]="'Por Fechas'">
+              <app-date-range [(ngModel)]="dateRange" [options]="optionsDateRange" class="col-md-10"
+                (ngModelChange)="changeDate()"></app-date-range>
+              <app-information-panel [message]="message" [type]="'attention'" [visible]="!flag"></app-information-panel>
+            </app-button-group-content>
+            <app-button-group-content [contentTitle]="'Por Mes'">
+              <app-select-month (onChangeFilter)="handleMonthYear($event)"></app-select-month>
+            </app-button-group-content>
+          </app-button-group>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10">
+      <app-bar-route [isLast]="true"></app-bar-route>
+      <h4 class="historical__h4">Opciones de búsqueda</h4>
+      <div class="historical__box">
+        <form name="filterForm" #filterForm="ngForm" novalidate autocomplete="off">
+          <div class="transferencias__flex">
+            <div class="col-sm-3">
+              <label class="transferencias__label">Número de lote:</label>
+              <input type="text" class="input-simple" name="batchNumber" [(ngModel)]="batchIdInput" appOnlyType="integer"
+                appValidate="integer" maxlength="7" #batchNumber="ngModel" />
+            </div>
+            <div class="col-sm-3">
+              <label class="transferencias__label">Nro. de Operación:</label>
+              <input type="text" class="input-simple" name="operationNumber" value="" [(ngModel)]="operationIdInput"
+                #operationNumber="ngModel" maxlength="9" appOnlyType="integer" />
+              <app-show-errors [control]="operationNumber"></app-show-errors>
+            </div>
+            <div class="col-sm-3">
+              <label class="transferencias__label">Proveedor:</label>
+              <input type="text" class="input-simple" name="provider" value="" [(ngModel)]="providerInput" maxlength="50"
+                #provider="ngModel" appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" />
+              <app-show-errors [control]="provider"></app-show-errors>
+            </div>
+            <div class="col-sm-3">
+              <label class="transferencias__label">Seleccione Cuenta:</label>
+              <select class="input-simple" name="account" [(ngModel)]="accountNumber" #account>
+                <option value=''>Todos</option>
+                <option *ngFor="let item of accounts" [ngValue]="item.number">{{item.formattedNumber}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div><br>
+    </div>
+  </div>
+  
+  <div class="row haberes__submit">
+    <div class="col-md-2 col-sm-4">
+      <button class="historical__btn-submit button__principal" (click)="handleSearch()"><em class="icon-Lupa"></em>
+        BUSCAR</button>
+    </div>
+    <div class="col-md-2 col-sm-4">
+      <button class="button__secondary" (click)="handleClear()"><em class="icon-eliminar"></em> LIMPIAR BÚSQUEDA</button>
+    </div>
+  </div><br>
+  
+    <app-information-panel [message]="'No se encontro ningún registro según los parametros de búsqueda.'"
+      [type]="'attention'" [visible]="swTable && totalItems === 0"></app-information-panel>
+  
+  <div class="row" *ngIf="totalItems > 0">
+    <div class="col-md-12">
+      <app-vouchers-list [vouchers]="vouchers">
+    </app-vouchers-list>
+      <app-pagination [rowsPerPage]="rowsPerPage" [isCenter]="true" [totalItems]="totalItems" [maxSize]="pageItems"
+        (onChange)="handleChangePagination($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+    </div>
+  </div>

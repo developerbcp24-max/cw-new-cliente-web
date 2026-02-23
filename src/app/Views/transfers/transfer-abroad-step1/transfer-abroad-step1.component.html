@@ -1,0 +1,91 @@
+<app-source-accounts [accountRequest]="sourceAccountRequest" [disabled]="isDisabledForm"
+    (onChange)="handleSourceAccountChanged($event)" #source></app-source-accounts>
+<div class="row transferencia-ext__amount">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <app-bar-route></app-bar-route>
+                <app-currency-amount-abroad #currencyAndAmountAbroad [currencies]="parameters.currencies"
+                    [disabled]="isDisabledForm"
+                    (onChangeCurrencyDestinationIsDollar)="handleCurrencyDestinationIsDollar($event)"
+                    [transferAbroadDto]="transferAbroadDto" #formCurrencyAmount
+                    (isShowFundsForm)="handleShowFundsForm($event)"></app-currency-amount-abroad>
+            </div>
+            <div class="col-md-6">
+                <app-ticket [disabled]="isDisabledForm" [batchInformation]="transferAbroadDto"
+                    [isExteriorTransfer]="isExteriorTransfer" [amount]="transferAbroadDto.amount" [transferAbroadTick]="transferAbroadTick"
+                    [amountLimitTicket]="maxAmountTransfer" #formTicket></app-ticket>
+                <div class="padding-ticket">
+                    <app-ticket-comission [charges]="parameters.chargesType" [amount]="transferAbroadDto.amount"
+                        [amountLimitTicket]="maxAmountTransfer" (onGetTicket)="getTicketCommission($event)"
+                        (onChangeCharge)="handleChangeCharge($event)" #formTicketCommission></app-ticket-comission>
+                </div>
+                <div class="padding-ticket">
+                    <app-ticket-other-currency [amount]="transferAbroadDto.amount"
+                        [isRequiredTicket]="isRequiredTicketOtherCurrency"
+                        (onChange)="handleChangeTicketOtherCurrency($event)" #formTicketOtherCurrency>
+                    </app-ticket-other-currency>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-approvers-and-controllers [approversRequest]="approversRequest" [currency]="transferAbroadDto.currency"
+    [amount]="transferAbroadDto.amount" (onChange)="handleApproversOrControllersChanged($event)"
+    (onChangeNamesApprovers)="handleNamesApprovers($event)" #approversAndControllers></app-approvers-and-controllers>
+<app-emails-input [batchInformation]="transferAbroadDto" #emailInput></app-emails-input>
+<div class="row transferencia-ext__submit">
+    <div class="col-md-2 col-sm-12">
+        <input type="button" [disabled]="showMessageIsBlock" class="button__principal button-next" (click)="
+          validateForms(
+            source.handleValidate()!
+          , formTicket.handleValidate()
+          , formCurrencyAmount.handleValidate()
+          , formTicketCommission.handleValidate()
+          , formTicketOtherCurrency.handleValidate()
+          , approversAndControllers.handleValidate()
+          , approversAndControllers.validateApproversLimit()
+          , emailInput.handleValidate()!)!
+          && handleOpenForm()" value="SIGUIENTE">
+    </div>
+    <div class="col-md-2 col-sm-12">
+        <p class="historical__p--cancel"><a [routerLink]="['']">CANCELAR</a></p>
+    </div>
+</div>
+<div class="row helpers__hidden-small">
+    <div class="col-md-11">
+        <div class="alert alert-attention">
+            <em class="fas fa-exclamation-circle"></em>
+            <p> Las operaciones deben ser autorizadas el mismo día que fueron preparadas.</p>
+        </div>
+    </div>
+</div>
+<div class="row helpers__hidden-small">
+    <div class="col-md-11">
+        <div class="alert alert-information">
+            <em class="fas fa-info-circle"></em>
+            <p> El horario límite para envío de Transferencias al Exterior es hasta hrs. {{parameterResult.value}} de
+                Lunes a Viernes, caso
+                contrario la solicitud será rechazada.</p>
+        </div>
+    </div>
+</div>
+<app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12">Alerta</div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+        Estimado cliente, su operación será rechazada si no cuenta con fondos suficientes al momento
+        de realizar la autorización.
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="offset-md-4 col-md-4 col-xs-12">
+            <button class="button__principal modal__button"
+                (click)="excedeedAmount=false;handleOpenForm();">ACEPTAR</button>
+        </div>
+    </div>
+</app-modal>
+
+<app-modal-is-block [showMessageIsBlock]="showMessageIsBlock" (onClose)="onClose($event);"></app-modal-is-block>
+
+<div class="alert alert-primary d-flex align-items-center" role="alert">
+    <h5>Estimado cliente, le informamos que las plataformas transaccionales o personas que se dedican a la venta y comercialización de Activos Virtuales, no se encuentran bajo control, supervisión ni regulación de ASFI, razón por lo cual, las transacciones con los mismos son realizadas a riesgo del consumidor financiero. </h5>
+</div>

@@ -1,0 +1,317 @@
+<div class="row">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <div class="row">
+        <div class="col-md-10">
+          <h4 class="historical__h4">A. Tipo de Boleta de garantia</h4>
+          <div class="transferencias__card">
+            <div class="home__card__item">
+              <p class="home__card__item__small-title">Tipo de Boleta de garantia</p>
+              <p class="home__card__item__small-value">{{ballot.typeBallotDescription}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10"><br>
+          <h4 class="historical__h4">B. Datos de Afianzado</h4>
+          <div class="transferencias__box transferencia-ext__box">
+            <div class="transferencias__card">
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Tipo de Persona</p>
+                <p class="home__card__item__small-value">{{ballot.personTypeDescription}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title"> Nombre solicitante</p>
+                <p class="home__card__item__small-value">{{ballot.nameThirdPerson}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Tipo de documento</p>
+                <p class="home__card__item__small-value">{{ballot.documentCIThirdPerson}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Dirección</p>
+                <p class="home__card__item__small-value">{{ballot.address}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.personType == 'PN'">
+                <p class="home__card__item__small-title">Estado Civil</p>
+                <p class="home__card__item__small-value">{{ballot.civilStateDescription}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Ingreso</p>
+                <p class="home__card__item__small-value">{{ballot.annualIncome}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Patrimonio</p>
+                <p class="home__card__item__small-value">{{ballot.heritage}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Número de empleados</p>
+                <p class="home__card__item__small-value">{{ballot.numberOfEmployees}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <div class="bar-route"></div>
+          <h4 class="historical__h4">C. Datos de la Fianza</h4>
+          <div class="transferencias__box transferencia-ext__box">
+            <div class="transferencias__card">
+              <div class="home__card__item">
+                <p class="home__card__item__small-title"> Importe</p>
+                <p class="home__card__item__small-value">{{ballot.amount}} {{ballot.currencyDescription}}
+                  ({{ballot.literalAmount}})</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.typeWarranty !== 'DPF'">
+                <p class="home__card__item__small-title">Tasa acorde a su Funcionario de Negocios</p>
+                <p class="home__card__item__small-value">{{ballot.cupRate}} % </p>
+              </div>
+              <div class="home__card__item" *ngIf="this.ballot.termInDays != 0">
+                <p class="home__card__item__small-title">Plazo en Días</p>
+                <p class="home__card__item__small-value">{{ballot.termInDays}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="this.ballot.termInDays != 0">
+                <p class="home__card__item__small-title">Computables de a partir de</p>
+                <p class="home__card__item__small-value">{{ballot.startDate | date:'dd/MM/yyyy'}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="this.ballot.termInDays == 0">
+                <p class="home__card__item__small-title">Fecha de Inicio</p>
+                <p class="home__card__item__small-value">{{ballot.startDate | date:'dd/MM/yyyy'}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="this.ballot.termInDays == 0">
+                <p class="home__card__item__small-title">Fecha de vencimiento</p>
+                <p class="home__card__item__small-value">{{ballot.expirationDate | date:'dd/MM/yyyy'}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Beneficiario</p>
+                <p class="home__card__item__small-value">{{ballot.beneficiary}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Objeto</p>
+                <p class="home__card__item__small-value">{{ballot.objectOtherDescription}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Descripción</p>
+                <p class="home__card__item__small-value">{{ballot.objectDescription}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.object === 'OTR'">
+                <p class="home__card__item__small-title">Título del Objeto</p>
+                <p class="home__card__item__small-value">{{ballot.objectSpecification}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Renovación de Boleta de Garantía</p>
+                <p class="home__card__item__small-value">{{ballot.statusRenovation ? 'NO' : ballot.numberRenovation}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <h4 class="historical__h4">D. Otros</h4>
+          <div class="transferencias__box transferencia-ext__box">
+            <div class="transferencias__card">
+              <div class="home__card__item">
+                <p class="home__card__item__small-title"> Forma de pago de las comisiones</p>
+                <p class="home__card__item__small-value">Cuenta de Débito : {{ballot.formattedAccountDebit}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Tipo de garantía</p>
+                <p class="home__card__item__small-value">{{ballot.typeWarrantyDescription}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.typeWarranty != 'LRC'">
+                <p class="home__card__item__small-title">Monto</p>
+                <p class="home__card__item__small-value">{{ballot.amountWarranty | number: '1.2-2'}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.typeWarranty === 'DPF'">
+                <p class="home__card__item__small-title">Número</p>
+                <p class="home__card__item__small-value">{{ballot.numberDPF}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.typeWarranty === 'PDF'">
+                <p class="home__card__item__small-title">Número de Cuenta</p>
+                <p class="home__card__item__small-value">{{ballot.formattedAccountPDF}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.typeWarranty === 'DPF'">
+                <p class="home__card__item__small-title">Banco</p>
+                <p class="home__card__item__small-value">{{ballot.bank}}</p>
+              </div>
+            </div>
+            <div class="transferencias__card" *ngIf="ballot.typeWarranty === 'DPF'">
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Titular 1</p>
+                <p class="home__card__item__small-value">{{ballot.firstTitular}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">CI</p>
+                <p class="home__card__item__small-value">{{ballot.firstDocumentCI}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.secondTitular != ''">
+                <p class="home__card__item__small-title">Titular 2</p>
+                <p class="home__card__item__small-value">{{ballot.secondTitular}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.secondDocumentCI != ''">
+                <p class="home__card__item__small-title">CI</p>
+                <p class="home__card__item__small-value">{{ballot.secondDocumentCI}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.thirdTitular != ''">
+                <p class="home__card__item__small-title">Titular 3</p>
+                <p class="home__card__item__small-value">{{ballot.thirdTitular}}</p>
+              </div>
+              <div class="home__card__item" *ngIf="ballot.thirdDocumentCI != ''">
+                <p class="home__card__item__small-title">CI</p>
+                <p class="home__card__item__small-value">{{ballot.thirdDocumentCI}}</p>
+              </div>
+            </div>
+            <div class="transferencias__card" *ngIf="ballot.typeBallotOfWarranty == 'GPR'">
+              <div class="home__item__small">
+                <p class="home__item__small-title">Modalidad</p>
+                <p class="home__item__small-value">
+                  {{ballot.modality == 'MAU' ? 'AMORTIZACIÓN ÚNICA' : 'AMORTIZACIÓN GRADUAL O PROGRESIVA'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="ballot.modality === 'SMO'">
+        <div class="col-md-10">
+          <table class="cw-table table-striped" data-html="true" data-toggle="tooltip" data-placement="top"><caption></caption>
+            <thead>
+              <tr>
+                <th>Al</th>
+                <th>US$</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of ballot.amortizations; let i = index">
+                <td>{{data.toThe | date:'dd-MM-yyyy'}}</td>
+                <td>{{data.amount | number: '1.2-2'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <h4 class="historical__h4">E. Instrucciones de entrega de la boleta</h4>
+          <div class="transferencias__box transferencia-ext__box">
+            <div class="transferencias__card">
+              <div class="home__card__item">
+                <p class="home__card__item__small-title"> Nombre</p>
+                <p class="home__card__item__small-value">{{ballot.entityName}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">CI</p>
+                <p class="home__card__item__small-value">{{ballot.entityDocumentCI}}</p>
+              </div>
+              <div class="home__card__item">
+                <p class="home__card__item__small-title">Ciudad de Origen</p>
+                <p class="home__card__item__small-value">{{ballot.placeOfDelivery}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Contrato</h4>
+      <div class="haberes__debit">
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="isRenewable">
+          <span class="check"></span>
+        </label>
+        <p>Renovable, Irrevocable y de Ejecución Inmediata</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10">
+      <div class="bar-route"></div><br>
+      <div class="haberes__debit">
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="isCondition">
+          <span class="check"></span>
+        </label>
+        <p>Declaro haber leído y estar de acuerdo con estas condiciones</p>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="showIframe">
+    <div class="col-md-10">
+      <div class="bar-route"></div><br>
+      <div class="transferencias__box transferencia-ext__box">
+        <iframe  src=""  width="100%"  height="400px"  style="border:0;"  transparency="transparency" title=""></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10">
+      <div class="bar-route"></div><br>
+      <a (click)="handleDownloadContract()"> Descargar Contrato <em class="fa fa-file-pdf button__size"></em></a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10">
+      <div class="bar-route"></div><br>
+      <div class="haberes__debit">
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="isContract">
+          <span class="check"></span>
+        </label>
+        <p>Debe aceptar las condiciones del Contrato.</p>
+      </div>
+    </div>
+  </div>
+
+  <app-approvers-and-controllers [disabled]="false" [approversRequest]="authorizersDto" [currency]="ballot.currency"
+    [amount]="ballot.amount" [isAdministrative]="true" #approversAndControllers (onChangeNamesApprovers)="handleNamesApprovers($event)"
+    (onChange)="handleApproversOrControllersChanged($event)"
+    ></app-approvers-and-controllers>
+
+  <div class="row" *ngIf="showMessageContract">
+    <div class="col-md-6">
+      <div class="alert alert-danger">
+        <p>Debe aceptar la declaración del contrato.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row transferencia-ext__submit"><br>
+    <div class="col-md-2 col-sm-12">
+      <input type="button" class="button__principal button-next"
+        (click)="handleShowToken(approversAndControllers.handleValidate())" [disabled]="isDisabledForm" value="PREPARAR TRANSACCIÓN">
+    </div>
+    <div class="col-md-3">
+      <button class="historical__btn-submit button__pre_save" [disabled]="isDisabledForm"
+        (click)="handleValidateNoToken(approversAndControllers.handleValidate())">
+        ENVIAR A PREPARACIÓN MASIVA
+      </button>
+    </div>
+    <div class="col-md-2 col-sm-12">
+      <p class="historical__p--cancel"><a [routerLink]="['/operations/ballotOfWarranty']">CANCELAR</a></p>
+    </div>
+  </div>
+
+  <app-token-modal [disabled]="isTokenFormDisabled" [isVisible]="isVisibleToken" (onSubmit)="handleTokenSubmit($event)"
+    (onClose)="isVisibleToken=false"></app-token-modal>
+
+  <app-modal [visible]="isSuccessfulProcess" (onClose)="isSuccessfulProcess=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-sm-12"> Operación Realizada </div>
+    <div class="app-modal-body col-md-12 col-sm-12">
+      Su operación ha sido enviada satisfactoriamente a “Solicitudes Pendientes de Confirmación” desde donde el o los
+      usuario(s) que cuenten con los permisos podrán confirmar el lote <strong> {{numProcesBatch}} </strong> más adelante.
+      Una vez aprobada su operación, será enviada a Back Office para su ejecución. Verificar en la pantalla hasta
+      comprobar que se procesó correctamente.
+    </div>
+    <div class="app-modal-footer col-md-12 col-sm-12">
+      <button type="button" class="btn btn-primary" (click)="handleSuccessfulProcess()">Aceptar</button>
+    </div>
+  </app-modal>
+
+  <app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>

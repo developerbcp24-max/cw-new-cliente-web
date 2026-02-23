@@ -1,0 +1,70 @@
+<div class="row historical__authorizers helpers--margin-bottom-A" *ngIf="controllers.length != 0 && (showOnly=='controllers'||showOnly=='')">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Selecciona controladores</h4>
+      <div class="historical__box historical__account-box">
+        <label class="historical__label">Necesita seleccionar {{controllersNumber}} controlador{{controllersNumber > 1 ?
+          'es': ''}}</label>
+        <div class="row">
+          <div *ngFor="let controller of controllers" class="col-md-4 authorizers">
+            <label class="checkbox checkbox--margin">
+              <input type="checkbox" (change)="handleControllerChecked(controller.id)" [(ngModel)]="controller.isSelected" [disabled]="disabled">
+              <span class="check"></span>
+            </label>
+            <div>
+              <p class="authorizers-name">{{controller.names}} {{controller.firstLastName}} {{controller.secondLastName}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-information-panel [visible]="controllersHaveErrors" [message]="'Debe notificar a ' + controllersNumber + ' controlador'+ (controllersNumber > 1 ? 'es': '')"
+        [type]="'attention'"></app-information-panel>
+    </div>
+  </div>
+  <div class="row historical__authorizers helpers--margin-bottom-A" *ngIf="showOnly=='authorizers' || showOnly==''">
+    <div class="col-md-12">
+      <app-bar-route [isLast]="isAdministrative"></app-bar-route>
+      <h4 class="historical__h4">Selecciona autorizadores</h4>
+      <div class="historical__box historical__account-box" *ngIf="(approversRequest?.isSignerScheme !== undefined && !approversRequest?.isSignerScheme ) || (!isSignature || isAdministrative)">
+        <label class="historical__label">Necesita seleccionar {{approversNumber}} autorizador{{approversNumber > 1 ?
+          'es': ''}}</label>
+        <div class="row">
+          <div *ngFor="let approver of approvers;" class="col-md-4 authorizers">
+            <label class="checkbox checkbox--margin">
+              <input type="checkbox" (change)="handleApproverChecked(approver.id)" [(ngModel)]="approver.isSelected" [disabled]="disabled">
+              <span class="check"></span>
+            </label>
+            <div>
+              <p class="authorizers-name">{{approver.names}} {{approver.firstLastName}} {{approver.secondLastName}}</p>
+              <p class="authorizers-limit" *ngIf="!isAdministrative">Límite disponible: {{approver.limit | number:
+                '1.1-2'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-information-panel [visible]="showOnly!=='authorizers' && (approversRequest?.isSignerScheme || (isSignature && !isAdministrative))"
+        [message]="cismartApprovers.instructions?cismartApprovers.instructions:'LA CUENTA NO TIENE ASIGNADO AUTORIZADORES'"
+        [type]="'information'"></app-information-panel>
+      <div class="historical__box historical__account-box" *ngIf="(approversRequest?.isSignerScheme || (isSignature && !isAdministrative)) && cismartApprovers.authorizers.length > 0">
+        <div class="row">
+          <div *ngFor="let authorizer of cismartApprovers.authorizers" class="col-md-4 authorizers">
+            <label class="checkbox checkbox--margin">
+              <input type="checkbox" [disabled]="disabled ||!authorizer.isSelectionable" (change)="authorizer.isSelectionable && handleApproverCismartChecked(authorizer)">
+              <span class="check"></span>
+            </label>
+            <div>
+              <p class="authorizers-name" *ngIf="showOnly=='authorizers'">{{authorizer.names}}
+                {{authorizer.firstLastName}} {{authorizer.secondLastName}}</p>
+              <p class="authorizers-name" *ngIf="showOnly==''">{{authorizer.fullName}}</p>
+              <p class="authorizers-limit">Tipo: {{authorizer.type}}</p>
+              <p class="authorizers-limit">{{authorizer.comments}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-information-panel [visible]="approversCismartHaveErrors" [message]="'Debe notificar al menos a un autorizador.'"
+        [type]="'attention'"></app-information-panel>
+      <app-information-panel [visible]="approversHaveErrors" [message]="'Debe notificar a ' + approversNumber + ' autorizador'+ (approversNumber > 1 ? 'es': '')"
+        [type]="'attention'"></app-information-panel>
+    </div>
+  </div>

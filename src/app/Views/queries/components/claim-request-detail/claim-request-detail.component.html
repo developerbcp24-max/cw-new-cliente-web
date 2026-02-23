@@ -1,0 +1,63 @@
+<div class="row transferencia-ext__card align-left">
+    <div class="offset-md-1 col-md-10">
+      <div class="transferencias__card card-destination">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Número de lote : </p>
+          <p class="home__card__item__small-value">{{detail.processBatchId}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Nro. Tarjeta : </p>
+          <p class="home__card__item__small-value">{{detail.cardNumber}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Cuenta origen : </p>
+          <p class="home__card__item__small-value">{{detail.accountNumber}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Monto de Lote : </p>
+          <p class="home__card__item__small-value">{{detail.amount | number: '1.2-2'}} {{detail.currency}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Departamento : </p>
+          <p class="home__card__item__small-value">{{detail.department}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Dirección : </p>
+          <p class="home__card__item__small-value">{{detail.address}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Teléfono : </p>
+          <p class="home__card__item__small-value">{{detail.phone}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Celular : </p>
+          <p class="home__card__item__small-value">{{detail.cellPhone}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Fax : </p>
+          <p class="home__card__item__small-value">{{detail.fax}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Tipo de Producto : </p>
+          <p class="home__card__item__small-value">{{detail.productName}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Tipo de {{detail.claimType == 'REC'?"Reclamo":"Consulta"}} : </p>
+          <p class="home__card__item__small-value">{{detail.serviceName}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Descripción : </p>
+          <p class="home__card__item__small-value">{{detail.descriptionClaim}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.transactionDate != ''">
+          <p class="home__card__item__small-title">Fecha : </p>
+          <p class="home__card__item__small-value">{{detail.transactionDate}}</p>
+        </div>
+        <div class="home__card__item" *ngIf="detail.transactionTime != ''">
+          <p class="home__card__item__small-title">Hora : </p>
+          <p class="home__card__item__small-value">{{detail.transactionTime}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-approvers-and-controllers-detail [details]="detail.userInvolveds"></app-approvers-and-controllers-detail>

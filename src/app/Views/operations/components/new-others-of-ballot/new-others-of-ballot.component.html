@@ -1,0 +1,49 @@
+<form class="form-horizontal" name="formComponent" #formComponent="ngForm" novalidate autocomplete="off">
+  <fieldset [disabled]="disabled"><legend></legend><br>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">1.Garantias:</label>
+      <div class="col-sm-5">
+        <select class="form-control" name="typeWarranty" [(ngModel)]="ballot.typeWarranty"
+          (ngModelChange)="handleWarrantyChange()">
+          <option value='' disabled>Seleccione una garantía</option>
+          <option *ngFor="let item of warranties" [ngValue]="item.code">
+            {{item.description}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Tasa acordada con su funcionario de negocios:</label>
+      <div class="col-sm-2">
+        <div class="input-group">
+          <input type="text" name="cupRate" [(ngModel)]="ballot.cupRate" class="form-control" required
+            #cupRate="ngModel" [maxLength]="2" appOnlyType="integer">
+          <span class="input-group-addon" id="basic-addon2">%</span>
+        </div>
+        <app-show-errors [control]="cupRate"></app-show-errors>
+      </div>
+    </div>
+  </fieldset>
+</form>
+<div class="table-responsive" *ngIf="this.ballot.typeWarranty === constants.CREDIT_LINE">
+  <br> Mensaje de Notificación Linea de Credito
+  <table class="table table-striped table-bordered"><caption></caption>
+    <thead>
+      <tr>
+        <th>Nro Escritura</th>
+        <th>Fecha</th>
+        <th>Notaria de Fe Pública</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of publicDetailResult">
+        <td>{{data.publicWritingNumber}}</td>
+        <td>{{data.datePublicWriting}}</td>
+        <td>{{data.nameOfNotaryPublicFaith}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-depecrated-source-accounts *ngIf="ballot.typeWarranty!='' && ballot.typeWarranty" [disabled]="disabled"
+  [accountRequest]="sourceAccountRequest" (onChange)="handleSourceAccountChanged($event)" #source>
+</app-depecrated-source-accounts>

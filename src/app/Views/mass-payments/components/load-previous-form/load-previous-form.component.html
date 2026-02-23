@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-6">
+      <div class="historical__box haberes__previous-form">
+        <fieldset [disabled]="disabled"><legend></legend><br>
+          <label class="historical__label">Seleccione una planilla</label>
+          <select class="input-simple" [(ngModel)]="selectedSpreadsheet" (change)="clickEventLogPrevious(1)">
+            <option *ngFor="let spreadsheet of previousForm" [ngValue]="spreadsheet">{{spreadsheet.description}} - {{spreadsheet.dateForm | date:'dd/MM/yyyy'}}</option>
+          </select>
+          <button class="button__principal" (click)="handleSelectSpreadsheet(); clickEventLogPrevious(2)">CARGAR PLANILLA</button>
+        </fieldset>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="selectedSpreadsheet">
+      <div class="bar-route helpers__show-small"></div>
+      <div class="transferencias__card">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Descripción</p>
+          <p class="home__card__item__small-value">{{selectedSpreadsheet.description}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Cuenta</p>
+          <p class="home__card__item__small-value">{{selectedSpreadsheet.accountNumber}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Monto</p>
+          <p class="home__card__item__small-value">{{selectedSpreadsheet.amount | number: '1.2-2'}}
+            {{selectedSpreadsheet.currency}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Fecha</p>
+          <p class="home__card__item__small-value">{{selectedSpreadsheet.dateForm | date:'dd/MM/yyyy'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,15 @@
+<app-stepper [currentStep]="currentStep" [showPreviusStep]="true" (onPreviusStep)="handlePreviusStep()">
+    <app-step title="A">
+      <app-new-securing-data *ngIf="currentStep===1" [civilStatus]="parametersResult" [ballot]="ballot" (onChange)="handleChangeStep1($event)" (ballotDto)="handleBallotDto($event)"></app-new-securing-data>
+    </app-step>
+    <app-step title="B">
+        <app-new-bail-data *ngIf="currentStep===2" [objectResult]="parametersResult" [ballot]="ballotSetp1" (onchangeBallot)="handleBallotDto($event)"
+        (onChangeStep2)="handleChangeStep2($event)" (onChangeRoe)="handleChangeRoe($event)"></app-new-bail-data>
+    </app-step>
+    <app-step title="{{nameC}}">
+      <app-new-other-guarantees *ngIf="currentStep===3" [otherWaranties]="parametersResult" [ballot]="ballotSetp2" (onchangeOthers)="handleBallotDto($event)" (onChangeStep3)="handleChangeStep3($event)"></app-new-other-guarantees>
+    </app-step>
+    <app-step title="{{nameD}}">
+        <app-new-ballot-instructions *ngIf="currentStep===4" [ballot]="ballotSetp3" (onChangeStep3)="handleChangeStep4($event)"></app-new-ballot-instructions>
+      </app-step>
+  </app-stepper>

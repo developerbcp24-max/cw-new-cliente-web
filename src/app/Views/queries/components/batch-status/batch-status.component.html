@@ -1,0 +1,29 @@
+<table class="cw-table table-striped"><caption></caption>
+    <thead>
+      <tr>
+        <th>Lote</th>
+        <th>Operación</th>
+        <th>Cuenta origen</th>
+        <th>Monto</th>
+        <th>Moneda</th>
+        <th>Estado</th>
+        <th>Resultado</th>
+  </thead>
+    <tbody>
+      <tr *ngFor="let batch of batches">
+        <td title="Lote">{{batch.id}}</td>
+        <td title="Operación">{{batch.operation}}</td>
+        <td title="Cuenta origen">{{batch.sourceAccount}}</td>
+        <td title="Monto">{{batch.amount | number: '1.2-2'}}</td>
+        <td title="Moneda">{{batch.currency}}</td>
+        <td title="Estado">{{batch.status}}</td>
+        <td title="Resultado">{{batch.result}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row transferencia-ext__submit top-space">
+    <div class="col-md-2 col-sm-4">
+      <button class="button__secondary historical__button-secondary button-program" [routerLink]="['/queries/pendings']">Regresar</button>
+    </div>
+  </div>
+

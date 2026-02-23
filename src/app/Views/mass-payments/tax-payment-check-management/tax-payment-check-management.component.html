@@ -1,0 +1,152 @@
+<div class="col-md-12">
+
+      <app-information-panel [message]="'El horario límite para la aprobación de pago de impuestos con cheque de gerencia es hasta las hrs. 12:00 p.m., posterior a ese horario la solicitud de pago será rechazada'" [type]="'attention'"
+
+      [visible]="true"></app-information-panel>
+    </div>
+
+    <app-header-detail [disabled]="isTransactionSuccessful" [accountDto]="accountDto" [amount]="batchInformation.amount"
+      [batchInformation]="batchInformation" [isDebitVisible]="true" [noFunds]="true" (headerResultChange)="handleAccountChanged($event)"
+      #header></app-header-detail>
+    <div class="row">
+      <div class="col-md-12">
+        <app-bar-route></app-bar-route>
+        <h4 class="historical__h4">Ingrese los destinatarios</h4>
+        <app-button-group (onChange)="handleGroupChanged($event)" #buttonGroup>
+          <app-button-group-content [active]="true" [contentTitle]="'Cargar planilla  manual'"></app-button-group-content>
+          <app-button-group-content [disabled]="isTransactionSuccessful" [contentTitle]="'Cargar planilla favorita'">
+            <app-information-panel [visible]="!havefavoritePayments"
+              [message]="'La empresa no tiene planillas favoritas guardadas'" [type]="'info'"></app-information-panel>
+            <app-favorite-transactions *ngIf="havefavoritePayments" [disabled]="isTransactionSuccessful"
+              [favoriteTransactions]="favoriteTransactions" (onChange)="handleSelectFavorite($event)">
+            </app-favorite-transactions>
+          </app-button-group-content>
+          <app-button-group-content [disabled]="!batchInformation.currency||isTransactionSuccessful"
+            [contentTitle]="'Importar Archivo'">
+            <app-import-files [disabled]="isTransactionSuccessful" (action)="handleLoadFile($event)"
+              [operationType]="batchInformation.operationTypeId"></app-import-files>
+          </app-button-group-content>
+          <app-button-group-content [disabled]="!batchInformation.currency||isTransactionSuccessful"
+            [contentTitle]="'Cargar planilla anterior'">
+            <app-information-panel [visible]="!haveOldPayments"
+              [message]="'La empresa no tiene planillas anteriores procesadas'" [type]="'info'"></app-information-panel>
+            <app-load-previous-form *ngIf="haveOldPayments" [disabled]="isTransactionSuccessful"
+              [previousForm]="previousSpreadsheets" (onChange)="handleSelectSpreadsheetId($event)"></app-load-previous-form>
+          </app-button-group-content>
+        </app-button-group>
+        <app-tax-check-spreadsheet [disabled]="isTransactionSuccessful"
+          [visible]="batchInformation.amount && batchInformation.currency" (onRowChange)="handleRowChanged()"
+          [batchInformation]="batchInformation" [spreadsheetPerPage]="spreadsheetPerPage"></app-tax-check-spreadsheet>
+        <br>
+        <app-information-panel [visible]="validateAmount" [message]="'El monto debe ser mayor a 0.'" [type]="'attention'">
+        </app-information-panel>
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <fieldset [disabled]="isTransactionSuccessful"><legend></legend><br>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <app-pagination *ngIf="batchInformation.amount && batchInformation.currency" [rowsPerPage]="rowsPerPage"
+                        [isCenter]="false" [totalItems]="spreadsheetSize" [maxSize]="itemsPerPage"
+                        (onChange)="handlePageChanged($event)" (onChangeRowsPerPage)="handleViewRows($event)"></app-pagination>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mt-4" *ngIf="batchInformation.amount && batchInformation.currency">
+                  <button class="button__secondary" (click)="showFavoriteForm=true">GUARDAR COMO FAVORITO</button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-approvers-and-controllers [disabled]="isTransactionSuccessful" [approversRequest]="authorizersDto"
+      [currency]="batchInformation.currency" [amounts]="amounts" [amount]="amount"
+      (onChange)="handleApproversOrControllersChanged($event)" #approversAndControllers></app-approvers-and-controllers>
+    <app-emails-input [disabled]="isTransactionSuccessful" [batchInformation]="batchInformation" #emails>
+    </app-emails-input>
+
+    <app-successful-operation-modal [processBatchId]="processBatchNumber" [isSuccessful]="isTransactionSuccessful"
+      [isMasive]="isTransactionSuccessful" [operationTypeId]="batchInformation.operationTypeId">
+    </app-successful-operation-modal>
+
+    <div class="row transferencia-ext__submit">
+      <div class="col-md-3">
+        <button class="button__principal historical__button-secondary" [disabled]="isTransactionSuccessful"
+          (click)="handleValidate(header.handleValidate()!,approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(), emails.handleValidate()!,false)">
+          PREPARAR TRANSACCIÓN
+        </button>
+      </div>
+      <div class="col-md-3" *ngIf="is_validbatchtoken">
+        <button class="button__pre_save historical__button-secondary" [disabled]="isTransactionSuccessful"
+          (click)="handleValidate(header.handleValidate()!,approversAndControllers.handleValidate(), approversAndControllers.validateApproversLimit(), emails.handleValidate()!,true)">
+          ENVIAR A PREPARACIÓN MASIVA
+        </button>
+      </div>
+      <div class="col-md-2 col-sm-12">
+        <p class="historical__p--cancel" *ngIf="!isTransactionSuccessful"><a [routerLink]="['']">CANCELAR</a></p>
+        <p class="historical__p--cancel" *ngIf="isTransactionSuccessful"><a
+          (click)="header.handleNewOperation();approversAndControllers.handleNewOperation(); isTransactionSuccessful=false;'buttonGroup.selectContent()';handleNewOperation()">NUEVO</a></p>
+      </div>
+    </div>
+    <app-modal [visible]="showFavoriteForm" (onClose)="showFavoriteForm=false" [size]="'md'">
+      <div class="app-modal-header col-md-12 col-sm-12">Guardar operación como favorito</div>
+      <div class="app-modal-body col-md-12 col-sm-12">
+        <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+          <input type="text" name="name" class="transferencias__select-account-large input-simple"
+            placeholder="Nombre del favorito" [(ngModel)]="batchInformation.favoriteName"
+            appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" required #name="ngModel" />
+          <app-show-errors [control]="name"></app-show-errors>
+        </form>
+      </div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+            <button class="button__principal modal__button" (click)="handleValidateFavorite()">ACEPTAR</button>
+          </div>
+        </div>
+        <div class="row modal__cancelar justify-content-center">
+              <div class="col-md-12 col-xs-12 d-flex justify-content-center"><a (click)="showFavoriteForm=false" class="link-cancel-modal">CANCELAR</a></div>
+        </div>
+      </div>
+    </app-modal>
+    <app-date-future [visible]="scheduleOperation" (onClose)="scheduleOperation=false"
+      (onChange)="handleDateFuture($event)"></app-date-future>
+    <app-token-modal [isVisible]="showTokenForm" (onSubmit)="handleTokenSubmit($event)" (onClose)="showTokenForm=false"
+      [message]="'Necesitamos que ingrese su número Token para confirmar la transferencia.'"></app-token-modal>
+    <app-modal [visible]="excedeedAmount" (onClose)="excedeedAmount=false" [size]="'md'">
+      <div class="app-modal-header col-md-12 col-sm-12">Saldo insuficiente </div>
+      <div class="app-modal-body col-md-12 col-sm-12">Estimado cliente, su operación será rechazada si no cuenta con fondos suficientes al
+        momento de realizar la autorización.</div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+          <button class="button__principal modal__button" (click)="excedeedAmount=false; validationCismart()">Aceptar</button>
+        </div>
+      </div>
+    </app-modal>
+    <app-modal [visible]="showRemoveFavoriteForm" (onClose)="showRemoveFavoriteForm=false" [size]="'sm'">
+      <div class="app-modal-header col-md-12 col-sm-12">Eliminación de información</div>
+      <div class="app-modal-body col-md-12 col-sm-12">¿Está seguro de eliminar esta transacción de sus favoritos?</div>
+      <div class="app-modal-footer col-md-12 col-sm-12">
+        <div class="row modal__container-button">
+          <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+            <button class="button__principal modal__button" (click)="handleRemoveFavorite()">ELIMINAR</button>
+          </div>
+        </div>
+        <div class="row modal__cancelar justify-content-center">
+              <div class="col-md-12 col-xs-12 d-flex justify-content-center">
+            <a (click)="showRemoveFavoriteForm=false" class="link-cancel-modal">CANCELAR</a>
+          </div>
+        </div>
+      </div>
+    </app-modal>
+
+    <app-pre-preparer-modal [isPreSave]="isPreSave" (prePreparer)="handleIsPreparer($event);"></app-pre-preparer-modal>
+
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+      <h5>Estimado cliente, le informamos que las plataformas transaccionales o personas que se dedican a la venta y comercialización de Activos Virtuales, no se encuentran bajo control, supervisión ni regulación de ASFI, razón por lo cual, las transacciones con los mismos son realizadas a riesgo del consumidor financiero. </h5>
+  </div>

@@ -1,0 +1,11 @@
+.header__close {
+    cursor: pointer;
+}
+
+.capital-letters {
+    text-transform: capitalize;
+}
+
+.width-service {
+    width: 180px;
+}

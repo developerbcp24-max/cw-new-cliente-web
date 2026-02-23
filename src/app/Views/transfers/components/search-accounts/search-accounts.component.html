@@ -1,0 +1,71 @@
+<div class="row">
+
+
+    <div class="col-md-6 ">
+      <div class="historical__box transferencias__account-box helpers--padding-top-B">
+        <form name="searchAccountForm" #searchAccountForm="ngForm" novalidate autocomplete="off">
+          <label class="transferencias__label">Cuenta destino</label>
+          <div class="transferencias__container-input-btn">
+            <input class="transferencias__select-account-large input-simple" type="text" name="accountNumber"
+              [(ngModel)]="request.accountNumber" (keyup)="handleAccountNumberChanged()" required appOnlyInteger
+              appValidate="integer" #accountNumber="ngModel" minlength="13" maxlength="14" [disabled]="disabled">
+            <button class="historical__btn-submit button__principal transferencias__btn-validate" (click)="handleSearch()"
+              [disabled]="!request.accountNumber || request.accountNumber === '' || request.accountNumber.length < 13 || disabled">Validar</button>
+            <app-show-errors [control]="accountNumber"></app-show-errors>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="transferencias__card helpers--padding-top-B" *ngIf="response.owner && response.currency">
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Titular</p>
+          <p class="home__card__item__small-value">{{response.owner}}</p>
+        </div>
+        <div class="home__card__item">
+          <p class="home__card__item__small-title">Moneda</p>
+          <p class="home__card__item__small-value">{{response.currency}}</p>
+        </div>
+      </div>
+      <div class="helpers--padding-top-B" *ngIf="response.owner && !response.currency">
+        <div class="alert alert-information">
+          <em class="fas fa-exclamation-circle"></em>
+          <p>{{response.owner}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 favorite-btn" *ngIf="response.owner && response.currency">
+      <button *ngIf="!favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary"
+        [disabled]="disabled" (click)="showSaveFavoriteForm=true">GUARDAR COMO FAVORITO</button>
+      <button *ngIf="favorite.isFavorite" class="button__secondary transferencia-ext__button-secondary"
+        [disabled]="disabled" (click)="handleCancelFavorite()">CANCELAR FAVORITO</button>
+      <input *ngIf="favorite.isFavorite" class="transferencias__input--text" type="text" name="favoriteName"
+        [(ngModel)]="favorite.name" [disabled]="true">
+    </div>
+  </div>
+  <app-modal [visible]="showSaveFavoriteForm" (onClose)="showSaveFavoriteForm=false" [size]="'md'">
+    <div class="app-modal-header col-md-12 col-xs-12">
+      Guardar operación como favorito
+    </div>
+    <div class="app-modal-body col-md-12 col-xs-12">
+      <form name="saveFavoriteForm" #saveFavoriteForm="ngForm" novalidate autocomplete="off">
+        <input type="text" name="favoriteName" class="transferencias__select-account-large input-simple"
+          placeholder="Nombre del favorito" [(ngModel)]="favorite.name" maxlength="20"
+          appValidate="alphanumericBasicSymbols" appOnlyType="alphanumericBasicSymbols" required
+          #favoriteName="ngModel" />
+        <app-show-errors [control]="favoriteName"></app-show-errors>
+      </form>
+    </div>
+    <div class="app-modal-footer col-md-12 col-xs-12">
+      <div class="row modal__container-button">
+        <div class="offset-md-3 col-md-6 col-xs-12">
+          <button class="button__principal modal__button" (click)="handleSaveFavorite()">ACEPTAR</button>
+        </div>
+      </div>
+      <div class="row modal__cancelar">
+        <div class="col-md-12 col-xs-12">
+          <a (click)="handleCancelFavorite()" class="link-cancel-modal">CANCELAR</a>
+        </div>
+      </div>
+    </div>
+  </app-modal>

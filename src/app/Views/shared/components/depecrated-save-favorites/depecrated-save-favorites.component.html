@@ -1,0 +1,16 @@
+<form *ngIf="visible" class="form-horizontal" name="saveFavoritesForm" #saveFavoritesForm="ngForm" novalidate autocomplete="off">
+    <fieldset [disabled]="disabled"><legend></legend><br>
+      <div class="form-group">
+        <div class="checkbox">
+          <label class="col-sm-3 control-label">
+            <input type="checkbox" class="form-check-input" name="saveFavoritesCheck" [(ngModel)]="data.isFavorite" (ngModelChange)="handleChangeChecked($event)"> {{title}}
+          </label>
+          <div *ngIf="data.isFavorite" class="col-sm-3">
+            <input type="text" class="form-control" name="saveFavoriteInput" #saveFavoriteInput="ngModel" [(ngModel)]="data.name" required (keyup)="handleFavoriteNameChanged()">
+            <app-show-errors [control]="saveFavoriteInput"></app-show-errors>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  

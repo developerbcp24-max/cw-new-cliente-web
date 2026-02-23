@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+      <label class="historical__label" *ngIf="optionText.length>0">{{optionText}}</label>
+      <select class="input-simple" [(ngModel)]="selectedMonth" (change)="handleCaptureMonth()" name="monthList">
+        <option *ngIf="!isFirstMonthSelected" value="undefined" disabled>Seleccione un mes..</option>
+        <option *ngFor="let month of months" [ngValue]="month">{{month.description}}</option>
+        <option *ngIf="isOptionAllVisible" value="'Todos los meses'">Todos los meses</option>
+      </select>
+    </div>
+  </div>
+  
+  

@@ -1,0 +1,57 @@
+<app-information-panel
+  [visible]="!isVisibleForm"
+  *ngIf="!isVisibleForm"
+  [message]="'El usuario no tiene roles para realizar esta operación.'"
+  [type]="'attention'"
+></app-information-panel>
+<app-stepper
+  [currentStep]="currentStep"
+  [showPreviusStep]="true"
+  *ngIf="isVisibleForm"
+  (onPreviusStep)="handlePreviusStep()"
+>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-information">
+        <p>
+          EL CONTRATO DE AFILIACIÓN AL SERVICIO DE CREDINET WEB, suscrito entre
+          el Banco de Crédito de Bolivia S.A. como BANCO y la empresa de
+          referencia en el punto 1, como CLIENTE, por el cual se modifica o
+          adiciona perfiles de usuarios al servicio de CREDINET WEB.
+        </p>
+      </div>
+    </div>
+  </div>
+  <app-step title="A">
+    <app-modifications-request-step1
+      *ngIf="currentStep === 1"
+      [modificationData]="modificationData"
+      [originalDataFull]="originalDataFull"
+      (onChange)="handleChangeStep1($event)"
+      (modificationDataDto)="handleModificationDataDto($event)"
+    >
+    </app-modifications-request-step1>
+  </app-step>
+  <app-step title="B">
+    <app-modifications-request-step2
+      *ngIf="currentStep === 2"
+      [modificationData]="modificationDataSetp1"
+      [originalDataFull]="originalDataFull"
+      [usersPerPage]="usersPerPage"
+      (onChangeNamesApprovers)="handleNamesApprovers($event)"
+      [users]="users"
+      (onChangeSetp2)="handleChangeStep2($event)"
+      (onListRoles)="handleListRoles($event)"
+    >
+    </app-modifications-request-step2>
+  </app-step>
+  <app-step title="C">
+    <app-modifications-request-step3
+      *ngIf="currentStep === 3"
+      [modificationData]="modificationDataSetp2"
+      [informationRoles]="changesInformation"
+      [namesApprovers]="namesApprovers"
+    >
+    </app-modifications-request-step3>
+  </app-step>
+</app-stepper>

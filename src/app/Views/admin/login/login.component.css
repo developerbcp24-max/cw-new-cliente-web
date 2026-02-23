@@ -1,0 +1,243 @@
+/* Estilos para el h2 principal (texto en negrita) */
+.credinet-title {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #32335C;
+}
+
+/* Estilos para el span (texto regular) */
+.credinet-title span {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+/* Estilos para el párrafo "Número de acceso" */
+.access-number-text {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12.8px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Versión con clases separadas si prefieres más control */
+.credinet-title-bold {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #32335C;
+}
+
+.credinet-title-regular {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+/* Estilos generales (desktop) */
+
+p.text-parrafo-1 {
+  font-family: 'Flexo', sans-serif; /* asegúrate de tener cargada la fuente */
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 100%; /* equivale a 1 */
+  letter-spacing: 0;
+  margin: 0; /* opcional para quitar espacios extras */
+}
+
+p.text-parrafo-1 strong {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+.app-modal-body {
+  padding: 0 !important; /* Elimina el padding del cuerpo del modal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-modal-footer {
+  padding: 0 !important; /* Elimina el padding del pie del modal */
+}
+
+
+.external-errors {
+  font-family: 'flexo', sans-serif;
+  margin-top: -8px;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* login.component.css */
+:host ::ng-deep .mat-form-field-subscript-wrapper {
+  position: relative !important;
+  height: auto !important;
+  margin-top: 8px !important;
+}
+
+:host ::ng-deep .mat-error {
+  display: block !important;
+  height: auto !important;
+  min-height: 20px;
+  white-space: normal !important;
+}
+
+:host ::ng-deep .mat-form-field {
+  margin-bottom: 8px !important;
+  transition: margin-bottom 0.3s ease;
+}
+
+:host ::ng-deep .mat-form-field.ng-invalid.ng-touched {
+  margin-bottom: 24px !important;
+}
+
+/* Estilos en modo teléfono */
+@media (max-width: 768px) {
+  p.text-parrafo-1 {
+    font-size: 16px;
+    font-family: 'Flexo', sans-serif;
+  }
+
+  p.text-parrafo-1 strong {
+    font-size: 16px;
+    font-family: 'Flexo', sans-serif;
+  }
+}
+/* Párrafo general */
+p.text-affiliation-1 {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+/* Span (CredinetWeb) en desktop */
+p.text-affiliation-1 span {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 400;
+  font-style: italic; /* en desktop es italic */
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+/* En móvil: span pasa a regular */
+@media (max-width: 768px) {
+  p.text-affiliation-1 span {
+    font-style: normal;
+  }
+}
+p.text-account-1 {
+  font-family: 'Flexo', sans-serif;
+  font-weight: 700;   /* Bold */
+  font-style: normal; /* en CSS no se usa 'Bold' aquí, sino en font-weight */
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.access-number-text {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Ocultar el asterisco por defecto de Material */
+::ng-deep .mat-mdc-form-field-required-marker {
+  display: none;
+}
+
+/* Agregar asterisco personalizado al lado del label */
+::ng-deep mat-label.required::after {
+  content: ' *';
+  color: #e53e3e; /* Color rojo */
+  margin-left: 4px;
+}
+
+.btn-new-primary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px; /* Ancho del botón */
+    height: 37px; /* Altura del botón */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #153f7b; /* Color de fondo */
+    font-family: "Flexo", sans-serif; /* Fuente personalizada */
+    font-weight: 400; /* Peso de la fuente */
+    font-size: 14px; /* Tamaño de la fuente */
+    line-height: 100%; /* Altura de línea */
+    letter-spacing: 0%; /* Espaciado entre letras */
+    color: #ffffff; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Transición suave */
+  }
+
+  /* Efecto hover */
+  .btn-new-primary:hover {
+    background-color: #153f7b; /* Color más claro al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  }
+
+  /* Efecto active */
+  .btn-new-primary:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño al hacer clic */
+  }
+/* Botón secundario */
+  .btn-new-secondary {
+    @apply flex items-center justify-center gap-[10px] py-[10px] px-[10px];
+    width: 213px;
+    height: 37px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-family: "Flexo", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #32335c;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  /* Efecto hover */
+  .btn-new-secondary:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+  }
+
+  /* Efecto active */
+  .btn-new-secondary:active {
+    transform: scale(0.95);
+  }

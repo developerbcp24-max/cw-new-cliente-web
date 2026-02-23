@@ -1,0 +1,161 @@
+<div class="row">
+    <div class="col-sm-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">Solicitud de Boleta de Garantía</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="historical__box">
+            <label class="historical__label">Tipo de Boleta de Garantía</label>
+            <div class="haberes__debit">
+              <label class="radio">
+                <input type="radio" name="type1" [(ngModel)]="ballot.typeBallot" [value]="true"
+                  (change)="handleTypeBallot('BDG')">
+                <span class="check-radio"></span>
+              </label>
+              <p>Boleta de Garantía</p>
+              <label class="radio">
+                <input type="radio" name="type1" [(ngModel)]="ballot.typeBallot" [value]="false"
+                  (change)="handleTypeBallot('GPR')">
+                <span class="check-radio"></span>
+              </label>
+              <p>Garantía a Primer Requerimiento</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" *ngIf="!ballot.typeBallot">
+          <div class="alert alert-information">
+            <div class="row">
+              <p>Al seleccionar Garantía a Primer Requerimiento se le activara el Modulo de Amortización en el paso 3.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6"><br>
+          <div class="historical__box">
+            <form name="originCityForm" novalidate #originCityForm="ngForm" autocomplete="off">
+                <div>
+                  <label class="historical__label">Ciudad</label>
+                  <select class="select-account input-simple" [(ngModel)]="ballot.originCity" name="originCity"
+                    required #originCity="ngModel">
+                    <option value='' disabled>Seleccione Ciudad de Origen</option>
+                    <option *ngFor="let item of constants.cities" [ngValue]="item">{{item}}
+                    </option>
+                  </select>
+                  <app-show-errors [control]="originCity"></app-show-errors>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <app-bar-route></app-bar-route>
+      <h4 class="historical__h4">A. Datos del Afianzado</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="historical__box">
+            <div class="haberes__debit">
+              <label class="radio">
+                <input type="radio" name="personType1" [(ngModel)]="ballot.isLegalPerson" [value]="true"
+                  (change)="handlePersonType('PN')">
+                <span class="check-radio"></span>
+              </label>
+              <p>Persona natural</p>
+              <label class="radio">
+                <input type="radio" name="personType2" [(ngModel)]="ballot.isLegalPerson" [value]="false"
+                  (change)="handlePersonType('PJ')">
+                <span class="check-radio"></span>
+              </label>
+              <p>Persona Jurídica</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6"><br>
+          <div class="historical__box">
+            <form name="applicationForm" novalidate #applicationForm="ngForm" autocomplete="off">
+              <fieldset [disabled]="disabled"><legend></legend><br>
+                <label class="historical__label">Nombre Solicitante</label>
+                <input type="text" class="input-simple" name="name" [(ngModel)]="ballot.nameThirdPerson" #name="ngModel"
+                  required appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" minlength="3"
+                  maxlength="200" placeholder="Apellido paterno, materno, Nombre/Nombre de la empresa">
+                <app-show-errors [control]="name"></app-show-errors>
+                <div>
+                  <label class="historical__label">Dirección</label>
+                  <input type="text" class="input-simple" name="gloss" [(ngModel)]="ballot.address" #gloss="ngModel"
+                    required appOnlyType="alphanumericBasicSymbols" appValidate="alphanumericBasicSymbols" minlength="3"
+                    maxlength="250">
+                  <app-show-errors [control]="gloss"></app-show-errors>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-md-6"><br>
+          <div class="historical__box">
+            <form name="documentNumberForm" novalidate #documentNumberForm="ngForm" autocomplete="off">
+              <label class="historical__label">{{ballot.isLegalPerson ? 'CI' : 'NIT'}}</label>
+              <input type="text" class="input-simple" name="documentNumber" [(ngModel)]="ballot.documentCIThirdPerson"
+                #documentNumber="ngModel" required appOnlyType="integer" appValidate="integer" maxlength="15">
+              <app-show-errors [control]="documentNumber"></app-show-errors>
+              <div>
+                <div *ngIf="ballot.isLegalPerson">
+                  <label class="historical__label">Estado Civíl</label>
+                  <select class="select-account input-simple" [(ngModel)]="ballot.civilState" name="civilState"
+                    (ngModelChange)="handleChangeStatus($event)" required #civilState="ngModel">
+                    <option value='' disabled>Seleccione el estado civil</option>
+                    <option *ngFor="let item of civilStatus.listCivilState" [ngValue]="item.code">{{item.description}}
+                    </option>
+                  </select>
+                  <app-show-errors [control]="civilState"></app-show-errors>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6"><br>
+          <div class="historical__box">
+            <form name="aditionalForm" novalidate #aditionalForm="ngForm" autocomplete="off">
+              <label class="historical__label"><strong>Datos Adicionales</strong></label>
+              <br>
+              <label class="historical__label">Ingreso Anual en Bs</label>
+              <input type="text" class="input-simple" name="annualIncome" [(ngModel)]="ballot.annualIncome"
+                #annualIncome="ngModel" required mask-money maxlength="15">
+              <app-show-errors [control]="annualIncome"></app-show-errors>
+              <br>
+              <label class="historical__label">Patrimonio en Bs</label>
+              <input type="text" class="input-simple" name="heritage" [(ngModel)]="ballot.heritage" #heritage="ngModel"
+                required appValidate="majorZero" maxlength="15">
+              <app-show-errors [control]="heritage"></app-show-errors>
+              <br>
+              <label class="historical__label">Número de empleados (empresa)</label>
+              <input type="text" class="input-simple" name="numberOfEmployees" [(ngModel)]="ballot.numberOfEmployees"
+                #numberOfEmployees="ngModel" required appOnlyType="integer" appValidate="integer" maxlength="6">
+              <app-show-errors [control]="numberOfEmployees"></app-show-errors>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <app-bar-route [isLast]="true"></app-bar-route>
+  <div class="row transferencia-ext__submit">
+    <div class="col-md-2 col-sm-12">
+      <input type="button" class="button__principal button-next" (click)="validateForms()" value="SIGUIENTE">
+    </div>
+    <div class="col-md-2 col-sm-12">
+      <p class="historical__p--cancel"><a [routerLink]="['/operations/ballotOfWarranty']">CANCELAR</a></p>
+    </div>
+  </div>

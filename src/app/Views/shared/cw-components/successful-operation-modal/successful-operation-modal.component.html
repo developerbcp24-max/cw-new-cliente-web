@@ -1,0 +1,47 @@
+<app-modal [visible]="isSuccessful" data-backdrop="static" [size]="'md'">
+  <div class="app-modal-header col-md-12 col-sm-12">Operación Preparada Correctamente</div>
+  <div class="app-modal-body col-md-12 col-sm-12">
+    <div class="col-md-12 historical__certificate-send">
+      <div class="icon-send"><em class="fas fa-check"></em></div>
+      <div class="form-group" *ngIf="!is_validbatchtoken">
+        <h4>Su operación fue enviada a la bandeja del/los autorizador/es</h4>
+        <span class="bar-separate2"></span>
+      </div>
+      <div class="form-group" *ngIf="is_validbatchtoken">
+        <h4>Su operación fue enviada a la bandeja de Pendientes para Preparar.</h4>
+        <span class="bar-separate2"></span>
+      </div>
+      <div class="alert alert-information text-align">
+        <p class="home__card__title__medium-title">N°Lote </p>
+        <strong>{{ processBatchId }}</strong>
+      </div>
+    </div>
+    <div *ngIf="visible" class="col-md-12 col-sm-12" style="display: flex; justify-content: center; align-items: center;">
+      <button class="button__secondary historical__button-voucher" (click)="handleGetReport(1)">
+      <em class="fas fa-file-alt"></em> PRE COMPROBANTE
+      </button>
+    </div>
+    <br>
+    <div *ngIf="!isVisibleDetail && (isTransfer || isMasive)">
+      <div *ngIf="visible" class="col-md-12 col-sm-12" style="display: flex; justify-content: center; align-items: center;"><br>
+        <button class="button__secondary historical__button-voucher" (click)="handleGetReport(2)">
+          <em class="fas fa-file-alt"></em> PRE COMPROBANTE DETALLE
+        </button>
+      </div>
+    </div>
+    <div *ngIf="isMasive"><br>
+      <div *ngIf="visible" class="col-md-12 col-sm-12" style="display: flex; justify-content: center; align-items: center;">
+        <button class="button__secondary historical__button-voucher" (click)="handleGetReport(3)">
+          <em class="fas fa-file-alt"></em> PRE COMPROBANTE FRACCIONADO
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer col-md-12 col-sm-12" style="display: flex; justify-content: center; align-items: center;">
+    <div class="col-md-12 col-sm-12" style="text-align: center;"><br>
+      <button class="button__secondary historical__button-voucher" (click)="handleCloseModal($event)">
+        <em class=""></em> ACEPTAR
+      </button>
+    </div>
+  </div>
+</app-modal>
